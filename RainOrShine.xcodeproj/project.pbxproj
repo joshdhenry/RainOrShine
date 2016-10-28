@@ -14,6 +14,9 @@
 		0313E5121DC1DBC200E453A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0313E5101DC1DBC200E453A0 /* LaunchScreen.storyboard */; };
 		0313E51D1DC1DBC200E453A0 /* RainOrShineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E51C1DC1DBC200E453A0 /* RainOrShineTests.swift */; };
 		0313E5281DC1DBC200E453A0 /* RainOrShineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5271DC1DBC200E453A0 /* RainOrShineUITests.swift */; };
+		0313E5381DC2A21A00E453A0 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5371DC2A21A00E453A0 /* ViewControllerExtension.swift */; };
+		0313E53A1DC3C94600E453A0 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0313E5391DC3C94600E453A0 /* APIKeys.plist */; };
+		CE97BF227C9EE82CDCD3B8B1 /* Pods_RainOrShine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,11 @@
 		0313E5231DC1DBC200E453A0 /* RainOrShineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RainOrShineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0313E5271DC1DBC200E453A0 /* RainOrShineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainOrShineUITests.swift; sourceTree = "<group>"; };
 		0313E5291DC1DBC200E453A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0313E5371DC2A21A00E453A0 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
+		0313E5391DC3C94600E453A0 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
+		6D24AE1ADCD23D9A3DC25758 /* Pods-RainOrShine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RainOrShine.release.xcconfig"; path = "Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine.release.xcconfig"; sourceTree = "<group>"; };
+		7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RainOrShine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E682BEA6B2852926B36ABB4C /* Pods-RainOrShine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RainOrShine.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE97BF227C9EE82CDCD3B8B1 /* Pods_RainOrShine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +90,8 @@
 				0313E51B1DC1DBC200E453A0 /* RainOrShineTests */,
 				0313E5261DC1DBC200E453A0 /* RainOrShineUITests */,
 				0313E5051DC1DBC200E453A0 /* Products */,
+				45D46E4972EBEEF8AE426B97 /* Pods */,
+				7AA145FF253445D2813DE43C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,10 +110,12 @@
 			children = (
 				0313E5071DC1DBC200E453A0 /* AppDelegate.swift */,
 				0313E5091DC1DBC200E453A0 /* ViewController.swift */,
+				0313E5391DC3C94600E453A0 /* APIKeys.plist */,
 				0313E50B1DC1DBC200E453A0 /* Main.storyboard */,
 				0313E50E1DC1DBC200E453A0 /* Assets.xcassets */,
 				0313E5101DC1DBC200E453A0 /* LaunchScreen.storyboard */,
 				0313E5131DC1DBC200E453A0 /* Info.plist */,
+				0313E5371DC2A21A00E453A0 /* ViewControllerExtension.swift */,
 			);
 			path = RainOrShine;
 			sourceTree = "<group>";
@@ -125,6 +138,23 @@
 			path = RainOrShineUITests;
 			sourceTree = "<group>";
 		};
+		45D46E4972EBEEF8AE426B97 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E682BEA6B2852926B36ABB4C /* Pods-RainOrShine.debug.xcconfig */,
+				6D24AE1ADCD23D9A3DC25758 /* Pods-RainOrShine.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7AA145FF253445D2813DE43C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +162,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0313E52C1DC1DBC200E453A0 /* Build configuration list for PBXNativeTarget "RainOrShine" */;
 			buildPhases = (
+				B1C6DF8CEC345A3F66184DB8 /* Check Pods Manifest.lock */,
 				0313E5001DC1DBC200E453A0 /* Sources */,
 				0313E5011DC1DBC200E453A0 /* Frameworks */,
 				0313E5021DC1DBC200E453A0 /* Resources */,
+				CA964EDF2839B5060E9C92CE /* Embed Pods Frameworks */,
+				7F695983CFC676C5E3015A48 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0313E5121DC1DBC200E453A0 /* LaunchScreen.storyboard in Resources */,
+				0313E53A1DC3C94600E453A0 /* APIKeys.plist in Resources */,
 				0313E50F1DC1DBC200E453A0 /* Assets.xcassets in Resources */,
 				0313E50D1DC1DBC200E453A0 /* Main.storyboard in Resources */,
 			);
@@ -257,6 +291,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7F695983CFC676C5E3015A48 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1C6DF8CEC345A3F66184DB8 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		CA964EDF2839B5060E9C92CE /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0313E5001DC1DBC200E453A0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -264,6 +346,7 @@
 			files = (
 				0313E50A1DC1DBC200E453A0 /* ViewController.swift in Sources */,
 				0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */,
+				0313E5381DC2A21A00E453A0 /* ViewControllerExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,12 +496,13 @@
 		};
 		0313E52D1DC1DBC200E453A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E682BEA6B2852926B36ABB4C /* Pods-RainOrShine.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = JNJPB8D7PF;
 				INFOPLIST_FILE = RainOrShine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = BigSmashSoftware.RainOrShine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BigSmashSoftware.RainOrShine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -426,12 +510,13 @@
 		};
 		0313E52E1DC1DBC200E453A0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6D24AE1ADCD23D9A3DC25758 /* Pods-RainOrShine.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = JNJPB8D7PF;
 				INFOPLIST_FILE = RainOrShine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = BigSmashSoftware.RainOrShine;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BigSmashSoftware.RainOrShine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -514,6 +599,7 @@
 				0313E52E1DC1DBC200E453A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0313E52F1DC1DBC200E453A0 /* Build configuration list for PBXNativeTarget "RainOrShineTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +608,7 @@
 				0313E5311DC1DBC200E453A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0313E5321DC1DBC200E453A0 /* Build configuration list for PBXNativeTarget "RainOrShineUITests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +617,7 @@
 				0313E5341DC1DBC200E453A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

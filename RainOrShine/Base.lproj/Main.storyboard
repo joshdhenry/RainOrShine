@@ -1,14 +1,16 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="RainOrShine" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,11 +18,54 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OzT-de-Pjx">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="89" id="y8L-X2-KUH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avj-AZ-VWR">
+                                <state key="normal" title="Get weather from my location"/>
+                                <connections>
+                                    <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cGs-9B-fEu"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FA0-yK-aiw"/>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="avj-AZ-VWR" firstAttribute="leading" secondItem="FA0-yK-aiw" secondAttribute="leading" id="4d9-Kt-ChG"/>
+                            <constraint firstItem="OzT-de-Pjx" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="Ehq-Xn-ZZx"/>
+                            <constraint firstItem="OzT-de-Pjx" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="45" id="JGb-K3-5fl"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="avj-AZ-VWR" secondAttribute="bottom" constant="8" symbolic="YES" id="JJD-bU-wWj"/>
+                            <constraint firstItem="avj-AZ-VWR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="NcL-jh-meA"/>
+                            <constraint firstItem="OzT-de-Pjx" firstAttribute="trailing" secondItem="avj-AZ-VWR" secondAttribute="trailing" id="Sb2-Fi-6Pq"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="FA0-yK-aiw" secondAttribute="bottom" constant="124" id="m1x-AE-8aS"/>
+                            <constraint firstItem="OzT-de-Pjx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-2" id="nf9-BI-Tdo"/>
+                            <constraint firstItem="avj-AZ-VWR" firstAttribute="top" secondItem="OzT-de-Pjx" secondAttribute="bottom" constant="8" symbolic="YES" id="qrY-i8-KRB"/>
+                            <constraint firstItem="avj-AZ-VWR" firstAttribute="trailing" secondItem="FA0-yK-aiw" secondAttribute="trailing" id="sQx-Vx-d3i"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="addressLabel" destination="OzT-de-Pjx" id="GnJ-Ti-3eS"/>
+                        <outlet property="locationImageView" destination="FA0-yK-aiw" id="jc3-dV-bca"/>
+                        <outlet property="searchDisplayController" destination="RZq-xM-vUq" id="csA-QN-hQ0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="RZq-xM-vUq">
+                    <connections>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="2oQ-Px-fQd"/>
+                        <outlet property="searchContentsController" destination="BYZ-38-t0r" id="5Ew-FD-AdV"/>
+                        <outlet property="searchResultsDataSource" destination="BYZ-38-t0r" id="dIb-YG-vM9"/>
+                        <outlet property="searchResultsDelegate" destination="BYZ-38-t0r" id="K1U-V2-nMs"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="138.98050974512745"/>
         </scene>
     </scenes>
 </document>
