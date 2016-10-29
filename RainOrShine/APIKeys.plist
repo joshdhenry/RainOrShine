@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>GooglePlacesAPIKeyiOS</key>
+	<string>AIzaSyBSFQOBp0ur5PmQU7WjMR_KyDozwZV3XIk</string>
+	<key>GooglePlacesAPIKeyWeb</key>
+	<string>AIzaSyDA0o9rG8W0n6XtMF5QZDJGckSWyuh3YRQ</string>
+</dict>
+</plist>
