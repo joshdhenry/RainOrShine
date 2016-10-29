@@ -24,17 +24,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var searchController: UISearchController?
     var resultsViewController: GMSAutocompleteResultsViewController?
     var resultView: UITextView?
+    
+    var locationAPIService: LocationAPIService?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         placesClient = GMSPlacesClient.shared()
         
         getAPIKeys()
+
+        locationAPIService = LocationAPIService()
+        
         displayLocationSearchBar()
     }
     
@@ -80,21 +84,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     //If the GPS button is tapped, show weather for user's current location
-    @IBAction func buttonTapped(_ sender: AnyObject) {
-        placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
-            guard error == nil else {
-                print("Current Place error: \(error!.localizedDescription)")
-                return
-            }
+    @IBAction func buttonTapped(_ sender: AnyObject) {        
+        locationAPIService?.getCurrentLocation() { (boolValue) -> () in
+            print("BOOLVALUE is \(boolValue)")
+            print("PLACE IS \(self.locationAPIService?.currentPlace)")
             
-            if let placeLikelihoods = placeLikelihoods {
-                let place = placeLikelihoods.likelihoods.first?.place
+            if (boolValue == true) {
+            
+                let place = self.locationAPIService?.currentPlace
+                
                 self.addressLabel.text = place?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
                 
                 print("THIS ATTRIBUTION MUST BE SHOWN TO GIVE CREDIT FOR THE PIC\(place?.attributions)")
                 //https://developers.google.com/places/ios-api/attributions
                 //LINKS IN ATTRIBUTIONS MUST BE TAPPABLE
                 
+                print("coords \(place?.coordinate)")
                 let cityQueryString = self.getCityQueryString(place: place)
                 
                 //Get the place ID of the general area so that we can grab an image of the city
@@ -108,7 +113,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     self.resetLocationImageView()
                 }
             }
-        })
+        }
     }
     
     
