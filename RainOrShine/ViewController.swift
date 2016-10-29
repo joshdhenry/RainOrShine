@@ -85,12 +85,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func buttonTapped(_ sender: AnyObject) {        
-        locationAPIService?.getCurrentLocation() { (boolValue) -> () in
-            print("BOOLVALUE is \(boolValue)")
-            print("PLACE IS \(self.locationAPIService?.currentPlace)")
-            
-            if (boolValue == true) {
-            
+        locationAPIService?.getCurrentLocation() { (locationFound) -> () in            
+            if (locationFound == true) {
                 let place = self.locationAPIService?.currentPlace
                 
                 self.addressLabel.text = place?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")

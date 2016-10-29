@@ -13,31 +13,26 @@ class LocationAPIService {
     var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
     var currentPlace: GMSPlace?
     
-    var placeFindComplete: Bool = false
     
     func getCurrentLocation(completion: @escaping (_ result: Bool)->()) {
+        var placeFindComplete: Bool = false
+        
         placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
             guard error == nil else {
                 print("Current Place error: \(error!.localizedDescription)")
+                completion(true)
                 return
             }
             
             if let placeLikelihoods = placeLikelihoods {
                 let place = placeLikelihoods.likelihoods.first?.place
-                print("HEY \(place?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n"))")
                 self.currentPlace = place
-                print("set the place now going back to VC...")
-                self.placeFindComplete = true
-                
+                placeFindComplete = true
                 completion(true)
-                
-                return
             }
         })
-        if self.placeFindComplete == false {
-            print("placefindcomplete is false...")
+        if placeFindComplete == false {
             completion(false)
         }
-        print("RETURNING...")
     }
 }
