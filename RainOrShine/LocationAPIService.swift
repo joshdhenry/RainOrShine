@@ -59,9 +59,9 @@ class LocationAPIService {
         let placeIDOfGeneralArea: String? = getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
         if (placeIDOfGeneralArea != nil) {
             setPhotoMetaDataForCurrentLocation() { (photoMetaDataFound) -> () in
+                //I THINK SOMETHING NEEDS TO GO RIGHT HERE TO RESET THE IMAGE VIEW TO BLANK WHEN WE GET THE MESSAGE "No photos found. Resetting image view to blank..."
                 if (photoMetaDataFound == true) {
                     self.setImageForMetadata(size: size, scale: scale) { (imageFound) -> () in
-                        
                         if (imageFound == true) {
                             completion(true)
                         }
@@ -188,20 +188,23 @@ class LocationAPIService {
         print("In function setImageForMetadata...")
 
         var imageFindComplete: Bool = false
-        
-        GMSPlacesClient.shared().loadPlacePhoto(firstGeneralLocalePhotoMetaData!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
-            if let error = error {
-                print("Error loading image for metadata: \(error.localizedDescription)")
-                completion(true)
-                return
-            } else {
-                //self.locationImageView.image = photo
-                //self.attributionTextView.attributedText = photoMetadata.attributions
-                self.firstGeneralLocalePhoto = photo
-                print("self.firstGeneralLocalePhoto is \(self.firstGeneralLocalePhoto)")
-                imageFindComplete = true
-                completion(true)
+        if (firstGeneralLocalePhotoMetaData != nil) {
+            GMSPlacesClient.shared().loadPlacePhoto(firstGeneralLocalePhotoMetaData!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
+                if let error = error {
+                    print("Error loading image for metadata: \(error.localizedDescription)")
+                    completion(true)
+                    return
+                } else {
+                    self.firstGeneralLocalePhoto = photo
+                    print("self.firstGeneralLocalePhoto is \(self.firstGeneralLocalePhoto)")
+                    imageFindComplete = true
+                    completion(true)
+                }
             }
+        }
+        else {
+            print("firstGeneralLocalePhotoMetaData was nil.  Exiting out of this function...")
+            imageFindComplete = true
         }
         if (imageFindComplete == false) {
             completion(false)

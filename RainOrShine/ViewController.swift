@@ -8,8 +8,7 @@
 
 import UIKit
 import GooglePlaces
-import SwiftyJSON
-
+//import SwiftyJSON
 import CoreLocation
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
@@ -59,7 +58,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         searchController?.searchResultsUpdater = resultsViewController
         
         let screenWidth = UIScreen.main.bounds.width
-        
         let subView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidth, height: 45))
         subView.addSubview((searchController?.searchBar)!)
         self.view.addSubview(subView)
@@ -83,14 +81,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 //LINKS IN ATTRIBUTIONS MUST BE TAPPABLE
                 
                 self.locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
-                    self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
-                    print(self.locationImageView.image)
+                    if (imageSet == true) {
+                        self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
+                        print(self.locationImageView.image)
+                    }
+                    
                 }
             }
         }
     }
     
-    func resetLocationImageView() {
+    /*func resetLocationImageView() {
         self.locationImageView.image = nil
-    }
+    }*/
 }
