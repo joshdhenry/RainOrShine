@@ -26,7 +26,10 @@ class LocationAPIService {
     }
     
     
-    func getCurrentLocation(completion: @escaping (_ result: Bool)->()) {
+    //This method gets the current location of the user and sets currentPlace
+    func setCurrentLocationPlace(completion: @escaping (_ result: Bool)->()) {
+        print("In function setCurrentLocationPlace...")
+
         var placeFindComplete: Bool = false
         
         placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
@@ -39,6 +42,7 @@ class LocationAPIService {
             if let placeLikelihoods = placeLikelihoods {
                 let place = placeLikelihoods.likelihoods.first?.place
                 self.currentPlace = place
+                print("Found the place. Continuing...")
                 placeFindComplete = true
                 completion(true)
             }
@@ -49,8 +53,9 @@ class LocationAPIService {
     }
     
     
+    //This method finds a photo of the general locale
     func setPhotoOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
-        print("In function getPhotoOfGeneralLocale...")
+        print("In function setPhotoOfGeneralLocale...")
 
         //let setPhotoComplete: Bool = false
         let generalLocaleString: String = getGeneralLocaleString()
@@ -82,15 +87,15 @@ class LocationAPIService {
     }
     
     
-    //This method builds a string of the general locality of the place
+    //This method builds a string of the general locality of the place, which will be used to query a photo of the general locale
     func getGeneralLocaleString() -> String {
-        print("In function getGeneralLocaleString...")
+        print("In function getGeneralLocaleString... (#1)")
 
         var queryString: String = String()
         
         for addressComponent in (currentPlace?.addressComponents)! {
-            print(addressComponent.type)
-            print(addressComponent.name)
+            //print(addressComponent.type)
+            //print(addressComponent.name)
             
             switch (addressComponent.type) {
                 //case "sublocality_level_1":
@@ -113,9 +118,10 @@ class LocationAPIService {
     }
     
     
+    //DO I NEED TO IMPLEMENT COMPLETION HANDLER INTO THIS FUNCTION?????
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
     func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String) -> String? {
-        print("In function getPlaceIDOfGeneralLocale...")
+        print("In function getPlaceIDOfGeneralLocale...(#2)")
 
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
@@ -146,16 +152,18 @@ class LocationAPIService {
             completionHandlerCodeComplete = true
         }).resume()
         
+        //DO I NEED TO IMPLEMENT PROPER COMPLETION HANDLER INTO THIS FUNCTION?????
         while (completionHandlerCodeComplete == false) {
-            print("Waiting on the photo reference to retrieve...")
+            //print("Waiting on the photo reference to retrieve...")
         }
+        print("Returning placeID of \(placeID)")
         return placeID
     }
     
     
     //Retrieve photo metadata for place
     func setPhotoMetaDataForCurrentLocation(completion: @escaping (_ result: Bool)->()) {
-        print("In function setPhotoMetaDataForCurrentLocation...")
+        print("In function setPhotoMetaDataForCurrentLocation...(#3)")
 
         var photoMetaDataFindComplete: Bool = false
         
@@ -165,6 +173,7 @@ class LocationAPIService {
                 completion(true)
                 return
             } else {
+                print("Photos count is \(photos?.results.count)")
                 if let firstPhotoMetadata = photos?.results.first {
                     self.firstGeneralLocalePhotoMetaData = firstPhotoMetadata
                     photoMetaDataFindComplete = true
@@ -173,6 +182,7 @@ class LocationAPIService {
                 else {
                     print("No photos found. Resetting image view to blank...")
                     self.firstGeneralLocalePhotoMetaData = nil
+                    self.firstGeneralLocalePhoto = nil
                     completion(true)
                 }
             }
@@ -185,7 +195,7 @@ class LocationAPIService {
     
     //Retrieve image based on place metadata
     func setImageForMetadata(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
-        print("In function setImageForMetadata...")
+        print("In function setImageForMetadata...(#4)")
 
         var imageFindComplete: Bool = false
         if (firstGeneralLocalePhotoMetaData != nil) {

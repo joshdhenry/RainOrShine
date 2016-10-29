@@ -8,7 +8,6 @@
 
 import UIKit
 import GooglePlaces
-//import SwiftyJSON
 import CoreLocation
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
@@ -70,7 +69,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func buttonTapped(_ sender: AnyObject) {        
-        locationAPIService?.getCurrentLocation() { (locationFound) -> () in            
+        locationAPIService?.setCurrentLocationPlace() { (locationFound) -> () in
             if (locationFound == true) {
                 let place = self.locationAPIService?.currentPlace
                 
@@ -83,9 +82,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
                     if (imageSet == true) {
                         self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
-                        print(self.locationImageView.image)
+                        print("self.locationImageView.image is \(self.locationImageView.image)")
                     }
-                    
                 }
             }
         }
