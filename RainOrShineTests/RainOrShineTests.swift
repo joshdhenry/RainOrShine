@@ -45,12 +45,8 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     }
     
     
-    
+    /*
     func testsetCurrentLocationPlace() {
-        
-
-        
-        
         locationAPIService?.setCurrentLocationPlace() { (locationFound) -> () in
             if (locationFound == true) {
                 XCTA
@@ -58,6 +54,7 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
             }
         }
     }
+ */
     
     /*
     func testSetPhotoOfGeneralLocale() {

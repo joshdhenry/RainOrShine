@@ -68,10 +68,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     //If the GPS button is tapped, show weather for user's current location
-    @IBAction func buttonTapped(_ sender: AnyObject) {        
+    @IBAction func buttonTapped(_ sender: AnyObject) {
+        locationAPIService?.resetCurrentPlace()
+        
         locationAPIService?.setCurrentLocationPlace() { (locationFound) -> () in
             if (locationFound == true) {
                 let place = self.locationAPIService?.currentPlace
+                print("In VC, setCurrentLocationPlace completed. Just set place to \(place?.placeID)")
                 
                 self.addressLabel.text = place?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
                 
@@ -88,8 +91,4 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
-    
-    /*func resetLocationImageView() {
-        self.locationImageView.image = nil
-    }*/
 }
