@@ -20,6 +20,11 @@ class LocationAPIService {
     var firstGeneralLocalePhoto: UIImage?
 
     
+    init() {
+        setAPIKeys()
+    }
+    
+    
     func setAPIKeys() {
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         keys = NSDictionary(contentsOfFile: path)!
@@ -132,16 +137,11 @@ class LocationAPIService {
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
         
-        let placeTextSearchURL: String = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + generalLocaleQueryString + "&key=" + (keys["GooglePlacesAPIKeyWeb"] as! String)
+        var placeTextSearchURL: String = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + generalLocaleQueryString + "&key=" + (keys["GooglePlacesAPIKeyWeb"] as! String)
+        placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         print("placeTextSearchURL is \(placeTextSearchURL)")
         
         let session = URLSession.shared
-        /*guard let url = URL(string: placeTextSearchURL) else {
-         print("OH NOOOO")
-         return nil
-         }*/
-        //I NEED TO CHECK HERE THAT THERE IS NO ERROR.
-        //PREVIOUSLY IT CRASHED IF THERE WERE SPACES IN THE URL.  I NEED TO FIND OUT HOW ELSE IT COULD CRASH
         let url = URL(string: placeTextSearchURL)!
         
         // Make call. Handle it in a completion handler.

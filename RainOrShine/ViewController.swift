@@ -32,7 +32,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.requestWhenInUseAuthorization()
         placesClient = GMSPlacesClient.shared()
         locationAPIService = LocationAPIService()
-        locationAPIService?.setAPIKeys()
         displayLocationSearchBar()
     }
     

@@ -13,18 +13,19 @@ import CoreLocation
 
 class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     
-    var locationAPIService: LocationAPIService?
+    //var locationAPIService: LocationAPIService?
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        let locationManager = CLLocationManager()
-        locationAPIService = LocationAPIService()
-        
+        //let locationManager = CLLocationManager()
+        //locationAPIService = LocationAPIService()
+        /*
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationAPIService?.setAPIKeys()
+         */
     }
     
     override func tearDown() {
@@ -66,5 +67,22 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
             }
         }
     }*/
+    
+    /*
+    func testSetAPIKeys() {
+        let locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
+        //FAILS COMPILING BECAUSE OF THIS LINE.  I DON'T KNOW WHY
+        var locationAPIService = LocationAPIService()
+                
+        
+        //locationAPIService?.setAPIKeys()
+        //XCTAssertNotNil(locationAPIService?.setAPIKeys())
+    }
+    */
+    
+    
     
 }

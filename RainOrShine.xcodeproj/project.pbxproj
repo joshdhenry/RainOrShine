@@ -17,9 +17,6 @@
 		0313E5381DC2A21A00E453A0 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5371DC2A21A00E453A0 /* ViewControllerExtension.swift */; };
 		0313E53A1DC3C94600E453A0 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0313E5391DC3C94600E453A0 /* APIKeys.plist */; };
 		035811EE1DC429E0002ECB85 /* LocationAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035811ED1DC429E0002ECB85 /* LocationAPIService.swift */; };
-		0391F8511DC556A2005B5BBF /* LocationManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0391F8501DC556A2005B5BBF /* LocationManagerProtocol.swift */; };
-		0391F8541DC55710005B5BBF /* CLLocationManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0391F8531DC55710005B5BBF /* CLLocationManagerExtension.swift */; };
-		0391F8571DC557AF005B5BBF /* MockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0391F8561DC557AF005B5BBF /* MockLocationManager.swift */; };
 		CE97BF227C9EE82CDCD3B8B1 /* Pods_RainOrShine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,9 +54,6 @@
 		0313E5371DC2A21A00E453A0 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		0313E5391DC3C94600E453A0 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
 		035811ED1DC429E0002ECB85 /* LocationAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAPIService.swift; sourceTree = "<group>"; };
-		0391F8501DC556A2005B5BBF /* LocationManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManagerProtocol.swift; path = ../RainOrShine/LocationManagerProtocol.swift; sourceTree = "<group>"; };
-		0391F8531DC55710005B5BBF /* CLLocationManagerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CLLocationManagerExtension.swift; path = ../RainOrShine/CLLocationManagerExtension.swift; sourceTree = "<group>"; };
-		0391F8561DC557AF005B5BBF /* MockLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
 		6D24AE1ADCD23D9A3DC25758 /* Pods-RainOrShine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RainOrShine.release.xcconfig"; path = "Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine.release.xcconfig"; sourceTree = "<group>"; };
 		7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RainOrShine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E682BEA6B2852926B36ABB4C /* Pods-RainOrShine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RainOrShine.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine.debug.xcconfig"; sourceTree = "<group>"; };
@@ -175,9 +169,6 @@
 		0391F8551DC55796005B5BBF /* Custom Classes */ = {
 			isa = PBXGroup;
 			children = (
-				0391F8531DC55710005B5BBF /* CLLocationManagerExtension.swift */,
-				0391F8501DC556A2005B5BBF /* LocationManagerProtocol.swift */,
-				0391F8561DC557AF005B5BBF /* MockLocationManager.swift */,
 			);
 			name = "Custom Classes";
 			sourceTree = "<group>";
@@ -389,8 +380,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0313E50A1DC1DBC200E453A0 /* ViewController.swift in Sources */,
-				0391F8511DC556A2005B5BBF /* LocationManagerProtocol.swift in Sources */,
-				0391F8541DC55710005B5BBF /* CLLocationManagerExtension.swift in Sources */,
 				0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */,
 				0313E5381DC2A21A00E453A0 /* ViewControllerExtension.swift in Sources */,
 				035811EE1DC429E0002ECB85 /* LocationAPIService.swift in Sources */,
@@ -401,7 +390,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0391F8571DC557AF005B5BBF /* MockLocationManager.swift in Sources */,
 				0313E51D1DC1DBC200E453A0 /* RainOrShineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
