@@ -65,7 +65,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.view.addSubview(subView)
         searchController?.searchBar.sizeToFit()
         
-        //When UISearchController presents the results view, present it in, this view controller, not one further up the chain.
+        //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
         self.definesPresentationContext = true
     }
     
@@ -91,7 +91,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             if (imageSet == true) {
                 self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
-                print("self.locationImageView.image is \(self.locationImageView.image)")
             }
         }
     }
