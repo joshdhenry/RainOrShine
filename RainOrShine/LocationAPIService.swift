@@ -26,14 +26,14 @@ class LocationAPIService {
     
     
     //Load the Google Places API keys from APIKeys.plist
-    func setAPIKeys() {
+    private func setAPIKeys() {
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         keys = NSDictionary(contentsOfFile: path)!
     }
     
     
     //This method gets the current location of the user and sets currentPlace
-    func setCurrentLocationPlace(completion: @escaping (_ result: Bool)->()) {
+    public func setCurrentLocationPlace(completion: @escaping (_ result: Bool)->()) {
         print("In function setCurrentLocationPlace...")
 
         var placeFindComplete: Bool = false
@@ -61,7 +61,7 @@ class LocationAPIService {
     
     
     //This method finds a photo of the general locale
-    func setPhotoOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
+    public func setPhotoOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
         print("In function setPhotoOfGeneralLocale...")
         
         let generalLocaleString: String = getGeneralLocaleString()
@@ -91,7 +91,7 @@ class LocationAPIService {
     
     
     //This method resets all current place variables to nil
-    func resetCurrentPlace() {
+    public func resetCurrentPlace() {
         currentPlace = nil
         
         firstGeneralLocalePhotoMetaData = nil
@@ -100,7 +100,7 @@ class LocationAPIService {
     
     
     //This method builds a string of the general locality of the place, which will be used to query a photo of the general locale
-    func getGeneralLocaleString() -> String {
+    private func getGeneralLocaleString() -> String {
         print("In function getGeneralLocaleString... (#1)")
 
         var queryString: String = String()
@@ -132,7 +132,7 @@ class LocationAPIService {
     
     //DO I NEED TO IMPLEMENT COMPLETION HANDLER INTO THIS FUNCTION?????  I don't think so since session.data task uses resume() ??????  But then again i do have that while loop at the bottom that could be done differently.
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
-    func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String) -> String? {
+    private func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String) -> String? {
         print("In function getPlaceIDOfGeneralLocale...(#2)")
 
         var placeID: String?
@@ -171,7 +171,7 @@ class LocationAPIService {
     
     
     //Retrieve photo metadata for place
-    func setPhotoMetaDataForLocation(placeID: String, completion: @escaping (_ result: Bool)->()) {
+    private func setPhotoMetaDataForLocation(placeID: String, completion: @escaping (_ result: Bool)->()) {
         print("In function setPhotoMetaDataForLocation...(#3)")
         print("Using place ID of \(placeID)")
         
@@ -204,7 +204,7 @@ class LocationAPIService {
     
     
     //Retrieve image based on place metadata
-    func setImageForMetadata(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
+    private func setImageForMetadata(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
         print("In function setImageForMetadata...(#4)")
 
         var imageFindComplete: Bool = false

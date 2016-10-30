@@ -6,6 +6,7 @@ use_frameworks!
 target 'RainOrShine' do
     pod 'GooglePlaces'
     pod 'SwiftyJSON'
+    pod 'ForecastIO'
 end
 
 target 'RainOrShineTests' do

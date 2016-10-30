@@ -23,6 +23,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var resultView: UITextView?
     
     var locationAPIService: LocationAPIService?
+    var weatherAPIService: WeatherAPIService = WeatherAPIService()
 
     
     override func viewDidLoad() {
@@ -88,10 +89,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func changePlace(place: GMSPlace?) {
         self.addressLabel.text = place?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
         
-        self.locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
+        locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             if (imageSet == true) {
                 self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
             }
         }
+    
+        weatherAPIService.getCurrentWeatherForecast(latitude: (place?.coordinate.latitude)!, longitude: (place?.coordinate.longitude)!)
     }
 }
