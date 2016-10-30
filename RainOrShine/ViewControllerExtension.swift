@@ -11,14 +11,14 @@ import GooglePlaces
 // Handle the user's selection.
 extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
     
+    //If the user selects a new city from the place search, display it's info and picture
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
-        // Do something with the selected place.
-        print("Place name: ", place.name)
-        print("Place address: ", place.formattedAddress)
-        print("Place attributions: ", place.attributions)
-        print("Place coords: \(place.coordinate)")
-
+        
+        locationAPIService?.resetCurrentPlace()
+        locationAPIService?.currentPlace = place
+        
+        self.changePlace(place: place)
     }
     
     
@@ -26,6 +26,7 @@ extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
         // TODO: handle the error.
         print("Error: ", error.localizedDescription)
     }
+    
     
     // Turn the network activity indicator on and off again.
     func didRequestAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {

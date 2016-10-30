@@ -75,19 +75,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             if (locationFound == true) {
                 let place = self.locationAPIService?.currentPlace
                 print("In VC, setCurrentLocationPlace completed. Just set place to \(place?.placeID)")
-                
-                self.addressLabel.text = place?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
-                
-                print("THIS ATTRIBUTION MUST BE SHOWN TO GIVE CREDIT FOR THE PIC\(place?.attributions)")
-                //https://developers.google.com/places/ios-api/attributions
-                //LINKS IN ATTRIBUTIONS MUST BE TAPPABLE
-                
-                self.locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
-                    if (imageSet == true) {
-                        self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
-                        print("self.locationImageView.image is \(self.locationImageView.image)")
-                    }
-                }
+                self.changePlace(place: place)
+            }
+        }
+    }
+    
+    
+    //Change the place that will be displayed in this view controller
+    func changePlace(place: GMSPlace?) {
+        self.addressLabel.text = place?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+        
+        self.locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
+            if (imageSet == true) {
+                self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
+                print("self.locationImageView.image is \(self.locationImageView.image)")
             }
         }
     }
