@@ -52,6 +52,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.delegate = self
         
+        let resultsFilter: GMSAutocompleteFilter = GMSAutocompleteFilter()
+        resultsFilter.type = .city
+        resultsViewController?.autocompleteFilter = resultsFilter
+        
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
