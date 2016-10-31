@@ -29,7 +29,7 @@ class WeatherAPIService {
         weatherClient?.getForecast(latitude: latitude, longitude: longitude) { (result) in
             switch result {
             case .success(let currentForecast, let requestMetadata):
-                print("currentForecast is \(currentForecast)")
+                /*print("currentForecast is \(currentForecast)")
                 print("requestMetadata is \(requestMetadata)")
                 
                 print(currentForecast.currently?.time)
@@ -45,10 +45,8 @@ class WeatherAPIService {
                     print("wind speed is \(hourlyForecast.windSpeed)")
                     print("summary is \(hourlyForecast.summary)")
                     print("-----")
-
-
-
-                }
+                }*/
+                print("Hi.")
             case .failure(let error):
                 print("Error retrieving current weather forecast - \(error)")
             }

@@ -25,6 +25,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var locationAPIService: LocationAPIService?
     var weatherAPIService: WeatherAPIService?
 
+    //var currentPlace: Place?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,28 +79,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func buttonTapped(_ sender: AnyObject) {
-        locationAPIService?.resetCurrentPlace()
+        locationAPIService?.currentPlace.resetPlace()
         
-        locationAPIService?.setCurrentLocationPlace() { (locationFound) -> () in
-            if (locationFound == true) {
-                let place = self.locationAPIService?.currentPlace
-                print("In VC, setCurrentLocationPlace completed. Just set place to \(place?.placeID)")
-                self.changePlace(place: place)
+        locationAPIService?.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
+            if (isLocationFound == true) {
+                self.changePlace(place: locationPlace)
             }
         }
     }
     
     
     //Change the place that will be displayed in this view controller
-    func changePlace(place: GMSPlace?) {
-        self.addressLabel.text = place?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+    func changePlace(place: Place?) {
+        self.addressLabel.text = place?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
         
         locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             if (imageSet == true) {
-                self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
+                //self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
+                self.locationImageView.image = place?.firstGeneralLocalePhoto
             }
         }
     
-        weatherAPIService?.getCurrentWeatherForecast(latitude: (place?.coordinate.latitude)!, longitude: (place?.coordinate.longitude)!)
+        weatherAPIService?.getCurrentWeatherForecast(latitude: (place?.gmsPlace?.coordinate.latitude)!, longitude: (place?.gmsPlace?.coordinate.longitude)!)
     }
 }

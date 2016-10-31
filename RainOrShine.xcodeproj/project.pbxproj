@@ -18,6 +18,7 @@
 		0313E53A1DC3C94600E453A0 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0313E5391DC3C94600E453A0 /* APIKeys.plist */; };
 		035811EE1DC429E0002ECB85 /* LocationAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035811ED1DC429E0002ECB85 /* LocationAPIService.swift */; };
 		03B2DE701DC5D1EA00CFFA83 /* WeatherAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */; };
+		03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE711DC7073900CFFA83 /* Place.swift */; };
 		CE97BF227C9EE82CDCD3B8B1 /* Pods_RainOrShine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		0313E5391DC3C94600E453A0 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
 		035811ED1DC429E0002ECB85 /* LocationAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAPIService.swift; sourceTree = "<group>"; };
 		03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAPIService.swift; sourceTree = "<group>"; };
+		03B2DE711DC7073900CFFA83 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		6D24AE1ADCD23D9A3DC25758 /* Pods-RainOrShine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RainOrShine.release.xcconfig"; path = "Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine.release.xcconfig"; sourceTree = "<group>"; };
 		7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RainOrShine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E682BEA6B2852926B36ABB4C /* Pods-RainOrShine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RainOrShine.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine.debug.xcconfig"; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			children = (
 				035811ED1DC429E0002ECB85 /* LocationAPIService.swift */,
 				03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */,
+				03B2DE711DC7073900CFFA83 /* Place.swift */,
 			);
 			name = "Custom Classes";
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				03B2DE701DC5D1EA00CFFA83 /* WeatherAPIService.swift in Sources */,
 				0313E50A1DC1DBC200E453A0 /* ViewController.swift in Sources */,
 				0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */,
+				03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */,
 				0313E5381DC2A21A00E453A0 /* ViewControllerExtension.swift in Sources */,
 				035811EE1DC429E0002ECB85 /* LocationAPIService.swift in Sources */,
 			);

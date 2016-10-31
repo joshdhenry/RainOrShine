@@ -15,15 +15,14 @@ extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
         
-        locationAPIService?.resetCurrentPlace()
-        locationAPIService?.currentPlace = place
+        locationAPIService?.currentPlace.resetPlace()
+        locationAPIService?.currentPlace.gmsPlace = place
         
-        self.changePlace(place: place)
+        self.changePlace(place: locationAPIService?.currentPlace)
     }
     
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didFailAutocompleteWithError error: Error) {
-        // TODO: handle the error.
         print("Error: ", error.localizedDescription)
     }
     
