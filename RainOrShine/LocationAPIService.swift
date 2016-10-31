@@ -15,14 +15,7 @@ class LocationAPIService {
     static private var baseURL: String = "https://maps.googleapis.com/maps/api/place/"
     static private var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
     
-    //CREATE A PLACE SUBCLASS OF GMSPLACE THAT KEEPS THESE VALUES
-    //var currentPlace: GMSPlace?
-    //var firstGeneralLocalePhotoMetaData: GMSPlacePhotoMetadata?
-    //var firstGeneralLocalePhoto: UIImage?
-    
-    
-    
-    var currentPlace: Place = Place()
+    var currentPlace: Place?
 
     
     //Load the Google Places API keys from APIKeys.plist
@@ -47,9 +40,12 @@ class LocationAPIService {
             
             if let placeLikelihoods = placeLikelihoods {
                 let firstPlaceFound = placeLikelihoods.likelihoods.first?.place
-                self.currentPlace.gmsPlace = firstPlaceFound
+                
+                self.currentPlace = Place()
+                
+                self.currentPlace?.gmsPlace = firstPlaceFound
                 print("Found the place. Continuing...")
-                print("Set LocationAPIService.currentPlace to \(self.currentPlace.gmsPlace?.placeID)")
+                print("Set LocationAPIService.currentPlace to \(self.currentPlace?.gmsPlace?.placeID)")
                 placeFindComplete = true
                 
                 completion(true, self.currentPlace)
@@ -90,15 +86,6 @@ class LocationAPIService {
         }
     }
     
-    /*
-    //This method resets all current place variables to nil
-    public func resetCurrentPlace() {
-        currentPlace.gmsPlace = nil
-        
-        currentPlace.firstGeneralLocalePhotoMetaData = nil
-        currentPlace.firstGeneralLocalePhoto = nil
-    }*/
-    
     
     //This method builds a string of the general locality of the place, which will be used to query a photo of the general locale
     private func getGeneralLocaleString() -> String {
@@ -106,7 +93,7 @@ class LocationAPIService {
 
         var queryString: String = String()
         
-        for addressComponent in (currentPlace.gmsPlace?.addressComponents)! {
+        for addressComponent in (currentPlace?.gmsPlace?.addressComponents)! {
             //print(addressComponent.type)
             //print(addressComponent.name)
             
@@ -131,7 +118,6 @@ class LocationAPIService {
     }
     
     
-    //DO I NEED TO IMPLEMENT COMPLETION HANDLER INTO THIS FUNCTION?????  I don't think so since session.data task uses resume() ??????  But then again i do have that while loop at the bottom that could be done differently.
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
     private func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String) -> String? {
         print("In function getPlaceIDOfGeneralLocale...(#2)")
@@ -155,7 +141,6 @@ class LocationAPIService {
                     return
             }
             let json = JSON(data: data!)
-            print("Place ID BEFORE (should be nil) is \(placeID)")
             placeID = json["results"][0]["place_id"].string
             print("Made placeID OF GENERAL LOCALE equal to \(placeID)")
             
@@ -186,14 +171,14 @@ class LocationAPIService {
             } else {
                 print("Photos count is \(photos?.results.count)")
                 if let firstPhotoMetadata = photos?.results.first {
-                    self.currentPlace.firstGeneralLocalePhotoMetaData = firstPhotoMetadata
+                    self.currentPlace?.firstGeneralLocalePhotoMetaData = firstPhotoMetadata
                     photoMetaDataFindComplete = true
                     completion(true)
                 }
                 else {
                     print("No photos found. Resetting image view to blank...")
-                    self.currentPlace.firstGeneralLocalePhotoMetaData = nil
-                    self.currentPlace.firstGeneralLocalePhoto = nil
+                    self.currentPlace?.firstGeneralLocalePhotoMetaData = nil
+                    self.currentPlace?.firstGeneralLocalePhoto = nil
                     completion(true)
                 }
             }
@@ -209,15 +194,15 @@ class LocationAPIService {
         print("In function setImageForMetadata...(#4)")
 
         var imageFindComplete: Bool = false
-        if (currentPlace.firstGeneralLocalePhotoMetaData != nil) {
-            GMSPlacesClient.shared().loadPlacePhoto(currentPlace.firstGeneralLocalePhotoMetaData!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
+        if (currentPlace?.firstGeneralLocalePhotoMetaData != nil) {
+            GMSPlacesClient.shared().loadPlacePhoto((currentPlace?.firstGeneralLocalePhotoMetaData!)!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
                 if let error = error {
                     print("Error loading image for metadata: \(error.localizedDescription)")
                     completion(true)
                     return
                 } else {
-                    self.currentPlace.firstGeneralLocalePhoto = photo
-                    print("self.firstGeneralLocalePhoto is \(self.currentPlace.firstGeneralLocalePhoto)")
+                    self.currentPlace?.firstGeneralLocalePhoto = photo
+                    print("self.firstGeneralLocalePhoto is \(self.currentPlace?.firstGeneralLocalePhoto)")
                     imageFindComplete = true
                     completion(true)
                 }

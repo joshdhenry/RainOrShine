@@ -14,12 +14,4 @@ class Place {
     var gmsPlace: GMSPlace?
     var firstGeneralLocalePhotoMetaData: GMSPlacePhotoMetadata?
     var firstGeneralLocalePhoto: UIImage?
-    
-    //This method resets all current place variables to nil
-    public func resetPlace() {
-        self.gmsPlace = nil
-        
-        self.firstGeneralLocalePhotoMetaData = nil
-        self.firstGeneralLocalePhoto = nil
-    }
 }

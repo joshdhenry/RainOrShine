@@ -25,7 +25,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var locationAPIService: LocationAPIService?
     var weatherAPIService: WeatherAPIService?
 
-    //var currentPlace: Place?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +78,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func buttonTapped(_ sender: AnyObject) {
-        locationAPIService?.currentPlace.resetPlace()
+        locationAPIService?.currentPlace = nil
         
         locationAPIService?.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound == true) {
