@@ -10,19 +10,18 @@ import Foundation
 import ForecastIO
 
 class WeatherAPIService {
-    var keys: NSDictionary = NSDictionary()
+    static var keys: NSDictionary = NSDictionary()
 
     var weatherClient: DarkSkyClient?
     
     
     init() {
-        setAPIKeys()
         initializeWeatherClient()
     }
     
     
     private func initializeWeatherClient() {
-        weatherClient = DarkSkyClient(apiKey: keys["DarkSkyAPIKey"] as! String)
+        weatherClient = DarkSkyClient(apiKey: WeatherAPIService.keys["DarkSkyAPIKey"] as! String)
     }
     
     
@@ -37,6 +36,19 @@ class WeatherAPIService {
                 print(currentForecast.currently?.temperature)
                 print(currentForecast.currently?.icon)
                 print(currentForecast.currently?.summary)
+                //print(currentForecast.hourly)
+                
+                for hourlyForecast in (currentForecast.hourly?.data)! {
+                    print("time is \(hourlyForecast.time)")
+                    print("precipitation probability is \(hourlyForecast.precipitationProbability)")
+                    print("precipitation type is \(hourlyForecast.precipitationType)")
+                    print("wind speed is \(hourlyForecast.windSpeed)")
+                    print("summary is \(hourlyForecast.summary)")
+                    print("-----")
+
+
+
+                }
             case .failure(let error):
                 print("Error retrieving current weather forecast - \(error)")
             }
@@ -45,8 +57,8 @@ class WeatherAPIService {
     
     
     //Load the Dark Sky API keys from APIKeys.plist
-    private func setAPIKeys() {
-        guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
-        keys = NSDictionary(contentsOfFile: path)!
+    static public func setAPIKeys() {
+    guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
+        WeatherAPIService.keys = NSDictionary(contentsOfFile: path)!
     }
 }

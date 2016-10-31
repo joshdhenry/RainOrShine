@@ -11,22 +11,17 @@ import GooglePlaces
 import SwiftyJSON
 
 class LocationAPIService {
-    var keys: NSDictionary = NSDictionary()
+    static var keys: NSDictionary = NSDictionary()
 
     var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
     var currentPlace: GMSPlace?
     
     var firstGeneralLocalePhotoMetaData: GMSPlacePhotoMetadata?
     var firstGeneralLocalePhoto: UIImage?
-
-    
-    init() {
-        setAPIKeys()
-    }
     
     
     //Load the Google Places API keys from APIKeys.plist
-    private func setAPIKeys() {
+    static public func setAPIKeys() {
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         keys = NSDictionary(contentsOfFile: path)!
     }
@@ -138,7 +133,7 @@ class LocationAPIService {
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
         
-        var placeTextSearchURL: String = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + generalLocaleQueryString + "&key=" + (keys["GooglePlacesAPIKeyWeb"] as! String)
+        var placeTextSearchURL: String = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + generalLocaleQueryString + "&key=" + (LocationAPIService.keys["GooglePlacesAPIKeyWeb"] as! String)
         placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         print("placeTextSearchURL is \(placeTextSearchURL)")
         

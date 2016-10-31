@@ -23,7 +23,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var resultView: UITextView?
     
     var locationAPIService: LocationAPIService?
-    var weatherAPIService: WeatherAPIService = WeatherAPIService()
+    var weatherAPIService: WeatherAPIService?
 
     
     override func viewDidLoad() {
@@ -32,6 +32,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         placesClient = GMSPlacesClient.shared()
+        
+        WeatherAPIService.setAPIKeys()
+        weatherAPIService = WeatherAPIService()
+        
+        LocationAPIService.setAPIKeys()
         locationAPIService = LocationAPIService()
         displayLocationSearchBar()
     }
@@ -95,6 +100,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     
-        weatherAPIService.getCurrentWeatherForecast(latitude: (place?.coordinate.latitude)!, longitude: (place?.coordinate.longitude)!)
+        weatherAPIService?.getCurrentWeatherForecast(latitude: (place?.coordinate.latitude)!, longitude: (place?.coordinate.longitude)!)
     }
 }
