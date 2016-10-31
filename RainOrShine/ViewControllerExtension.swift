@@ -8,7 +8,7 @@
 
 import Foundation
 import GooglePlaces
-// Handle the user's selection.
+// Handle the user's selection..
 extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     //If the user selects a new city from the place search, display it's info and picture
