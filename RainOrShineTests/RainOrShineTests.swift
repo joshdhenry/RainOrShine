@@ -69,20 +69,20 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     }*/
     
     /*
-    func testSetAPIKeys() {
-        let locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+    func testA() {
+        let vc = ViewController()
         
-        //FAILS COMPILING BECAUSE OF THIS LINE.  I DON'T KNOW WHY
-        var locationAPIService = LocationAPIService()
-                
+        var locationAPIService: LocationAPIService?
+        LocationAPIService.setAPIKeys()
+        locationAPIService = LocationAPIService()
         
-        //locationAPIService?.setAPIKeys()
-        //XCTAssertNotNil(locationAPIService?.setAPIKeys())
+        locationAPIService?.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
+            if (isLocationFound == true) {
+                vc.changePlace(place: locationPlace)
+            }
+        }
     }
-    */
-    
+ */
     
     
 }

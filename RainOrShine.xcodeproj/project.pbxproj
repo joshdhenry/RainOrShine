@@ -131,7 +131,6 @@
 		0313E51B1DC1DBC200E453A0 /* RainOrShineTests */ = {
 			isa = PBXGroup;
 			children = (
-				0391F8551DC55796005B5BBF /* Custom Classes */,
 				0313E51C1DC1DBC200E453A0 /* RainOrShineTests.swift */,
 				0313E51E1DC1DBC200E453A0 /* Info.plist */,
 			);
@@ -170,13 +169,6 @@
 				0313E5371DC2A21A00E453A0 /* ViewControllerExtension.swift */,
 			);
 			name = Extensions;
-			sourceTree = "<group>";
-		};
-		0391F8551DC55796005B5BBF /* Custom Classes */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Custom Classes";
 			sourceTree = "<group>";
 		};
 		45D46E4972EBEEF8AE426B97 /* Pods */ = {

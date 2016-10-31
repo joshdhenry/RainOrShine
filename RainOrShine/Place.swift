@@ -11,7 +11,7 @@ import GooglePlaces
 
 class Place {
     
-    var gmsPlace: GMSPlace?
-    var firstGeneralLocalePhotoMetaData: GMSPlacePhotoMetadata?
-    var firstGeneralLocalePhoto: UIImage?
+    public var gmsPlace: GMSPlace?
+    public var firstGeneralLocalePhotoMetaData: GMSPlacePhotoMetadata?
+    public var firstGeneralLocalePhoto: UIImage?
 }

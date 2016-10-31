@@ -38,6 +38,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         LocationAPIService.setAPIKeys()
         locationAPIService = LocationAPIService()
+        
         displayLocationSearchBar()
     }
     
@@ -90,11 +91,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //Change the place that will be displayed in this view controller
     func changePlace(place: Place?) {
-        self.addressLabel.text = place?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+        addressLabel.text = place?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
         
         locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             if (imageSet == true) {
-                //self.locationImageView.image = self.locationAPIService?.firstGeneralLocalePhoto
                 self.locationImageView.image = place?.firstGeneralLocalePhoto
             }
         }

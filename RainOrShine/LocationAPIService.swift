@@ -19,7 +19,7 @@ class LocationAPIService {
 
     
     //Load the Google Places API keys from APIKeys.plist
-    static public func setAPIKeys() {
+    class public func setAPIKeys() {
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         keys = NSDictionary(contentsOfFile: path)!
     }
