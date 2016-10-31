@@ -13,13 +13,15 @@ class WeatherAPIService {
     static private var keys: NSDictionary = NSDictionary()
     static private var weatherClient: DarkSkyClient?
     
+    var currentWeatherForecast: Forecast?
+    
     
     init() {
         WeatherAPIService.weatherClient = DarkSkyClient(apiKey: WeatherAPIService.keys["DarkSkyAPIKey"] as! String)
     }
     
     
-    public func getCurrentWeatherForecast(latitude: Double, longitude: Double) {
+    public func getCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping (_ result: Bool) ->()) {
         WeatherAPIService.weatherClient?.getForecast(latitude: latitude, longitude: longitude) { (result) in
             switch result {
             case .success(let currentForecast, let requestMetadata):
@@ -41,9 +43,12 @@ class WeatherAPIService {
                     print("-----")
                 }*/
                 print(currentForecast.currently?.temperature)
+                self.currentWeatherForecast = currentForecast
             case .failure(let error):
                 print("Error retrieving current weather forecast - \(error)")
             }
+            completion(true)
+            print("getCurrentWeatherForecast completed...")
         }
     }
     

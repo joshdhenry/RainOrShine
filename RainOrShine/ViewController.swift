@@ -13,6 +13,7 @@ import CoreLocation
 class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var locationImageView: UIImageView!
+    @IBOutlet weak var currentWeatherView: WeatherView!
  
     let locationManager = CLLocationManager()
     
@@ -99,6 +100,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     
-        weatherAPIService?.getCurrentWeatherForecast(latitude: (place?.gmsPlace?.coordinate.latitude)!, longitude: (place?.gmsPlace?.coordinate.longitude)!)
+        weatherAPIService?.getCurrentWeatherForecast(latitude: (place?.gmsPlace?.coordinate.latitude)!, longitude: (place?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
+            if (forecastRetrieved) {
+                let temperatureString = NSString(format: "%.0f", (self.weatherAPIService?.currentWeatherForecast?.currently?.temperature)!)
+                print("temperatureString is \(temperatureString)")
+                
+                //Make sure this performs on the main queue to avoid autolayout engine crashes
+                DispatchQueue.main.async {
+                    self.currentWeatherView.temperatureLabel.text = temperatureString as String
+                }
+                print("Just set the weather label...")
+            }
+        }
     }
 }
