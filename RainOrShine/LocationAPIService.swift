@@ -15,7 +15,7 @@ class LocationAPIService {
     static private var baseURL: String = "https://maps.googleapis.com/maps/api/place/"
     static private var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
     
-    var currentPlace: Place?
+    static var currentPlace: Place?
 
     
     //Load the Google Places API keys from APIKeys.plist
@@ -41,14 +41,15 @@ class LocationAPIService {
             if let placeLikelihoods = placeLikelihoods {
                 let firstPlaceFound = placeLikelihoods.likelihoods.first?.place
                 
-                self.currentPlace = Place()
-                
-                self.currentPlace?.gmsPlace = firstPlaceFound
+                LocationAPIService.currentPlace = Place()
+                LocationAPIService.currentPlace?.gmsPlace = firstPlaceFound
+
                 print("Found the place. Continuing...")
-                print("Set LocationAPIService.currentPlace to \(self.currentPlace?.gmsPlace?.placeID)")
+                print("Set LocationAPIService.currentPlace to \(LocationAPIService.currentPlace?.gmsPlace?.placeID)")
+
                 placeFindComplete = true
                 
-                completion(true, self.currentPlace)
+                completion(true, LocationAPIService.currentPlace)
             }
         })
         if (placeFindComplete == false) {
@@ -93,7 +94,8 @@ class LocationAPIService {
 
         var queryString: String = String()
         
-        for addressComponent in (currentPlace?.gmsPlace?.addressComponents)! {
+        for addressComponent in (LocationAPIService.currentPlace?.gmsPlace?.addressComponents)! {
+            
             //print(addressComponent.type)
             //print(addressComponent.name)
             
@@ -171,14 +173,18 @@ class LocationAPIService {
             } else {
                 print("Photos count is \(photos?.results.count)")
                 if let firstPhotoMetadata = photos?.results.first {
-                    self.currentPlace?.firstGeneralLocalePhotoMetaData = firstPhotoMetadata
+                    //self.currentPlace?.firstGeneralLocalePhotoMetaData = firstPhotoMetadata
+                    LocationAPIService.currentPlace?.firstGeneralLocalePhotoMetaData = firstPhotoMetadata
+                    
                     photoMetaDataFindComplete = true
                     completion(true)
                 }
                 else {
                     print("No photos found. Resetting image view to blank...")
-                    self.currentPlace?.firstGeneralLocalePhotoMetaData = nil
-                    self.currentPlace?.firstGeneralLocalePhoto = nil
+
+                    LocationAPIService.currentPlace?.firstGeneralLocalePhotoMetaData = nil
+                    LocationAPIService.currentPlace?.firstGeneralLocalePhoto = nil
+                    
                     completion(true)
                 }
             }
@@ -194,15 +200,18 @@ class LocationAPIService {
         print("In function setImageForMetadata...(#4)")
 
         var imageFindComplete: Bool = false
-        if (currentPlace?.firstGeneralLocalePhotoMetaData != nil) {
-            GMSPlacesClient.shared().loadPlacePhoto((currentPlace?.firstGeneralLocalePhotoMetaData!)!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
+        if (LocationAPIService.currentPlace?.firstGeneralLocalePhotoMetaData != nil) {
+
+            LocationAPIService.placesClient?.loadPlacePhoto((LocationAPIService.currentPlace?.firstGeneralLocalePhotoMetaData!)!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
                 if let error = error {
                     print("Error loading image for metadata: \(error.localizedDescription)")
                     completion(true)
                     return
                 } else {
-                    self.currentPlace?.firstGeneralLocalePhoto = photo
-                    print("self.firstGeneralLocalePhoto is \(self.currentPlace?.firstGeneralLocalePhoto)")
+                    LocationAPIService.currentPlace?.firstGeneralLocalePhoto = photo
+
+                    print("self.firstGeneralLocalePhoto is \(LocationAPIService.currentPlace?.firstGeneralLocalePhoto)")
+
                     imageFindComplete = true
                     completion(true)
                 }
