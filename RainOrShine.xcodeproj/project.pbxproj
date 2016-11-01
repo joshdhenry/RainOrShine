@@ -124,19 +124,17 @@
 		0313E5061DC1DBC200E453A0 /* RainOrShine */ = {
 			isa = PBXGroup;
 			children = (
+				03391ABE1DC8A35D00EBF622 /* Custom Views */,
 				0391F8521DC556EF005B5BBF /* Extensions */,
 				0391F84F1DC55689005B5BBF /* Protocols */,
 				035811EC1DC4296F002ECB85 /* Custom Classes */,
 				0313E5071DC1DBC200E453A0 /* AppDelegate.swift */,
 				0313E5091DC1DBC200E453A0 /* ViewController.swift */,
-				0313E5391DC3C94600E453A0 /* APIKeys.plist */,
 				0313E50B1DC1DBC200E453A0 /* Main.storyboard */,
 				0313E50E1DC1DBC200E453A0 /* Assets.xcassets */,
 				0313E5101DC1DBC200E453A0 /* LaunchScreen.storyboard */,
 				0313E5131DC1DBC200E453A0 /* Info.plist */,
-				03B2DE751DC73ECD00CFFA83 /* WeatherView.xib */,
-				03B2DE771DC73F9700CFFA83 /* WeatherView.swift */,
-				03B2DE791DC7452400CFFA83 /* WeatherViewTemperatureLabel.swift */,
+				0313E5391DC3C94600E453A0 /* APIKeys.plist */,
 			);
 			path = RainOrShine;
 			sourceTree = "<group>";
@@ -157,6 +155,24 @@
 				0313E5291DC1DBC200E453A0 /* Info.plist */,
 			);
 			path = RainOrShineUITests;
+			sourceTree = "<group>";
+		};
+		03391ABE1DC8A35D00EBF622 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				03391ABF1DC8A38F00EBF622 /* WeatherView */,
+			);
+			name = "Custom Views";
+			sourceTree = "<group>";
+		};
+		03391ABF1DC8A38F00EBF622 /* WeatherView */ = {
+			isa = PBXGroup;
+			children = (
+				03B2DE751DC73ECD00CFFA83 /* WeatherView.xib */,
+				03B2DE771DC73F9700CFFA83 /* WeatherView.swift */,
+				03B2DE791DC7452400CFFA83 /* WeatherViewTemperatureLabel.swift */,
+			);
+			name = WeatherView;
 			sourceTree = "<group>";
 		};
 		035811EC1DC4296F002ECB85 /* Custom Classes */ = {
