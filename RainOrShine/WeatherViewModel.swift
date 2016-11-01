@@ -6,7 +6,7 @@
 //  Copyright © 2016 Big Smash Software. All rights reserved.
 //
 
-/*import Foundation
+import Foundation
 import ForecastIO
 
 class WeatherViewModel {
@@ -14,6 +14,7 @@ class WeatherViewModel {
     let currentForecast: Observable<Forecast?>
     
     init() {
-       self.place = LocationAPIService.currentPlace
+        self.place = Observable(LocationAPIService.currentPlace)
+        self.currentForecast = Observable(WeatherAPIService.currentWeatherForecast)
     }
-}*/
+}

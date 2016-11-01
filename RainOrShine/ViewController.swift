@@ -98,9 +98,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     
-        weatherAPIService?.getCurrentWeatherForecast(latitude: (place?.gmsPlace?.coordinate.latitude)!, longitude: (place?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
+        //weatherAPIService?.getCurrentWeatherForecast(latitude: (place?.gmsPlace?.coordinate.latitude)!, longitude: (place?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
+        WeatherAPIService.getCurrentWeatherForecast(latitude: (place?.gmsPlace?.coordinate.latitude)!, longitude: (place?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
             if (forecastRetrieved) {
-                let temperatureString = NSString(format: "%.0f", (self.weatherAPIService?.currentWeatherForecast?.currently?.temperature)!)
+                let temperatureString = NSString(format: "%.0f", (WeatherAPIService.currentWeatherForecast?.currently?.temperature)!)
+
                 print("temperatureString is \(temperatureString)")
                 
                 //Make sure this performs on the main queue to avoid autolayout engine crashes
