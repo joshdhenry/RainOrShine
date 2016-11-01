@@ -23,7 +23,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var resultsViewController: GMSAutocompleteResultsViewController?
     var resultView: UITextView?
     
-    var locationAPIService: LocationAPIService?
     var weatherAPIService: WeatherAPIService?
 
     
@@ -34,11 +33,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.requestWhenInUseAuthorization()
         placesClient = GMSPlacesClient.shared()
         
+        LocationAPIService.setAPIKeys()
+        
         WeatherAPIService.setAPIKeys()
         weatherAPIService = WeatherAPIService()
-        
-        LocationAPIService.setAPIKeys()
-        locationAPIService = LocationAPIService()
         
         displayLocationSearchBar()
     }
@@ -82,9 +80,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func buttonTapped(_ sender: AnyObject) {
         LocationAPIService.currentPlace = nil
         
-        locationAPIService?.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
+        LocationAPIService.setCurrentLocationPlace() { (isLocationFound) -> () in
             if (isLocationFound == true) {
-                self.changePlace(place: locationPlace)
+                self.changePlace(place: LocationAPIService.currentPlace)
             }
         }
     }
@@ -94,7 +92,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func changePlace(place: Place?) {
         addressLabel.text = place?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
         
-        locationAPIService?.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
+        LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             if (imageSet == true) {
                 self.locationImageView.image = place?.firstGeneralLocalePhoto
             }

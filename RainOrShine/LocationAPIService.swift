@@ -16,6 +16,9 @@ class LocationAPIService {
     static private var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
     
     static var currentPlace: Place?
+    
+    static var placeIDOfGeneralLocale: String?
+    static var generalLocaleQueryString: String?
 
     
     //Load the Google Places API keys from APIKeys.plist
@@ -26,7 +29,7 @@ class LocationAPIService {
     
     
     //This method gets the current location of the user and sets currentPlace
-    public func setCurrentLocationPlace(completion: @escaping (_ result: Bool, _ currentLocationPlace: Place?)->()) {
+    class public func setCurrentLocationPlace(completion: @escaping (_ result: Bool)->()) {
         print("In function setCurrentLocationPlace...")
 
         var placeFindComplete: Bool = false
@@ -34,7 +37,10 @@ class LocationAPIService {
         LocationAPIService.placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
             guard error == nil else {
                 print("Current Place error: \(error!.localizedDescription)")
-                completion(true, nil)
+                LocationAPIService.currentPlace = nil
+                
+                completion(true)
+
                 return
             }
             
@@ -49,28 +55,29 @@ class LocationAPIService {
 
                 placeFindComplete = true
                 
-                completion(true, LocationAPIService.currentPlace)
+                completion(true)
             }
         })
         if (placeFindComplete == false) {
-            completion(false, nil)
+            completion(false)
         }
     }
     
     
     //This method finds a photo of the general locale
-    public func setPhotoOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
+    class public func setPhotoOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
         print("In function setPhotoOfGeneralLocale...")
         
-        let generalLocaleString: String = getGeneralLocaleString()
+        LocationAPIService.setGeneralLocaleString()
         
         //Get the place ID of the general area so that we can grab an image of the city
-        let placeIDOfGeneralLocale: String? = getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
-        print("Just ran getPlaceIDOfGeneralLocale.  Continuing to setPhotoMetaDataForLocation...")
-        if (placeIDOfGeneralLocale != nil) {
-            setPhotoMetaDataForLocation(placeID: placeIDOfGeneralLocale!) { (photoMetaDataFound) -> () in
+        LocationAPIService.setPlaceIDOfGeneralLocale()
+
+        print("Just ran setPlaceIDOfGeneralLocale.  Continuing to setPhotoMetaDataForLocation...")
+        if (LocationAPIService.placeIDOfGeneralLocale != nil) {
+            LocationAPIService.setPhotoMetaData() { (photoMetaDataFound) -> () in
                 if (photoMetaDataFound == true) {
-                    self.setImageForMetadata(size: size, scale: scale) { (imageFound) -> () in
+                    LocationAPIService.setImageForMetadata(size: size, scale: scale) { (imageFound) -> () in
                         if (imageFound == true) {
                             completion(true)
                         }
@@ -89,8 +96,8 @@ class LocationAPIService {
     
     
     //This method builds a string of the general locality of the place, which will be used to query a photo of the general locale
-    private func getGeneralLocaleString() -> String {
-        print("In function getGeneralLocaleString... (#1)")
+    class private func setGeneralLocaleString() {
+        print("In function setGeneralLocaleString... (#1)")
 
         var queryString: String = String()
         
@@ -116,18 +123,19 @@ class LocationAPIService {
         //Replace any spaces in the URL with "+"
         queryString = queryString.replacingOccurrences(of: " ", with: "+")
         
-        return queryString
+        LocationAPIService.generalLocaleQueryString = queryString
     }
     
     
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
-    private func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String) -> String? {
+    class private func setPlaceIDOfGeneralLocale() {
         print("In function getPlaceIDOfGeneralLocale...(#2)")
 
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
         
-        var placeTextSearchURL: String = LocationAPIService.baseURL + "textsearch/json?query=" + generalLocaleQueryString + "&key=" + (LocationAPIService.keys["GooglePlacesAPIKeyWeb"] as! String)
+        var placeTextSearchURL: String = LocationAPIService.baseURL + "textsearch/json?query=" + LocationAPIService.generalLocaleQueryString! + "&key=" + (LocationAPIService.keys["GooglePlacesAPIKeyWeb"] as! String)
+
         placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         print("placeTextSearchURL is \(placeTextSearchURL)")
         
@@ -154,18 +162,18 @@ class LocationAPIService {
             //print("Waiting on the photo reference to retrieve...")
         }
         print("Returning placeID OF GENERAL LOCALE of \(placeID)")
-        return placeID
+        LocationAPIService.placeIDOfGeneralLocale = placeID
     }
     
     
     //Retrieve photo metadata for place
-    private func setPhotoMetaDataForLocation(placeID: String, completion: @escaping (_ result: Bool)->()) {
+    class private func setPhotoMetaData(completion: @escaping (_ result: Bool)->()) {
         print("In function setPhotoMetaDataForLocation...(#3)")
-        print("Using place ID of \(placeID)")
+        print("Using place ID of \(LocationAPIService.placeIDOfGeneralLocale)")
         
         var photoMetaDataFindComplete: Bool = false
         
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
+        LocationAPIService.placesClient?.lookUpPhotos(forPlaceID: LocationAPIService.placeIDOfGeneralLocale!) { (photos, error) -> Void in
             if let error = error {
                 print("Error loading photo from Google API: \(error.localizedDescription)")
                 completion(true)
@@ -173,7 +181,6 @@ class LocationAPIService {
             } else {
                 print("Photos count is \(photos?.results.count)")
                 if let firstPhotoMetadata = photos?.results.first {
-                    //self.currentPlace?.firstGeneralLocalePhotoMetaData = firstPhotoMetadata
                     LocationAPIService.currentPlace?.firstGeneralLocalePhotoMetaData = firstPhotoMetadata
                     
                     photoMetaDataFindComplete = true
@@ -196,7 +203,7 @@ class LocationAPIService {
     
     
     //Retrieve image based on place metadata
-    private func setImageForMetadata(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
+    class private func setImageForMetadata(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
         print("In function setImageForMetadata...(#4)")
 
         var imageFindComplete: Bool = false
