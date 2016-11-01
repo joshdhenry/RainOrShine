@@ -16,13 +16,16 @@ class WeatherAPIService {
     static var currentWeatherForecast: Forecast?
     
     
-    init() {
+    class public func setWeatherClient() {
         WeatherAPIService.weatherClient = DarkSkyClient(apiKey: WeatherAPIService.keys["DarkSkyAPIKey"] as! String)
+
     }
     
     
-    class public func getCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping (_ result: Bool) ->()) {
+    class public func setCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping (_ result: Bool) ->()) {
+        print("In func setCurrentWeatherForecast...")
         WeatherAPIService.weatherClient?.getForecast(latitude: latitude, longitude: longitude) { (result) in
+            print("Retrieved forecast from server...")
             switch result {
             case .success(let currentForecast, let requestMetadata):
                 /*print("currentForecast is \(currentForecast)")
@@ -46,10 +49,11 @@ class WeatherAPIService {
                 
                 WeatherAPIService.currentWeatherForecast = currentForecast
             case .failure(let error):
+                WeatherAPIService.currentWeatherForecast = nil
                 print("Error retrieving current weather forecast - \(error)")
             }
             completion(true)
-            print("getCurrentWeatherForecast completed...")
+            print("setCurrentWeatherForecast completed...")
         }
     }
     

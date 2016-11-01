@@ -10,11 +10,24 @@ import Foundation
 import ForecastIO
 
 class WeatherViewModel {
-    let place: Observable<Place?>
+    let currentPlace: Observable<Place?>
     let currentForecast: Observable<Forecast?>
     
+    
     init() {
-        self.place = Observable(LocationAPIService.currentPlace)
+        self.currentPlace = Observable(LocationAPIService.currentPlace)
         self.currentForecast = Observable(WeatherAPIService.currentWeatherForecast)
+    }
+    
+    
+    func updateForecast(newForecast: Forecast?) {
+        print("In func updateForecast...")
+        currentForecast.value = newForecast
+    }
+    
+    
+    func updatePlace(newPlace: Place?) {
+        print("In func updatePlace...")
+        currentPlace.value = newPlace
     }
 }

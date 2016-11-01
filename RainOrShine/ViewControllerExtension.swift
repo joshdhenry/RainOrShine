@@ -18,7 +18,7 @@ extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
         LocationAPIService.currentPlace = Place()
         LocationAPIService.currentPlace?.gmsPlace = place
         
-        self.changePlace(place: LocationAPIService.currentPlace)
+        self.changePlace()
     }
     
     

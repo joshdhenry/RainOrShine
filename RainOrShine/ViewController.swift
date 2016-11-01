@@ -23,7 +23,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var resultsViewController: GMSAutocompleteResultsViewController?
     var resultView: UITextView?
     
-    var weatherAPIService: WeatherAPIService?
+    
+    var viewModel: WeatherViewModel? {
+        didSet {            
+            viewModel?.currentForecast.observe { [unowned self] in
+                let unformattedTemperature = $0?.currently?.temperature
+                var formattedTemperature: String = String()
+
+                if (unformattedTemperature != nil) {
+                    formattedTemperature = String(format: "%.0f", unformattedTemperature!)
+                }
+                
+                DispatchQueue.main.async {
+                    self.currentWeatherView.temperatureLabel.text = formattedTemperature
+                }
+            }
+            
+            viewModel?.currentPlace.observe { [unowned self] in
+                self.addressLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+            }
+        }
+    }
 
     
     override func viewDidLoad() {
@@ -31,14 +51,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        placesClient = GMSPlacesClient.shared()
         
         LocationAPIService.setAPIKeys()
-        
         WeatherAPIService.setAPIKeys()
-        weatherAPIService = WeatherAPIService()
-        
+        WeatherAPIService.setWeatherClient()
+
         displayLocationSearchBar()
+        
+        viewModel = WeatherViewModel()
     }
     
     
@@ -78,39 +98,29 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func buttonTapped(_ sender: AnyObject) {
-        LocationAPIService.currentPlace = nil
-        
         LocationAPIService.setCurrentLocationPlace() { (isLocationFound) -> () in
             if (isLocationFound == true) {
-                self.changePlace(place: LocationAPIService.currentPlace)
+                self.changePlace()
             }
         }
     }
     
     
     //Change the place that will be displayed in this view controller
-    func changePlace(place: Place?) {
-        addressLabel.text = place?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+    func changePlace() {
+        print("In func changePlace...")
         
         LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             if (imageSet == true) {
-                self.locationImageView.image = place?.firstGeneralLocalePhoto
+                self.locationImageView.image = LocationAPIService.currentPlace?.firstGeneralLocalePhoto
             }
         }
-    
-        //weatherAPIService?.getCurrentWeatherForecast(latitude: (place?.gmsPlace?.coordinate.latitude)!, longitude: (place?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
-        WeatherAPIService.getCurrentWeatherForecast(latitude: (place?.gmsPlace?.coordinate.latitude)!, longitude: (place?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
+        WeatherAPIService.setCurrentWeatherForecast(latitude: (LocationAPIService.currentPlace?.gmsPlace?.coordinate.latitude)!, longitude: (LocationAPIService.currentPlace?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
+            print("forecastRetrieved...\(forecastRetrieved)")
             if (forecastRetrieved) {
-                let temperatureString = NSString(format: "%.0f", (WeatherAPIService.currentWeatherForecast?.currently?.temperature)!)
-
-                print("temperatureString is \(temperatureString)")
-                
-                //Make sure this performs on the main queue to avoid autolayout engine crashes
-                DispatchQueue.main.async {
-                    self.currentWeatherView.temperatureLabel.text = temperatureString as String
-                }
-                print("Just set the weather label...")
+                self.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
             }
         }
+        self.viewModel?.updatePlace(newPlace: LocationAPIService.currentPlace)
     }
 }
