@@ -14,16 +14,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var locationImageView: UIImageView!
     @IBOutlet weak var currentWeatherView: WeatherView!
- 
     @IBOutlet weak var imagePageControl: UIPageControl!
-    
-    //@IBOutlet var imageSwipeRightGestureRecognizer: UISwipeGestureRecognizer!
-    //@IBOutlet var imageSwipeLeftGestureRecognizer: UISwipeGestureRecognizer!
     
     
     let locationManager = CLLocationManager()
-    
-    var placesClient: GMSPlacesClient?
     
     var searchController: UISearchController?
     var resultsViewController: GMSAutocompleteResultsViewController?
@@ -48,6 +42,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             viewModel?.currentPlace.observe { [unowned self] in
                 self.addressLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
             }
+            
+            viewModel?.currentPlaceImageIndex.observe { [unowned self] in
+                if ($0 != nil) {
+                    self.locationImageView.image = LocationAPIService.currentPlace?.generalLocalePhotoArray[($0)!]
+                }
+            }
         }
     }
 
@@ -67,10 +67,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         viewModel = WeatherViewModel()
         
         createGestureRecognizers()
-        /*
-        currentWeatherView.layer.cornerRadius = 10.0
-        currentWeatherView.clipsToBounds = true
- */
     }
     
     
@@ -92,11 +88,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
-                print("Swiped right")
-            case UISwipeGestureRecognizerDirection.right:
                 print("Swiped left")
+                advancePageControl(forward: true)
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+                advancePageControl(forward: false)
             default:
                 break
+            }
+        }
+    }
+    
+    
+    func advancePageControl(forward: Bool) {
+        if (forward) {
+            if (imagePageControl.currentPage < imagePageControl.numberOfPages) {
+                imagePageControl.currentPage += 1
+            }
+        }
+        else {
+            if (imagePageControl.currentPage > 0) {
+                imagePageControl.currentPage -= 1
             }
         }
     }
@@ -151,22 +163,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func changePlace() {
         print("In func changePlace...")
         
-        imagePageControl.currentPage = 3
-        
-        /*let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = currentWeatherView.bounds
-        blurEffectView.center = currentWeatherView.center
-        locationImageView.addSubview(blurEffectView)*/
-        
-       // print("currentWeatherView.bounds is \(currentWeatherView.bounds)")
-        //print(blurEffectView.bounds)
-        
         LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             if (imageSet == true) {
-                self.locationImageView.image = LocationAPIService.currentPlace?.firstGeneralLocalePhoto
+                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: LocationAPIService.currentPlaceImageIndex)
             }
         }
+        
         WeatherAPIService.setCurrentWeatherForecast(latitude: (LocationAPIService.currentPlace?.gmsPlace?.coordinate.latitude)!, longitude: (LocationAPIService.currentPlace?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
             print("forecastRetrieved...\(forecastRetrieved)")
             if (forecastRetrieved) {

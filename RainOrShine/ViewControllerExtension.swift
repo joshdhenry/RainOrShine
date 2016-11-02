@@ -18,6 +18,8 @@ extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
         LocationAPIService.currentPlace = Place()
         LocationAPIService.currentPlace?.gmsPlace = place
         
+        LocationAPIService.currentPlaceImageIndex = nil
+        
         self.changePlace()
     }
     

@@ -19,6 +19,8 @@ class LocationAPIService {
     
     static var placeIDOfGeneralLocale: String?
     static var generalLocaleQueryString: String?
+    
+    static var currentPlaceImageIndex: Int?
 
     
     //Load the Google Places API keys from APIKeys.plist
@@ -33,6 +35,8 @@ class LocationAPIService {
         print("In function setCurrentLocationPlace...")
 
         var placeFindComplete: Bool = false
+        
+        currentPlaceImageIndex = nil
         
         LocationAPIService.placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
             guard error == nil else {
@@ -49,10 +53,7 @@ class LocationAPIService {
                 
                 LocationAPIService.currentPlace = Place()
                 LocationAPIService.currentPlace?.gmsPlace = firstPlaceFound
-
-                print("Found the place. Continuing...")
-                print("Set LocationAPIService.currentPlace to \(LocationAPIService.currentPlace?.gmsPlace?.placeID)")
-
+                
                 placeFindComplete = true
                 
                 completion(true)
@@ -73,11 +74,10 @@ class LocationAPIService {
         //Get the place ID of the general area so that we can grab an image of the city
         LocationAPIService.setPlaceIDOfGeneralLocale()
 
-        print("Just ran setPlaceIDOfGeneralLocale.  Continuing to setPhotoMetaDataForLocation...")
         if (LocationAPIService.placeIDOfGeneralLocale != nil) {
             LocationAPIService.setPhotoMetaData() { (photoMetaDataFound) -> () in
                 if (photoMetaDataFound == true) {
-                    LocationAPIService.setImageForMetadata(size: size, scale: scale) { (imageFound) -> () in
+                    LocationAPIService.setImagesArrayForMetadata(size: size, scale: scale) { (imageFound) -> () in
                         if (imageFound == true) {
                             completion(true)
                         }
@@ -137,7 +137,6 @@ class LocationAPIService {
         var placeTextSearchURL: String = LocationAPIService.baseURL + "textsearch/json?query=" + LocationAPIService.generalLocaleQueryString! + "&key=" + (LocationAPIService.keys["GooglePlacesAPIKeyWeb"] as! String)
 
         placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        print("placeTextSearchURL is \(placeTextSearchURL)")
         
         let session = URLSession.shared
         let url = URL(string: placeTextSearchURL)!
@@ -152,7 +151,6 @@ class LocationAPIService {
             }
             let json = JSON(data: data!)
             placeID = json["results"][0]["place_id"].string
-            print("Made placeID OF GENERAL LOCALE equal to \(placeID)")
             
             completionHandlerCodeComplete = true
         }).resume()
@@ -169,7 +167,6 @@ class LocationAPIService {
     //Retrieve photo metadata for place
     class private func setPhotoMetaData(completion: @escaping (_ result: Bool)->()) {
         print("In function setPhotoMetaDataForLocation...(#3)")
-        print("Using place ID of \(LocationAPIService.placeIDOfGeneralLocale)")
         
         var photoMetaDataFindComplete: Bool = false
         
@@ -180,17 +177,20 @@ class LocationAPIService {
                 return
             } else {
                 print("Photos count is \(photos?.results.count)")
-                if let firstPhotoMetadata = photos?.results.first {
-                    LocationAPIService.currentPlace?.firstGeneralLocalePhotoMetaData = firstPhotoMetadata
+                
+                if ((photos?.results.count)! > 0) {
+                    LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray = (photos?.results)!
                     
                     photoMetaDataFindComplete = true
                     completion(true)
                 }
                 else {
                     print("No photos found. Resetting image view to blank...")
-
-                    LocationAPIService.currentPlace?.firstGeneralLocalePhotoMetaData = nil
-                    LocationAPIService.currentPlace?.firstGeneralLocalePhoto = nil
+                    
+                    LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll()
+                    LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll()
+                    
+                    LocationAPIService.currentPlaceImageIndex = nil
                     
                     completion(true)
                 }
@@ -203,31 +203,72 @@ class LocationAPIService {
     
     
     //Retrieve image based on place metadata
-    class private func setImageForMetadata(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
+    class private func setImagesArrayForMetadata(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
+        print("In function setImagesArrayForMetadata...(#4)")
+
+        var imageArrayFindComplete: Bool = false
+        if (LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray != nil) {
+            
+            var isIndexSet: Bool = false
+            
+            for photoMetaDataIndex in 0..<(LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray)!.count {
+                setImageForMetaData(index: photoMetaDataIndex, size: size, scale: scale) { imageSet -> () in
+                    if (imageSet) {
+                        //If this is the first photo successfully retrieved, set the currentPlaceImageIndex to 0 instead of nil
+                        if (!isIndexSet) {
+                            LocationAPIService.currentPlaceImageIndex = 0
+                            isIndexSet = true
+                        }
+                        
+                        //If we are on the last element, mark completion as true
+                        if (photoMetaDataIndex == (LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray)!.count - 1) {
+                            print("On last element in photo meta data array.  mark completion...")
+                            imageArrayFindComplete = true
+                            completion(true)
+                        }
+                        completion(imageArrayFindComplete)
+                    }
+                    //print("A")
+                }
+                //print("B")
+            }
+        }
+        else {
+            print("generalLocalePhotoMetaDataArray was empty.  Exiting out of this function...")
+            imageArrayFindComplete = true
+        }
+        if (imageArrayFindComplete == false) {
+            completion(false)
+        }
+    }
+    
+    
+    class private func setImageForMetaData(index: Int, size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) -> ()) {
         print("In function setImageForMetadata...(#4)")
 
         var imageFindComplete: Bool = false
-        if (LocationAPIService.currentPlace?.firstGeneralLocalePhotoMetaData != nil) {
-
-            LocationAPIService.placesClient?.loadPlacePhoto((LocationAPIService.currentPlace?.firstGeneralLocalePhotoMetaData!)!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
+        
+        if (LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray[index] != nil) {
+            LocationAPIService.placesClient?.loadPlacePhoto((LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray[index])!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
                 if let error = error {
                     print("Error loading image for metadata: \(error.localizedDescription)")
                     completion(true)
                     return
                 } else {
-                    LocationAPIService.currentPlace?.firstGeneralLocalePhoto = photo
-
-                    print("self.firstGeneralLocalePhoto is \(LocationAPIService.currentPlace?.firstGeneralLocalePhoto)")
-
+                    print("Loading image from photometadata...")
+                    
+                    LocationAPIService.currentPlace?.generalLocalePhotoArray.append(photo)
+                    
                     imageFindComplete = true
                     completion(true)
                 }
             }
         }
         else {
-            print("firstGeneralLocalePhotoMetaData was nil.  Exiting out of this function...")
+            print("GeneralLocalePhotoMetaData for this index was nil.  Exiting out of this function...")
             imageFindComplete = true
         }
+
         if (imageFindComplete == false) {
             completion(false)
         }
