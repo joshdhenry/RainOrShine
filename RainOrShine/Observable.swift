@@ -20,7 +20,6 @@ class Observable<T> {
     //If the value was set, run the observer function
     var value: T {
         didSet {
-            print("DIDSET")
             observer?(value)
         }
     }

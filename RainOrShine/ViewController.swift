@@ -45,7 +45,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 if ($0 != nil) {
-                    self.locationImageView.image = LocationAPIService.currentPlace?.generalLocalePhotoArray[($0)!]
+                    if (0 ..< ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)!) ~= $0!) {
+                        self.locationImageView.image = LocationAPIService.currentPlace?.generalLocalePhotoArray[($0)!]
+                    }
+                    
                 }
             }
         }
@@ -86,31 +89,41 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
         print("In func respondToSwipeGesture")
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.left:
-                print("Swiped left")
-                advancePageControl(forward: true)
-            case UISwipeGestureRecognizerDirection.right:
-                print("Swiped right")
-                advancePageControl(forward: false)
-            default:
-                break
+            //If there are photos to swipe through, then allow swiping
+            if (LocationAPIService.currentPlace?.generalLocalePhotoArray != nil) {
+                switch swipeGesture.direction {
+                case UISwipeGestureRecognizerDirection.left:
+                    advancePageControl(forward: true)
+                case UISwipeGestureRecognizerDirection.right:
+                    advancePageControl(forward: false)
+                default:
+                    break
+                }
             }
         }
     }
     
     
+    //Affect the imagePageControl when swiped
     func advancePageControl(forward: Bool) {
         if (forward) {
-            if (imagePageControl.currentPage < imagePageControl.numberOfPages) {
+            if (imagePageControl.currentPage < imagePageControl.numberOfPages - 1) {
                 imagePageControl.currentPage += 1
+                if (LocationAPIService.currentPlaceImageIndex != nil) {
+                    LocationAPIService.currentPlaceImageIndex! += 1
+                }
             }
         }
         else {
+            print("imagePageControl.currentPage is \(imagePageControl.currentPage)")
             if (imagePageControl.currentPage > 0) {
                 imagePageControl.currentPage -= 1
+                if (LocationAPIService.currentPlaceImageIndex != nil) {
+                    LocationAPIService.currentPlaceImageIndex! -= 1
+                }
             }
         }
+        self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: LocationAPIService.currentPlaceImageIndex!)
     }
     
     
@@ -165,7 +178,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             if (imageSet == true) {
-                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: LocationAPIService.currentPlaceImageIndex)
+                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
+                
+                LocationAPIService.currentPlaceImageIndex = 0
+                
+                if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! == 0) {
+                    self.imagePageControl.isHidden = true
+                }
+                else {
+                    self.imagePageControl.numberOfPages = (LocationAPIService.currentPlace?.generalLocalePhotoArray.count)!
+                    self.imagePageControl.isHidden = false
+                }
             }
         }
         
@@ -175,6 +198,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 self.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
             }
         }
+        
         self.viewModel?.updatePlace(newPlace: LocationAPIService.currentPlace)
     }
 }

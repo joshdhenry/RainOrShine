@@ -204,7 +204,7 @@ class LocationAPIService {
     
     //Retrieve image based on place metadata
     class private func setImagesArrayForMetadata(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
-        print("In function setImagesArrayForMetadata...(#4)")
+        //print("In function setImagesArrayForMetadata...(#4)")
 
         var imageArrayFindComplete: Bool = false
         if (LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray != nil) {
@@ -228,9 +228,7 @@ class LocationAPIService {
                         }
                         completion(imageArrayFindComplete)
                     }
-                    //print("A")
                 }
-                //print("B")
             }
         }
         else {
@@ -254,9 +252,7 @@ class LocationAPIService {
                     print("Error loading image for metadata: \(error.localizedDescription)")
                     completion(true)
                     return
-                } else {
-                    print("Loading image from photometadata...")
-                    
+                } else {                    
                     LocationAPIService.currentPlace?.generalLocalePhotoArray.append(photo)
                     
                     imageFindComplete = true
