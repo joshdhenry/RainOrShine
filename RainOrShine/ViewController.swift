@@ -66,16 +66,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         viewModel = WeatherViewModel()
         
-        //self.currentWeatherView.backgroundColor = UIColor(white: 1, alpha: 0.5)
-        
-        
-        /*
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = currentWeatherView.bounds
-        locationImageView.addSubview(blurEffectView)*/
-        
         createGestureRecognizers()
+        /*
+        currentWeatherView.layer.cornerRadius = 10.0
+        currentWeatherView.clipsToBounds = true
+ */
     }
     
     

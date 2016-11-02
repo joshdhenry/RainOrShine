@@ -45,7 +45,7 @@
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cGs-9B-fEu"/>
                                 </connections>
                             </button>
-                            <visualEffectView opaque="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-SK-P5A" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-SK-P5A" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
                                 <rect key="frame" x="159" y="73" width="200" height="200"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="anu-pC-58L">
                                     <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>

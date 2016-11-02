@@ -14,19 +14,21 @@ class WeatherViewTemperatureLabel: UILabel {
         super.init(coder: aDecoder)
     }
 
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setLabelStyle()
     }
     
+    
     override func awakeFromNib() {
         setLabelStyle()
     }
+    
     
     func setLabelStyle() {
         self.layer.borderColor = UIColor.green.cgColor
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 10
-        self.layer.zPosition = 999
     }
 }
