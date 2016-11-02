@@ -15,6 +15,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var locationImageView: UIImageView!
     @IBOutlet weak var currentWeatherView: WeatherView!
  
+    @IBOutlet weak var imagePageControl: UIPageControl!
+    
+    //@IBOutlet var imageSwipeRightGestureRecognizer: UISwipeGestureRecognizer!
+    //@IBOutlet var imageSwipeLeftGestureRecognizer: UISwipeGestureRecognizer!
+    
+    
     let locationManager = CLLocationManager()
     
     var placesClient: GMSPlacesClient?
@@ -59,7 +65,47 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         displayLocationSearchBar()
         
         viewModel = WeatherViewModel()
+        
+        //self.currentWeatherView.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        
+        
+        /*
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = currentWeatherView.bounds
+        locationImageView.addSubview(blurEffectView)*/
+        
+        createGestureRecognizers()
     }
+    
+    
+    func createGestureRecognizers() {
+        print("In func createGestureRecognizers...")
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.view.addGestureRecognizer(swipeLeft)
+    }
+
+
+    func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
+        print("In func respondToSwipeGesture")
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swiped right")
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped left")
+            default:
+                break
+            }
+        }
+    }
+    
     
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -109,6 +155,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //Change the place that will be displayed in this view controller
     func changePlace() {
         print("In func changePlace...")
+        
+        imagePageControl.currentPage = 3
+        
+        /*let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = currentWeatherView.bounds
+        blurEffectView.center = currentWeatherView.center
+        locationImageView.addSubview(blurEffectView)*/
+        
+       // print("currentWeatherView.bounds is \(currentWeatherView.bounds)")
+        //print(blurEffectView.bounds)
         
         LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             if (imageSet == true) {

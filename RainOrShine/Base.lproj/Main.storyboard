@@ -21,36 +21,66 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OzT-de-Pjx">
-                                <rect key="frame" x="14" y="65" width="345" height="89"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FA0-yK-aiw">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <gestureRecognizers/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OzT-de-Pjx">
+                                <rect key="frame" x="15" y="73" width="136" height="89"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="136" id="aV2-rL-9OC"/>
+                                    <constraint firstAttribute="height" constant="89" id="zuE-ds-SsN"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avj-AZ-VWR">
-                                <rect key="frame" x="16" y="162" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avj-AZ-VWR">
+                                <rect key="frame" x="86" y="629" width="203" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="PWI-HU-g8O"/>
+                                </constraints>
                                 <state key="normal" title="Get weather from my location"/>
                                 <connections>
                                     <action selector="buttonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cGs-9B-fEu"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FA0-yK-aiw">
-                                <rect key="frame" x="16" y="200" width="343" height="343"/>
+                            <visualEffectView opaque="NO" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-SK-P5A" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
+                                <rect key="frame" x="159" y="73" width="200" height="200"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="anu-pC-58L">
+                                    <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="IEa-Rs-Xkc"/>
+                                    <constraint firstAttribute="height" constant="200" id="ctM-w3-rIk"/>
+                                </constraints>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0Gd-bT-QIt">
+                                <rect key="frame" x="168" y="584" width="39" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vIv-sP-0nS" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
-                                <rect key="frame" x="87" y="271" width="200" height="200"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                                <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="Kl4-SK-P5A" secondAttribute="bottom" constant="-253" id="2jR-Mw-2er"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="OzT-de-Pjx" secondAttribute="bottom" constant="-142" id="Ah2-vg-QnL"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="DF0-oe-c86"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="K4g-Ev-WJi"/>
+                            <constraint firstItem="avj-AZ-VWR" firstAttribute="top" secondItem="FA0-yK-aiw" secondAttribute="bottom" constant="-38" id="K6G-eb-Vne"/>
+                            <constraint firstItem="avj-AZ-VWR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ifq-Al-LBT"/>
+                            <constraint firstItem="Kl4-SK-P5A" firstAttribute="leading" secondItem="FA0-yK-aiw" secondAttribute="trailing" constant="-216" id="jqD-Lc-zYE"/>
+                            <constraint firstAttribute="trailing" secondItem="FA0-yK-aiw" secondAttribute="trailing" id="kJm-sN-OFc"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="m1c-GD-ebD"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="OzT-de-Pjx" secondAttribute="trailing" constant="-151" id="w1c-cm-Mxu"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="addressLabel" destination="OzT-de-Pjx" id="GnJ-Ti-3eS"/>
-                        <outlet property="currentWeatherView" destination="vIv-sP-0nS" id="3Uh-G2-1DW"/>
+                        <outlet property="currentWeatherView" destination="Kl4-SK-P5A" id="rbu-Ow-m0r"/>
+                        <outlet property="imagePageControl" destination="0Gd-bT-QIt" id="d9P-H2-cm2"/>
                         <outlet property="locationImageView" destination="FA0-yK-aiw" id="jc3-dV-bca"/>
                         <outlet property="searchDisplayController" destination="RZq-xM-vUq" id="csA-QN-hQ0"/>
                     </connections>

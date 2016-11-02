@@ -18,7 +18,6 @@ class WeatherAPIService {
     
     class public func setWeatherClient() {
         WeatherAPIService.weatherClient = DarkSkyClient(apiKey: WeatherAPIService.keys["DarkSkyAPIKey"] as! String)
-
     }
     
     
