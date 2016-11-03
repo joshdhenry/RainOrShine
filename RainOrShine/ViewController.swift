@@ -23,6 +23,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var resultView: UITextView?
     
     
+    
     var viewModel: WeatherViewModel? {
         didSet {            
             viewModel?.currentForecast.observe { [unowned self] in
@@ -39,7 +40,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
             
             viewModel?.currentPlace.observe { [unowned self] in
-                self.addressLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+                if ($0 != nil) {
+                    self.addressLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+                }
             }
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
@@ -152,8 +155,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         let screenWidth = UIScreen.main.bounds.width
         let subView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidth, height: 45))
+        subView.accessibilityIdentifier = "Location Search Bar"
         subView.addSubview((searchController?.searchBar)!)
         self.view.addSubview(subView)
+        
         searchController?.searchBar.sizeToFit()
         
         //When UISearchController presents the results view, present it in this view controller, not one further up the chain.

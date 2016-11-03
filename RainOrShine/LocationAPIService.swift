@@ -51,9 +51,9 @@ class LocationAPIService {
             
             if let placeLikelihoods = placeLikelihoods {
                 let firstPlaceFound = placeLikelihoods.likelihoods.first?.place
-                
-                LocationAPIService.currentPlace = Place()
-                LocationAPIService.currentPlace?.gmsPlace = firstPlaceFound
+
+                LocationAPIService.currentPlace = Place(place: firstPlaceFound)
+
                 
                 placeFindComplete = true
                 

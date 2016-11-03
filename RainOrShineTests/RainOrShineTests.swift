@@ -7,34 +7,19 @@
 //
 
 import XCTest
-import CoreLocation
-import UIKit
+import GooglePlaces
+import ForecastIO
 
 @testable import RainOrShine
+//@testable import GooglePlaces
+//@testable import GoogleMapsBase
 
-class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
-    
+class RainOrShineTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        //let locationManager = CLLocationManager()
-        //locationManager.delegate = self
-        //locationManager.requestWhenInUseAuthorization()
-        
     }
-    
-    /*
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("Authorization Status Changed to \(status.rawValue)")
-        switch status {
-        case .authorized, .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
-        default:
-            locationManager.stopUpdatingLocation()
-        }
-    }*/
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
@@ -54,73 +39,93 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     }
     
     
-    
-    func testsetCurrentLocationPlace() {
+    func testUpdateForecast() {
+        let weatherViewModel: WeatherViewModel = WeatherViewModel()
+        let jsonString: String = "{\"latitude\":12,\"longitude\":12,\"timezone\":\"Etc/GMT\",\"offset\":0}"
+        let jsonDictionary = convertStringToDictionary(text: jsonString)
         
-                
-        
-        //LocationAPIService.setAPIKeys()
-        
-        //LocationAPIService.setCurrentLocationPlace() { (locationFindComplete) -> () in
-            //if (locationFindComplete == true) {
-                //XCTAssertTrue(locationFindComplete, "LocationAPIService.testsetCurrentLocationPlace never completed.")
+        if jsonDictionary != nil {
+            let forecast = Forecast(fromJSON: jsonDictionary as! NSDictionary)
             
-            //}
-        //}
-    }
- 
-    
-    /*
-    func testSetPhotoOfGeneralLocale() {
-        locationAPIService?.setCurrentLocationPlace() { (locationFound) -> () in
-            if (locationFound == true) {
-                let place = self.locationAPIService?.currentPlace
-                
-                
-            }
+            weatherViewModel.updateForecast(newForecast: forecast)
+            
+            XCTAssertEqual(weatherViewModel.currentForecast.value?.latitude, forecast.latitude, "weatherViewModel.updateForecast did not correctly update weatherViewModel.currentForecast...")
         }
-    }*/
-    
-    /*
-    func testA() {
-        let vc = ViewController()
-        
-        var locationAPIService: LocationAPIService?
-        LocationAPIService.setAPIKeys()
-        locationAPIService = LocationAPIService()
-        
-        locationAPIService?.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
-            if (isLocationFound == true) {
-                vc.changePlace(place: locationPlace)
-            }
+        //Else the jsonDictionary is nil.  Fail to indicate we have a problem
+        else {
+            XCTAssert(false)
         }
     }
- */
     
-  /*
-    func testWeatherViewModel() {
-        let viewController = UIViewController() as! ViewController
-        
-        LocationAPIService.setCurrentLocationPlace() { (currentLocationFound) -> () in
-            if (currentLocationFound) {
-                
-                let originalValue = LocationAPIService.currentPlace
-                
-                print("originalValue - should be nil - It is \(originalValue)")
-
-                
-                let place = LocationAPIService.currentPlace
-                
-                
-                viewController.viewModel?.updatePlace(newPlace: place)
-                
-                let newValue = LocationAPIService.currentPlace
-                print("newValue - should not be nil - It is \(newValue)")
-
-                XCTAssert(newValue != nil)
+    
+    //This function is used by testUpdateForecast to create a mock JSON from a string
+    func convertStringToDictionary(text: String) -> [String:AnyObject]? {
+        if let data = text.data(using: String.Encoding.utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject]
+            } catch let error as NSError {
+                print(error)
             }
         }
+        return nil
     }
-    */
+    
+    
+    //Test the updatePlace method by calling it with an argument of a place with a test image.  If the value changes in the view model, the updatePlace works correctly.
+    func testUpdatePlace() {
+        let weatherViewModel: WeatherViewModel = WeatherViewModel()
+        
+        let newPlace: Place = Place()
+        let testImage = UIImage(named: "TestImage")
+        newPlace.generalLocalePhotoArray.append(testImage)
+        
+        weatherViewModel.updatePlace(newPlace: newPlace)
+        
+        XCTAssertEqual(weatherViewModel.currentPlace.value?.generalLocalePhotoArray[0], newPlace.generalLocalePhotoArray[0], "weatherViewModel.updatePlace did not correctly update weatherViewModel.currentPlace...")
+    }
+    
+    
+    func testUpdatePlaceImageIndex() {
+        let weatherViewModel: WeatherViewModel = WeatherViewModel()
+        
+        let newPlaceImageIndex = 123
+        
+        weatherViewModel.updatePlaceImageIndex(newPlaceImageIndex: newPlaceImageIndex)
+        
+        XCTAssertEqual(weatherViewModel.currentPlaceImageIndex.value, newPlaceImageIndex, "weatherViewModel.updatePlaceImageIndex did not correctly update weatherViewModel.currentPlaceImageIndex...")
+    }
+    
+    
+    //Test to make sure that createGestureRecognizer creates and attaches to the view in ViewController
+    func testCreateGestureRecognizers() {
+        let viewController = ViewController()
+        var numOfGestureRecognizers: Int = 0
+        
+        if let gestureRecognizers = viewController.view.gestureRecognizers {
+            for recognizer in gestureRecognizers {
+                if let _ = recognizer as? UISwipeGestureRecognizer {
+                    numOfGestureRecognizers += 1
+                }
+            }
+        }
+        
+        XCTAssertEqual(numOfGestureRecognizers, 2, "Not all gesture recognizers were successfully added to ViewController...")
+    }
+    
+    
+    //SHOULD THIS BE IN UI TESTS?
+    //Test to make sure that viewController.displayLocationSearchBar adds the subview to the view
+    func testDisplayLocationSearchBar() {
+        let viewController = ViewController()
+        var searchBarFound: Bool = false
+        
+        for view in viewController.view.subviews {
+            if (view.accessibilityIdentifier == "Location Search Bar") {
+                searchBarFound = true
+            }
+        }
+        
+        XCTAssertTrue(searchBarFound, "viewController.displayLocationSearchBar did not correctly add the search bar to the view...")
+    }
     
 }

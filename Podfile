@@ -10,7 +10,7 @@ target 'RainOrShine' do
 end
 
 target 'RainOrShineTests' do
-
+    pod 'GooglePlaces'
 end
 
 target 'RainOrShineUITests' do
