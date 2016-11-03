@@ -16,6 +16,9 @@ class WeatherAPIService {
     static var currentWeatherForecast: Forecast?
     
     
+    //Private initializer prevents any outside code from using the default '()' initializer for this class, which could create duplicates of LocationAPIService
+    private init() {}
+    
     class public func setWeatherClient() {
         WeatherAPIService.weatherClient = DarkSkyClient(apiKey: WeatherAPIService.keys["DarkSkyAPIKey"] as! String)
     }

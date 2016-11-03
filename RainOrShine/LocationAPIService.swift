@@ -11,17 +11,18 @@ import GooglePlaces
 import SwiftyJSON
 
 class LocationAPIService {
+    
     static private var keys: NSDictionary = NSDictionary()
     static private var baseURL: String = "https://maps.googleapis.com/maps/api/place/"
     static private var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
     
     static var currentPlace: Place?
     
-    static var placeIDOfGeneralLocale: String?
-    static var generalLocaleQueryString: String?
-    
+    static var placeIDOfGeneralLocale: String?    
     static var currentPlaceImageIndex: Int?
-
+    
+    //Private initializer prevents any outside code from using the default '()' initializer for this class, which could create duplicates of LocationAPIService
+    private init() {}
     
     //Load the Google Places API keys from APIKeys.plist
     class public func setAPIKeys() {
@@ -68,11 +69,10 @@ class LocationAPIService {
     //This method finds a photo of the general locale
     class public func setPhotoOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
         print("In function setPhotoOfGeneralLocale...")
-        
-        LocationAPIService.setGeneralLocaleString()
+        let generalLocaleString: String? = LocationAPIService.currentPlace?.getGeneralLocaleString()
         
         //Get the place ID of the general area so that we can grab an image of the city
-        LocationAPIService.setPlaceIDOfGeneralLocale()
+        LocationAPIService.setPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
 
         if (LocationAPIService.placeIDOfGeneralLocale != nil) {
             LocationAPIService.setPhotoMetaData() { (photoMetaDataFound) -> () in
@@ -95,46 +95,14 @@ class LocationAPIService {
     }
     
     
-    //This method builds a string of the general locality of the place, which will be used to query a photo of the general locale
-    class private func setGeneralLocaleString() {
-        print("In function setGeneralLocaleString... (#1)")
-
-        var queryString: String = String()
-        
-        for addressComponent in (LocationAPIService.currentPlace?.gmsPlace?.addressComponents)! {
-            
-            //print(addressComponent.type)
-            //print(addressComponent.name)
-            
-            switch (addressComponent.type) {
-                //case "sublocality_level_1":
-            //    queryString += thisType.name
-            case "locality":
-                queryString += addressComponent.name
-            case "administrative_area_level_1":
-                queryString += "+" + addressComponent.name
-            case "country":
-                queryString += "+" + addressComponent.name
-            default:
-                break
-            }
-        }
-        
-        //Replace any spaces in the URL with "+"
-        queryString = queryString.replacingOccurrences(of: " ", with: "+")
-        
-        LocationAPIService.generalLocaleQueryString = queryString
-    }
-    
-    
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
-    class private func setPlaceIDOfGeneralLocale() {
+    class private func setPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) {
         print("In function getPlaceIDOfGeneralLocale...(#2)")
 
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
         
-        var placeTextSearchURL: String = LocationAPIService.baseURL + "textsearch/json?query=" + LocationAPIService.generalLocaleQueryString! + "&key=" + (LocationAPIService.keys["GooglePlacesAPIKeyWeb"] as! String)
+        var placeTextSearchURL: String = LocationAPIService.baseURL + "textsearch/json?query=" + generalLocaleQueryString! + "&key=" + (LocationAPIService.keys["GooglePlacesAPIKeyWeb"] as! String)
 
         placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         

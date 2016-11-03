@@ -16,7 +16,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var currentWeatherView: WeatherView!
     @IBOutlet weak var imagePageControl: UIPageControl!
     
-    
     let locationManager = CLLocationManager()
     
     var searchController: UISearchController?
@@ -69,7 +68,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         viewModel = WeatherViewModel()
         
-        createGestureRecognizers()
+        createGestureRecognizers()        
     }
     
     

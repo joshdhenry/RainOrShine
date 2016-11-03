@@ -8,25 +8,33 @@
 
 import XCTest
 import CoreLocation
+import UIKit
 
 @testable import RainOrShine
 
 class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     
-    //var locationAPIService: LocationAPIService?
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
         //let locationManager = CLLocationManager()
-        //locationAPIService = LocationAPIService()
-        /*
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationAPIService?.setAPIKeys()
-         */
+        //locationManager.delegate = self
+        //locationManager.requestWhenInUseAuthorization()
+        
     }
+    
+    /*
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("Authorization Status Changed to \(status.rawValue)")
+        switch status {
+        case .authorized, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+        default:
+            locationManager.stopUpdatingLocation()
+        }
+    }*/
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
@@ -46,16 +54,21 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     }
     
     
-    /*
+    
     func testsetCurrentLocationPlace() {
-        locationAPIService?.setCurrentLocationPlace() { (locationFound) -> () in
-            if (locationFound == true) {
-                XCTA
+        
+                
+        
+        //LocationAPIService.setAPIKeys()
+        
+        //LocationAPIService.setCurrentLocationPlace() { (locationFindComplete) -> () in
+            //if (locationFindComplete == true) {
+                //XCTAssertTrue(locationFindComplete, "LocationAPIService.testsetCurrentLocationPlace never completed.")
             
-            }
-        }
+            //}
+        //}
     }
- */
+ 
     
     /*
     func testSetPhotoOfGeneralLocale() {
@@ -84,5 +97,30 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     }
  */
     
+  /*
+    func testWeatherViewModel() {
+        let viewController = UIViewController() as! ViewController
+        
+        LocationAPIService.setCurrentLocationPlace() { (currentLocationFound) -> () in
+            if (currentLocationFound) {
+                
+                let originalValue = LocationAPIService.currentPlace
+                
+                print("originalValue - should be nil - It is \(originalValue)")
+
+                
+                let place = LocationAPIService.currentPlace
+                
+                
+                viewController.viewModel?.updatePlace(newPlace: place)
+                
+                let newValue = LocationAPIService.currentPlace
+                print("newValue - should not be nil - It is \(newValue)")
+
+                XCTAssert(newValue != nil)
+            }
+        }
+    }
+    */
     
 }
