@@ -47,7 +47,7 @@ class WeatherAPIService {
                     print("summary is \(hourlyForecast.summary)")
                     print("-----")
                 }*/
-                print(currentForecast.currently?.temperature)
+                //print(currentForecast.currently?.temperature)
                 
                 WeatherAPIService.currentWeatherForecast = currentForecast
             case .failure(let error):
@@ -55,7 +55,7 @@ class WeatherAPIService {
                 print("Error retrieving current weather forecast - \(error)")
             }
             completion(true)
-            print("setCurrentWeatherForecast completed...")
+            //print("setCurrentWeatherForecast completed...")
         }
     }
     

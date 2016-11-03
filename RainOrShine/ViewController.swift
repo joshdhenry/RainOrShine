@@ -47,10 +47,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 if ($0 != nil) {
+                    //This location has images
                     if (0 ..< ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)!) ~= $0!) {
                         self.locationImageView.image = LocationAPIService.currentPlace?.generalLocalePhotoArray[($0)!]
+                        
+                        self.imagePageControl.isHidden = false
+                        self.imagePageControl.currentPage = $0!
                     }
-                    
+                }
+                else {
+                    //No images
+                    self.imagePageControl.isHidden = true
+                    self.locationImageView.image = nil
+                    self.imagePageControl.currentPage = 0
                 }
             }
         }
@@ -76,7 +85,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     func createGestureRecognizers() {
-        print("In func createGestureRecognizers...")
+        //print("In func createGestureRecognizers...")
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -92,40 +101,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         print("In func respondToSwipeGesture")
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             //If there are photos to swipe through, then allow swiping
-            if (LocationAPIService.currentPlace?.generalLocalePhotoArray != nil) {
-                switch swipeGesture.direction {
-                case UISwipeGestureRecognizerDirection.left:
-                    advancePageControl(forward: true)
-                case UISwipeGestureRecognizerDirection.right:
-                    advancePageControl(forward: false)
-                default:
-                    break
-                }
+            if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! > 0) {
+                let currentPage = advancePageControl(direction: swipeGesture.direction, currentPage: imagePageControl.currentPage, totalNumOfPages: imagePageControl.numberOfPages)
+                viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
             }
         }
     }
     
     
     //Affect the imagePageControl when swiped
-    func advancePageControl(forward: Bool) {
-        if (forward) {
-            if (imagePageControl.currentPage < imagePageControl.numberOfPages - 1) {
-                imagePageControl.currentPage += 1
-                if (LocationAPIService.currentPlaceImageIndex != nil) {
-                    LocationAPIService.currentPlaceImageIndex! += 1
-                }
+    func advancePageControl(direction: UISwipeGestureRecognizerDirection, currentPage: Int, totalNumOfPages: Int) -> Int {
+        if (direction == UISwipeGestureRecognizerDirection.left) {
+            if (currentPage < totalNumOfPages) {
+                return currentPage + 1
             }
         }
         else {
-            print("imagePageControl.currentPage is \(imagePageControl.currentPage)")
-            if (imagePageControl.currentPage > 0) {
-                imagePageControl.currentPage -= 1
-                if (LocationAPIService.currentPlaceImageIndex != nil) {
-                    LocationAPIService.currentPlaceImageIndex! -= 1
-                }
+            if (currentPage > 0) {
+                return currentPage - 1
             }
         }
-        self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: LocationAPIService.currentPlaceImageIndex!)
+        return 0
     }
     
     
@@ -180,14 +176,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func changePlace() {
         print("In func changePlace...")
         
+        self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
+        LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
+        LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
+        
         LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
+            print("IMAGE SET == \(imageSet)")
             if (imageSet == true) {
+                //Reset page control
                 self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
                 
-                LocationAPIService.currentPlaceImageIndex = 0
-                
+                //Adjust the page control according to the newly loaded place
                 if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! == 0) {
                     self.imagePageControl.isHidden = true
+                    self.imagePageControl.numberOfPages = 0
                 }
                 else {
                     self.imagePageControl.numberOfPages = (LocationAPIService.currentPlace?.generalLocalePhotoArray.count)!
@@ -197,12 +199,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
         
         WeatherAPIService.setCurrentWeatherForecast(latitude: (LocationAPIService.currentPlace?.gmsPlace?.coordinate.latitude)!, longitude: (LocationAPIService.currentPlace?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
-            print("forecastRetrieved...\(forecastRetrieved)")
             if (forecastRetrieved) {
                 self.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
             }
         }
-        
-        self.viewModel?.updatePlace(newPlace: LocationAPIService.currentPlace)
     }
 }
