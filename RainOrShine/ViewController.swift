@@ -77,18 +77,47 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         //print("In viewDidLoad...")
         
+        createRotationObserver()
+        createLocationSearchControllers()
+        deviceDidRotate()
+        createGestureRecognizers()
+        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
-        LocationAPIService.setAPIKeys()
-        WeatherAPIService.setAPIKeys()
+        setAllAPIKeys()
+        
         WeatherAPIService.setWeatherClient()
 
-        displayLocationSearchBar()
-        
         viewModel = WeatherViewModel()
+    }
+    
+    
+    //Set all API keys for all APIs being used
+    func setAllAPIKeys() {
+        LocationAPIService.setAPIKeys()
+        WeatherAPIService.setAPIKeys()
+    }
+    
+    
+    //Begin monitoring device orientation.  If rotated, call deviceDidRotate()
+    func createRotationObserver() {
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.deviceDidRotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
+    
+    //Initialize and configure the Google Places search controllers
+    func createLocationSearchControllers() {
+        resultsViewController = GMSAutocompleteResultsViewController()
+        resultsViewController?.delegate = self
         
-        createGestureRecognizers()        
+        let resultsFilter: GMSAutocompleteFilter = GMSAutocompleteFilter()
+        resultsFilter.type = .city
+        resultsViewController?.autocompleteFilter = resultsFilter
+        
+        searchController = UISearchController(searchResultsController: resultsViewController)
+        searchController?.searchResultsUpdater = resultsViewController
     }
     
     
@@ -146,23 +175,49 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+
+    //If the device is rotated, display the location search bar appropriately
+    func deviceDidRotate() {
+        //print("In func deviceDidRotate()...")
+        
+        if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
+            displayLocationSearchBar(orientation: UIDeviceOrientation.landscapeRight, isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
+        }
+        else {
+            displayLocationSearchBar(orientation: .portrait, isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
+        }
+    }
+    
+    
+    //Remove the Google Place search controllers from the parent view
+    func removeLocationSearchControllers() {
+        resultsViewController?.removeFromParentViewController()
+        searchController?.removeFromParentViewController()
+    }
+    
     
     //Show the location search bar at the top of the screen
-    func displayLocationSearchBar() {
-        resultsViewController = GMSAutocompleteResultsViewController()
-        resultsViewController?.delegate = self
-        
-        let resultsFilter: GMSAutocompleteFilter = GMSAutocompleteFilter()
-        resultsFilter.type = .city
-        resultsViewController?.autocompleteFilter = resultsFilter
-        
-        searchController = UISearchController(searchResultsController: resultsViewController)
-        searchController?.searchResultsUpdater = resultsViewController
-        
+    func displayLocationSearchBar(orientation: UIDeviceOrientation, isStatusBarHidden: Bool) {
         let screenWidth = UIScreen.main.bounds.width
-        let subView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidth, height: 45))
+        var yPosition: CGFloat = 0
+        
+        removeLocationSearchControllers()
+        
+        //If portrait, account for the status bar with height of 20 pixels
+        if (orientation == .portrait) {
+            yPosition = 20
+        }
+        //On some devices, such as iPhone 6, status bar is hidden in landscape.  On other devices, such as iPad Retina, status bar isn't hidden.
+        else {
+            if (isStatusBarHidden == false) {
+                yPosition = 20
+            }
+        }
+        
+        let subView = UIView(frame: CGRect(x: 0, y: yPosition, width: screenWidth, height: 45))
         subView.accessibilityIdentifier = "Location Search Bar"
         subView.addSubview((searchController?.searchBar)!)
+        
         self.view.addSubview(subView)
         
         searchController?.searchBar.sizeToFit()
@@ -173,7 +228,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     //If the GPS button is tapped, show weather for user's current location
-    @IBAction func buttonTapped(_ sender: AnyObject) {
+    @IBAction func currentLocationButtonTapped(_ sender: Any) {
         LocationAPIService.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound == true) {
                 self.viewModel?.updatePlace(newPlace: locationPlace)

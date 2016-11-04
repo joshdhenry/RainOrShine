@@ -68,10 +68,8 @@ class LocationAPIService {
     //This method finds a photo of the general locale
     class public func setPhotoOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
         print("In function setPhotoOfGeneralLocale...")
-        
-        var generalLocaleString: String = ""
-        
-        generalLocaleString = (LocationAPIService.currentPlace?.getGeneralLocaleString())!
+                
+        let generalLocaleString: String = (LocationAPIService.currentPlace?.getGeneralLocaleString() ?? "")
                 
         //Get the place ID of the general area so that we can grab an image of the city
         LocationAPIService.setPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)

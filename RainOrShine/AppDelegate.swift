@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let keys = NSDictionary(contentsOfFile: path)
             GMSPlacesClient.provideAPIKey(keys?["GooglePlacesAPIKeyiOS"] as! String)
         }
+                
         return true
     }
 
