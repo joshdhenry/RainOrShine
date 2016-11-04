@@ -28,7 +28,7 @@ class Place {
     public func getGeneralLocaleString() -> String {
         print("In function setGeneralLocaleString... (#1)")
         
-        var queryString: String = String()
+        var queryString: String = ""
         
         for addressComponent in (LocationAPIService.currentPlace?.gmsPlace?.addressComponents)! {
             
@@ -52,7 +52,6 @@ class Place {
         //Replace any spaces in the URL with "+"
         queryString = queryString.replacingOccurrences(of: " ", with: "+")
         
-        //LocationAPIService.generalLocaleQueryString = queryString
         return queryString
     }
 }

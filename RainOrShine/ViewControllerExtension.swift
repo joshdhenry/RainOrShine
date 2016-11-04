@@ -15,9 +15,12 @@ extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
         
-        LocationAPIService.currentPlace = Place()
-        LocationAPIService.currentPlace?.gmsPlace = place
+        let searchedPlace = Place(place: place)
         
+        self.viewModel?.updatePlace(newPlace: searchedPlace)
+        
+        LocationAPIService.currentPlace = searchedPlace
+
         self.changePlace()
     }
     

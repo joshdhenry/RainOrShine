@@ -19,8 +19,11 @@ class LocationAPIService {
     static var currentPlace: Place?
     
     static var placeIDOfGeneralLocale: String?    
-    static var currentPlaceImageIndex: Int?
     
+    
+    //static var currentPlaceImageIndex: Int?
+    static var currentPlaceImageIndex: Int = 0
+
     
     //Private initializer prevents any outside code from using the default '()' initializer for this class, which could create duplicates of LocationAPIService
     private init() {}
@@ -34,7 +37,7 @@ class LocationAPIService {
     
     
     //This method gets the current location of the user and sets currentPlace
-    class public func setCurrentLocationPlace(completion: @escaping (_ result: Bool)->()) {
+    class public func setCurrentLocationPlace(completion: @escaping (_ result: Bool, _ locationPlace: Place?)->()) {
         print("In function setCurrentLocationPlace...")
 
         var placeFindComplete: Bool = false
@@ -42,26 +45,22 @@ class LocationAPIService {
         LocationAPIService.placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
             guard error == nil else {
                 print("Current Place error: \(error!.localizedDescription)")
-                LocationAPIService.currentPlace = nil
                 
-                completion(true)
-
+                completion(true, nil)
+                
                 return
             }
             
             if let placeLikelihoods = placeLikelihoods {
                 let firstPlaceFound = placeLikelihoods.likelihoods.first?.place
-
-                LocationAPIService.currentPlace = Place(place: firstPlaceFound)
-
                 
                 placeFindComplete = true
                 
-                completion(true)
+                completion(true, Place(place: firstPlaceFound))
             }
         })
         if (placeFindComplete == false) {
-            completion(false)
+            completion(false, nil)
         }
     }
     
@@ -70,8 +69,10 @@ class LocationAPIService {
     class public func setPhotoOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
         print("In function setPhotoOfGeneralLocale...")
         
-        let generalLocaleString: String? = LocationAPIService.currentPlace?.getGeneralLocaleString()
+        var generalLocaleString: String = ""
         
+        generalLocaleString = (LocationAPIService.currentPlace?.getGeneralLocaleString())!
+                
         //Get the place ID of the general area so that we can grab an image of the city
         LocationAPIService.setPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
 
@@ -174,16 +175,10 @@ class LocationAPIService {
 
         var imageArrayFindComplete: Bool = false
             if ((LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.count)! > 0) {
-                var isIndexSet: Bool = false
                 
                 for photoMetaDataIndex in 0..<(LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray)!.count {
                     setImageForMetaData(index: photoMetaDataIndex, size: size, scale: scale) { imageSet -> () in
                         if (imageSet) {
-                            //If this is the first photo successfully retrieved, set the currentPlaceImageIndex to 0 instead of nil
-                            if (!isIndexSet) {
-                                isIndexSet = true
-                            }
-                            
                             //If we are on the last element, mark completion as true
                             if (photoMetaDataIndex == (LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray)!.count - 1) {
                                 print("ON LAST ELEMENT in photo meta data array.  mark completion...")
@@ -200,7 +195,6 @@ class LocationAPIService {
             
                 imageArrayFindComplete = true
                 
-                //THIS LINE WAS THE MISSING LINK!!!!!!   BEFORE, IT WOULD GET TO THE PRINT STATEMENT ABOVE AND JUST CEASE, I GUESS BECAUSE IT WAS NEVER MARKED AS COMPLETE
                 completion(imageArrayFindComplete)
             }
         if (imageArrayFindComplete == false) {

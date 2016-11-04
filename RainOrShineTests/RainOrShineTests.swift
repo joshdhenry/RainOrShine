@@ -11,8 +11,6 @@ import GooglePlaces
 import ForecastIO
 
 @testable import RainOrShine
-//@testable import GooglePlaces
-//@testable import GoogleMapsBase
 
 class RainOrShineTests: XCTestCase {
     
@@ -99,11 +97,21 @@ class RainOrShineTests: XCTestCase {
     //Test to make sure that createGestureRecognizer creates and attaches to the view in ViewController
     func testCreateGestureRecognizers() {
         let viewController = ViewController()
-        var numOfGestureRecognizers: Int = 0
+        print("A")
         
-        if let gestureRecognizers = viewController.view.gestureRecognizers {
-            for recognizer in gestureRecognizers {
+        var numOfGestureRecognizers: Int = 0
+        print("B")
+        print(viewController.view.gestureRecognizers)
+        print("BB")
+        if (viewController.view.gestureRecognizers != nil) {
+            print("C")
+
+            for recognizer in viewController.view.gestureRecognizers! {
+                print("D")
+
                 if let _ = recognizer as? UISwipeGestureRecognizer {
+                    print("E")
+
                     numOfGestureRecognizers += 1
                 }
             }

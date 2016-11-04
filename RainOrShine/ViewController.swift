@@ -23,7 +23,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var resultView: UITextView?
     
     
-    
     var viewModel: WeatherViewModel? {
         didSet {            
             viewModel?.currentForecast.observe { [unowned self] in
@@ -46,17 +45,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
-                if ($0 != nil) {
-                    //This location has images
-                    if (0 ..< ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)!) ~= $0!) {
+                if (LocationAPIService.currentPlace != nil) {
+                    if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! > 0) {
                         self.locationImageView.image = LocationAPIService.currentPlace?.generalLocalePhotoArray[($0)!]
                         
                         self.imagePageControl.isHidden = false
                         self.imagePageControl.currentPage = $0!
                     }
+                    else {
+                        //No images
+                        print(self.imagePageControl.numberOfPages)
+                        self.imagePageControl.isHidden = true
+                        self.locationImageView.image = nil
+                        self.imagePageControl.currentPage = 0
+                    }
                 }
                 else {
-                    //No images
+                    //I DON'T KNOW WHY BUT MY TEST DOES NOT LIKE THIS, YET IN PRODUCTION IT WORKS FINE.
+                    //Place is nil.  App must be just starting
+                    print(self.imagePageControl.numberOfPages)
                     self.imagePageControl.isHidden = true
                     self.locationImageView.image = nil
                     self.imagePageControl.currentPage = 0
@@ -68,7 +75,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        //print("In viewDidLoad...")
+        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
@@ -111,17 +119,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //Affect the imagePageControl when swiped
     func advancePageControl(direction: UISwipeGestureRecognizerDirection, currentPage: Int, totalNumOfPages: Int) -> Int {
+        var newPage: Int = currentPage
+        
         if (direction == UISwipeGestureRecognizerDirection.left) {
-            if (currentPage < totalNumOfPages) {
-                return currentPage + 1
+            if (currentPage < totalNumOfPages - 1) {
+                newPage += 1
             }
         }
         else {
             if (currentPage > 0) {
-                return currentPage - 1
+                newPage -= 1
             }
         }
-        return 0
+        return newPage
     }
     
     
@@ -164,8 +174,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func buttonTapped(_ sender: AnyObject) {
-        LocationAPIService.setCurrentLocationPlace() { (isLocationFound) -> () in
+        LocationAPIService.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound == true) {
+                self.viewModel?.updatePlace(newPlace: locationPlace)
+                print("locationPlace is \(locationPlace?.gmsPlace?.addressComponents)")
+                LocationAPIService.currentPlace = locationPlace
+                
                 self.changePlace()
             }
         }
@@ -176,14 +190,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func changePlace() {
         print("In func changePlace...")
         
+        //Reset some values
         self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
         LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
         
+        //Get the photos of the general locale
         LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (imageSet) -> () in
             print("IMAGE SET == \(imageSet)")
             if (imageSet == true) {
-                //Reset page control
+                //Reset image page control
                 self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
                 
                 //Adjust the page control according to the newly loaded place
@@ -198,6 +214,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
         
+        //Get the weather forecast
         WeatherAPIService.setCurrentWeatherForecast(latitude: (LocationAPIService.currentPlace?.gmsPlace?.coordinate.latitude)!, longitude: (LocationAPIService.currentPlace?.gmsPlace?.coordinate.longitude)!) { (forecastRetrieved) -> () in
             if (forecastRetrieved) {
                 self.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
