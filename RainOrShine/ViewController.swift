@@ -11,10 +11,10 @@ import GooglePlaces
 import CoreLocation
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
-    @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var locationImageView: UIImageView!
     @IBOutlet weak var currentWeatherView: WeatherView!
     @IBOutlet weak var imagePageControl: UIPageControl!
+    @IBOutlet weak var locationView: LocationView!
     
     let locationManager = CLLocationManager()
     
@@ -40,7 +40,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             
             viewModel?.currentPlace.observe { [unowned self] in
                 if ($0 != nil) {
-                    self.addressLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+                    self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
                 }
             }
             
@@ -200,6 +200,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func displayLocationSearchBar(orientation: UIDeviceOrientation, isStatusBarHidden: Bool) {
         let screenWidth = UIScreen.main.bounds.width
         var yPosition: CGFloat = 0
+        let colorSchemeLightGray: Int = 0xf9f9f9
         
         removeLocationSearchControllers()
         
@@ -220,6 +221,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         self.view.addSubview(subView)
         
+        searchController?.searchBar.barTintColor = UIColor(netHex: colorSchemeLightGray)
         searchController?.searchBar.sizeToFit()
         
         //When UISearchController presents the results view, present it in this view controller, not one further up the chain.

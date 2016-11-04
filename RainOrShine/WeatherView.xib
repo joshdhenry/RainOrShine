@@ -32,10 +32,19 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Partly Cloudy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsK-Fj-OsB">
-                        <rect key="frame" x="11" y="107" width="114" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by Dark Sky" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4Z-Cz-VpZ">
+                        <rect key="frame" x="8" y="115" width="120" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="O9e-7V-sPQ"/>
+                            <constraint firstAttribute="height" constant="21" id="5f0-dM-AFt"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Partly Cloudy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsK-Fj-OsB">
+                        <rect key="frame" x="11" y="86" width="114" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="LNJ-bB-BSD"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -43,10 +52,13 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="qsK-Fj-OsB" secondAttribute="bottom" constant="8" id="691-QC-YIt"/>
+                    <constraint firstItem="P4Z-Cz-VpZ" firstAttribute="centerX" secondItem="QDU-yx-Ne7" secondAttribute="centerX" id="9gh-y5-ZE4"/>
                     <constraint firstItem="c60-pf-SdH" firstAttribute="top" secondItem="QDU-yx-Ne7" secondAttribute="top" constant="8" id="Ax8-lY-p3W"/>
-                    <constraint firstItem="qsK-Fj-OsB" firstAttribute="centerX" secondItem="QDU-yx-Ne7" secondAttribute="centerX" id="Mva-am-8gE"/>
+                    <constraint firstItem="P4Z-Cz-VpZ" firstAttribute="top" secondItem="qsK-Fj-OsB" secondAttribute="bottom" constant="8" id="WPC-zH-mUH"/>
+                    <constraint firstAttribute="trailing" secondItem="qsK-Fj-OsB" secondAttribute="trailing" constant="11" id="ZFy-iZ-IdY"/>
+                    <constraint firstAttribute="bottom" secondItem="P4Z-Cz-VpZ" secondAttribute="bottom" id="ggX-6Q-21F"/>
                     <constraint firstItem="c60-pf-SdH" firstAttribute="centerX" secondItem="QDU-yx-Ne7" secondAttribute="centerX" id="h4i-CU-ca5"/>
+                    <constraint firstItem="qsK-Fj-OsB" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leading" constant="11" id="zI6-Yg-vCY"/>
                 </constraints>
             </view>
             <vibrancyEffect>
