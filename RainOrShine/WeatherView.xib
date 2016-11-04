@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
             <connections>
+                <outlet property="summaryLabel" destination="qsK-Fj-OsB" id="8Ih-YX-coo"/>
                 <outlet property="temperatureLabel" destination="c60-pf-SdH" id="WrP-c7-M7n"/>
                 <outlet property="view" destination="QDU-yx-Ne7" id="3Nu-Ko-UTJ"/>
             </connections>

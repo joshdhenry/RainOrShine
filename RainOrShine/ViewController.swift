@@ -26,21 +26,42 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var viewModel: WeatherViewModel? {
         didSet {            
             viewModel?.currentForecast.observe { [unowned self] in
-                let unformattedTemperature = $0?.currently?.temperature
-                var formattedTemperature: String = String()
+             print("HEYYYY \($0)")
+                if ($0 != nil) {
+                    
 
-                if (unformattedTemperature != nil) {
-                    formattedTemperature = String(format: "%.0f", unformattedTemperature!)
+                    //TURN THIS INTO A METHOD.  MAYBE MAKE A TEMPERATURE CLASS/ STRUCT?
+                    let unformattedTemperature = $0?.currently?.temperature
+                    var formattedTemperature: String = String()
+                    
+                    if (unformattedTemperature != nil) {
+                        formattedTemperature = String(format: "%.0f", unformattedTemperature!)
+                    }
+                    
+                    let summaryString = $0?.currently?.summary
+                    print("ABOUT TO SET TEMP LABEL")
+                    //MOVE TEMPERATURE LABEL INTO WEATHER VIEW AND GET RID OF THE SEPARATE CLASS.  THEN I SHOULDN'T HAVE TO DO DISPATCHQUEUE.MAIN.ASYNC.
+                    DispatchQueue.main.async {
+                        self.currentWeatherView.temperatureLabel.text = formattedTemperature
+                        print("JUST SET TEMP LABEL...")
+                    }
+                    //LOOK AT SUMMARY LABEL FOR AN EXAMPLE OF WHAT I MEAN.
+                    self.currentWeatherView.summaryLabel.text = summaryString
+                    
+                    self.currentWeatherView.isHidden = false
                 }
-                
-                DispatchQueue.main.async {
-                    self.currentWeatherView.temperatureLabel.text = formattedTemperature
+                else {
+                    self.currentWeatherView.isHidden = true
                 }
             }
             
             viewModel?.currentPlace.observe { [unowned self] in
                 if ($0 != nil) {
+                    self.locationView.isHidden = false
                     self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+                }
+                else {
+                    self.locationView.isHidden = true
                 }
             }
             

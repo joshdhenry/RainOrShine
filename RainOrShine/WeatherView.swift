@@ -11,6 +11,7 @@ import UIKit
 class WeatherView: UIVisualEffectView {
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var temperatureLabel: WeatherViewTemperatureLabel!
+    @IBOutlet weak var summaryLabel: UILabel!
     
     
     required init?(coder aDecoder: NSCoder) {
