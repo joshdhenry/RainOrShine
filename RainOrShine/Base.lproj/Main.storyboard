@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FA0-yK-aiw">
-                                <rect key="frame" x="0.0" y="20" width="375" height="602"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="557"/>
                                 <gestureRecognizers/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-SK-P5A" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
@@ -60,6 +60,13 @@
                                 </constraints>
                                 <color key="pageIndicatorTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </pageControl>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H46-2Z-etc">
+                                <rect key="frame" x="0.0" y="20" width="375" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="iBJ-Oy-ae4"/>
+                                </constraints>
+                            </view>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lRn-hE-dqW" customClass="LocationView" customModule="RainOrShine" customModuleProvider="target">
                                 <rect key="frame" x="16" y="107" width="136" height="68"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="XGp-nS-lJ3">
@@ -67,33 +74,37 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="68" id="b9u-2L-gSS"/>
-                                    <constraint firstAttribute="width" constant="136" id="zpd-He-azp"/>
+                                    <constraint firstAttribute="width" constant="136" id="UA9-nu-lcs"/>
+                                    <constraint firstAttribute="height" constant="68" id="qht-cI-4Hs"/>
                                 </constraints>
                                 <blurEffect style="light"/>
                             </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="FA0-yK-aiw" secondAttribute="trailing" id="KQo-vi-yPz"/>
-                            <constraint firstItem="xVM-ae-RWw" firstAttribute="top" secondItem="FA0-yK-aiw" secondAttribute="bottom" constant="1" id="LtC-2d-Gay"/>
+                            <constraint firstItem="H46-2Z-etc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="40A-6j-6cN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="H46-2Z-etc" secondAttribute="trailing" constant="-16" id="5rd-Mf-72W"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="lRn-hE-dqW" secondAttribute="bottom" constant="-110" id="B3Y-gp-Vq8"/>
+                            <constraint firstItem="H46-2Z-etc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="G3y-5O-cAr"/>
+                            <constraint firstItem="xVM-ae-RWw" firstAttribute="top" secondItem="FA0-yK-aiw" secondAttribute="bottom" constant="1" id="NJO-QP-TQ1"/>
                             <constraint firstItem="xVM-ae-RWw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ndy-OJ-IPE"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="UIH-8o-wpm"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NrY-Qw-Fpa"/>
+                            <constraint firstAttribute="trailing" secondItem="FA0-yK-aiw" secondAttribute="trailing" id="R2s-8I-9do"/>
                             <constraint firstItem="xVM-ae-RWw" firstAttribute="top" secondItem="0Gd-bT-QIt" secondAttribute="bottom" constant="1" id="Xl2-FQ-zHM"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="xVM-ae-RWw" secondAttribute="bottom" id="YQk-ZO-A2t"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="lRn-hE-dqW" secondAttribute="trailing" constant="-152" id="dpQ-Kd-9lE"/>
                             <constraint firstItem="Kl4-SK-P5A" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="53" id="gUd-D6-Bum"/>
                             <constraint firstItem="0Gd-bT-QIt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gsy-PX-w0y"/>
                             <constraint firstAttribute="trailing" secondItem="xVM-ae-RWw" secondAttribute="trailing" id="hBm-bf-s4B"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="lRn-hE-dqW" secondAttribute="trailing" constant="-152" id="vVW-Vb-KFt"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="lRn-hE-dqW" secondAttribute="bottom" constant="-155" id="vsp-D2-1xb"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="H46-2Z-etc" secondAttribute="bottom" id="roI-dq-ogM"/>
                             <constraint firstItem="Kl4-SK-P5A" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="vy6-M9-zIv"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="z2G-nU-EUe"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="currentWeatherView" destination="Kl4-SK-P5A" id="rbu-Ow-m0r"/>
                         <outlet property="imagePageControl" destination="0Gd-bT-QIt" id="d9P-H2-cm2"/>
                         <outlet property="locationImageView" destination="FA0-yK-aiw" id="jc3-dV-bca"/>
+                        <outlet property="locationSearchView" destination="H46-2Z-etc" id="4pj-d0-G5O"/>
                         <outlet property="locationView" destination="lRn-hE-dqW" id="hoX-Og-JkO"/>
                         <outlet property="searchDisplayController" destination="RZq-xM-vUq" id="csA-QN-hQ0"/>
                     </connections>

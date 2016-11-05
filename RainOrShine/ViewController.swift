@@ -15,6 +15,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var currentWeatherView: WeatherView!
     @IBOutlet weak var imagePageControl: UIPageControl!
     @IBOutlet weak var locationView: LocationView!
+    @IBOutlet weak var locationSearchView: UIView!
     
     let locationManager = CLLocationManager()
     
@@ -22,16 +23,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var resultsViewController: GMSAutocompleteResultsViewController?
     var resultView: UITextView?
     
-    var lastOrientationWasFlat: Bool = false
-    
     
     var viewModel: WeatherViewModel? {
         didSet {            
             viewModel?.currentForecast.observe { [unowned self] in
-             print("HEYYYY \($0)")
+             //print("HEYYYY \($0)")
                 if ($0 != nil) {
-                    
-
                     //TURN THIS INTO A METHOD.  MAYBE MAKE A TEMPERATURE CLASS/ STRUCT?
                     let unformattedTemperature = $0?.currently?.temperature
                     var formattedTemperature: String = String()
@@ -41,16 +38,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     }
                     
                     let summaryString = $0?.currently?.summary
-                    print("ABOUT TO SET TEMP LABEL")
-                    //MOVE TEMPERATURE LABEL INTO WEATHER VIEW AND GET RID OF THE SEPARATE CLASS.  THEN I SHOULDN'T HAVE TO DO DISPATCHQUEUE.MAIN.ASYNC.
+
                     DispatchQueue.main.async {
                         self.currentWeatherView.temperatureLabel.text = formattedTemperature
-                        print("JUST SET TEMP LABEL...")
+                        self.currentWeatherView.summaryLabel.text = summaryString
+                        self.currentWeatherView.isHidden = false
                     }
-                    //LOOK AT SUMMARY LABEL FOR AN EXAMPLE OF WHAT I MEAN.
-                    self.currentWeatherView.summaryLabel.text = summaryString
-                    
-                    self.currentWeatherView.isHidden = false
                 }
                 else {
                     self.currentWeatherView.isHidden = true
@@ -101,7 +94,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         createRotationObserver()
         createLocationSearchControllers()
-        //deviceDidRotate()
+        
+        addLocationSearchSubViews()
+        displayLocationSearchBar(isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
+        
         createGestureRecognizers()
         
         locationManager.delegate = self
@@ -132,22 +128,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     //If the device is rotated, display the location search bar appropriately
     func deviceDidRotate() {
         //print("In func deviceDidRotate()...")
-        
-        if (!lastOrientationWasFlat) {
-            if (!UIDevice.current.orientation.isFlat) {
-                if (UIApplication.shared.statusBarOrientation.isLandscape) {
-                    displayLocationSearchBar(isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
-                    lastOrientationWasFlat = false
-                }
-                else if (UIApplication.shared.statusBarOrientation.isPortrait) {
-                    displayLocationSearchBar(isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
-                    lastOrientationWasFlat = false
-                }
-            }
-            else {
-                lastOrientationWasFlat = true
-            }
-        }
+        displayLocationSearchBar(isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
     }
     
     
@@ -220,40 +201,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    //Remove the Google Place search controllers from the parent view
-    func removeLocationSearchControllers() {
-        resultsViewController?.removeFromParentViewController()
-        searchController?.removeFromParentViewController()
-    }
-    
-    
     //Show the location search bar at the top of the screen
     func displayLocationSearchBar(isStatusBarHidden: Bool) {
         print("In func displayLocationSearchBar...")
         
-        let screenWidth = UIScreen.main.bounds.width
-        var yPosition: CGFloat = 0
+        searchController?.searchBar.sizeToFit()
+    }
+    
+    
+    func addLocationSearchSubViews() {
+        print("In func addLocationSearchSubViews...")
+        
         let colorSchemeLightGray: Int = 0xf9f9f9
         
-        removeLocationSearchControllers()
-        
-        //If portrait, account for the status bar with height of 20 pixels
-        //if (orientation == .portrait) {
-        if (UIApplication.shared.statusBarOrientation.isPortrait) {
-            yPosition = 20
-        }
-        //On some devices, such as iPhone 6, status bar is hidden in landscape.  On other devices, such as iPad Retina, status bar isn't hidden.
-        else if (UIApplication.shared.statusBarOrientation.isLandscape) {
-            if (isStatusBarHidden == false) {
-                yPosition = 20
-            }
-        }
-        
-        let subView = UIView(frame: CGRect(x: 0, y: yPosition, width: screenWidth, height: 45))
-        subView.accessibilityIdentifier = "Location Search Bar"
-        subView.addSubview((searchController?.searchBar)!)
-        
-        self.view.addSubview(subView)
+        locationSearchView.addSubview((searchController?.searchBar)!)
         
         searchController?.searchBar.barTintColor = UIColor(netHex: colorSchemeLightGray)
         searchController?.searchBar.sizeToFit()
