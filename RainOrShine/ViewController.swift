@@ -22,6 +22,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var resultsViewController: GMSAutocompleteResultsViewController?
     var resultView: UITextView?
     
+    var lastOrientationWasFlat: Bool = false
+    
     
     var viewModel: WeatherViewModel? {
         didSet {            
@@ -96,11 +98,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print("In viewDidLoad...")
         
         createRotationObserver()
         createLocationSearchControllers()
-        deviceDidRotate()
+        //deviceDidRotate()
         createGestureRecognizers()
         
         locationManager.delegate = self
@@ -125,6 +126,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func createRotationObserver() {
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(self.deviceDidRotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
+    
+    //If the device is rotated, display the location search bar appropriately
+    func deviceDidRotate() {
+        //print("In func deviceDidRotate()...")
+        
+        if (!lastOrientationWasFlat) {
+            if (!UIDevice.current.orientation.isFlat) {
+                if (UIApplication.shared.statusBarOrientation.isLandscape) {
+                    displayLocationSearchBar(isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
+                    lastOrientationWasFlat = false
+                }
+                else if (UIApplication.shared.statusBarOrientation.isPortrait) {
+                    displayLocationSearchBar(isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
+                    lastOrientationWasFlat = false
+                }
+            }
+            else {
+                lastOrientationWasFlat = true
+            }
+        }
     }
     
     
@@ -196,19 +219,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-
-    //If the device is rotated, display the location search bar appropriately
-    func deviceDidRotate() {
-        //print("In func deviceDidRotate()...")
-        
-        if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
-            displayLocationSearchBar(orientation: UIDeviceOrientation.landscapeRight, isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
-        }
-        else {
-            displayLocationSearchBar(orientation: .portrait, isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
-        }
-    }
-    
     
     //Remove the Google Place search controllers from the parent view
     func removeLocationSearchControllers() {
@@ -218,7 +228,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     
     //Show the location search bar at the top of the screen
-    func displayLocationSearchBar(orientation: UIDeviceOrientation, isStatusBarHidden: Bool) {
+    func displayLocationSearchBar(isStatusBarHidden: Bool) {
+        print("In func displayLocationSearchBar...")
+        
         let screenWidth = UIScreen.main.bounds.width
         var yPosition: CGFloat = 0
         let colorSchemeLightGray: Int = 0xf9f9f9
@@ -226,11 +238,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         removeLocationSearchControllers()
         
         //If portrait, account for the status bar with height of 20 pixels
-        if (orientation == .portrait) {
+        //if (orientation == .portrait) {
+        if (UIApplication.shared.statusBarOrientation.isPortrait) {
             yPosition = 20
         }
         //On some devices, such as iPhone 6, status bar is hidden in landscape.  On other devices, such as iPad Retina, status bar isn't hidden.
-        else {
+        else if (UIApplication.shared.statusBarOrientation.isLandscape) {
             if (isStatusBarHidden == false) {
                 yPosition = 20
             }
