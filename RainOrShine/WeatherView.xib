@@ -34,12 +34,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by Dark Sky" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4Z-Cz-VpZ">
-                        <rect key="frame" x="8" y="115" width="120" height="21"/>
+                        <rect key="frame" x="12.5" y="115" width="111" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="5f0-dM-AFt"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Partly Cloudy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsK-Fj-OsB">
@@ -62,9 +62,7 @@
                     <constraint firstItem="qsK-Fj-OsB" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leading" constant="11" id="zI6-Yg-vCY"/>
                 </constraints>
             </view>
-            <vibrancyEffect>
-                <blurEffect style="extraLight"/>
-            </vibrancyEffect>
+            <blurEffect style="light"/>
             <point key="canvasLocation" x="-84" y="16"/>
         </visualEffectView>
     </objects>

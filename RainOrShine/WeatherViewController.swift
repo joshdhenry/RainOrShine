@@ -10,7 +10,7 @@ import UIKit
 import GooglePlaces
 import CoreLocation
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var locationImageView: UIImageView!
     @IBOutlet weak var currentWeatherView: WeatherView!
     @IBOutlet weak var imagePageControl: UIPageControl!
@@ -22,12 +22,15 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var searchController: UISearchController?
     var resultsViewController: GMSAutocompleteResultsViewController?
     var resultView: UITextView?
+    var subView: UIView!
+    
+    var screenWidth: CGFloat = 0.0
+    var screenHeight: CGFloat = 0.0
     
     
     var viewModel: WeatherViewModel? {
         didSet {            
             viewModel?.currentForecast.observe { [unowned self] in
-             //print("HEYYYY \($0)")
                 if ($0 != nil) {
                     //TURN THIS INTO A METHOD.  MAYBE MAKE A TEMPERATURE CLASS/ STRUCT?
                     let unformattedTemperature = $0?.currently?.temperature
@@ -43,6 +46,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         self.currentWeatherView.temperatureLabel.text = formattedTemperature
                         self.currentWeatherView.summaryLabel.text = summaryString
                         self.currentWeatherView.isHidden = false
+                        
+                        self.currentWeatherView.fadeIn()
                     }
                 }
                 else {
@@ -54,6 +59,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 if ($0 != nil) {
                     self.locationView.isHidden = false
                     self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+                    
+                    self.locationView.fadeIn()
                 }
                 else {
                     self.locationView.isHidden = true
@@ -87,17 +94,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
+    
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getScreenWidthAndHeight()
+        
         createRotationObserver()
+        
         createLocationSearchControllers()
-        
-        addLocationSearchSubViews()
-        displayLocationSearchBar(isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
-        
+
         createGestureRecognizers()
         
         locationManager.delegate = self
@@ -111,6 +119,30 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
+    func getScreenWidthAndHeight() {
+        if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
+            screenWidth = UIScreen.main.bounds.width
+            screenHeight = UIScreen.main.bounds.height
+        }
+        else {
+            screenWidth = UIScreen.main.bounds.height
+            screenHeight = UIScreen.main.bounds.width
+        }
+    }
+    
+    
+    // Hide the navigation bar on the this view controller
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    
+    // Show the navigation bar on other view controllers
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    
     //Set all API keys for all APIs being used
     func setAllAPIKeys() {
         LocationAPIService.setAPIKeys()
@@ -120,6 +152,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //Begin monitoring device orientation.  If rotated, call deviceDidRotate()
     func createRotationObserver() {
+        print("In func createRotationObserver...")
+        
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(self.deviceDidRotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
@@ -127,8 +161,44 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     //If the device is rotated, display the location search bar appropriately
     func deviceDidRotate() {
-        //print("In func deviceDidRotate()...")
-        displayLocationSearchBar(isStatusBarHidden: UIApplication.shared.isStatusBarHidden)
+        print("In func deviceDidRotate()...")
+        
+        print(UIApplication.shared.statusBarOrientation.isLandscape)
+        print(UIApplication.shared.statusBarOrientation.isPortrait)
+        
+        resizeLocationSearchView()
+    }
+    
+    
+    func resizeLocationSearchView() {
+        if (UIApplication.shared.statusBarOrientation.isLandscape) {
+            if (UIApplication.shared.isStatusBarHidden) {
+                subView.frame = CGRect(x: 0, y: 0, width: screenHeight, height: 45)
+            }
+            else {
+                subView.frame = CGRect(x: 0, y: 20, width: screenHeight, height: 45)
+            }
+        }
+        else if (UIApplication.shared.statusBarOrientation.isPortrait) {
+            subView.frame = CGRect(x: 0, y: 20, width: screenWidth, height: 45)
+        }
+        searchController?.searchBar.sizeToFit()
+    }
+
+    
+    func initializeLocationSearchView() {
+        if (UIApplication.shared.statusBarOrientation.isLandscape) {
+            if (UIApplication.shared.isStatusBarHidden) {
+                subView = UIView(frame: CGRect(x: 0, y: 0, width: screenHeight, height: 45))
+            }
+            else {
+                subView = UIView(frame: CGRect(x: 0, y: 20, width: screenHeight, height: 45))
+            }
+        }
+        else if (UIApplication.shared.statusBarOrientation.isPortrait) {
+            subView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidth, height: 45))
+        }
+        searchController?.searchBar.sizeToFit()
     }
     
     
@@ -136,13 +206,27 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func createLocationSearchControllers() {
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.delegate = self
-        
+     
         let resultsFilter: GMSAutocompleteFilter = GMSAutocompleteFilter()
         resultsFilter.type = .city
         resultsViewController?.autocompleteFilter = resultsFilter
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
+        
+        let colorSchemeLightGray: Int = 0xf9f9f9
+        searchController?.searchBar.barTintColor = UIColor(netHex: colorSchemeLightGray)
+        
+        initializeLocationSearchView()
+        
+        subView.addSubview((searchController?.searchBar)!)
+        self.view.addSubview(subView)
+        
+        searchController?.searchBar.sizeToFit()
+        searchController?.hidesNavigationBarDuringPresentation = false
+        
+        //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
+        self.definesPresentationContext = true
     }
     
     
@@ -189,7 +273,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         print("Authorization Status Changed to \(status.rawValue)")
         switch status {
@@ -201,31 +284,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    //Show the location search bar at the top of the screen
-    func displayLocationSearchBar(isStatusBarHidden: Bool) {
-        print("In func displayLocationSearchBar...")
-        
-        searchController?.searchBar.sizeToFit()
-    }
-    
-    
-    func addLocationSearchSubViews() {
-        print("In func addLocationSearchSubViews...")
-        
-        let colorSchemeLightGray: Int = 0xf9f9f9
-        
-        locationSearchView.addSubview((searchController?.searchBar)!)
-        
-        searchController?.searchBar.barTintColor = UIColor(netHex: colorSchemeLightGray)
-        searchController?.searchBar.sizeToFit()
-        
-        //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
-        self.definesPresentationContext = true
-    }
-    
-    
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
+        
+        self.currentWeatherView.alpha = 0
+        self.locationView.alpha = 0
+        
         LocationAPIService.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound == true) {
                 self.viewModel?.updatePlace(newPlace: locationPlace)

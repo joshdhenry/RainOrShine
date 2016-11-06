@@ -13,17 +13,22 @@ class LocationView: UIVisualEffectView {
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var locationLabel: UILabel!
     
+    let lightGrayColor = UIColor(netHex: 0xf9f9f9)
+
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         UINib(nibName: "LocationView", bundle: nil).instantiate(withOwner: self, options: nil)
-        roundViewEdges()
+        
+        setViewStyle()
+        
         addSubview(view)
     }
     
     
-    private func roundViewEdges() {
-        self.layer.cornerRadius = 10.0
-        self.clipsToBounds = true
+    private func setViewStyle() {
+        self.setViewEdges()
+        
+        self.locationLabel.textColor = lightGrayColor
     }
 }

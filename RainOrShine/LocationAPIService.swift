@@ -56,6 +56,8 @@ class LocationAPIService {
                 
                 placeFindComplete = true
                 
+                
+                
                 completion(true, Place(place: firstPlaceFound))
             }
         })
@@ -150,6 +152,16 @@ class LocationAPIService {
                     
                     photoMetaDataFindComplete = true
                     completion(true)
+                    
+                    
+                    
+                    
+                    for p in (photos?.results)! {
+                        print("ATTRIBUTION: \(p.attributions)")
+                    }
+                    
+                    
+                    
                 }
                 else {
                     print("No photos found. Resetting image view to blank...")
@@ -215,6 +227,7 @@ class LocationAPIService {
                     return
                 } else {                    
                     LocationAPIService.currentPlace?.generalLocalePhotoArray.append(photo)
+                    
                     
                     imageFindComplete = true
                     completion(true)

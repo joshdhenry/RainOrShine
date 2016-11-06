@@ -9,11 +9,14 @@
 import Foundation
 import GooglePlaces
 // Handle the user's selection..
-extension ViewController: GMSAutocompleteResultsViewControllerDelegate {
+extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     //If the user selects a new city from the place search, display it's info and picture
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
+        
+        self.currentWeatherView.alpha = 0
+        self.locationView.alpha = 0
         
         let searchedPlace = Place(place: place)
         
