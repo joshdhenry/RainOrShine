@@ -128,6 +128,9 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
             screenWidth = UIScreen.main.bounds.height
             screenHeight = UIScreen.main.bounds.width
         }
+        
+        print("screenWidth is \(screenWidth)")
+        print("screenHeight is \(screenHeight)")
     }
     
     
@@ -165,6 +168,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
         
         print(UIApplication.shared.statusBarOrientation.isLandscape)
         print(UIApplication.shared.statusBarOrientation.isPortrait)
+        print(UIApplication.shared.isStatusBarHidden)
         
         resizeLocationSearchView()
     }

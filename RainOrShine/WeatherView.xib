@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,52 +19,53 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <visualEffectView opaque="NO" contentMode="scaleToFill" id="nw4-vT-ifU">
-            <rect key="frame" x="0.0" y="0.0" width="136" height="136"/>
+            <rect key="frame" x="0.0" y="0.0" width="136" height="199"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="QDU-yx-Ne7">
-                <rect key="frame" x="0.0" y="0.0" width="136" height="136"/>
+                <rect key="frame" x="0.0" y="0.0" width="136" height="199"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="103" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c60-pf-SdH">
-                        <rect key="frame" x="26" y="8" width="84" height="60"/>
+                        <rect key="frame" x="8" y="8" width="120" height="44"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="60" id="TPv-0L-aSK"/>
+                            <constraint firstAttribute="height" constant="44" id="cPn-pi-wDG"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="50"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by Dark Sky" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4Z-Cz-VpZ">
-                        <rect key="frame" x="12.5" y="115" width="111" height="21"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PoweredByDarkSky" translatesAutoresizingMaskIntoConstraints="NO" id="ogr-Cj-P3m">
+                        <rect key="frame" x="25" y="156" width="87" height="35"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="5f0-dM-AFt"/>
+                            <constraint firstAttribute="height" constant="35" id="JAg-Pb-gt8"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Partly Cloudy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsK-Fj-OsB">
-                        <rect key="frame" x="11" y="86" width="114" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="LNJ-bB-BSD"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsK-Fj-OsB">
+                        <rect key="frame" x="8" y="102" width="120" height="46"/>
+                        <string key="text">Partly 
+Cloudy</string>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="P4Z-Cz-VpZ" firstAttribute="centerX" secondItem="QDU-yx-Ne7" secondAttribute="centerX" id="9gh-y5-ZE4"/>
-                    <constraint firstItem="c60-pf-SdH" firstAttribute="top" secondItem="QDU-yx-Ne7" secondAttribute="top" constant="8" id="Ax8-lY-p3W"/>
-                    <constraint firstItem="P4Z-Cz-VpZ" firstAttribute="top" secondItem="qsK-Fj-OsB" secondAttribute="bottom" constant="8" id="WPC-zH-mUH"/>
-                    <constraint firstAttribute="trailing" secondItem="qsK-Fj-OsB" secondAttribute="trailing" constant="11" id="ZFy-iZ-IdY"/>
-                    <constraint firstAttribute="bottom" secondItem="P4Z-Cz-VpZ" secondAttribute="bottom" id="ggX-6Q-21F"/>
-                    <constraint firstItem="c60-pf-SdH" firstAttribute="centerX" secondItem="QDU-yx-Ne7" secondAttribute="centerX" id="h4i-CU-ca5"/>
-                    <constraint firstItem="qsK-Fj-OsB" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leading" constant="11" id="zI6-Yg-vCY"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="trailing" secondItem="QDU-yx-Ne7" secondAttribute="trailingMargin" id="1mQ-SG-eMR"/>
+                    <constraint firstItem="qsK-Fj-OsB" firstAttribute="centerX" secondItem="ogr-Cj-P3m" secondAttribute="centerX" id="2gv-Lm-Boa"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="top" secondItem="QDU-yx-Ne7" secondAttribute="topMargin" id="8rI-PA-gjU"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="leading" secondItem="qsK-Fj-OsB" secondAttribute="leading" id="E3X-5Y-Xfu"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="trailing" secondItem="qsK-Fj-OsB" secondAttribute="trailing" id="Y7c-mb-BMI"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leadingMargin" id="ej4-xR-gPD"/>
+                    <constraint firstItem="ogr-Cj-P3m" firstAttribute="top" secondItem="qsK-Fj-OsB" secondAttribute="bottom" constant="8" symbolic="YES" id="kdE-GV-icQ"/>
+                    <constraint firstItem="ogr-Cj-P3m" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leading" constant="25" id="r4D-Xi-CBf"/>
+                    <constraint firstItem="ogr-Cj-P3m" firstAttribute="bottom" secondItem="QDU-yx-Ne7" secondAttribute="bottomMargin" id="rwq-fl-faU"/>
                 </constraints>
             </view>
             <blurEffect style="light"/>
-            <point key="canvasLocation" x="-84" y="16"/>
+            <point key="canvasLocation" x="-84" y="15.5"/>
         </visualEffectView>
     </objects>
+    <resources>
+        <image name="PoweredByDarkSky" width="144" height="57"/>
+    </resources>
 </document>

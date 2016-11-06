@@ -25,26 +25,25 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label f dsg" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pY0-gc-774">
-                        <rect key="frame" x="8" y="8" width="120" height="63"/>
+                        <rect key="frame" x="8" y="8" width="120" height="61"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PoweredByGoogle" translatesAutoresizingMaskIntoConstraints="NO" id="f7z-OX-Qnj">
-                        <rect key="frame" x="8" y="79" width="120" height="15"/>
+                        <rect key="frame" x="28" y="84" width="81" height="10"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="15" id="htE-hM-mwi"/>
+                            <constraint firstAttribute="height" constant="10" id="c2l-sD-pFN"/>
                         </constraints>
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="pY0-gc-774" firstAttribute="top" secondItem="FPF-hb-eXH" secondAttribute="topMargin" id="0gk-1j-cIs"/>
-                    <constraint firstItem="f7z-OX-Qnj" firstAttribute="bottom" secondItem="FPF-hb-eXH" secondAttribute="bottomMargin" id="6fi-Zs-uJz"/>
-                    <constraint firstItem="pY0-gc-774" firstAttribute="trailing" secondItem="f7z-OX-Qnj" secondAttribute="trailing" id="9ox-A9-QAS"/>
-                    <constraint firstItem="pY0-gc-774" firstAttribute="trailing" secondItem="FPF-hb-eXH" secondAttribute="trailingMargin" id="KzO-Cl-1bM"/>
-                    <constraint firstItem="pY0-gc-774" firstAttribute="leading" secondItem="f7z-OX-Qnj" secondAttribute="leading" id="cPu-cl-KGs"/>
-                    <constraint firstItem="f7z-OX-Qnj" firstAttribute="top" secondItem="pY0-gc-774" secondAttribute="bottom" constant="8" symbolic="YES" id="hc8-cu-QhI"/>
-                    <constraint firstItem="pY0-gc-774" firstAttribute="leading" secondItem="FPF-hb-eXH" secondAttribute="leadingMargin" id="jyC-GB-aea"/>
+                    <constraint firstItem="f7z-OX-Qnj" firstAttribute="bottom" secondItem="FPF-hb-eXH" secondAttribute="bottomMargin" id="Uvq-b7-px0"/>
+                    <constraint firstItem="pY0-gc-774" firstAttribute="centerX" secondItem="f7z-OX-Qnj" secondAttribute="centerX" id="XRz-x9-x6P"/>
+                    <constraint firstItem="pY0-gc-774" firstAttribute="leading" secondItem="FPF-hb-eXH" secondAttribute="leadingMargin" id="bfg-lh-WKD"/>
+                    <constraint firstItem="pY0-gc-774" firstAttribute="top" secondItem="FPF-hb-eXH" secondAttribute="topMargin" id="v3q-SE-t9z"/>
+                    <constraint firstItem="pY0-gc-774" firstAttribute="trailing" secondItem="FPF-hb-eXH" secondAttribute="trailingMargin" id="wlO-of-Nsj"/>
+                    <constraint firstItem="f7z-OX-Qnj" firstAttribute="leading" secondItem="FPF-hb-eXH" secondAttribute="leading" constant="28" id="zN9-e1-3Kk"/>
                 </constraints>
             </view>
             <blurEffect style="light"/>
