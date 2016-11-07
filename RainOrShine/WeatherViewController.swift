@@ -242,8 +242,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
-        let colorSchemeLightGray: Int = 0xf9f9f9
-        searchController?.searchBar.barTintColor = UIColor(netHex: colorSchemeLightGray)
+        searchController?.searchBar.barTintColor = UIColor(netHex: ColorScheme.lightGray)
         
         initializeLocationSearchView()
         
