@@ -55,7 +55,6 @@ class WeatherAPIService {
                 print("Error retrieving current weather forecast - \(error)")
             }
             completion(true)
-            //print("setCurrentWeatherForecast completed...")
         }
     }
     

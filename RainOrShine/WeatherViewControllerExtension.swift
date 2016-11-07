@@ -15,8 +15,7 @@ extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
         
-        self.currentWeatherView.alpha = 0
-        self.locationView.alpha = 0
+        self.makeSubViewsInvisible()
         
         let searchedPlace = Place(place: place)
         
@@ -24,7 +23,7 @@ extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
         
         LocationAPIService.currentPlace = searchedPlace
 
-        self.changePlace()
+        self.changePlaceShown()
     }
     
     

@@ -17,11 +17,6 @@ class LocationAPIService {
     static private var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
     
     static var currentPlace: Place?
-    
-    static var placeIDOfGeneralLocale: String?    
-    
-    
-    //static var currentPlaceImageIndex: Int?
     static var currentPlaceImageIndex: Int = 0
 
     
@@ -46,6 +41,7 @@ class LocationAPIService {
             guard error == nil else {
                 print("Current Place error: \(error!.localizedDescription)")
                 
+                placeFindComplete = true
                 completion(true, nil)
                 
                 return
@@ -55,9 +51,6 @@ class LocationAPIService {
                 let firstPlaceFound = placeLikelihoods.likelihoods.first?.place
                 
                 placeFindComplete = true
-                
-                
-                
                 completion(true, Place(place: firstPlaceFound))
             }
         })
@@ -74,10 +67,14 @@ class LocationAPIService {
         let generalLocaleString: String = (LocationAPIService.currentPlace?.getGeneralLocaleString() ?? "")
                 
         //Get the place ID of the general area so that we can grab an image of the city
-        LocationAPIService.setPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
+        //LocationAPIService.setPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
+        let placeIDOfGeneralLocale: String? = LocationAPIService.setPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
 
-        if (LocationAPIService.placeIDOfGeneralLocale != nil) {
-            LocationAPIService.setPhotoMetaData() { (photoMetaDataFound) -> () in
+
+        //if (LocationAPIService.placeIDOfGeneralLocale != nil) {
+        if (placeIDOfGeneralLocale != nil) {
+            //LocationAPIService.setPhotoMetaData() { (photoMetaDataFound) -> () in
+            LocationAPIService.setPhotoMetaData(placeIDOfGeneralLocale: placeIDOfGeneralLocale) { (photoMetaDataFound) -> () in
                 print("PHOTOMETADATAFOUND == \(photoMetaDataFound)")
                 if (photoMetaDataFound == true) {
                     LocationAPIService.setImagesArrayForMetadata(size: size, scale: scale) { (imageFound) -> () in
@@ -97,7 +94,8 @@ class LocationAPIService {
     
     
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
-    class private func setPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) {
+    //class private func setPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) {
+    class private func setPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) -> String? {
         print("In function getPlaceIDOfGeneralLocale...(#2)")
 
         var placeID: String?
@@ -116,30 +114,37 @@ class LocationAPIService {
             guard let thisURLResponse = response as? HTTPURLResponse,
                 thisURLResponse.statusCode == 200 else {
                     print("Not a 200 (successful) response")
+                    completionHandlerCodeComplete = true
                     return
             }
+            print("Out of guard...")
             let json = JSON(data: data!)
             placeID = json["results"][0]["place_id"].string
             
             completionHandlerCodeComplete = true
         }).resume()
         
+        print("Out of session...")
+        
         //DO I NEED TO IMPLEMENT PROPER COMPLETION HANDLER INTO THIS FUNCTION?????
         while (completionHandlerCodeComplete == false) {
             //print("Waiting on the photo reference to retrieve...")
         }
         print("Returning placeID OF GENERAL LOCALE of \(placeID)")
-        LocationAPIService.placeIDOfGeneralLocale = placeID
+        //LocationAPIService.placeIDOfGeneralLocale = placeID
+        return placeID
     }
     
     
     //Retrieve photo metadata for place
-    class private func setPhotoMetaData(completion: @escaping (_ result: Bool)->()) {
+    //class private func setPhotoMetaData(completion: @escaping (_ result: Bool)->()) {
+    class private func setPhotoMetaData(placeIDOfGeneralLocale: String?, completion: @escaping (_ result: Bool)->()) {
         print("In function setPhotoMetaDataForLocation...(#3)")
         
         var photoMetaDataFindComplete: Bool = false
         
-        LocationAPIService.placesClient?.lookUpPhotos(forPlaceID: LocationAPIService.placeIDOfGeneralLocale!) { (photos, error) -> Void in
+        //LocationAPIService.placesClient?.lookUpPhotos(forPlaceID: LocationAPIService.placeIDOfGeneralLocale!) { (photos, error) -> Void in
+        LocationAPIService.placesClient?.lookUpPhotos(forPlaceID: placeIDOfGeneralLocale!) { (photos, error) -> Void in
             if let error = error {
                 print("Error loading photo from Google API: \(error.localizedDescription)")
                 completion(true)
