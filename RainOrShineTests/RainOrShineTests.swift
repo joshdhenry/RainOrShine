@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import GooglePlaces
+//import GooglePlaces
 import ForecastIO
 
 @testable import RainOrShine
@@ -55,7 +55,7 @@ class RainOrShineTests: XCTestCase {
         }
     }
     
-    
+    //MOVE THIS OUT TO A STRING EXTENSION
     //This function is used by testUpdateForecast to create a mock JSON from a string
     func convertStringToDictionary(text: String) -> [String:AnyObject]? {
         if let data = text.data(using: String.Encoding.utf8) {
@@ -96,7 +96,7 @@ class RainOrShineTests: XCTestCase {
     
     //Test to make sure that createGestureRecognizer creates and attaches to the view in ViewController
     func testCreateGestureRecognizers() {
-        let viewController = ViewController()
+        let viewController = WeatherViewController()
         print("A")
         
         var numOfGestureRecognizers: Int = 0
@@ -124,7 +124,7 @@ class RainOrShineTests: XCTestCase {
     //SHOULD THIS BE IN UI TESTS?
     //Test to make sure that viewController.displayLocationSearchBar adds the subview to the view
     func testDisplayLocationSearchBar() {
-        let viewController = ViewController()
+        let viewController = WeatherViewController()
         var searchBarFound: Bool = false
         
         for view in viewController.view.subviews {

@@ -10,7 +10,7 @@ import UIKit
 import GooglePlaces
 import CoreLocation
 
-class WeatherViewController: UIViewController, CLLocationManagerDelegate {
+class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISearchBarDelegate {
     @IBOutlet weak var locationImageView: UIImageView!
     @IBOutlet weak var currentWeatherView: WeatherView!
     @IBOutlet weak var imagePageControl: UIPageControl!
@@ -147,7 +147,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     
     private func createBatteryStateObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.batteryStateDidChange), name: Notification.Name.UIDeviceBatteryStateDidChange, object: nil)
-    } //NSNotification.Name.UIDeviceBatteryStateDidChange
+    }
     
     
     //Begin monitoring device orientation.  If rotated, call deviceDidRotate()
@@ -156,7 +156,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
         
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(self.deviceDidRotate), name: Notification.Name.UIDeviceOrientationDidChange, object: nil)
-    } //NSNotification.Name.UIDeviceOrientationDidChange
+    }
     
     
     private func createGestureRecognizers() {
@@ -189,11 +189,25 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     dynamic func deviceDidRotate(notification: NSNotification) {
         print("In func deviceDidRotate()...")
         
-        print(UIApplication.shared.statusBarOrientation.isLandscape)
-        print(UIApplication.shared.statusBarOrientation.isPortrait)
-        print(UIApplication.shared.isStatusBarHidden)
-        
-        resizeLocationSearchView()
+        //print(UIApplication.shared.statusBarOrientation.isLandscape)
+        //print(UIApplication.shared.statusBarOrientation.isPortrait)
+        //print(UIApplication.shared.isStatusBarHidden)
+        print(Rotation.allowed)
+        if (Rotation.allowed) {
+            resizeLocationSearchView()
+        }
+    }
+    
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("searchBarTextDidBeginEditing...")
+        Rotation.allowed = false
+    }
+    
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("searchBarTextDidEndEditing...")
+        Rotation.allowed = true
     }
     
     
@@ -223,8 +237,8 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
             screenHeight = UIScreen.main.bounds.width
         }
         
-        print("screenWidth is \(screenWidth)")
-        print("screenHeight is \(screenHeight)")
+        //print("screenWidth is \(screenWidth)")
+        //print("screenHeight is \(screenHeight)")
         
         return CGSize(width: screenWidth, height: screenHeight)
     }
@@ -241,12 +255,15 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
-        
         searchController?.searchBar.barTintColor = UIColor(netHex: ColorScheme.lightGray)
+        searchController?.searchBar.delegate = self
         
         initializeLocationSearchView()
         
         locationSearchView.addSubview((searchController?.searchBar)!)
+        
+        locationSearchView.accessibilityIdentifier = "Location Search Bar"
+        
         self.view.addSubview(locationSearchView)
         
         searchController?.searchBar.sizeToFit()
@@ -287,7 +304,7 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    private func resizeLocationSearchView() {
+    internal func resizeLocationSearchView() {
         /*if (UIApplication.shared.statusBarOrientation.isLandscape) {
          if (UIApplication.shared.isStatusBarHidden) {
          subView.frame = CGRect(x: 0, y: 0, width: screenHeight, height: 45)
@@ -303,12 +320,19 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
         print("UIScreen.main.bounds.height is \(UIScreen.main.bounds.height)")
         print(self.view.frame.size)
         
+        print("screenWidthAndHeight.width is \(screenWidthAndHeight.width)")
+        print("screenWidthAndHeight.height is \(screenWidthAndHeight.height)")
+        
+        
         //THIS < OR > IN THIS LINE NEEDS TO BE DIFFERENT DEPENDING ON THE DEVICE.  FOR SURE, IPHONE 6, IPHONE 6 PLUS NEEDS TO BE >.  IPAD AIR 2 NEEDS TO BE <
         //SO WHAT I REALLY NEED TO DO TOMORROW IS JUST TEST ON ALL SCREEN TYPES AND DO DIFFERENT < OR > DEPENDING ON THE DEVICE IDIOM.
         if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
             // do your portrait stuff
             print("Switching to portrait...")
             locationSearchView.frame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
+            //print(locationSearchView.frame.width)
+            
+            searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
         } else {    // in landscape
             // do your landscape stuff
             print("Switching to landscape...")
@@ -321,7 +345,15 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
         
+        /*print(locationSearchView.frame)
+        print(searchController?.view.frame)
+        print(searchController?.searchBar.frame)*/
+        
         searchController?.searchBar.sizeToFit()
+        
+        /*print(locationSearchView.frame)
+        print(searchController?.view.frame)
+        print(searchController?.searchBar.frame)*/
     }
     
     
@@ -350,14 +382,12 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
                 //Adjust the page control according to the newly loaded place (if the place is not nil)
                 guard let currentPlace = LocationAPIService.currentPlace else {return}
                 
-                //if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! == 0) {
                 if (currentPlace.generalLocalePhotoArray.count == 0) {
                     
                     self.imagePageControl.isHidden = true
                     self.imagePageControl.numberOfPages = 0
                 }
                 else {
-                    //self.imagePageControl.numberOfPages = (LocationAPIService.currentPlace?.generalLocalePhotoArray.count)!
                     self.imagePageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
                     self.imagePageControl.isHidden = false
                 }
@@ -435,7 +465,6 @@ class WeatherViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     
-    //SHOULD I NOT DO THIS?  SINCE THE LOCATION SEARCH BAR MESSES UP AFTER COMING BACK FROM SETTINGS VC
     //DO THIS FOR OTHER OBSERVERS IF NEEDED
     //End monitoring device orientation
     private func destroyRotationObserver() {

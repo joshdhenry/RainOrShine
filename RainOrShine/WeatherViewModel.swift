@@ -33,6 +33,7 @@ class WeatherViewModel {
         currentPlace.value = newPlace
     }
     
+    
     func updatePlaceImageIndex(newPlaceImageIndex: Int?) {
         print("In func updatePlaceImageIndex...")
         currentPlaceImageIndex.value = newPlaceImageIndex

@@ -33,4 +33,10 @@ class RainOrShineUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
+    
+    func testSettingsButton() {
+        XCUIApplication().toolbars.buttons["Settings"].tap()
+        
+    }
+    
 }

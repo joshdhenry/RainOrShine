@@ -147,10 +147,10 @@
             </objects>
             <point key="canvasLocation" x="1752.8" y="138.98050974512745"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Weather Navigation Controller-->
         <scene sceneID="qzw-KJ-cU2">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="quh-Wl-PHy" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="quh-Wl-PHy" customClass="WeatherNavigationController" customModule="RainOrShine" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="VMt-MH-PhT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

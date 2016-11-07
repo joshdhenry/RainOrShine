@@ -30,6 +30,8 @@
 		03B2DE7C1DC8428D00CFFA83 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE7B1DC8428D00CFFA83 /* Observable.swift */; };
 		03B2DE7E1DC84AB600CFFA83 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE7D1DC84AB600CFFA83 /* WeatherViewModel.swift */; };
 		03FD6DD01DD06099004F7FA6 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */; };
+		03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DD51DD13E61004F7FA6 /* WeatherNavigationController.swift */; };
+		03FD6DD81DD13F2C004F7FA6 /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DD71DD13F2C004F7FA6 /* Rotation.swift */; };
 		2D0F32CE6D9DB4059BBEEC2E /* Pods_RainOrShineTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D89E71BF2B28C86E8CF3AE /* Pods_RainOrShineTests.framework */; };
 		CE97BF227C9EE82CDCD3B8B1 /* Pods_RainOrShine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */; };
 /* End PBXBuildFile section */
@@ -81,6 +83,8 @@
 		03B2DE7B1DC8428D00CFFA83 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		03B2DE7D1DC84AB600CFFA83 /* WeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
+		03FD6DD51DD13E61004F7FA6 /* WeatherNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherNavigationController.swift; sourceTree = "<group>"; };
+		03FD6DD71DD13F2C004F7FA6 /* Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
 		65D89E71BF2B28C86E8CF3AE /* Pods_RainOrShineTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RainOrShineTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D24AE1ADCD23D9A3DC25758 /* Pods-RainOrShine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RainOrShine.release.xcconfig"; path = "Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine.release.xcconfig"; sourceTree = "<group>"; };
 		7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RainOrShine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +224,8 @@
 				03B2DE7D1DC84AB600CFFA83 /* WeatherViewModel.swift */,
 				0337AA761DCDCBD200E6478B /* Temperature.swift */,
 				03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */,
+				03FD6DD51DD13E61004F7FA6 /* WeatherNavigationController.swift */,
+				03FD6DD71DD13F2C004F7FA6 /* Rotation.swift */,
 			);
 			name = "Custom Classes";
 			sourceTree = "<group>";
@@ -506,12 +512,14 @@
 				0337AA771DCDCBD200E6478B /* Temperature.swift in Sources */,
 				0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */,
 				0337AA7C1DCEB2DC00E6478B /* UIVisualEffectViewExtension.swift in Sources */,
+				03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */,
 				03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */,
 				0313E5381DC2A21A00E453A0 /* WeatherViewControllerExtension.swift in Sources */,
 				03B2DE781DC73F9700CFFA83 /* WeatherView.swift in Sources */,
 				033DE0611DCD06DF0082F7A0 /* LocationView.swift in Sources */,
 				035811EE1DC429E0002ECB85 /* LocationAPIService.swift in Sources */,
 				03B2DE7E1DC84AB600CFFA83 /* WeatherViewModel.swift in Sources */,
+				03FD6DD81DD13F2C004F7FA6 /* Rotation.swift in Sources */,
 				0337AA7A1DCEA7C600E6478B /* SettingsViewController.swift in Sources */,
 				03B2DE7C1DC8428D00CFFA83 /* Observable.swift in Sources */,
 				033DE0651DCD0E140082F7A0 /* UIColorExtension.swift in Sources */,

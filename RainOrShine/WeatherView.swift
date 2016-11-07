@@ -12,6 +12,7 @@ class WeatherView: UIVisualEffectView {
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
+
     
     let lightGrayColor = UIColor(netHex: 0xf9f9f9)
     
@@ -27,7 +28,7 @@ class WeatherView: UIVisualEffectView {
     private func setViewStyle() {
         self.setViewEdges()
         
-        self.temperatureLabel.textColor = lightGrayColor
-        self.summaryLabel.textColor = lightGrayColor
+        self.temperatureLabel.textColor = UIColor(netHex: ColorScheme.lightGray)
+        self.summaryLabel.textColor = UIColor(netHex: ColorScheme.lightGray)
     }
 }
