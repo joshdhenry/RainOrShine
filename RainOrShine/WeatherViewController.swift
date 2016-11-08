@@ -9,6 +9,7 @@
 import UIKit
 import GooglePlaces
 import CoreLocation
+import ForecastIO
 
 class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISearchBarDelegate {
     @IBOutlet weak var locationImageView: UIImageView!
@@ -29,29 +30,64 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     var viewModel: WeatherViewModel? {
         didSet {            
             viewModel?.currentForecast.observe { [unowned self] in
-                if ($0 != nil) {
-                    //TURN THIS INTO A METHOD.  MAYBE MAKE A TEMPERATURE CLASS/ STRUCT?
-                    let unformattedTemperature = $0?.currently?.temperature
-                    var formattedTemperature: String = String()
-                    
-                    if (unformattedTemperature != nil) {
-                        formattedTemperature = String(format: "%.0f", unformattedTemperature!)
-                    }
-                    
-                    formattedTemperature += "°"
-                    
-                    let summaryString = $0?.currently?.summary
-
-                    DispatchQueue.main.async {
-                        self.currentWeatherView.temperatureLabel.text = formattedTemperature
-                        self.currentWeatherView.summaryLabel.text = summaryString
-                        self.currentWeatherView.isHidden = false
-                        
-                        self.currentWeatherView.fadeIn()
-                    }
-                }
-                else {
+                guard let forecast: Forecast = $0 else {
                     self.currentWeatherView.isHidden = true
+                    return
+                }
+                guard let currently = forecast.currently else {return}
+                
+                //Temperature
+                let unformattedTemperature = currently.temperature
+                var formattedTemperature: String = String()
+                
+                if (unformattedTemperature != nil) {
+                    formattedTemperature = String(format: "%.0f", unformattedTemperature!)
+                }
+                
+                formattedTemperature += "°"
+                
+                //Current conditions summary
+                let summaryString = currently.summary
+                
+                //Current conditions icon
+                guard let currentlyIcon = currently.icon else {return}
+                
+                var currentIconType: Skycons
+                
+                switch currentlyIcon {
+                case .clearDay:
+                    currentIconType = Skycons.clearDay
+                case .clearNight:
+                    currentIconType = Skycons.clearNight
+                case .cloudy:
+                    currentIconType = Skycons.cloudy
+                case .fog:
+                    currentIconType = Skycons.fog
+                case .partlyCloudyNight:
+                    currentIconType = Skycons.partlyCloudyNight
+                case .rain:
+                    currentIconType = Skycons.rain
+                case .sleet:
+                    currentIconType = Skycons.sleet
+                case .snow:
+                    currentIconType = Skycons.snow
+                case .wind:
+                    currentIconType = Skycons.wind
+                default:
+                    currentIconType = Skycons.partlyCloudyDay
+                }
+
+                //Update the UI on the main thread
+                DispatchQueue.main.async {
+                    self.currentWeatherView.temperatureLabel.text = formattedTemperature
+                    self.currentWeatherView.summaryLabel.text = summaryString
+                    self.currentWeatherView.isHidden = false
+                    
+                    self.currentWeatherView.weatherConditionView.setType =  currentIconType
+                    self.currentWeatherView.weatherConditionView.setColor = UIColor.white
+                    self.currentWeatherView.weatherConditionView.play()
+                    
+                    self.currentWeatherView.fadeIn()
                 }
             }
             
@@ -126,6 +162,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Initialize values for the first time
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -140,7 +177,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         viewModel = WeatherViewModel()
         
         //viewModel?.updateBlurStyle(blurStyle: .dark)
-        
     }
     
     
@@ -170,12 +206,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Set and configure the location manager
     private func configureLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
     }
     
     
+    //Create and start all observers
     private func createObservers() {
         createRotationObserver()
         createGestureRecognizers()

@@ -18,20 +18,20 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <visualEffectView opaque="NO" contentMode="scaleToFill" id="Soh-r9-Za7">
-            <rect key="frame" x="0.0" y="0.0" width="136" height="102"/>
+            <rect key="frame" x="0.0" y="0.0" width="144" height="102"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="FPF-hb-eXH">
-                <rect key="frame" x="0.0" y="0.0" width="136" height="102"/>
+                <rect key="frame" x="0.0" y="0.0" width="144" height="102"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label f dsg" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pY0-gc-774">
-                        <rect key="frame" x="8" y="8" width="120" height="61"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="8" y="8" width="128" height="64.5"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PoweredByGoogle" translatesAutoresizingMaskIntoConstraints="NO" id="f7z-OX-Qnj">
-                        <rect key="frame" x="28" y="84" width="81" height="10"/>
+                        <rect key="frame" x="28" y="84" width="89" height="10"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="10" id="c2l-sD-pFN"/>
                         </constraints>

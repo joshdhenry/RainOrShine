@@ -15,50 +15,59 @@
                 <outlet property="summaryLabel" destination="qsK-Fj-OsB" id="iaA-2r-mOP"/>
                 <outlet property="temperatureLabel" destination="c60-pf-SdH" id="WrP-c7-M7n"/>
                 <outlet property="view" destination="QDU-yx-Ne7" id="3Nu-Ko-UTJ"/>
+                <outlet property="weatherConditionView" destination="2e2-FY-yY2" id="iQM-ZA-FMe"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <visualEffectView opaque="NO" contentMode="scaleToFill" id="nw4-vT-ifU">
-            <rect key="frame" x="0.0" y="0.0" width="136" height="199"/>
+            <rect key="frame" x="0.0" y="0.0" width="144" height="199"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="QDU-yx-Ne7">
-                <rect key="frame" x="0.0" y="0.0" width="136" height="199"/>
+                <rect key="frame" x="0.0" y="0.0" width="144" height="199"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="103" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c60-pf-SdH">
-                        <rect key="frame" x="8" y="8" width="120" height="44"/>
+                        <rect key="frame" x="8" y="8" width="128" height="44"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="44" id="cPn-pi-wDG"/>
+                            <constraint firstAttribute="height" constant="44" id="aYf-dD-sUk"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="50"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="40"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PoweredByDarkSky" translatesAutoresizingMaskIntoConstraints="NO" id="ogr-Cj-P3m">
-                        <rect key="frame" x="25" y="156" width="87" height="35"/>
+                        <rect key="frame" x="25" y="164" width="95" height="35"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="35" id="JAg-Pb-gt8"/>
+                            <constraint firstAttribute="height" constant="35" id="M1n-Ze-6AO"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsK-Fj-OsB">
-                        <rect key="frame" x="8" y="102" width="120" height="46"/>
+                        <rect key="frame" x="8" y="116" width="128" height="48"/>
                         <string key="text">Partly 
 Cloudy</string>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2e2-FY-yY2" customClass="SKYIconView" customModule="RainOrShine" customModuleProvider="target">
+                        <rect key="frame" x="41" y="52" width="64" height="64"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="c60-pf-SdH" firstAttribute="trailing" secondItem="QDU-yx-Ne7" secondAttribute="trailingMargin" id="1mQ-SG-eMR"/>
-                    <constraint firstItem="qsK-Fj-OsB" firstAttribute="centerX" secondItem="ogr-Cj-P3m" secondAttribute="centerX" id="2gv-Lm-Boa"/>
-                    <constraint firstItem="c60-pf-SdH" firstAttribute="top" secondItem="QDU-yx-Ne7" secondAttribute="topMargin" id="8rI-PA-gjU"/>
-                    <constraint firstItem="c60-pf-SdH" firstAttribute="leading" secondItem="qsK-Fj-OsB" secondAttribute="leading" id="E3X-5Y-Xfu"/>
-                    <constraint firstItem="c60-pf-SdH" firstAttribute="trailing" secondItem="qsK-Fj-OsB" secondAttribute="trailing" id="Y7c-mb-BMI"/>
-                    <constraint firstItem="c60-pf-SdH" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leadingMargin" id="ej4-xR-gPD"/>
-                    <constraint firstItem="ogr-Cj-P3m" firstAttribute="top" secondItem="qsK-Fj-OsB" secondAttribute="bottom" constant="8" symbolic="YES" id="kdE-GV-icQ"/>
-                    <constraint firstItem="ogr-Cj-P3m" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leading" constant="25" id="r4D-Xi-CBf"/>
-                    <constraint firstItem="ogr-Cj-P3m" firstAttribute="bottom" secondItem="QDU-yx-Ne7" secondAttribute="bottomMargin" id="rwq-fl-faU"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="top" secondItem="QDU-yx-Ne7" secondAttribute="topMargin" id="2r5-4S-VJy"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="trailing" secondItem="QDU-yx-Ne7" secondAttribute="trailingMargin" id="4G4-9l-TCd"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leadingMargin" id="9us-fT-Hnv"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="leading" secondItem="qsK-Fj-OsB" secondAttribute="leading" id="Cli-gR-gTh"/>
+                    <constraint firstAttribute="bottom" secondItem="ogr-Cj-P3m" secondAttribute="bottom" id="ErD-8h-RRk"/>
+                    <constraint firstItem="qsK-Fj-OsB" firstAttribute="centerX" secondItem="ogr-Cj-P3m" secondAttribute="centerX" id="ICO-sR-Naz"/>
+                    <constraint firstItem="2e2-FY-yY2" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leading" constant="41" id="KQa-Kl-eEJ"/>
+                    <constraint firstItem="c60-pf-SdH" firstAttribute="trailing" secondItem="qsK-Fj-OsB" secondAttribute="trailing" id="ZC5-v3-GJG"/>
+                    <constraint firstItem="ogr-Cj-P3m" firstAttribute="top" secondItem="qsK-Fj-OsB" secondAttribute="bottom" id="aZ7-Wf-anD"/>
+                    <constraint firstItem="2e2-FY-yY2" firstAttribute="centerX" secondItem="ogr-Cj-P3m" secondAttribute="centerX" id="lS1-qc-2yp"/>
+                    <constraint firstItem="ogr-Cj-P3m" firstAttribute="leading" secondItem="QDU-yx-Ne7" secondAttribute="leading" constant="25" id="pzk-TJ-8F4"/>
+                    <constraint firstItem="2e2-FY-yY2" firstAttribute="top" secondItem="c60-pf-SdH" secondAttribute="bottom" id="tOr-13-pG7"/>
+                    <constraint firstItem="qsK-Fj-OsB" firstAttribute="top" secondItem="2e2-FY-yY2" secondAttribute="bottom" id="tVc-BU-TyZ"/>
                 </constraints>
             </view>
             <blurEffect style="light"/>

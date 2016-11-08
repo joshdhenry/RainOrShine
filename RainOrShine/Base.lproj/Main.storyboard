@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="quh-Wl-PHy">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,27 +18,15 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FA0-yK-aiw">
-                                <rect key="frame" x="0.0" y="109" width="375" height="514"/>
+                                <rect key="frame" x="0.0" y="109" width="320" height="327"/>
                                 <gestureRecognizers/>
                             </imageView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-SK-P5A" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
-                                <rect key="frame" x="223" y="126" width="136" height="199"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="anu-pC-58L">
-                                    <rect key="frame" x="0.0" y="0.0" width="136" height="199"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="199" id="4IV-2i-FlV"/>
-                                    <constraint firstAttribute="width" constant="136" id="ocS-Mu-78b"/>
-                                </constraints>
-                                <blurEffect style="dark"/>
-                            </visualEffectView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVM-ae-RWw">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="nHG-yw-fk5"/>
                                 </constraints>
@@ -57,22 +45,22 @@
                                 </items>
                             </toolbar>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lRn-hE-dqW" customClass="LocationView" customModule="RainOrShine" customModuleProvider="target">
-                                <rect key="frame" x="16" y="126" width="136" height="102"/>
+                                <rect key="frame" x="8" y="117" width="144" height="102"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="XGp-nS-lJ3">
-                                    <rect key="frame" x="0.0" y="0.0" width="136" height="102"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="144" height="102"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="136" id="YyD-B2-Dh2"/>
-                                    <constraint firstAttribute="height" constant="102" id="o3r-OY-Dj2"/>
+                                    <constraint firstAttribute="height" constant="102" id="oKL-F2-FdF"/>
+                                    <constraint firstAttribute="width" constant="144" id="swo-fv-DrJ"/>
                                 </constraints>
                                 <blurEffect style="dark"/>
                             </visualEffectView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2co-iD-gnC">
-                                <rect key="frame" x="177" y="324" width="20" height="20"/>
+                                <rect key="frame" x="150" y="230" width="20" height="20"/>
                             </activityIndicatorView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vFb-2t-dlQ" customClass="PhotoDetailView" customModule="RainOrShine" customModuleProvider="target">
-                                <rect key="frame" x="67" y="557" width="240" height="58"/>
+                                <rect key="frame" x="40" y="370" width="240" height="58"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gKM-tQ-yCT">
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="58"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -83,24 +71,36 @@
                                 </constraints>
                                 <blurEffect style="dark"/>
                             </visualEffectView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-SK-P5A" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
+                                <rect key="frame" x="168" y="117" width="144" height="199"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="anu-pC-58L">
+                                    <rect key="frame" x="0.0" y="0.0" width="144" height="199"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="199" id="Qkz-Ei-2qf"/>
+                                    <constraint firstAttribute="width" constant="144" id="WwP-9O-wVg"/>
+                                </constraints>
+                                <blurEffect style="dark"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="lRn-hE-dqW" secondAttribute="bottom" constant="-119" id="37v-rH-Qxy"/>
                             <constraint firstItem="xVM-ae-RWw" firstAttribute="top" secondItem="vFb-2t-dlQ" secondAttribute="bottom" constant="8" id="4It-v0-bgV"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="lRn-hE-dqW" secondAttribute="bottom" constant="-110" id="9qP-HZ-UnC"/>
                             <constraint firstItem="vFb-2t-dlQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DAz-TK-bRM"/>
-                            <constraint firstItem="Kl4-SK-P5A" firstAttribute="leading" secondItem="FA0-yK-aiw" secondAttribute="trailing" constant="-152" id="L96-v0-VTN"/>
+                            <constraint firstItem="Kl4-SK-P5A" firstAttribute="leading" secondItem="FA0-yK-aiw" secondAttribute="trailing" constant="-152" id="JVK-28-Yei"/>
                             <constraint firstItem="xVM-ae-RWw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ndy-OJ-IPE"/>
                             <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="XFu-rW-w4h"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="xVM-ae-RWw" secondAttribute="bottom" id="YQk-ZO-A2t"/>
                             <constraint firstItem="2co-iD-gnC" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="aVK-KQ-Hwl"/>
                             <constraint firstAttribute="trailing" secondItem="FA0-yK-aiw" secondAttribute="trailing" id="bVb-79-0nD"/>
                             <constraint firstItem="2co-iD-gnC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cYH-JS-Enb"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="lRn-hE-dqW" secondAttribute="trailing" constant="-152" id="ft5-mn-1Cz"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="Kl4-SK-P5A" secondAttribute="bottom" constant="-207" id="fOM-BP-qCn"/>
                             <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="45" id="giw-5k-asd"/>
                             <constraint firstItem="xVM-ae-RWw" firstAttribute="top" secondItem="FA0-yK-aiw" secondAttribute="bottom" id="guW-Rr-jcc"/>
                             <constraint firstAttribute="trailing" secondItem="xVM-ae-RWw" secondAttribute="trailing" id="hBm-bf-s4B"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="Kl4-SK-P5A" secondAttribute="bottom" constant="-216" id="qYu-aQ-tlY"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="lRn-hE-dqW" secondAttribute="trailing" constant="-152" id="tSX-bJ-DJs"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hIR-Va-xO0"/>
@@ -134,11 +134,11 @@
                         <viewControllerLayoutGuide type="bottom" id="dXZ-Cn-gSP"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="crf-wd-xTz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sKv-ks-Mp6">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>

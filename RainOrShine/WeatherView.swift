@@ -12,6 +12,7 @@ class WeatherView: UIVisualEffectView {
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
+    @IBOutlet weak var weatherConditionView: SKYIconView!
 
     
     required init?(coder aDecoder: NSCoder) {
@@ -27,5 +28,7 @@ class WeatherView: UIVisualEffectView {
         
         self.temperatureLabel.textColor = UIColor.white
         self.summaryLabel.textColor = UIColor.white
+        
+        weatherConditionView.backgroundColor = UIColor.clear
     }
 }
