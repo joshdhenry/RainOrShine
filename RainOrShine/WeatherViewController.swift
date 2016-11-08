@@ -260,14 +260,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
         //print("In func respondToSwipeGesture")
         
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            //If there are photos to swipe through, then allow swiping
-            if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! > 0) {
+        guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
+        
+        //If there are photos to swipe through, then allow swiping
+        if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! > 0) {
             
-                let currentPage = advancePage(direction: swipeGesture.direction, currentPageNumber: self.photoDetailView.photoPageControl.currentPage, totalNumberOfPages: self.photoDetailView.photoPageControl.numberOfPages)
-                
-                viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
-            }
+            let currentPage = advancePage(direction: swipeGesture.direction, currentPageNumber: self.photoDetailView.photoPageControl.currentPage, totalNumberOfPages: self.photoDetailView.photoPageControl.numberOfPages)
+            
+            viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
         }
     }
     
