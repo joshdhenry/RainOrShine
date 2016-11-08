@@ -75,6 +75,10 @@
                                 </constraints>
                                 <blurEffect style="light"/>
                             </visualEffectView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2co-iD-gnC">
+                                <rect key="frame" x="177" y="323" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -95,6 +99,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="hIR-Va-xO0"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="2co-iD-gnC" id="3Du-pT-kOv"/>
                         <outlet property="currentWeatherView" destination="Kl4-SK-P5A" id="rbu-Ow-m0r"/>
                         <outlet property="imagePageControl" destination="0Gd-bT-QIt" id="d9P-H2-cm2"/>
                         <outlet property="locationImageView" destination="FA0-yK-aiw" id="jc3-dV-bca"/>

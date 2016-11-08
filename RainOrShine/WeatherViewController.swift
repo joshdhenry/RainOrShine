@@ -16,6 +16,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBOutlet weak var imagePageControl: UIPageControl!
     @IBOutlet weak var locationView: LocationView!
     private var locationSearchView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let locationManager = CLLocationManager()
     
@@ -361,17 +362,43 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     internal func changePlaceShown() {
         print("In func changePlaceShown...")
         
+        var photosComplete: Bool = false
+        var weatherComplete: Bool = false
+        
         //Reset some values
         self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
         LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
         
-        displayNewPlacePhotos()
-        displayNewPlaceWeather()
+        
+        activityIndicator.startAnimating()
+        
+        //Run both functions.  If both are complete, stop the activity indicator
+        displayNewPlacePhotos() { (isComplete) -> () in
+            if (isComplete == true) {
+                photosComplete = true
+                if (weatherComplete == true) {
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
+                    
+                }
+            }
+        }
+        displayNewPlaceWeather() { (isComplete) -> () in
+            if (isComplete == true) {
+                weatherComplete = true
+                if (photosComplete == true) {
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
+                }
+            }
+        }
     }
     
     
-    private func displayNewPlacePhotos() {
+    private func displayNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
         //Get the photos of the general locale
         LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             //print("IMAGE SET == \(imageSet)")
@@ -391,12 +418,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     self.imagePageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
                     self.imagePageControl.isHidden = false
                 }
+                
+                completion(true)
             }
         }
     }
     
     
-    private func displayNewPlaceWeather() {
+    private func displayNewPlaceWeather(completion: @escaping (_ result: Bool) ->()) {
         //Get the weather forecast
         guard let currentPlace = LocationAPIService.currentPlace else {return}
         guard let currentGMSPlace = currentPlace.gmsPlace else {return}
@@ -404,6 +433,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         WeatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
             if (forecastRetrieved) {
                 self.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
+                
+                completion(true)
             }
         }
     }
