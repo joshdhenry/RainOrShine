@@ -370,12 +370,14 @@
 					0313E5171DC1DBC200E453A0 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = JNJPB8D7PF;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 0313E5031DC1DBC200E453A0;
 					};
 					0313E5221DC1DBC200E453A0 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = JNJPB8D7PF;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 0313E5031DC1DBC200E453A0;
 					};
