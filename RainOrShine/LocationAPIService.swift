@@ -43,16 +43,20 @@ class LocationAPIService {
                 
                 placeFindComplete = true
                 completion(true, nil)
-                
                 return
             }
             
-            if let placeLikelihoods = placeLikelihoods {
-                let firstPlaceFound = placeLikelihoods.likelihoods.first?.place
-                
-                placeFindComplete = true
-                completion(true, Place(place: firstPlaceFound))
+            guard let thisPlaceLikelihoods = placeLikelihoods else {
+                completion(true, nil)
+                return
             }
+            guard let firstPlaceLikelihoodFound = thisPlaceLikelihoods.likelihoods.first else {
+                completion(true, nil)
+                return
+            }
+
+            placeFindComplete = true
+            completion(true, Place(place: firstPlaceLikelihoodFound.place))
         })
         if (placeFindComplete == false) {
             completion(false, nil)
@@ -124,7 +128,7 @@ class LocationAPIService {
         while (completionHandlerCodeComplete == false) {
             //print("Waiting on the photo reference to retrieve...")
         }
-        print("Returning placeID OF GENERAL LOCALE of \(placeID)")
+        //print("Returning placeID OF GENERAL LOCALE of \(placeID)")
         return placeID
     }
     
@@ -136,7 +140,6 @@ class LocationAPIService {
         
         var photoMetaDataFindComplete: Bool = false
         
-        //LocationAPIService.placesClient?.lookUpPhotos(forPlaceID: LocationAPIService.placeIDOfGeneralLocale!) { (photos, error) -> Void in
         LocationAPIService.placesClient?.lookUpPhotos(forPlaceID: placeIDOfGeneralLocale!) { (photos, error) -> Void in
             if let error = error {
                 print("Error loading photo from Google API: \(error.localizedDescription)")

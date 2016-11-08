@@ -15,9 +15,7 @@ class Place {
     public var generalLocalePhotoMetaDataArray: [GMSPlacePhotoMetadata?] = [GMSPlacePhotoMetadata?]()
     public var generalLocalePhotoArray: [UIImage?] = [UIImage?]()
     
-    init() {
-        
-    }
+    init() {}
     
     init(place: GMSPlace?) {
         self.gmsPlace = place
@@ -31,10 +29,6 @@ class Place {
         var queryString: String = ""
         
         for addressComponent in (LocationAPIService.currentPlace?.gmsPlace?.addressComponents)! {
-            
-            //print(addressComponent.type)
-            //print(addressComponent.name)
-            
             switch (addressComponent.type) {
                 //case "sublocality_level_1":
             //    queryString += thisType.name

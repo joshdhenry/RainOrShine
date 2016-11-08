@@ -13,13 +13,6 @@ class PhotoDetailView: UIVisualEffectView {
     @IBOutlet weak var photoAttributionLabel: UILabel!
     @IBOutlet weak var photoPageControl: UIPageControl!
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -34,7 +27,7 @@ class PhotoDetailView: UIVisualEffectView {
     private func setViewStyle() {
         self.setViewEdges()
         
-        self.photoAttributionLabel.textColor = UIColor(netHex: ColorScheme.lightGray)
+        self.photoAttributionLabel.textColor = UIColor.white
     }
 }
 

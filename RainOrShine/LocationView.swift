@@ -27,6 +27,6 @@ class LocationView: UIVisualEffectView {
     private func setViewStyle() {
         self.setViewEdges()
         
-        self.locationLabel.textColor = UIColor(netHex: ColorScheme.lightGray)
+        self.locationLabel.textColor = UIColor.white
     }
 }

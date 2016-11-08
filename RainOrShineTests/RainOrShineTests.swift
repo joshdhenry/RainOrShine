@@ -40,7 +40,7 @@ class RainOrShineTests: XCTestCase {
     func testUpdateForecast() {
         let weatherViewModel: WeatherViewModel = WeatherViewModel()
         let jsonString: String = "{\"latitude\":12,\"longitude\":12,\"timezone\":\"Etc/GMT\",\"offset\":0}"
-        let jsonDictionary = convertStringToDictionary(text: jsonString)
+        let jsonDictionary = jsonString.convertStringToDictionary()
         
         if jsonDictionary != nil {
             let forecast = Forecast(fromJSON: jsonDictionary as! NSDictionary)
@@ -53,19 +53,6 @@ class RainOrShineTests: XCTestCase {
         else {
             XCTAssert(false)
         }
-    }
-    
-    //MOVE THIS OUT TO A STRING EXTENSION
-    //This function is used by testUpdateForecast to create a mock JSON from a string
-    func convertStringToDictionary(text: String) -> [String:AnyObject]? {
-        if let data = text.data(using: String.Encoding.utf8) {
-            do {
-                return try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject]
-            } catch let error as NSError {
-                print(error)
-            }
-        }
-        return nil
     }
     
     

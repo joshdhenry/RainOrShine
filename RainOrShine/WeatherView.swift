@@ -25,7 +25,7 @@ class WeatherView: UIVisualEffectView {
     private func setViewStyle() {
         self.setViewEdges()
         
-        self.temperatureLabel.textColor = UIColor(netHex: ColorScheme.lightGray)
-        self.summaryLabel.textColor = UIColor(netHex: ColorScheme.lightGray)
+        self.temperatureLabel.textColor = UIColor.white
+        self.summaryLabel.textColor = UIColor.white
     }
 }

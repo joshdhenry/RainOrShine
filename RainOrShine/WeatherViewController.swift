@@ -38,6 +38,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                         formattedTemperature = String(format: "%.0f", unformattedTemperature!)
                     }
                     
+                    formattedTemperature += "°"
+                    
                     let summaryString = $0?.currently?.summary
 
                     DispatchQueue.main.async {
@@ -113,6 +115,13 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     self.photoDetailView.photoAttributionLabel.isHidden = true
                 }
             }
+            /*
+            viewModel?.blur.observe { [unowned self] in
+                //THIS IS WHERE I WOULD CHANGE THE BLUR
+                //THE ONLY WAY TO CHANGE THE BLUR IS TO REMOVE THE OLD UIVISUALEFFECTVIEW AND REPLACE IT WITH A NEW ONE WITH THE UPDATED UIVISUALEFECT
+                //self.locationView.view
+                print("UNDER CONSTRUCTION...\(($0!))")
+            }*/
         }
     }
     
@@ -129,6 +138,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         WeatherAPIService.setWeatherClient()
 
         viewModel = WeatherViewModel()
+        
+        //viewModel?.updateBlurStyle(blurStyle: .dark)
+        
     }
     
     
@@ -171,6 +183,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Begin monitoring charging state.
     private func createBatteryStateObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.batteryStateDidChange), name: Notification.Name.UIDeviceBatteryStateDidChange, object: nil)
     }
@@ -185,6 +198,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Create gesture recognizers for swiping left and right through location photos
     private func createGestureRecognizers() {
         //print("In func createGestureRecognizers...")
         
@@ -198,6 +212,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //If the battery state changes, turn on or off the screen lock accordingly
     dynamic func batteryStateDidChange(notification: NSNotification){
         // The stage did change: plugged, unplugged, full charge...
         if (UIDevice.current.batteryState == UIDeviceBatteryState.charging) {
@@ -225,6 +240,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //If the user is searching, disable rotation until finished
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //print("searchBarTextDidBeginEditing...")
         
@@ -232,6 +248,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //If the user is done searching, re-enable screen rotation
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         //print("searchBarTextDidEndEditing...")
         
@@ -239,6 +256,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //If the user swipes right or left, adjust viewmodel.updatePlaceImageIndex accordingly
     dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
         //print("In func respondToSwipeGesture")
         
@@ -305,6 +323,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
 
+    //Create the views necessary for searching locations
     private func initializeLocationSearchView() {
         /*if (UIApplication.shared.statusBarOrientation.isLandscape) {
          if (UIApplication.shared.isStatusBarHidden) {
@@ -335,6 +354,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Resize the views necessary for location.  Determine if the device is portrait or landscape and resize the search bar accordingly.
     internal func resizeLocationSearchView() {
         /*if (UIApplication.shared.statusBarOrientation.isLandscape) {
          if (UIApplication.shared.isStatusBarHidden) {
@@ -388,7 +408,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
-    //Change the place that will be displayed in this view controller
+    //Change the place that will be displayed in this view controller (including new place photos and weather forecast)
     internal func changePlaceShown() {
         //print("In func changePlaceShown...")
         
@@ -428,6 +448,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Display new place photos when a new place has been chosen
     private func displayNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
         //Get the photos of the general locale
         LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
@@ -462,6 +483,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Display weather info when a new place has been chosen
     private func displayNewPlaceWeather(completion: @escaping (_ result: Bool) ->()) {
         //Get the weather forecast
         guard let currentPlace = LocationAPIService.currentPlace else {return}
@@ -527,6 +549,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Make all subviews' alpha 0
     internal func makeSubViewsInvisible() {
         currentWeatherView.alpha = 0
         locationView.alpha = 0

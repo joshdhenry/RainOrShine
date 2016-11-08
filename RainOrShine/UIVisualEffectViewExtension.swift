@@ -12,19 +12,18 @@ import UIKit
 extension UIVisualEffectView {
     
     public func setViewEdges() {
-        let lightGrayColor = UIColor(netHex: 0xf9f9f9)
-        
         self.layer.cornerRadius = 10.0
         self.clipsToBounds = true
         
-        self.layer.borderColor = lightGrayColor.cgColor
+        self.layer.borderColor = UIColor.white.cgColor
+
         self.layer.borderWidth = 1
     }
     
     
     func fadeIn(withDuration duration: TimeInterval = 2.0) {
         UIView.animate(withDuration: duration, animations: {
-            self.alpha = 1.0
+            self.alpha = 0.7
         })
     }
     
