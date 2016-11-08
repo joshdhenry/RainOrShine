@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoDetailView" customModule="RainOrShine" customModuleProvider="target">
+            <connections>
+                <outlet property="photoAttributionLabel" destination="Ahm-wW-Kbk" id="huo-z5-2tF"/>
+                <outlet property="photoPageControl" destination="FEk-lK-r9M" id="WHB-8n-sky"/>
+                <outlet property="view" destination="Ly6-R8-8nb" id="lQh-qG-zYu"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <visualEffectView opaque="NO" contentMode="scaleToFill" id="4on-2G-7a2">
+            <rect key="frame" x="0.0" y="0.0" width="240" height="58"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ly6-R8-8nb">
+                <rect key="frame" x="0.0" y="0.0" width="240" height="58"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahm-wW-Kbk">
+                        <rect key="frame" x="8" y="0.0" width="224" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="xsZ-rA-e1Y"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="13" translatesAutoresizingMaskIntoConstraints="NO" id="FEk-lK-r9M">
+                        <rect key="frame" x="8" y="21" width="224" height="37"/>
+                    </pageControl>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="top" secondItem="Ly6-R8-8nb" secondAttribute="top" id="ASc-Th-HUU"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="Ly6-R8-8nb" secondAttribute="leadingMargin" id="JKg-m9-2UZ"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="FEk-lK-r9M" secondAttribute="leading" id="Tff-M9-tpb"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="FEk-lK-r9M" secondAttribute="trailing" id="bZ0-2I-iDW"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="Ly6-R8-8nb" secondAttribute="trailingMargin" id="v2C-cm-ZUb"/>
+                    <constraint firstAttribute="bottom" secondItem="FEk-lK-r9M" secondAttribute="bottom" id="wso-K4-Hst"/>
+                </constraints>
+            </view>
+            <blurEffect style="light"/>
+            <point key="canvasLocation" x="159" y="-81"/>
+        </visualEffectView>
+    </objects>
+</document>

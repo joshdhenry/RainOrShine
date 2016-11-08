@@ -67,13 +67,10 @@ class LocationAPIService {
         let generalLocaleString: String = (LocationAPIService.currentPlace?.getGeneralLocaleString() ?? "")
                 
         //Get the place ID of the general area so that we can grab an image of the city
-        //LocationAPIService.setPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
         let placeIDOfGeneralLocale: String? = LocationAPIService.setPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
 
 
-        //if (LocationAPIService.placeIDOfGeneralLocale != nil) {
         if (placeIDOfGeneralLocale != nil) {
-            //LocationAPIService.setPhotoMetaData() { (photoMetaDataFound) -> () in
             LocationAPIService.setPhotoMetaData(placeIDOfGeneralLocale: placeIDOfGeneralLocale) { (photoMetaDataFound) -> () in
                 print("PHOTOMETADATAFOUND == \(photoMetaDataFound)")
                 if (photoMetaDataFound == true) {
@@ -94,7 +91,6 @@ class LocationAPIService {
     
     
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
-    //class private func setPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) {
     class private func setPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) -> String? {
         print("In function getPlaceIDOfGeneralLocale...(#2)")
 
@@ -117,21 +113,18 @@ class LocationAPIService {
                     completionHandlerCodeComplete = true
                     return
             }
-            print("Out of guard...")
+
             let json = JSON(data: data!)
             placeID = json["results"][0]["place_id"].string
             
             completionHandlerCodeComplete = true
         }).resume()
-        
-        print("Out of session...")
-        
+                
         //DO I NEED TO IMPLEMENT PROPER COMPLETION HANDLER INTO THIS FUNCTION?????
         while (completionHandlerCodeComplete == false) {
             //print("Waiting on the photo reference to retrieve...")
         }
         print("Returning placeID OF GENERAL LOCALE of \(placeID)")
-        //LocationAPIService.placeIDOfGeneralLocale = placeID
         return placeID
     }
     
@@ -157,16 +150,6 @@ class LocationAPIService {
                     
                     photoMetaDataFindComplete = true
                     completion(true)
-                    
-                    
-                    
-                    
-                    for p in (photos?.results)! {
-                        print("ATTRIBUTION: \(p.attributions)")
-                    }
-                    
-                    
-                    
                 }
                 else {
                     print("No photos found. Resetting image view to blank...")
@@ -232,7 +215,6 @@ class LocationAPIService {
                     return
                 } else {                    
                     LocationAPIService.currentPlace?.generalLocalePhotoArray.append(photo)
-                    
                     
                     imageFindComplete = true
                     completion(true)

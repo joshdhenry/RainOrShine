@@ -32,6 +32,8 @@
 		03FD6DD01DD06099004F7FA6 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */; };
 		03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DD51DD13E61004F7FA6 /* WeatherNavigationController.swift */; };
 		03FD6DD81DD13F2C004F7FA6 /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DD71DD13F2C004F7FA6 /* Rotation.swift */; };
+		03FD6DDB1DD154C4004F7FA6 /* PhotoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DDA1DD154C4004F7FA6 /* PhotoDetailView.swift */; };
+		03FD6DDD1DD154DF004F7FA6 /* PhotoDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03FD6DDC1DD154DF004F7FA6 /* PhotoDetailView.xib */; };
 		2D0F32CE6D9DB4059BBEEC2E /* Pods_RainOrShineTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65D89E71BF2B28C86E8CF3AE /* Pods_RainOrShineTests.framework */; };
 		CE97BF227C9EE82CDCD3B8B1 /* Pods_RainOrShine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */; };
 /* End PBXBuildFile section */
@@ -85,6 +87,8 @@
 		03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		03FD6DD51DD13E61004F7FA6 /* WeatherNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherNavigationController.swift; sourceTree = "<group>"; };
 		03FD6DD71DD13F2C004F7FA6 /* Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
+		03FD6DDA1DD154C4004F7FA6 /* PhotoDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailView.swift; sourceTree = "<group>"; };
+		03FD6DDC1DD154DF004F7FA6 /* PhotoDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoDetailView.xib; sourceTree = "<group>"; };
 		65D89E71BF2B28C86E8CF3AE /* Pods_RainOrShineTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RainOrShineTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D24AE1ADCD23D9A3DC25758 /* Pods-RainOrShine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RainOrShine.release.xcconfig"; path = "Pods/Target Support Files/Pods-RainOrShine/Pods-RainOrShine.release.xcconfig"; sourceTree = "<group>"; };
 		7DF1A9526232BFE268DEFEF1 /* Pods_RainOrShine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RainOrShine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +194,7 @@
 		03391ABE1DC8A35D00EBF622 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				03FD6DD91DD15461004F7FA6 /* PhotoDetailView */,
 				033DE05F1DCD06AC0082F7A0 /* Location View */,
 				03391ABF1DC8A38F00EBF622 /* WeatherView */,
 			);
@@ -245,6 +250,15 @@
 				0337AA7B1DCEB2DC00E6478B /* UIVisualEffectViewExtension.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		03FD6DD91DD15461004F7FA6 /* PhotoDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				03FD6DDA1DD154C4004F7FA6 /* PhotoDetailView.swift */,
+				03FD6DDC1DD154DF004F7FA6 /* PhotoDetailView.xib */,
+			);
+			name = PhotoDetailView;
 			sourceTree = "<group>";
 		};
 		45D46E4972EBEEF8AE426B97 /* Pods */ = {
@@ -383,6 +397,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03FD6DDD1DD154DF004F7FA6 /* PhotoDetailView.xib in Resources */,
 				03B2DE761DC73ECD00CFFA83 /* WeatherView.xib in Resources */,
 				033DE0631DCD070F0082F7A0 /* LocationView.xib in Resources */,
 				0313E5121DC1DBC200E453A0 /* LaunchScreen.storyboard in Resources */,
@@ -514,6 +529,7 @@
 				0337AA7C1DCEB2DC00E6478B /* UIVisualEffectViewExtension.swift in Sources */,
 				03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */,
 				03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */,
+				03FD6DDB1DD154C4004F7FA6 /* PhotoDetailView.swift in Sources */,
 				0313E5381DC2A21A00E453A0 /* WeatherViewControllerExtension.swift in Sources */,
 				03B2DE781DC73F9700CFFA83 /* WeatherView.swift in Sources */,
 				033DE0611DCD06DF0082F7A0 /* LocationView.swift in Sources */,

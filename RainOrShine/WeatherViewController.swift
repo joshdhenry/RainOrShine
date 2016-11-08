@@ -13,10 +13,10 @@ import CoreLocation
 class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISearchBarDelegate {
     @IBOutlet weak var locationImageView: UIImageView!
     @IBOutlet weak var currentWeatherView: WeatherView!
-    @IBOutlet weak var imagePageControl: UIPageControl!
     @IBOutlet weak var locationView: LocationView!
     private var locationSearchView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var photoDetailView: PhotoDetailView!
     
     let locationManager = CLLocationManager()
     
@@ -59,33 +59,58 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
                     
                     self.locationView.fadeIn()
+                    
+                    self.photoDetailView.isHidden = false
+                    self.photoDetailView.fadeIn()
                 }
                 else {
                     self.locationView.isHidden = true
+                    self.photoDetailView.isHidden = true
                 }
             }
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
-                if (LocationAPIService.currentPlace != nil) {
-                    if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! > 0) {
-                        self.locationImageView.image = LocationAPIService.currentPlace?.generalLocalePhotoArray[($0)!]
-                        self.imagePageControl.isHidden = false
-                        self.imagePageControl.currentPage = $0!
-                    }
-                    else {
-                        //No images
-                        self.imagePageControl.isHidden = true
-                        self.locationImageView.image = nil
-                        self.imagePageControl.currentPage = 0
-                    }
-                }
-                else {
+                guard let currentPlace: Place = LocationAPIService.currentPlace else {
                     //I DON'T KNOW WHY BUT MY TEST DOES NOT LIKE THIS, YET IN PRODUCTION IT WORKS FINE.
                     //Place is nil.  App must be just starting
-                    print(self.imagePageControl.numberOfPages)
-                    self.imagePageControl.isHidden = true
                     self.locationImageView.image = nil
-                    self.imagePageControl.currentPage = 0
+                
+                    self.photoDetailView.photoPageControl.isHidden = true
+                    self.photoDetailView.photoPageControl.currentPage = 0
+                    
+                    self.photoDetailView.photoAttributionLabel.isHidden = true
+                    
+                    return
+                }
+                
+                if (currentPlace.generalLocalePhotoArray.count > 0) {
+                    self.locationImageView.image = currentPlace.generalLocalePhotoArray[($0)!]
+                    
+                    self.photoDetailView.photoPageControl.isHidden = false
+                    self.photoDetailView.photoPageControl.currentPage = $0!
+                    
+                    guard let photoMetaData: GMSPlacePhotoMetadata = currentPlace.generalLocalePhotoMetaDataArray[$0!] else {
+                        self.photoDetailView.photoAttributionLabel.isHidden = true
+                        return
+                    }
+                    
+                    let attributionPrefixAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 12)]
+                    let attributionPrefixString: NSMutableAttributedString = NSMutableAttributedString(string: "Photo by ", attributes: attributionPrefixAttributes)
+                    let completeAttributionString = NSMutableAttributedString()
+                    
+                    completeAttributionString.append(attributionPrefixString)
+                    completeAttributionString.append(photoMetaData.attributions!)
+                    
+                    self.photoDetailView.photoAttributionLabel.attributedText = completeAttributionString
+                    self.photoDetailView.photoAttributionLabel.isHidden = false
+                }
+                else {
+                    //No images
+                    self.locationImageView.image = nil
+                    
+                    self.photoDetailView.photoPageControl.isHidden = true
+                    self.photoDetailView.photoPageControl.currentPage = 0
+                    self.photoDetailView.photoAttributionLabel.isHidden = true
                 }
             }
         }
@@ -153,7 +178,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Begin monitoring device orientation.  If rotated, call deviceDidRotate()
     func createRotationObserver() {
-        print("In func createRotationObserver...")
+        //print("In func createRotationObserver...")
         
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(self.deviceDidRotate), name: Notification.Name.UIDeviceOrientationDidChange, object: nil)
@@ -193,7 +218,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         //print(UIApplication.shared.statusBarOrientation.isLandscape)
         //print(UIApplication.shared.statusBarOrientation.isPortrait)
         //print(UIApplication.shared.isStatusBarHidden)
-        print(Rotation.allowed)
+
         if (Rotation.allowed) {
             resizeLocationSearchView()
         }
@@ -201,23 +226,28 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("searchBarTextDidBeginEditing...")
+        //print("searchBarTextDidBeginEditing...")
+        
         Rotation.allowed = false
     }
     
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        print("searchBarTextDidEndEditing...")
+        //print("searchBarTextDidEndEditing...")
+        
         Rotation.allowed = true
     }
     
     
     dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
-        print("In func respondToSwipeGesture")
+        //print("In func respondToSwipeGesture")
+        
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             //If there are photos to swipe through, then allow swiping
             if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! > 0) {
-                let currentPage = advancePage(direction: swipeGesture.direction, currentPageNumber: imagePageControl.currentPage, totalNumberOfPages: imagePageControl.numberOfPages)
+            
+                let currentPage = advancePage(direction: swipeGesture.direction, currentPageNumber: self.photoDetailView.photoPageControl.currentPage, totalNumberOfPages: self.photoDetailView.photoPageControl.numberOfPages)
+                
                 viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
             }
         }
@@ -360,7 +390,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Change the place that will be displayed in this view controller
     internal func changePlaceShown() {
-        print("In func changePlaceShown...")
+        //print("In func changePlaceShown...")
         
         var photosComplete: Bool = false
         var weatherComplete: Bool = false
@@ -411,12 +441,19 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 
                 if (currentPlace.generalLocalePhotoArray.count == 0) {
                     
-                    self.imagePageControl.isHidden = true
-                    self.imagePageControl.numberOfPages = 0
+                    //self.imagePageControl.isHidden = true
+                    //self.imagePageControl.numberOfPages = 0
+                    
+                    self.photoDetailView.photoPageControl.isHidden = true
+                    self.photoDetailView.photoPageControl.numberOfPages = 0
                 }
                 else {
-                    self.imagePageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
-                    self.imagePageControl.isHidden = false
+                    //self.imagePageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
+                    //self.imagePageControl.isHidden = false
+                    
+                    
+                    self.photoDetailView.photoPageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
+                    self.photoDetailView.photoPageControl.isHidden = false
                 }
                 
                 completion(true)
@@ -493,6 +530,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     internal func makeSubViewsInvisible() {
         currentWeatherView.alpha = 0
         locationView.alpha = 0
+        photoDetailView.alpha = 0
     }
     
     

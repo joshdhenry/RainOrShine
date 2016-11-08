@@ -13,8 +13,6 @@ class LocationView: UIVisualEffectView {
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var locationLabel: UILabel!
     
-    let lightGrayColor = UIColor(netHex: 0xf9f9f9)
-
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -29,6 +27,6 @@ class LocationView: UIVisualEffectView {
     private func setViewStyle() {
         self.setViewEdges()
         
-        self.locationLabel.textColor = lightGrayColor
+        self.locationLabel.textColor = UIColor(netHex: ColorScheme.lightGray)
     }
 }
