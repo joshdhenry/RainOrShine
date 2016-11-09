@@ -343,17 +343,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
             // do your portrait stuff
-            //locationSearchView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45))
             locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45))
 
         } else {
             // do your landscape stuff
             if (UIApplication.shared.isStatusBarHidden) {
-                //locationSearchView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45))
                 locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45))
             }
             else {
-                //locationSearchView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.height, height: 45))
                 locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.height, height: 45))
             }
         }
@@ -373,9 +370,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
          else if (UIApplication.shared.statusBarOrientation.isPortrait) {
          subView.frame = CGRect(x: 0, y: 20, width: screenWidth, height: 45)
          }*/
-        print("UIScreen.main.bounds.width is \(UIScreen.main.bounds.width)")
-        print("UIScreen.main.bounds.height is \(UIScreen.main.bounds.height)")
-        print(self.view.frame.size)
         
         print("screenWidthAndHeight.width is \(screenWidthAndHeight.width)")
         print("screenWidthAndHeight.height is \(screenWidthAndHeight.height)")
@@ -418,33 +412,30 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     internal func changePlaceShown() {
         //print("In func changePlaceShown...")
         
-        var photosComplete: Bool = false
-        var weatherComplete: Bool = false
+        var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
+        
+        activityIndicator.startAnimating()
         
         //Reset some values
         self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
         LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
         
-        
-        activityIndicator.startAnimating()
-        
         //Run both functions.  If both are complete, stop the activity indicator
         displayNewPlacePhotos() { (isComplete) -> () in
             if (isComplete == true) {
-                photosComplete = true
-                if (weatherComplete == true) {
+                changePlaceCompletionFlags.photosComplete = true
+                if (changePlaceCompletionFlags.weatherComplete == true) {
                     DispatchQueue.main.async {
                         self.activityIndicator.stopAnimating()
                     }
-                    
                 }
             }
         }
         displayNewPlaceWeather() { (isComplete) -> () in
             if (isComplete == true) {
-                weatherComplete = true
-                if (photosComplete == true) {
+                changePlaceCompletionFlags.weatherComplete = true
+                if (changePlaceCompletionFlags.photosComplete == true) {
                     DispatchQueue.main.async {
                         self.activityIndicator.stopAnimating()
                     }
@@ -467,18 +458,10 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 guard let currentPlace = LocationAPIService.currentPlace else {return}
                 
                 if (currentPlace.generalLocalePhotoArray.count == 0) {
-                    
-                    //self.imagePageControl.isHidden = true
-                    //self.imagePageControl.numberOfPages = 0
-                    
                     self.photoDetailView.photoPageControl.isHidden = true
                     self.photoDetailView.photoPageControl.numberOfPages = 0
                 }
                 else {
-                    //self.imagePageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
-                    //self.imagePageControl.isHidden = false
-                    
-                    
                     self.photoDetailView.photoPageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
                     self.photoDetailView.photoPageControl.isHidden = false
                 }
