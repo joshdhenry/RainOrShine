@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="quh-Wl-PHy">
-    <device id="retina5_5" orientation="portrait">
+    <device id="retina4_0" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,15 +18,15 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FA0-yK-aiw">
-                                <rect key="frame" x="0.0" y="109" width="414" height="583"/>
+                                <rect key="frame" x="0.0" y="109" width="568" height="167"/>
                                 <gestureRecognizers/>
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVM-ae-RWw">
-                                <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="276" width="568" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="nHG-yw-fk5"/>
                                 </constraints>
@@ -57,10 +57,10 @@
                                 <blurEffect style="dark"/>
                             </visualEffectView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2co-iD-gnC">
-                                <rect key="frame" x="197" y="358" width="20" height="20"/>
+                                <rect key="frame" x="274" y="150" width="20" height="20"/>
                             </activityIndicatorView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vFb-2t-dlQ" customClass="PhotoDetailView" customModule="RainOrShine" customModuleProvider="target">
-                                <rect key="frame" x="87" y="626" width="240" height="58"/>
+                                <rect key="frame" x="164" y="210" width="240" height="58"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gKM-tQ-yCT">
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="58"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -72,7 +72,7 @@
                                 <blurEffect style="dark"/>
                             </visualEffectView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-SK-P5A" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
-                                <rect key="frame" x="262" y="117" width="144" height="199"/>
+                                <rect key="frame" x="416" y="117" width="144" height="199"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="anu-pC-58L">
                                     <rect key="frame" x="0.0" y="0.0" width="144" height="199"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -84,18 +84,15 @@
                                 <blurEffect style="dark"/>
                             </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZgB-qM-dqV" customClass="FutureWeatherView" customModule="RainOrShine" customModuleProvider="target">
-                                <rect key="frame" x="83" y="541" width="248" height="77"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="156" y="53" width="256" height="149"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="77" id="cBl-MU-EmY"/>
-                                    <constraint firstAttribute="width" constant="248" id="hfM-TE-291"/>
+                                    <constraint firstAttribute="height" constant="149" id="SzR-iN-3zj"/>
+                                    <constraint firstAttribute="width" constant="256" id="fjQ-bc-DDA"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="vFb-2t-dlQ" firstAttribute="top" secondItem="ZgB-qM-dqV" secondAttribute="bottom" constant="8" id="1Z3-fb-9UG"/>
-                            <constraint firstItem="ZgB-qM-dqV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2fz-1W-a7J"/>
                             <constraint firstItem="xVM-ae-RWw" firstAttribute="top" secondItem="vFb-2t-dlQ" secondAttribute="bottom" constant="8" id="4It-v0-bgV"/>
                             <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="lRn-hE-dqW" secondAttribute="bottom" constant="-110" id="9qP-HZ-UnC"/>
                             <constraint firstItem="vFb-2t-dlQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DAz-TK-bRM"/>
@@ -104,6 +101,7 @@
                             <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="XFu-rW-w4h"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="xVM-ae-RWw" secondAttribute="bottom" id="YQk-ZO-A2t"/>
                             <constraint firstItem="2co-iD-gnC" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="aVK-KQ-Hwl"/>
+                            <constraint firstItem="vFb-2t-dlQ" firstAttribute="top" secondItem="ZgB-qM-dqV" secondAttribute="bottom" constant="8" id="afZ-93-nLR"/>
                             <constraint firstAttribute="trailing" secondItem="FA0-yK-aiw" secondAttribute="trailing" id="bVb-79-0nD"/>
                             <constraint firstItem="2co-iD-gnC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cYH-JS-Enb"/>
                             <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="Kl4-SK-P5A" secondAttribute="bottom" constant="-207" id="fOM-BP-qCn"/>
@@ -111,12 +109,14 @@
                             <constraint firstItem="xVM-ae-RWw" firstAttribute="top" secondItem="FA0-yK-aiw" secondAttribute="bottom" id="guW-Rr-jcc"/>
                             <constraint firstAttribute="trailing" secondItem="xVM-ae-RWw" secondAttribute="trailing" id="hBm-bf-s4B"/>
                             <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="lRn-hE-dqW" secondAttribute="trailing" constant="-152" id="tSX-bJ-DJs"/>
+                            <constraint firstItem="ZgB-qM-dqV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vFu-qY-svU"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hIR-Va-xO0"/>
                     <connections>
                         <outlet property="activityIndicator" destination="2co-iD-gnC" id="3Du-pT-kOv"/>
                         <outlet property="currentWeatherView" destination="Kl4-SK-P5A" id="rbu-Ow-m0r"/>
+                        <outlet property="futureWeatherView" destination="ZgB-qM-dqV" id="hTC-pq-DqU"/>
                         <outlet property="locationImageView" destination="FA0-yK-aiw" id="jc3-dV-bca"/>
                         <outlet property="locationView" destination="lRn-hE-dqW" id="hoX-Og-JkO"/>
                         <outlet property="photoDetailView" destination="vFb-2t-dlQ" id="drG-IF-w2I"/>
@@ -144,11 +144,11 @@
                         <viewControllerLayoutGuide type="bottom" id="dXZ-Cn-gSP"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="crf-wd-xTz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sKv-ks-Mp6">
-                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <rect key="frame" x="0.0" y="64" width="568" height="256"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>

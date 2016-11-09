@@ -18,6 +18,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     private var locationSearchView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var photoDetailView: PhotoDetailView!
+    @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
     let locationManager = CLLocationManager()
     
@@ -239,6 +240,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     //Create gesture recognizers for swiping left and right through location photos
     private func createGestureRecognizers() {
         //print("In func createGestureRecognizers...")
+        let tap = UITapGestureRecognizer(target: self, action:  #selector (self.currentWeatherTapped (_:)))
+        currentWeatherView.addGestureRecognizer(tap)
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -277,6 +280,15 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         }
     }
     
+    func currentWeatherTapped(_ sender:UITapGestureRecognizer){
+        // do other task
+        if (futureWeatherView.alpha == 0) {
+            futureWeatherView.fadeIn()
+        }
+        else {
+            futureWeatherView.fadeOut()
+        }
+    }
     
     //If the user is searching, disable rotation until finished
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -592,6 +604,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         currentWeatherView.alpha = 0
         locationView.alpha = 0
         photoDetailView.alpha = 0
+        futureWeatherView.alpha = 0
     }
     
     

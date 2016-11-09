@@ -11,26 +11,87 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FutureWeatherView" customModule="RainOrShine" customModuleProvider="target">
             <connections>
-                <outlet property="testLabel" destination="cua-FV-cIj" id="nhi-XH-E5N"/>
+                <outlet property="day1View" destination="hLv-gV-Tst" id="Lbf-Qp-tM6"/>
                 <outlet property="view" destination="iN0-l3-epB" id="JoI-xY-ip7"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="248" height="77"/>
+            <rect key="frame" x="0.0" y="0.0" width="256" height="149"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cua-FV-cIj">
-                    <rect key="frame" x="103" y="28" width="42" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hLv-gV-Tst" customClass="FutureWeatherDayView" customModule="RainOrShine" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="48" height="149"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="s4Q-sj-HXE">
+                        <rect key="frame" x="0.0" y="0.0" width="48" height="149"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="48" id="Q5S-SS-0mZ"/>
+                    </constraints>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cnd-LG-7nP" customClass="FutureWeatherDayView" customModule="RainOrShine" customModuleProvider="target">
+                    <rect key="frame" x="104" y="0.0" width="48" height="149"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="J8B-ff-Mhr">
+                        <rect key="frame" x="0.0" y="0.0" width="48" height="149"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b19-Wk-mM1" customClass="FutureWeatherDayView" customModule="RainOrShine" customModuleProvider="target">
+                    <rect key="frame" x="208" y="0.0" width="48" height="149"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="QjB-5p-gDq">
+                        <rect key="frame" x="0.0" y="0.0" width="48" height="149"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GCC-j1-V2X" customClass="FutureWeatherDayView" customModule="RainOrShine" customModuleProvider="target">
+                    <rect key="frame" x="156" y="0.0" width="48" height="149"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9Ak-YF-kFX">
+                        <rect key="frame" x="0.0" y="0.0" width="48" height="149"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="48" id="baV-Di-BIb"/>
+                    </constraints>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6QQ-Ee-zOc" customClass="FutureWeatherDayView" customModule="RainOrShine" customModuleProvider="target">
+                    <rect key="frame" x="52" y="0.0" width="48" height="149"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bgr-lE-fw0">
+                        <rect key="frame" x="0.0" y="0.0" width="48" height="149"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="48" id="PdO-yG-vHx"/>
+                    </constraints>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Cnd-LG-7nP" firstAttribute="leading" secondItem="6QQ-Ee-zOc" secondAttribute="trailing" constant="4" id="2b2-Rj-2KL"/>
+                <constraint firstAttribute="bottom" secondItem="hLv-gV-Tst" secondAttribute="bottom" id="6at-tw-YyM"/>
+                <constraint firstItem="GCC-j1-V2X" firstAttribute="top" secondItem="b19-Wk-mM1" secondAttribute="top" id="6en-Tw-o3C"/>
+                <constraint firstItem="Cnd-LG-7nP" firstAttribute="bottom" secondItem="GCC-j1-V2X" secondAttribute="bottom" id="76z-y9-8SC"/>
+                <constraint firstItem="hLv-gV-Tst" firstAttribute="bottom" secondItem="6QQ-Ee-zOc" secondAttribute="bottom" id="APq-aJ-GX8"/>
+                <constraint firstAttribute="trailing" secondItem="b19-Wk-mM1" secondAttribute="trailing" id="DjA-Tt-zrE"/>
+                <constraint firstItem="Cnd-LG-7nP" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Rk9-sW-0hf"/>
+                <constraint firstItem="6QQ-Ee-zOc" firstAttribute="top" secondItem="Cnd-LG-7nP" secondAttribute="top" id="Vcs-t6-bK7"/>
+                <constraint firstItem="6QQ-Ee-zOc" firstAttribute="bottom" secondItem="Cnd-LG-7nP" secondAttribute="bottom" id="Vzs-Pf-ndO"/>
+                <constraint firstItem="GCC-j1-V2X" firstAttribute="leading" secondItem="Cnd-LG-7nP" secondAttribute="trailing" constant="4" id="XK8-Gp-t8C"/>
+                <constraint firstItem="6QQ-Ee-zOc" firstAttribute="leading" secondItem="hLv-gV-Tst" secondAttribute="trailing" constant="4" id="ac0-zf-9ty"/>
+                <constraint firstItem="Cnd-LG-7nP" firstAttribute="top" secondItem="GCC-j1-V2X" secondAttribute="top" id="dDA-bV-eat"/>
+                <constraint firstItem="GCC-j1-V2X" firstAttribute="bottom" secondItem="b19-Wk-mM1" secondAttribute="bottom" id="lzO-F7-x6k"/>
+                <constraint firstItem="b19-Wk-mM1" firstAttribute="leading" secondItem="GCC-j1-V2X" secondAttribute="trailing" constant="4" id="pLS-4m-buF"/>
+                <constraint firstItem="hLv-gV-Tst" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pM9-bW-QTw"/>
+                <constraint firstItem="hLv-gV-Tst" firstAttribute="top" secondItem="6QQ-Ee-zOc" secondAttribute="top" id="vG1-G9-M9B"/>
+                <constraint firstItem="hLv-gV-Tst" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wiM-Qw-9Zf"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="34" y="54.5"/>
         </view>
     </objects>
 </document>

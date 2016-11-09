@@ -1,5 +1,5 @@
 //
-//  FutureWeatherView.swift
+//  FutureWeatherDayView.swift
 //  RainOrShine
 //
 //  Created by Josh Henry on 11/8/16.
@@ -8,23 +8,22 @@
 
 import UIKit
 
-class FutureWeatherView: UIView {
+class FutureWeatherDayView: UIVisualEffectView {
 
-    @IBOutlet var view: UIView!
-    
-    @IBOutlet weak var day1View: FutureWeatherDayView!
+    @IBOutlet weak var view: UIView!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        UINib(nibName: "FutureWeatherView", bundle: nil).instantiate(withOwner: self, options: nil)
+        UINib(nibName: "FutureWeatherDayView", bundle: nil).instantiate(withOwner: self, options: nil)
         
         setViewStyle()
         
         addSubview(view)
     }
     
+    
     private func setViewStyle() {
-        //self.alpha = 0
+        self.setViewEdges()
     }
 
 }

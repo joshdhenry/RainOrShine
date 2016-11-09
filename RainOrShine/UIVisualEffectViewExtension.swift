@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension UIVisualEffectView {
+extension UIView {
     
     public func setViewEdges() {
         self.layer.cornerRadius = 10.0
