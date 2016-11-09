@@ -21,13 +21,13 @@ extension UIView {
     }
     
     
-    func fadeIn(withDuration duration: TimeInterval = 2.0) {
+    public func fadeIn(withDuration duration: TimeInterval = 2.0, finalAlpha: CGFloat = 0.7) {
         UIView.animate(withDuration: duration, animations: {
-            self.alpha = 0.7
+            self.alpha = finalAlpha
         })
     }
     
-    func fadeOut(withDuration duration: TimeInterval = 0.5) {
+    public func fadeOut(withDuration duration: TimeInterval = 0.5) {
         UIView.animate(withDuration: duration, animations: {
             self.alpha = 0
         })

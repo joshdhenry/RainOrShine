@@ -13,7 +13,7 @@ extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     //If the user selects a new city from the place search, display it's info and picture
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
-        searchController?.isActive = false
+        self.locationSearchView.searchController?.isActive = false
         
         self.makeSubViewsInvisible()
         

@@ -15,15 +15,13 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBOutlet weak var locationImageView: UIImageView!
     @IBOutlet weak var currentWeatherView: WeatherView!
     @IBOutlet weak var locationView: LocationView!
-    private var locationSearchView: UIView!
+    public var locationSearchView: LocationSearchView!
+
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var photoDetailView: PhotoDetailView!
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
     let locationManager = CLLocationManager()
-    
-    internal var searchController: UISearchController?
-    private var resultsViewController: GMSAutocompleteResultsViewController?
     
     var screenWidthAndHeight: CGSize = CGSize(width: 0, height: 0)
     
@@ -36,53 +34,12 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     return
                 }
                 guard let currently = forecast.currently else {return}
-                
-                //Temperature
-                let unformattedTemperature = currently.temperature
-                var formattedTemperature: String = String()
-                
-                if (unformattedTemperature != nil) {
-                    formattedTemperature = String(format: "%.0f", unformattedTemperature!)
-                }
-                
-                formattedTemperature += "°"
-                
-                //Current conditions summary
-                let summaryString = currently.summary
-                
-                //Current conditions icon
-                guard let currentlyIcon = currently.icon else {return}
-                
-                var currentIconType: Skycons
-                
-                switch currentlyIcon {
-                case .clearDay:
-                    currentIconType = Skycons.clearDay
-                case .clearNight:
-                    currentIconType = Skycons.clearNight
-                case .cloudy:
-                    currentIconType = Skycons.cloudy
-                case .fog:
-                    currentIconType = Skycons.fog
-                case .partlyCloudyNight:
-                    currentIconType = Skycons.partlyCloudyNight
-                case .rain:
-                    currentIconType = Skycons.rain
-                case .sleet:
-                    currentIconType = Skycons.sleet
-                case .snow:
-                    currentIconType = Skycons.snow
-                case .wind:
-                    currentIconType = Skycons.wind
-                default:
-                    currentIconType = Skycons.partlyCloudyDay
-                }
 
                 //Update the UI on the main thread
                 DispatchQueue.main.async {
-                    self.currentWeatherView.temperatureLabel.text = formattedTemperature
-                    self.currentWeatherView.summaryLabel.text = summaryString
-                    self.currentWeatherView.weatherConditionView.setType =  currentIconType
+                    self.currentWeatherView.temperatureLabel.text = currently.temperature?.getFormattedTemperatureString() ?? ""
+                    self.currentWeatherView.summaryLabel.text = currently.summary
+                    self.currentWeatherView.weatherConditionView.setType =  currently.icon?.getSkycon() ?? Skycons.partlyCloudyDay
                     self.currentWeatherView.weatherConditionView.play()
                     self.currentWeatherView.isHidden = false
                     self.currentWeatherView.fadeIn()
@@ -170,13 +127,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     self.photoDetailView.photoAttributionLabel.isHidden = true
                 }
             }
-            /*
-            viewModel?.blur.observe { [unowned self] in
-                //THIS IS WHERE I WOULD CHANGE THE BLUR
-                //THE ONLY WAY TO CHANGE THE BLUR IS TO REMOVE THE OLD UIVISUALEFFECTVIEW AND REPLACE IT WITH A NEW ONE WITH THE UPDATED UIVISUALEFECT
-                //self.locationView.view
-                print("UNDER CONSTRUCTION...\(($0!))")
-            }*/
         }
     }
     
@@ -194,8 +144,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         WeatherAPIService.setWeatherClient()
 
         viewModel = WeatherViewModel()
-        
-        //viewModel?.updateBlurStyle(blurStyle: .dark)
     }
     
     
@@ -299,9 +247,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     func currentWeatherTapped(_ sender:UITapGestureRecognizer){
-        // do other task
         if (futureWeatherView.alpha == 0) {
-            futureWeatherView.fadeIn()
+            futureWeatherView.fadeIn(withDuration: 1.0)
         }
         else {
             futureWeatherView.fadeOut()
@@ -363,28 +310,16 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Initialize and configure the Google Places search controllers
     private func createLocationSearchControllers() {
-        resultsViewController = GMSAutocompleteResultsViewController()
-        resultsViewController?.delegate = self
-     
-        let resultsFilter: GMSAutocompleteFilter = GMSAutocompleteFilter()
-        resultsFilter.type = .city
-        resultsViewController?.autocompleteFilter = resultsFilter
-        
-        searchController = UISearchController(searchResultsController: resultsViewController)
-        searchController?.searchResultsUpdater = resultsViewController
-        searchController?.searchBar.barTintColor = UIColor(netHex: ColorScheme.lightGray)
-        searchController?.searchBar.delegate = self
         
         initializeLocationSearchView()
         
-        locationSearchView.addSubview((searchController?.searchBar)!)
-        
-        locationSearchView.accessibilityIdentifier = "Location Search Bar"
-        
+        locationSearchView.resultsViewController?.delegate = self
+        locationSearchView.searchController?.searchBar.delegate = self
+
         self.view.addSubview(locationSearchView)
         
-        searchController?.searchBar.sizeToFit()
-        searchController?.hidesNavigationBarDuringPresentation = false
+        locationSearchView.searchController?.searchBar.sizeToFit()
+        locationSearchView.searchController?.hidesNavigationBarDuringPresentation = false
         
         //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
         self.definesPresentationContext = true
@@ -405,20 +340,23 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
          subView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidth, height: 45))
          }*/
         
+        
         if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
             // do your portrait stuff
-            locationSearchView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45))
+            //locationSearchView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45))
+            locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45))
+
         } else {
             // do your landscape stuff
             if (UIApplication.shared.isStatusBarHidden) {
-                locationSearchView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45))
+                //locationSearchView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45))
+                locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45))
             }
             else {
-                locationSearchView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.height, height: 45))
+                //locationSearchView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.height, height: 45))
+                locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.height, height: 45))
             }
         }
-        
-        searchController?.searchBar.sizeToFit()
     }
     
     
@@ -451,7 +389,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             locationSearchView.frame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
             //print(locationSearchView.frame.width)
             
-            searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
+            locationSearchView.searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
         } else {    // in landscape
             // do your landscape stuff
             print("Switching to landscape...")
@@ -468,7 +406,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         print(searchController?.view.frame)
         print(searchController?.searchBar.frame)*/
         
-        searchController?.searchBar.sizeToFit()
+        locationSearchView.searchController?.searchBar.sizeToFit()
         
         /*print(locationSearchView.frame)
         print(searchController?.view.frame)
