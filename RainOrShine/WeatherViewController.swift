@@ -82,13 +82,31 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 DispatchQueue.main.async {
                     self.currentWeatherView.temperatureLabel.text = formattedTemperature
                     self.currentWeatherView.summaryLabel.text = summaryString
-                    self.currentWeatherView.isHidden = false
-                    
                     self.currentWeatherView.weatherConditionView.setType =  currentIconType
-                    self.currentWeatherView.weatherConditionView.setColor = UIColor.white
                     self.currentWeatherView.weatherConditionView.play()
-                    
+                    self.currentWeatherView.isHidden = false
                     self.currentWeatherView.fadeIn()
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    if (WeatherAPIService.forecastDayDataPointArray.count > 0) {
+                        print("Adding the summary...")
+                        print(WeatherAPIService.forecastDayDataPointArray[0].summary!)
+                        self.futureWeatherView.day1View.summaryLabel.text = WeatherAPIService.forecastDayDataPointArray[0].summary!
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 }
             }
             

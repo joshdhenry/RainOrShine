@@ -30,5 +30,6 @@ class WeatherView: UIVisualEffectView {
         self.summaryLabel.textColor = UIColor.white
         
         weatherConditionView.backgroundColor = UIColor.clear
+        weatherConditionView.setColor = UIColor.white
     }
 }
