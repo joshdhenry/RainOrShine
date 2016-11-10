@@ -59,8 +59,8 @@ class WeatherAPIService {
                 
                 
                 //for dayForecast in dailyForecastDataBlock.data {
-                //Loop through 5 days of data
-                for dayForecastIndex in 0..<5 {
+                //Loop through 5 days of data, Skip the first one because that one is today
+                for dayForecastIndex in 1..<6 {
                     if (dayForecastIndex < dailyForecastDataBlock.data.count) {
                         //DOUBLE CHECK IF I CAN AND SHOULD RETURN IN THIS ELSE STATEMENT.  SO SLEEPY RIGHT NOW.
                         let dayForecast = dailyForecastDataBlock.data[dayForecastIndex]

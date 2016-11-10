@@ -11,13 +11,10 @@ import Foundation
 extension Float {
     
     func getFormattedTemperatureString() -> String {
-        //Temperature
         var formattedTemperature: String = String()
         
         formattedTemperature = String(format: "%.0f", self)
-        
         formattedTemperature += "°"
-        
         
         return formattedTemperature
     }

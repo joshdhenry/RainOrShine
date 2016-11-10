@@ -18,7 +18,7 @@
 		0313E53A1DC3C94600E453A0 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0313E5391DC3C94600E453A0 /* APIKeys.plist */; };
 		0337AA771DCDCBD200E6478B /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337AA761DCDCBD200E6478B /* Temperature.swift */; };
 		0337AA7A1DCEA7C600E6478B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337AA791DCEA7C600E6478B /* SettingsViewController.swift */; };
-		0337AA7C1DCEB2DC00E6478B /* UIVisualEffectViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337AA7B1DCEB2DC00E6478B /* UIVisualEffectViewExtension.swift */; };
+		0337AA7C1DCEB2DC00E6478B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337AA7B1DCEB2DC00E6478B /* UIViewExtension.swift */; };
 		033DE0611DCD06DF0082F7A0 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033DE0601DCD06DF0082F7A0 /* LocationView.swift */; };
 		033DE0631DCD070F0082F7A0 /* LocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033DE0621DCD070F0082F7A0 /* LocationView.xib */; };
 		033DE0651DCD0E140082F7A0 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033DE0641DCD0E140082F7A0 /* UIColorExtension.swift */; };
@@ -30,6 +30,7 @@
 		038354BC1DD3CE89005C1F76 /* FloatExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354BB1DD3CE89005C1F76 /* FloatExtension.swift */; };
 		038354BE1DD3D5DA005C1F76 /* IconExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354BD1DD3D5DA005C1F76 /* IconExtension.swift */; };
 		038354C11DD3DB61005C1F76 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354C01DD3DB61005C1F76 /* LocationSearchView.swift */; };
+		038354C31DD40A00005C1F76 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354C21DD40A00005C1F76 /* DateExtension.swift */; };
 		03B2DE701DC5D1EA00CFFA83 /* WeatherAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */; };
 		03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE711DC7073900CFFA83 /* Place.swift */; };
 		03B2DE761DC73ECD00CFFA83 /* WeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03B2DE751DC73ECD00CFFA83 /* WeatherView.xib */; };
@@ -83,7 +84,7 @@
 		0313E5391DC3C94600E453A0 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
 		0337AA761DCDCBD200E6478B /* Temperature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		0337AA791DCEA7C600E6478B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		0337AA7B1DCEB2DC00E6478B /* UIVisualEffectViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIVisualEffectViewExtension.swift; sourceTree = "<group>"; };
+		0337AA7B1DCEB2DC00E6478B /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		033DE0601DCD06DF0082F7A0 /* LocationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		033DE0621DCD070F0082F7A0 /* LocationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationView.xib; sourceTree = "<group>"; };
 		033DE0641DCD0E140082F7A0 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
@@ -95,6 +96,7 @@
 		038354BB1DD3CE89005C1F76 /* FloatExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatExtension.swift; sourceTree = "<group>"; };
 		038354BD1DD3D5DA005C1F76 /* IconExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconExtension.swift; sourceTree = "<group>"; };
 		038354C01DD3DB61005C1F76 /* LocationSearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
+		038354C21DD40A00005C1F76 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAPIService.swift; sourceTree = "<group>"; };
 		03B2DE711DC7073900CFFA83 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		03B2DE751DC73ECD00CFFA83 /* WeatherView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeatherView.xib; sourceTree = "<group>"; };
@@ -292,8 +294,9 @@
 				03FD6DE01DD1A1E2004F7FA6 /* StringExtension.swift */,
 				0313E5371DC2A21A00E453A0 /* WeatherViewControllerExtension.swift */,
 				033DE0641DCD0E140082F7A0 /* UIColorExtension.swift */,
-				0337AA7B1DCEB2DC00E6478B /* UIVisualEffectViewExtension.swift */,
+				0337AA7B1DCEB2DC00E6478B /* UIViewExtension.swift */,
 				038354BD1DD3D5DA005C1F76 /* IconExtension.swift */,
+				038354C21DD40A00005C1F76 /* DateExtension.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -576,7 +579,7 @@
 				0313E50A1DC1DBC200E453A0 /* WeatherViewController.swift in Sources */,
 				0337AA771DCDCBD200E6478B /* Temperature.swift in Sources */,
 				0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */,
-				0337AA7C1DCEB2DC00E6478B /* UIVisualEffectViewExtension.swift in Sources */,
+				0337AA7C1DCEB2DC00E6478B /* UIViewExtension.swift in Sources */,
 				03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */,
 				03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */,
 				038354B61DD2DAD4005C1F76 /* FutureWeatherView.swift in Sources */,
@@ -593,6 +596,7 @@
 				03B2DE7C1DC8428D00CFFA83 /* Observable.swift in Sources */,
 				038354BE1DD3D5DA005C1F76 /* IconExtension.swift in Sources */,
 				03FD6DDF1DD18449004F7FA6 /* Style.swift in Sources */,
+				038354C31DD40A00005C1F76 /* DateExtension.swift in Sources */,
 				033DE0651DCD0E140082F7A0 /* UIColorExtension.swift in Sources */,
 				038354BC1DD3CE89005C1F76 /* FloatExtension.swift in Sources */,
 				038354BA1DD2E6B6005C1F76 /* FutureWeatherDayView.swift in Sources */,

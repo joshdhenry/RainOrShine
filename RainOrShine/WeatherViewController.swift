@@ -34,6 +34,17 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     return
                 }
                 guard let currently = forecast.currently else {return}
+                
+                var allSubViewsArray: [UIView] = [UIView]()
+                
+                if (!WeatherAPIService.forecastDayDataPointArray.isEmpty) {
+                    for thisView in self.futureWeatherView.allSubViews {
+                        if let futureDayView = thisView as? FutureWeatherDayView {
+                            allSubViewsArray.append(futureDayView)
+                        }
+                    }
+                    allSubViewsArray.sort(by: { $0.center.x < $1.center.x })
+                }
 
                 //Update the UI on the main thread
                 DispatchQueue.main.async {
@@ -44,26 +55,26 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     self.currentWeatherView.isHidden = false
                     self.currentWeatherView.fadeIn()
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    if (WeatherAPIService.forecastDayDataPointArray.count > 0) {
-                        print("Adding the summary...")
-                        print(WeatherAPIService.forecastDayDataPointArray[0].summary!)
-                        self.futureWeatherView.day1View.summaryLabel.text = WeatherAPIService.forecastDayDataPointArray[0].summary!
+                    //Populate five day forecast from the sorted array
+                    for x in 0..<allSubViewsArray.count {
+                        if let futureDayView = allSubViewsArray[x] as? FutureWeatherDayView {
+                            futureDayView.summaryLabel.text = WeatherAPIService.forecastDayDataPointArray[x].summary
+                            futureDayView.weatherConditionView.setType = WeatherAPIService.forecastDayDataPointArray[x].icon?.getSkycon() ?? Skycons.partlyCloudyDay
+                            futureDayView.weatherConditionView.play()
+                            
+                            futureDayView.dayLabel.text = WeatherAPIService.forecastDayDataPointArray[x].time.toAbbreviatedDayString()
+                            
+                            var temperatureLabelText: String = String()
+                            
+                            //MAKE A DICTIONARY WITH THE MIN AND MAX.  CREATE AN EXTENSION OF A DICTIONARY THAT WILL BE CALLED getFormattedTemperatureRANGEString and implement it here
+                            let minText = WeatherAPIService.forecastDayDataPointArray[x].temperatureMin?.getFormattedTemperatureString() ?? ""
+                            let maxText = WeatherAPIService.forecastDayDataPointArray[x].temperatureMax?.getFormattedTemperatureString() ?? ""
+                            
+                            temperatureLabelText = minText + "/" + maxText
+                            
+                            futureDayView.temperatureLabel.text = temperatureLabelText
+                        }
                     }
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                 }
             }
             
@@ -71,7 +82,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 if ($0 != nil) {
                     self.locationView.isHidden = false
                     self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
-                    
+                    //self.locationView.locationLabel.text = $0?.generalLocaleFormattedAddress?.components(separatedBy: ", ").joined(separator: "\n")
+
                     self.locationView.fadeIn()
                     
                     self.photoDetailView.isHidden = false
@@ -248,7 +260,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     func currentWeatherTapped(_ sender:UITapGestureRecognizer){
         if (futureWeatherView.alpha == 0) {
-            futureWeatherView.fadeIn(withDuration: 1.0)
+            futureWeatherView.fadeIn(withDuration: 0.75, finalAlpha: 0.85)
         }
         else {
             futureWeatherView.fadeOut()
@@ -448,7 +460,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     //Display new place photos when a new place has been chosen
     private func displayNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
         //Get the photos of the general locale
-        LocationAPIService.setPhotoOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
+        LocationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             //print("IMAGE SET == \(imageSet)")
             if (isImageSet == true) {
                 //Reset image page control
@@ -469,6 +481,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 completion(true)
             }
         }
+        
+        
+        
     }
     
     
@@ -524,7 +539,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         makeSubViewsInvisible()
         
         LocationAPIService.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
-            if (isLocationFound == true) {
+            if (isLocationFound) {
                 self.viewModel?.updatePlace(newPlace: locationPlace)
 
                 LocationAPIService.currentPlace = locationPlace
@@ -533,6 +548,28 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 
                 //Once the data is retrieved, turn off the GPS
                 self.locationManager.stopUpdatingLocation()
+                
+                
+                
+                
+                
+                ///THIS IS EXPERIMENTAL BLOCK - it works but probably should be moved in locationapiservice
+                let generalLocaleString: String = (LocationAPIService.currentPlace?.getGeneralLocaleString() ?? "")
+                
+                //Get the place ID of the general area so that we can grab an image of the city
+                let placeIDOfGeneralLocale: String? = LocationAPIService.getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
+                ///////////////////////
+                
+                
+                LocationAPIService.setGeneralLocalePlace(placeIDOfGeneralLocale: placeIDOfGeneralLocale) { (isGeneralLocaleFound, locationPlace) -> () in
+                    if (isGeneralLocaleFound) {
+                        print("DONE AND FOUND THE GEN LOCALE...")
+                    }
+                
+                
+                
+                }
+                
             }
         }
     }

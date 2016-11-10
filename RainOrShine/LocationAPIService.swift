@@ -17,6 +17,8 @@ class LocationAPIService {
     static private var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
     
     static var currentPlace: Place?
+    static var generalLocalePlace: Place?
+    
     static var currentPlaceImageIndex: Int = 0
 
     
@@ -56,7 +58,36 @@ class LocationAPIService {
             }
 
             placeFindComplete = true
-            completion(true, Place(place: firstPlaceLikelihoodFound.place))
+            let placeToReturn: Place = Place(place: firstPlaceLikelihoodFound.place)
+            
+            completion(true, placeToReturn)
+        })
+        if (placeFindComplete == false) {
+            completion(false, nil)
+        }
+    }
+    
+   
+    class public func setGeneralLocalePlace(placeIDOfGeneralLocale: String?, completion: @escaping (_ result: Bool, _ locationPlace: Place?)->()) {
+        var placeFindComplete: Bool = false
+
+        LocationAPIService.placesClient?.lookUpPlaceID(placeIDOfGeneralLocale!, callback: { (place, error) -> Void in
+            guard error == nil else {
+                print("General Locale Place error: \(error!.localizedDescription)")
+                
+                placeFindComplete = true
+                completion(true, nil)
+                return
+            }
+            guard let thisPlace = place else {
+                completion(true, nil)
+                return
+            }
+            
+            print("GENERAL LOCALE PLACE ID IS \(thisPlace.placeID)")
+            
+            placeFindComplete = true
+            completion(true, Place(place: thisPlace))
         })
         if (placeFindComplete == false) {
             completion(false, nil)
@@ -64,16 +95,18 @@ class LocationAPIService {
     }
     
     
+    
+    
     //This method finds a photo of the general locale
-    class public func setPhotoOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
+    class public func setPhotosOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
         print("In function setPhotoOfGeneralLocale...")
-                
+        
+        
         let generalLocaleString: String = (LocationAPIService.currentPlace?.getGeneralLocaleString() ?? "")
-                
+        
         //Get the place ID of the general area so that we can grab an image of the city
-        let placeIDOfGeneralLocale: String? = LocationAPIService.setPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
-
-
+        let placeIDOfGeneralLocale: String? = LocationAPIService.getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
+        
         if (placeIDOfGeneralLocale != nil) {
             LocationAPIService.setPhotoMetaData(placeIDOfGeneralLocale: placeIDOfGeneralLocale) { (photoMetaDataFound) -> () in
                 print("PHOTOMETADATAFOUND == \(photoMetaDataFound)")
@@ -94,8 +127,10 @@ class LocationAPIService {
     }
     
     
+    
+    
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
-    class private func setPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) -> String? {
+    class public func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) -> String? {
         print("In function getPlaceIDOfGeneralLocale...(#2)")
 
         var placeID: String?
@@ -128,7 +163,7 @@ class LocationAPIService {
         while (completionHandlerCodeComplete == false) {
             //print("Waiting on the photo reference to retrieve...")
         }
-        //print("Returning placeID OF GENERAL LOCALE of \(placeID)")
+        print("Returning placeID OF GENERAL LOCALE of \(placeID)")
         return placeID
     }
     

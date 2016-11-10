@@ -12,8 +12,10 @@ import GooglePlaces
 class Place {
     
     public var gmsPlace: GMSPlace?
+    //public var generalLocaleGMSPlace: GMSPlace?
     public var generalLocalePhotoMetaDataArray: [GMSPlacePhotoMetadata?] = [GMSPlacePhotoMetadata?]()
     public var generalLocalePhotoArray: [UIImage?] = [UIImage?]()
+    //public var generalLocaleFormattedAddress: String?
     
     init() {}
     
