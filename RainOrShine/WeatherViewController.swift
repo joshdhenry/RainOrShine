@@ -81,8 +81,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             viewModel?.currentPlace.observe { [unowned self] in
                 if ($0 != nil) {
                     self.locationView.isHidden = false
-                    self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
-                    //self.locationView.locationLabel.text = $0?.generalLocaleFormattedAddress?.components(separatedBy: ", ").joined(separator: "\n")
+                    //self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
 
                     self.locationView.fadeIn()
                     
@@ -94,6 +93,17 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     self.photoDetailView.isHidden = true
                 }
             }
+            
+            
+            viewModel?.currentGeneralLocalePlace.observe { [unowned self] in
+                if ($0 != nil) {
+                    self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+                }
+                else {
+                    self.locationView.locationLabel.text = ""
+                }
+            }
+            
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 guard let currentPlace: Place = LocationAPIService.currentPlace else {
@@ -247,7 +257,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //If the device is rotated, display the location search bar appropriately
     dynamic func deviceDidRotate(notification: NSNotification) {
-        print("In func deviceDidRotate()...")
+        //print("In func deviceDidRotate()...")
         
         //print(UIApplication.shared.statusBarOrientation.isLandscape)
         //print(UIApplication.shared.statusBarOrientation.isPortrait)
@@ -424,6 +434,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     internal func changePlaceShown() {
         //print("In func changePlaceShown...")
         
+        print("PLACE IDS")
+        print(LocationAPIService.currentPlace?.gmsPlace?.placeID)
+        print(LocationAPIService.generalLocalePlace?.gmsPlace?.placeID)
+        
+        print(LocationAPIService.currentPlace?.gmsPlace?.formattedAddress)
+        print(LocationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)
+
+        
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         
         activityIndicator.startAnimating()
@@ -477,13 +495,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     self.photoDetailView.photoPageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
                     self.photoDetailView.photoPageControl.isHidden = false
                 }
-                
                 completion(true)
             }
         }
-        
-        
-        
     }
     
     
@@ -538,38 +552,26 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         makeSubViewsInvisible()
         
-        LocationAPIService.setCurrentLocationPlace() { (isLocationFound, locationPlace) -> () in
+        LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
                 self.viewModel?.updatePlace(newPlace: locationPlace)
-
+                
                 LocationAPIService.currentPlace = locationPlace
                 
-                self.changePlaceShown()
-                
-                //Once the data is retrieved, turn off the GPS
+                //Once the GPS locational data has been retrieved to set the exact place, turn off the GPS
                 self.locationManager.stopUpdatingLocation()
                 
-                
-                
-                
-                
-                ///THIS IS EXPERIMENTAL BLOCK - it works but probably should be moved in locationapiservice
-                let generalLocaleString: String = (LocationAPIService.currentPlace?.getGeneralLocaleString() ?? "")
-                
-                //Get the place ID of the general area so that we can grab an image of the city
-                let placeIDOfGeneralLocale: String? = LocationAPIService.getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
-                ///////////////////////
-                
-                
-                LocationAPIService.setGeneralLocalePlace(placeIDOfGeneralLocale: placeIDOfGeneralLocale) { (isGeneralLocaleFound, locationPlace) -> () in
+                //Set the general locale of the place (better for pictures and displaying user's location)
+                LocationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
                     if (isGeneralLocaleFound) {
-                        print("DONE AND FOUND THE GEN LOCALE...")
+                        
+                        self.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
+                        
+                        LocationAPIService.generalLocalePlace = generalLocalePlace
+                        
+                        self.changePlaceShown()
                     }
-                
-                
-                
                 }
-                
             }
         }
     }

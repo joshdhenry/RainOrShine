@@ -9,6 +9,8 @@
 import Foundation
 
 extension Date {
+    
+    //Return the abbreviated day (ex: Mon, Tue, Wed, etc)
     func toAbbreviatedDayString() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E"

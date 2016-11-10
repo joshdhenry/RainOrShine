@@ -7,7 +7,7 @@
 //  Copyright © 2016 Miwand Najafe. All rights reserved.
 //
 //  This 3rd-party file was used from https://github.com/miwand/Skycons-Swift
-//  It retrieves animated weather icons based on weather conditions retrieved from Forecast.io's API
+//  It returns animated weather icons based on weather conditions retrieved from Forecast.io's API
 
 import Foundation
 import UIKit

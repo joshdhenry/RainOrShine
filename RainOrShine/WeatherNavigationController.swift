@@ -11,6 +11,7 @@ import UIKit
 
 class WeatherNavigationController: UINavigationController {
     
+    //Determine whether the navigation controller should rotate depending on what Rotation.allowed is
     open override var shouldAutorotate: Bool {
         get {
             return Rotation.allowed

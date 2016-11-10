@@ -8,6 +8,7 @@
 
 import Foundation
 
+//Rotation determines whether rotation is allowed at the moment or not
 struct Rotation {
     static var allowed: Bool = true
 }

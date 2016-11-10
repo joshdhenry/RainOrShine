@@ -11,32 +11,39 @@ import ForecastIO
 
 class WeatherViewModel {
     let currentPlace: Observable<Place?>
+    let currentGeneralLocalePlace: Observable<Place?>
     let currentForecast: Observable<Forecast?>
     let currentPlaceImageIndex: Observable<Int?>
     
     
     init() {
         self.currentPlace = Observable(LocationAPIService.currentPlace)
+        self.currentGeneralLocalePlace = Observable(LocationAPIService.generalLocalePlace)
         self.currentForecast = Observable(WeatherAPIService.currentWeatherForecast)        
         self.currentPlaceImageIndex = Observable(LocationAPIService.currentPlaceImageIndex)
     }
     
     
     func updateForecast(newForecast: Forecast?) {
-        print("In func updateForecast...")
+        //print("In func updateForecast...")
         currentForecast.value = newForecast
     }
     
     
     func updatePlace(newPlace: Place?) {
-        print("In func updatePlace...")
+        //print("In func updatePlace...")
         currentPlace.value = newPlace
     }
     
-    func updatePlaceImageIndex(newPlaceImageIndex: Int?) {
-        print("In func updatePlaceImageIndex...")
-        currentPlaceImageIndex.value = newPlaceImageIndex
+    
+    func updateGeneralLocalePlace(newPlace: Place?) {
+        //print("In func updateGeneralLocalePlace...")
+        currentGeneralLocalePlace.value = newPlace
     }
     
     
+    func updatePlaceImageIndex(newPlaceImageIndex: Int?) {
+        //print("In func updatePlaceImageIndex...")
+        currentPlaceImageIndex.value = newPlaceImageIndex
+    }
 }

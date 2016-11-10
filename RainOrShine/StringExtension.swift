@@ -16,7 +16,7 @@ extension String {
         do {
             return try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject]
         } catch let error as NSError {
-            print(error)
+            print("Error converting string to dictionary - \(error)")
             return nil
         }
     }

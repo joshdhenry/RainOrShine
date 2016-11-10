@@ -12,10 +12,8 @@ import GooglePlaces
 class Place {
     
     public var gmsPlace: GMSPlace?
-    //public var generalLocaleGMSPlace: GMSPlace?
     public var generalLocalePhotoMetaDataArray: [GMSPlacePhotoMetadata?] = [GMSPlacePhotoMetadata?]()
     public var generalLocalePhotoArray: [UIImage?] = [UIImage?]()
-    //public var generalLocaleFormattedAddress: String?
     
     init() {}
     
@@ -26,7 +24,7 @@ class Place {
     
     //This method builds a string of the general locality of the place, which will be used to query a photo of the general locale
     public func getGeneralLocaleString() -> String {
-        print("In function setGeneralLocaleString... (#1)")
+        //print("In function setGeneralLocaleString... (#1)")
         
         var queryString: String = ""
         
