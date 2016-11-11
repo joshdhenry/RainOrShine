@@ -72,7 +72,7 @@ class LocationAPIService {
     class public func setGeneralLocalePlace(completion: @escaping (_ result: Bool, _ generalLocalePlace: Place?)->()) {
         var placeFindComplete: Bool = false
         
-        let generalLocaleString: String = (LocationAPIService.currentPlace?.getGeneralLocaleString() ?? "")
+        let generalLocaleString: String = LocationAPIService.currentPlace?.getGeneralLocaleString() ?? ""
         
         //Get the place ID of the general area so that we can grab an image of the city
         let placeIDOfGeneralLocale: String? = LocationAPIService.getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
@@ -105,14 +105,9 @@ class LocationAPIService {
     //This method finds a photo of the general locale
     class public func setPhotosOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
         //print("In function setPhotoOfGeneralLocale...")
-        
-        let generalLocaleString: String = LocationAPIService.currentPlace?.getGeneralLocaleString() ?? ""
-        
-        //Get the place ID of the general area so that we can grab an image of the city
-        let placeIDOfGeneralLocale: String? = LocationAPIService.getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
-        
-        if (placeIDOfGeneralLocale != nil) {
-            LocationAPIService.setPhotoMetaData(placeIDOfGeneralLocale: placeIDOfGeneralLocale) { (photoMetaDataFound) -> () in
+        if (LocationAPIService.generalLocalePlace?.gmsPlace != nil) {
+
+            LocationAPIService.setPhotoMetaData(placeIDOfGeneralLocale: LocationAPIService.generalLocalePlace?.gmsPlace?.placeID) { (photoMetaDataFound) -> () in
                 if (photoMetaDataFound == true) {
                     LocationAPIService.setImagesArrayForMetadata(size: size, scale: scale) { (imageFound) -> () in
                         if (imageFound == true) {
@@ -123,7 +118,7 @@ class LocationAPIService {
             }
         }
         else {
-            print("Not loading a photo since place ID of general area was nil...")
+            print("Not loading a photo since place of general area was nil...")
             completion(true)
         }
     }
