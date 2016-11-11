@@ -39,7 +39,7 @@ class Place {
             
             switch (addressComponent.type) {
             //case "locality", "administrative_area_level_3", "administrative_area_level_2", "administrative_area_level_1", "country":
-            //Prefer city, then
+            //Prefer city, then county, then state, etc.
             case "locality", "administrative_area_level_3", "administrative_area_level_2":
                 if (cityNameAlreadyFound == false) {
                     

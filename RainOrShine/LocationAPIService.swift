@@ -35,7 +35,7 @@ class LocationAPIService {
     
     //This method gets the current location of the user and sets currentPlace
     class public func setCurrentExactPlace(completion: @escaping (_ result: Bool, _ locationPlace: Place?)->()) {
-        //print("In function setCurrentExactPlace...")
+        print("In function setCurrentExactPlace...")
 
         var placeFindComplete: Bool = false
                 
@@ -57,9 +57,13 @@ class LocationAPIService {
                 return
             }
 
-            placeFindComplete = true
+            
             let placeToReturn: Place = Place(place: firstPlaceLikelihoodFound.place)
             
+            print("Returning the place...")
+            print(firstPlaceLikelihoodFound.place.placeID)
+            
+            placeFindComplete = true
             completion(true, placeToReturn)
         })
         if (placeFindComplete == false) {
@@ -77,25 +81,37 @@ class LocationAPIService {
         //Get the place ID of the general area so that we can grab an image of the city
         let placeIDOfGeneralLocale: String? = LocationAPIService.getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
         
-        LocationAPIService.placesClient?.lookUpPlaceID(placeIDOfGeneralLocale!, callback: { (place, error) -> Void in
-            guard error == nil else {
-                print("General Locale Place error: \(error!.localizedDescription)")
-                
-                placeFindComplete = true
-                completion(true, nil)
-                return
-            }
-            guard let thisPlace = place else {
-                completion(true, nil)
-                return
-            }
-            
+        //Some places, like Lake Superior (47, -90) do not return a general locale string because it only has a formatted string of type natural_feature
+        //In that case, set the general locale to the exact location
+        if placeIDOfGeneralLocale == nil {
             placeFindComplete = true
             
-            let placeToReturn: Place = Place(place: thisPlace)
+            let placeToReturn: Place? = LocationAPIService.currentPlace
             
             completion(true, placeToReturn)
-        })
+        }
+        //Else, return the general locale place
+        else {
+            LocationAPIService.placesClient?.lookUpPlaceID(placeIDOfGeneralLocale!, callback: { (place, error) -> Void in
+                guard error == nil else {
+                    print("General Locale Place error: \(error!.localizedDescription)")
+                    
+                    placeFindComplete = true
+                    completion(true, nil)
+                    return
+                }
+                guard let thisPlace = place else {
+                    completion(true, nil)
+                    return
+                }
+                
+                placeFindComplete = true
+                
+                let placeToReturn: Place = Place(place: thisPlace)
+                
+                completion(true, placeToReturn)
+            })
+        }
         if (placeFindComplete == false) {
             completion(false, nil)
         }

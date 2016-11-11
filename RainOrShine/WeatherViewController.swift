@@ -22,7 +22,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
     let locationManager = CLLocationManager()
-    
     var screenWidthAndHeight: CGSize = CGSize(width: 0, height: 0)
     
     
@@ -217,7 +216,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     
     //Begin monitoring device orientation.  If rotated, call deviceDidRotate()
-    func createRotationObserver() {
+    private func createRotationObserver() {
         //print("In func createRotationObserver...")
         
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
@@ -227,9 +226,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Create gesture recognizers for swiping left and right through location photos
     private func createGestureRecognizers() {
-        //print("In func createGestureRecognizers...")
-        let tap = UITapGestureRecognizer(target: self, action:  #selector (self.currentWeatherTapped (_:)))
-        currentWeatherView.addGestureRecognizer(tap)
+        //print("In func createGestureRecognizers...")        
+        self.view.addGestureRecognizer(setTapRecognizer())
+        locationImageView.addGestureRecognizer(setTapRecognizer())
+        currentWeatherView.addGestureRecognizer(setTapRecognizer())
+        locationView.addGestureRecognizer(setTapRecognizer())
+        currentWeatherView.addGestureRecognizer(setTapRecognizer())
+        futureWeatherView.addGestureRecognizer(setTapRecognizer())
+        photoDetailView.addGestureRecognizer(setTapRecognizer())
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -238,6 +242,12 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         self.view.addGestureRecognizer(swipeLeft)
+    }
+    
+    
+    private func setTapRecognizer() -> UITapGestureRecognizer {
+        let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (self.currentWeatherTapped (_:)))
+        return tapRecognizer
     }
     
     
@@ -268,7 +278,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         }
     }
     
-    func currentWeatherTapped(_ sender:UITapGestureRecognizer){
+    
+    internal func currentWeatherTapped(_ sender:UITapGestureRecognizer) {
         if (futureWeatherView.alpha == 0) {
             futureWeatherView.fadeIn(withDuration: 0.75, finalAlpha: 0.85)
         }
@@ -277,8 +288,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         }
     }
     
+    
     //If the user is searching, disable rotation until finished
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //print("searchBarTextDidBeginEditing...")
         
         Rotation.allowed = false
@@ -286,7 +298,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     
     //If the user is done searching, re-enable screen rotation
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+    internal func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         //print("searchBarTextDidEndEditing...")
         
         Rotation.allowed = true
@@ -361,7 +373,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
          else if (UIApplication.shared.statusBarOrientation.isPortrait) {
          subView = UIView(frame: CGRect(x: 0, y: 20, width: screenWidth, height: 45))
          }*/
-        
         
         if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
             // do your portrait stuff
@@ -558,12 +569,16 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
+                print("Found the location...")
                 self.viewModel?.updatePlace(newPlace: locationPlace)
                 
                 LocationAPIService.currentPlace = locationPlace
                 
+                print("LocationAPIService.currentPlace?.gmsPlace?.placeID is \(LocationAPIService.currentPlace?.gmsPlace?.placeID)")
+                
+                //THIS BEING HERE MIGHT HAVE CAUSED BACK TO BACK REFRESHES TO SHOW THE SAME LOCATION, EVEN THOUGH THE LOCATION CHANGED
                 //Once the GPS locational data has been retrieved to set the exact place, turn off the GPS
-                self.locationManager.stopUpdatingLocation()
+                //self.locationManager.stopUpdatingLocation()
                 
                 //Set the general locale of the place (better for pictures and displaying user's location)
                 LocationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in

@@ -34,7 +34,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="13" translatesAutoresizingMaskIntoConstraints="NO" id="FEk-lK-r9M">
+                    <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="13" translatesAutoresizingMaskIntoConstraints="NO" id="FEk-lK-r9M">
                         <rect key="frame" x="8" y="21" width="224" height="37"/>
                         <color key="currentPageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </pageControl>
