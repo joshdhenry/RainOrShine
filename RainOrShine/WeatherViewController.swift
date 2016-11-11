@@ -23,7 +23,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     let locationManager = CLLocationManager()
     var screenWidthAndHeight: CGSize = CGSize(width: 0, height: 0)
-    
+
     
     var viewModel: WeatherViewModel? {
         didSet {            
@@ -34,15 +34,15 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 }
                 guard let currently = forecast.currently else {return}
                 
-                var allSubViewsArray: [UIView] = [UIView]()
+                var futureDaySubViewsArray: [UIView] = [UIView]()
                 
                 if (!WeatherAPIService.forecastDayDataPointArray.isEmpty) {
                     for thisView in self.futureWeatherView.allSubViews {
                         if let futureDayView = thisView as? FutureWeatherDayView {
-                            allSubViewsArray.append(futureDayView)
+                            futureDaySubViewsArray.append(futureDayView)
                         }
                     }
-                    allSubViewsArray.sort(by: { $0.center.x < $1.center.x })
+                    futureDaySubViewsArray.sort(by: { $0.center.x < $1.center.x })
                 }
 
                 //Update the UI on the main thread
@@ -55,21 +55,21 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     self.currentWeatherView.fadeIn()
                     
                     //Populate five day forecast from the sorted array
-                    for x in 0..<allSubViewsArray.count {
-                        if let futureDayView = allSubViewsArray[x] as? FutureWeatherDayView {
-                            futureDayView.summaryLabel.text = WeatherAPIService.forecastDayDataPointArray[x].summary
-                            futureDayView.weatherConditionView.setType = WeatherAPIService.forecastDayDataPointArray[x].icon?.getSkycon() ?? Skycons.partlyCloudyDay
+                    for futureDaySubViewIndex in 0..<futureDaySubViewsArray.count {
+                        if let futureDayView = futureDaySubViewsArray[futureDaySubViewIndex] as? FutureWeatherDayView {
+                            futureDayView.summaryLabel.text = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].summary
+                            futureDayView.weatherConditionView.setType = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].icon?.getSkycon() ?? Skycons.partlyCloudyDay
                             futureDayView.weatherConditionView.play()
                             
-                            futureDayView.dayLabel.text = WeatherAPIService.forecastDayDataPointArray[x].time.toAbbreviatedDayString()
+                            futureDayView.dayLabel.text = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].time.toAbbreviatedDayString()
                             
                             var temperatureLabelText: String = String()
                             
                             //MAKE A DICTIONARY WITH THE MIN AND MAX.  CREATE AN EXTENSION OF A DICTIONARY THAT WILL BE CALLED getFormattedTemperatureRANGEString and implement it here
-                            let minText = WeatherAPIService.forecastDayDataPointArray[x].temperatureMin?.getFormattedTemperatureString() ?? ""
-                            let maxText = WeatherAPIService.forecastDayDataPointArray[x].temperatureMax?.getFormattedTemperatureString() ?? ""
+                            let minTemperatureText = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMin?.getFormattedTemperatureString() ?? ""
+                            let maxTemperatureText = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMax?.getFormattedTemperatureString() ?? ""
                             
-                            temperatureLabelText = minText + "/" + maxText
+                            temperatureLabelText = minTemperatureText + "/" + maxTemperatureText
                             
                             futureDayView.temperatureLabel.text = temperatureLabelText
                         }
@@ -80,7 +80,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             viewModel?.currentPlace.observe { [unowned self] in
                 if ($0 != nil) {
                     self.locationView.isHidden = false
-
                     self.locationView.fadeIn()
                     
                     self.photoDetailView.isHidden = false
@@ -92,7 +91,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 }
             }
             
-            
             viewModel?.currentGeneralLocalePlace.observe { [unowned self] in
                 if ($0 != nil) {
                     self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
@@ -101,7 +99,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     self.locationView.locationLabel.text = ""
                 }
             }
-            
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 guard let currentPlace: Place = LocationAPIService.currentPlace else {
@@ -159,7 +156,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         setAllAPIKeys()
         configureLocationManager()
         createObservers()
-        createLocationSearchControllers()
+        createLocationSearchElements()
         
         WeatherAPIService.setWeatherClient()
 
@@ -337,16 +334,12 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             screenHeight = UIScreen.main.bounds.width
         }
         
-        //print("screenWidth is \(screenWidth)")
-        //print("screenHeight is \(screenHeight)")
-        
         return CGSize(width: screenWidth, height: screenHeight)
     }
     
     
     //Initialize and configure the Google Places search controllers
-    private func createLocationSearchControllers() {
-        
+    private func createLocationSearchElements() {
         initializeLocationSearchView()
         
         locationSearchView.resultsViewController?.delegate = self
@@ -377,11 +370,11 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
          }*/
         
         if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
-            // do your portrait stuff
+            // portrait
             locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45))
 
         } else {
-            // do your landscape stuff
+            // landscape
             if (UIApplication.shared.isStatusBarHidden) {
                 locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45))
             }
@@ -413,14 +406,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         //THIS < OR > IN THIS LINE NEEDS TO BE DIFFERENT DEPENDING ON THE DEVICE.  FOR SURE, IPHONE 6, IPHONE 6 PLUS NEEDS TO BE >.  IPAD AIR 2 NEEDS TO BE <
         //SO WHAT I REALLY NEED TO DO TOMORROW IS JUST TEST ON ALL SCREEN TYPES AND DO DIFFERENT < OR > DEPENDING ON THE DEVICE IDIOM.
         if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
-            // do your portrait stuff
+            // portrait
             print("Switching to portrait...")
             locationSearchView.frame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
             //print(locationSearchView.frame.width)
             
             locationSearchView.searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
         } else {    // in landscape
-            // do your landscape stuff
+            // landscape
             print("Switching to landscape...")
             
             if (UIApplication.shared.isStatusBarHidden) {
@@ -457,8 +450,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         
-        //activityIndicator.startAnimating()
-        
         //Reset some values
         self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
@@ -492,9 +483,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Display new place photos when a new place has been chosen
     private func displayNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
-        //Get the photos of the general locale
         LocationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
-            //print("IMAGE SET == \(imageSet)")
             if (isImageSet == true) {
                 //Reset image page control
                 self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
@@ -516,9 +505,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
-    //Display weather info when a new place has been chosen
+    //Display weather info when a new place has been chosen. Get the weather forecast.
     private func displayNewPlaceWeather(completion: @escaping (_ result: Bool) ->()) {
-        //Get the weather forecast
         guard let currentPlace = LocationAPIService.currentPlace else {return}
         guard let currentGMSPlace = currentPlace.gmsPlace else {return}
         

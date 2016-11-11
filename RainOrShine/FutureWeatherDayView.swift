@@ -31,7 +31,6 @@ class FutureWeatherDayView: UIVisualEffectView {
         self.setViewEdges()
         
         weatherConditionView.backgroundColor = UIColor.clear
-        
         weatherConditionView.setColor = UIColor.white
     }
 
