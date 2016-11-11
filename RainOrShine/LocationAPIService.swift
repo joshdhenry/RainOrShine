@@ -179,7 +179,6 @@ class LocationAPIService {
     
     
     //Retrieve photo metadata for place
-    //class private func setPhotoMetaData(completion: @escaping (_ result: Bool)->()) {
     class private func setPhotoMetaData(placeIDOfGeneralLocale: String?, completion: @escaping (_ result: Bool)->()) {
         //print("In function setPhotoMetaDataForLocation...(#3)")
         

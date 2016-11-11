@@ -26,11 +26,21 @@ class Place {
     public func getGeneralLocaleString() -> String {
         //print("In function setGeneralLocaleString... (#1)")
         
+        //let specificityLevelArray: [[String] = [1, ["locality", "administrative_area_level_3", "administrative_area_level_2"]]
+        
+        /*var dict: [Int: [String]] = [1: ["natural_feature"],
+                                     1: ["locality", "administrative_area_level_3"],
+                                     2: ["locality", "administrative_area_level_3"],
+                                     3: ["locality", "administrative_area_level_3", "administrative_area_level_2"],
+                                     4: ["locality", "administrative_area_level_3", "administrative_area_level_2", "administrative_area_level_1"]]*/
+        //print("DICT")
+        //print(dict[1])
+        //let dict1Text = dict[1]
+        
         var queryString: String = ""
-        
         var isFirstItemInQueryString: Bool = true
-        
         var cityNameAlreadyFound: Bool = false
+        var naturalFeatureName: String?
         
         for addressComponent in (self.gmsPlace?.addressComponents)! {
             print(addressComponent.name)
@@ -38,7 +48,6 @@ class Place {
             print("-----")
             
             switch (addressComponent.type) {
-            //case "locality", "administrative_area_level_3", "administrative_area_level_2", "administrative_area_level_1", "country":
             //Prefer city, then county, then state, etc.
             case "locality", "administrative_area_level_3", "administrative_area_level_2":
                 if (cityNameAlreadyFound == false) {
@@ -61,11 +70,19 @@ class Place {
                 else {
                     queryString += "+" + addressComponent.name
                 }
-                
+            case "natural_feature":
+                naturalFeatureName = addressComponent.name
             default:
                 break
             }
         }
+        
+        //If we don't get any city, state, country name, but we DO have a natural feature, make the query string the natural feature name.  Doesn't always return an image but increases the chances.
+        if (queryString == "" &&
+            naturalFeatureName != nil) {
+            queryString += naturalFeatureName!
+        }
+        
         print("QUERY IS \(queryString)")
         
         //Replace any spaces in the URL with "+"
@@ -74,8 +91,4 @@ class Place {
         return queryString
     }
     
-    
-    public func getDisplayString() -> String {
-        return ""
-    }
 }

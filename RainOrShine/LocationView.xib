@@ -23,8 +23,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="144" height="102"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="pY0-gc-774">
-                        <rect key="frame" x="0.0" y="4" width="144" height="78"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="pY0-gc-774">
+                        <rect key="frame" x="0.0" y="4" width="144" height="79"/>
                         <string key="text">Label f dsg
 edfdsf</string>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>

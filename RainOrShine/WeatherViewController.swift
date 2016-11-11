@@ -80,7 +80,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             viewModel?.currentPlace.observe { [unowned self] in
                 if ($0 != nil) {
                     self.locationView.isHidden = false
-                    //self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
 
                     self.locationView.fadeIn()
                     
@@ -198,6 +197,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     private func configureLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+        
+        //This will reduce battery usage and processing time
+        locationManager.desiredAccuracy  = kCLLocationAccuracyKilometer
     }
     
     
@@ -552,12 +554,15 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
         activityIndicator.startAnimating()
         
-        //GPS is allowed.  Turn on GPS locator and continue seeking the weather for current location
-        if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
-            locationManager.startUpdatingLocation()
+        //If GPS is turned off, show an error message
+        if (!CLLocationManager.locationServicesEnabled()) {
+            let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "Location services are not enabled on this device.  Go to Settings -> Privacy -> Location Services and enable location services.", preferredStyle: .alert)
+            gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(gpsAlert, animated: true, completion: nil)
+            
+            return
         }
-        //GPS is off.  Alert the user and return out of this function.
-        else {
+        else if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
             let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "GPS is not enabled for this app.  Go to Settings -> Privacy -> Location Services and allow the app to utilize GPS.", preferredStyle: .alert)
             gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
             self.present(gpsAlert, animated: true, completion: nil)
@@ -565,22 +570,16 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             return
         }
         
+        //GPS is allowed.  Continue seeking the weather for current location
         makeSubViewsInvisible()
         
         LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
-                print("Found the location...")
                 self.viewModel?.updatePlace(newPlace: locationPlace)
                 
                 LocationAPIService.currentPlace = locationPlace
                 
-                print("LocationAPIService.currentPlace?.gmsPlace?.placeID is \(LocationAPIService.currentPlace?.gmsPlace?.placeID)")
-                
-                //THIS BEING HERE MIGHT HAVE CAUSED BACK TO BACK REFRESHES TO SHOW THE SAME LOCATION, EVEN THOUGH THE LOCATION CHANGED
-                //Once the GPS locational data has been retrieved to set the exact place, turn off the GPS
-                //self.locationManager.stopUpdatingLocation()
-                
-                //Set the general locale of the place (better for pictures and displaying user's location)
+                //Set the general locale of the place (better for pictures and displaying user's location than exact addresses)
                 LocationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
                     if (isGeneralLocaleFound) {
                         
