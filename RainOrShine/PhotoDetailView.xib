@@ -26,10 +26,7 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahm-wW-Kbk">
-                        <rect key="frame" x="8" y="0.0" width="224" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="xsZ-rA-e1Y"/>
-                        </constraints>
+                        <rect key="frame" x="8" y="4" width="224" height="21"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -40,12 +37,13 @@
                     </pageControl>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="top" secondItem="Ly6-R8-8nb" secondAttribute="top" id="ASc-Th-HUU"/>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="Ly6-R8-8nb" secondAttribute="leadingMargin" id="JKg-m9-2UZ"/>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="FEk-lK-r9M" secondAttribute="leading" id="Tff-M9-tpb"/>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="FEk-lK-r9M" secondAttribute="trailing" id="bZ0-2I-iDW"/>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="Ly6-R8-8nb" secondAttribute="trailingMargin" id="v2C-cm-ZUb"/>
-                    <constraint firstAttribute="bottom" secondItem="FEk-lK-r9M" secondAttribute="bottom" id="wso-K4-Hst"/>
+                    <constraint firstAttribute="bottom" secondItem="Ahm-wW-Kbk" secondAttribute="bottom" constant="33" id="AgI-Dt-cbx"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="Ly6-R8-8nb" secondAttribute="leadingMargin" id="LWJ-m9-PSx"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="top" secondItem="Ly6-R8-8nb" secondAttribute="top" constant="4" id="UVJ-gT-xr5"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="Ly6-R8-8nb" secondAttribute="trailingMargin" id="WiA-5c-8I5"/>
+                    <constraint firstAttribute="bottom" secondItem="FEk-lK-r9M" secondAttribute="bottom" id="hZD-Ra-pRl"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="FEk-lK-r9M" secondAttribute="trailing" id="sGi-TR-h0p"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="FEk-lK-r9M" secondAttribute="leading" id="ua2-Os-i3D"/>
                 </constraints>
             </view>
             <blurEffect style="light"/>
