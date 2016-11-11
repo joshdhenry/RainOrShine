@@ -28,24 +28,54 @@ class Place {
         
         var queryString: String = ""
         
-        for addressComponent in (LocationAPIService.currentPlace?.gmsPlace?.addressComponents)! {
+        var isFirstItemInQueryString: Bool = true
+        
+        var cityNameAlreadyFound: Bool = false
+        
+        for addressComponent in (self.gmsPlace?.addressComponents)! {
+            print(addressComponent.name)
+            print(addressComponent.type)
+            print("-----")
+            
             switch (addressComponent.type) {
-                //case "sublocality_level_1":
-            //    queryString += thisType.name
-            case "locality":
-                queryString += addressComponent.name
-            case "administrative_area_level_1":
-                queryString += "+" + addressComponent.name
-            case "country":
-                queryString += "+" + addressComponent.name
+            //case "locality", "administrative_area_level_3", "administrative_area_level_2", "administrative_area_level_1", "country":
+            //Prefer city, then
+            case "locality", "administrative_area_level_3", "administrative_area_level_2":
+                if (cityNameAlreadyFound == false) {
+                    
+                    if (isFirstItemInQueryString) {
+                        queryString += addressComponent.name
+                        isFirstItemInQueryString = false
+                    }
+                    else {
+                        queryString += "+" + addressComponent.name
+                    }
+                    
+                    cityNameAlreadyFound = true
+                }
+            case "administrative_area_level_1", "country":
+                if (isFirstItemInQueryString) {
+                    queryString += addressComponent.name
+                    isFirstItemInQueryString = false
+                }
+                else {
+                    queryString += "+" + addressComponent.name
+                }
+                
             default:
                 break
             }
         }
+        print("QUERY IS \(queryString)")
         
         //Replace any spaces in the URL with "+"
         queryString = queryString.replacingOccurrences(of: " ", with: "+")
         
         return queryString
+    }
+    
+    
+    public func getDisplayString() -> String {
+        return ""
     }
 }

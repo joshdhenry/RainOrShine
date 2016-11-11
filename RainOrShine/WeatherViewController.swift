@@ -444,12 +444,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         
-        activityIndicator.startAnimating()
+        //activityIndicator.startAnimating()
         
         //Reset some values
         self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
         LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
+        
+        WeatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
         
         //Run both functions.  If both are complete, stop the activity indicator
         displayNewPlacePhotos() { (isComplete) -> () in
@@ -537,6 +539,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
+        activityIndicator.startAnimating()
+        
         //GPS is allowed.  Turn on GPS locator and continue seeking the weather for current location
         if (CLLocationManager.authorizationStatus() == CLAuthorizationStatus.authorizedWhenInUse) {
             locationManager.startUpdatingLocation()
