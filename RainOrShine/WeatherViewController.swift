@@ -23,6 +23,12 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     let locationManager = CLLocationManager()
     var screenWidthAndHeight: CGSize = CGSize(width: 0, height: 0)
+    
+    var statusBarHidden: Bool = false
+    
+    override var prefersStatusBarHidden: Bool {
+        return statusBarHidden
+    }
 
     
     var viewModel: WeatherViewModel? {
@@ -160,6 +166,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UIDevice.current.isBatteryMonitoringEnabled = true
+        
         screenWidthAndHeight = getScreenWidthAndHeight()
         setAllAPIKeys()
         configureLocationManager()
@@ -169,8 +177,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         WeatherAPIService.setWeatherClient()
 
         viewModel = WeatherViewModel()
+        
+        setNightStandMode()
     }
-    
     
     
     // Hide the navigation bar on the this view controller
@@ -189,6 +198,17 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         super.viewWillDisappear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    
+    //If the view's orientation changed, make sure that the location search bar is correctly aligned
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if (Rotation.allowed) {
+            if (UIDevice.current.orientation.isLandscape ||
+                UIDevice.current.orientation.isPortrait) {
+                resizeLocationSearchView(orientationAfterRotation: UIDevice.current.orientation)
+            }
+        }
     }
     
     
@@ -217,29 +237,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Create a time observer to run every 60 seconds to refresh the weather forecast
     private func createTimeObserver() {
         Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(self.oneMinuteElapsed), userInfo: nil, repeats: true)
-    }
-    
-    
-    func oneMinuteElapsed() {
-        //print("In func oneMinuteElapsed...")
-        
-        self.activityIndicator.startAnimating()
-        
-        displayNewPlaceWeather() { (isComplete) -> () in
-            if (isComplete == true) {
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                }
-            }
-        }
-    }
-    
-    
-    //Begin monitoring charging state.
-    private func createBatteryStateObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.batteryStateDidChange), name: Notification.Name.UIDeviceBatteryStateDidChange, object: nil)
     }
     
     
@@ -265,63 +265,53 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     
     private func setTapRecognizer() -> UITapGestureRecognizer {
-        let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (self.currentWeatherTapped (_:)))
+        let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (self.viewTapped (_:)))
         return tapRecognizer
+    }
+    
+    
+    //Begin monitoring charging state.
+    private func createBatteryStateObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.batteryStateDidChange), name: Notification.Name.UIDeviceBatteryStateDidChange, object: nil)
     }
     
     
     //If the battery state changes, turn on or off the screen lock accordingly
     dynamic func batteryStateDidChange(notification: NSNotification){
-        // The stage did change: plugged, unplugged, full charge...
+        setNightStandMode()
+    }
+    
+    
+    func oneMinuteElapsed() {
+        //print("In func oneMinuteElapsed...")
+        
+        self.activityIndicator.startAnimating()
+        
+        loadNewPlaceWeather() { (isComplete) -> () in
+            if (isComplete == true) {
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                }
+            }
+        }
+    }
+    
+    
+    private func setNightStandMode() {
+        print("In setNightStand Mode...")
+
         if (UIDevice.current.batteryState == UIDeviceBatteryState.charging) {
             //Turn off the screen lock
             UIApplication.shared.isIdleTimerDisabled = true
+            
+            print("Charging...")
         }
         else if (UIDevice.current.batteryState == UIDeviceBatteryState.unplugged) {
             //Turn on the screen lock
             UIApplication.shared.isIdleTimerDisabled = false
-        }
-    }
-    
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        if (Rotation.allowed) {
-            if (UIDevice.current.orientation.isLandscape ||
-                UIDevice.current.orientation.isPortrait) {
-                resizeLocationSearchView(orientationAfterRotation: UIDevice.current.orientation)
-            }
-        }
-    }
-    
-    
-    internal func currentWeatherTapped(_ sender:UITapGestureRecognizer) {
-        if (futureWeatherView.alpha == 0) {
-            futureWeatherView.fadeIn(withDuration: 0.75, finalAlpha: 0.85)
-        }
-        else {
-            futureWeatherView.fadeOut()
-        }
-    }
-    
-    
-    internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {
-        if orientationAfterRotation.isPortrait {
-            print("Switching to portrait...")
             
-            locationSearchView.frame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
-            locationSearchView.searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
+            print("Unplugged")
         }
-        else if orientationAfterRotation.isLandscape {
-            print("Switching to landscape...")
-            
-            if (UIApplication.shared.isStatusBarHidden) {
-                locationSearchView.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45)
-            }
-            else {
-                locationSearchView.frame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.height, height: 45)
-            }
-        }
-        locationSearchView.searchController?.searchBar.sizeToFit()
     }
     
     
@@ -341,6 +331,16 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    internal func viewTapped(_ sender:UITapGestureRecognizer) {
+        if (futureWeatherView.alpha == 0) {
+            futureWeatherView.fadeIn(withDuration: 0.75, finalAlpha: 0.8)
+        }
+        else {
+            futureWeatherView.fadeOut()
+        }
+    }
+    
+    
     //If the user swipes right or left, adjust viewmodel.updatePlaceImageIndex accordingly
     dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
         //print("In func respondToSwipeGesture")
@@ -354,6 +354,41 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             
             viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
         }
+    }
+    
+    
+    //Advance forwards or backwards through page numbers, accounting for total number of pages
+    private func advancePage(direction: UISwipeGestureRecognizerDirection, currentPageNumber: Int, totalNumberOfPages: Int) -> Int {
+        var newPageNumber: Int = currentPageNumber
+        
+        if (direction == UISwipeGestureRecognizerDirection.left) {
+            if (currentPageNumber < totalNumberOfPages - 1) {
+                newPageNumber += 1
+            }
+        }
+        else {
+            if (currentPageNumber > 0) {
+                newPageNumber -= 1
+            }
+        }
+        return newPageNumber
+    }
+    
+    
+    //Initialize and configure the Google Places search controllers
+    private func createLocationSearchElements() {
+        initializeLocationSearchView()
+        
+        locationSearchView.resultsViewController?.delegate = self
+        locationSearchView.searchController?.searchBar.delegate = self
+
+        self.view.addSubview(locationSearchView)
+        
+        locationSearchView.searchController?.searchBar.sizeToFit()
+        locationSearchView.searchController?.hidesNavigationBarDuringPresentation = false
+        
+        //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
+        self.definesPresentationContext = true
     }
     
     
@@ -374,23 +409,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         return CGSize(width: screenWidth, height: screenHeight)
     }
     
-    
-    //Initialize and configure the Google Places search controllers
-    private func createLocationSearchElements() {
-        initializeLocationSearchView()
-        
-        locationSearchView.resultsViewController?.delegate = self
-        locationSearchView.searchController?.searchBar.delegate = self
-
-        self.view.addSubview(locationSearchView)
-        
-        locationSearchView.searchController?.searchBar.sizeToFit()
-        locationSearchView.searchController?.hidesNavigationBarDuringPresentation = false
-        
-        //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
-        self.definesPresentationContext = true
-    }
-    
 
     //Create the views necessary for searching locations
     private func initializeLocationSearchView() {
@@ -408,109 +426,40 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             }
         }
     }
+    
+    
+    internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {
+        print("In resizeLocationSearchView...")
+        
+        if orientationAfterRotation.isPortrait {
+            print("Switching to portrait...")
+            
+            statusBarHidden = false
+            setNeedsStatusBarAppearanceUpdate()
+            
+            locationSearchView.frame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
+            locationSearchView.searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
+        }
+        else if orientationAfterRotation.isLandscape {
+            print("Switching to landscape...")
+            
+            statusBarHidden = true
+            setNeedsStatusBarAppearanceUpdate()
+            
+            locationSearchView.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45)
+        }
+        locationSearchView.searchController?.searchBar.sizeToFit()
+    }
+    
+    
+    //Make all subviews' alpha 0
+    internal func makeSubViewsInvisible() {
+        currentWeatherView.alpha = 0
+        locationView.alpha = 0
+        photoDetailView.alpha = 0
+        futureWeatherView.alpha = 0
+    }
    
-    
-    //Change the place that will be displayed in this view controller (including new place photos and weather forecast)
-    internal func changePlaceShown() {
-        //print("In func changePlaceShown...")
-        
-        print("PLACE IDS")
-        print(LocationAPIService.currentPlace?.gmsPlace?.placeID)
-        print(LocationAPIService.generalLocalePlace?.gmsPlace?.placeID)
-        
-        print(LocationAPIService.currentPlace?.gmsPlace?.formattedAddress)
-        print(LocationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)
-
-        
-        var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
-        
-        //Reset some values
-        self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
-        LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
-        LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
-        
-        WeatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
-        
-        //Run both functions.  If both are complete, stop the activity indicator
-        displayNewPlacePhotos() { (isComplete) -> () in
-            if (isComplete == true) {
-                changePlaceCompletionFlags.photosComplete = true
-                if (changePlaceCompletionFlags.weatherComplete == true) {
-                    DispatchQueue.main.async {
-                        self.activityIndicator.stopAnimating()
-                    }
-                }
-            }
-        }
-        displayNewPlaceWeather() { (isComplete) -> () in
-            if (isComplete == true) {
-                changePlaceCompletionFlags.weatherComplete = true
-                if (changePlaceCompletionFlags.photosComplete == true) {
-                    DispatchQueue.main.async {
-                        self.activityIndicator.stopAnimating()
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    //Display new place photos when a new place has been chosen
-    private func displayNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
-        LocationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
-            if (isImageSet == true) {
-                //Reset image page control
-                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
-                
-                //Adjust the page control according to the newly loaded place (if the place is not nil)
-                guard let currentPlace = LocationAPIService.currentPlace else {return}
-                
-                if (currentPlace.generalLocalePhotoArray.count == 0) {
-                    self.photoDetailView.photoPageControl.isHidden = true
-                    self.photoDetailView.photoPageControl.numberOfPages = 0
-                }
-                else {
-                    self.photoDetailView.photoPageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
-                    self.photoDetailView.photoPageControl.isHidden = false
-                }
-                completion(true)
-            }
-        }
-    }
-    
-    
-    //Display weather info when a new place has been chosen. Get the weather forecast.
-    private func displayNewPlaceWeather(completion: @escaping (_ result: Bool) ->()) {
-        guard let currentPlace = LocationAPIService.currentPlace else {return}
-        guard let currentGMSPlace = currentPlace.gmsPlace else {return}
-        
-        WeatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
-            if (forecastRetrieved) {
-                self.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
-                
-                completion(true)
-            }
-        }
-    }
-    
-
-    //Advance forwards or backwards through page numbers, accounting for total number of pages
-    private func advancePage(direction: UISwipeGestureRecognizerDirection, currentPageNumber: Int, totalNumberOfPages: Int) -> Int {
-        var newPageNumber: Int = currentPageNumber
-        
-        if (direction == UISwipeGestureRecognizerDirection.left) {
-            if (currentPageNumber < totalNumberOfPages - 1) {
-                newPageNumber += 1
-            }
-        }
-        else {
-            if (currentPageNumber > 0) {
-                newPageNumber -= 1
-            }
-        }
-        return newPageNumber
-    }
-    
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
@@ -557,11 +506,86 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
-    //Make all subviews' alpha 0
-    internal func makeSubViewsInvisible() {
-        currentWeatherView.alpha = 0
-        locationView.alpha = 0
-        photoDetailView.alpha = 0
-        futureWeatherView.alpha = 0
+    //Change the place that will be displayed in this view controller (including new place photos and weather forecast)
+    internal func changePlaceShown() {
+        //print("In func changePlaceShown...")
+        
+        print("PLACE IDS")
+        print(LocationAPIService.currentPlace?.gmsPlace?.placeID)
+        print(LocationAPIService.generalLocalePlace?.gmsPlace?.placeID)
+        
+        print(LocationAPIService.currentPlace?.gmsPlace?.formattedAddress)
+        print(LocationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)
+
+        
+        var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
+        
+        //Reset some values
+        self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
+        LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
+        LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
+        
+        WeatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
+        
+        //Run both functions.  If both are complete, stop the activity indicator
+        loadNewPlacePhotos() { (isComplete) -> () in
+            if (isComplete == true) {
+                changePlaceCompletionFlags.photosComplete = true
+                if (changePlaceCompletionFlags.weatherComplete == true) {
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
+                }
+            }
+        }
+        loadNewPlaceWeather() { (isComplete) -> () in
+            if (isComplete == true) {
+                changePlaceCompletionFlags.weatherComplete = true
+                if (changePlaceCompletionFlags.photosComplete == true) {
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    //Display new place photos when a new place has been chosen
+    private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
+        LocationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
+            if (isImageSet == true) {
+                //Reset image page control
+                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
+                
+                //Adjust the page control according to the newly loaded place (if the place is not nil)
+                guard let currentPlace = LocationAPIService.currentPlace else {return}
+                
+                if (currentPlace.generalLocalePhotoArray.count == 0) {
+                    self.photoDetailView.photoPageControl.isHidden = true
+                    self.photoDetailView.photoPageControl.numberOfPages = 0
+                }
+                else {
+                    self.photoDetailView.photoPageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
+                    self.photoDetailView.photoPageControl.isHidden = false
+                }
+                completion(true)
+            }
+        }
+    }
+    
+    
+    //Display weather info when a new place has been chosen. Get the weather forecast.
+    private func loadNewPlaceWeather(completion: @escaping (_ result: Bool) ->()) {
+        guard let currentPlace = LocationAPIService.currentPlace else {return}
+        guard let currentGMSPlace = currentPlace.gmsPlace else {return}
+        
+        WeatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
+            if (forecastRetrieved) {
+                self.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
+                
+                completion(true)
+            }
+        }
     }
 }
