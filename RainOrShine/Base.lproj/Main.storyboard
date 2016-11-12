@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FA0-yK-aiw">
-                                <rect key="frame" x="0.0" y="109" width="414" height="583"/>
+                                <rect key="frame" x="0.0" y="109" width="414" height="627"/>
                                 <gestureRecognizers/>
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xVM-ae-RWw">
@@ -66,8 +66,8 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="144" id="57K-0J-xDw"/>
-                                    <constraint firstAttribute="height" constant="102" id="NPL-Mx-r5V"/>
+                                    <constraint firstAttribute="height" constant="102" id="GAt-bO-69V"/>
+                                    <constraint firstAttribute="width" constant="144" id="YgK-mC-okQ"/>
                                 </constraints>
                                 <blurEffect style="dark"/>
                             </visualEffectView>
@@ -78,8 +78,8 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="199" id="jJX-XI-YVw"/>
-                                    <constraint firstAttribute="width" constant="144" id="rra-4v-Kob"/>
+                                    <constraint firstAttribute="width" constant="144" id="52I-Tl-wKN"/>
+                                    <constraint firstAttribute="height" constant="199" id="H2w-zl-0Kw"/>
                                 </constraints>
                                 <blurEffect style="dark"/>
                             </visualEffectView>
@@ -93,23 +93,23 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="lRn-hE-dqW" secondAttribute="trailing" constant="-148" id="00V-tJ-iKC"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="8WU-F4-n5s"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="lRn-hE-dqW" secondAttribute="trailing" constant="-148" id="B0U-8h-9MM"/>
                             <constraint firstItem="vFb-2t-dlQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CUf-dm-INS"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="Kl4-SK-P5A" secondAttribute="bottom" constant="-203" id="LoD-3G-tGi"/>
                             <constraint firstItem="xVM-ae-RWw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ndy-OJ-IPE"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="lRn-hE-dqW" secondAttribute="bottom" constant="-106" id="Tob-xv-Sb2"/>
-                            <constraint firstItem="Kl4-SK-P5A" firstAttribute="leading" secondItem="FA0-yK-aiw" secondAttribute="trailing" constant="-148" id="W9r-Wd-BeI"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="lRn-hE-dqW" secondAttribute="bottom" constant="-106" id="Pbz-WY-5Td"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="trailing" secondItem="xVM-ae-RWw" secondAttribute="trailing" id="RbF-d4-x4I"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="xVM-ae-RWw" secondAttribute="leading" id="WEY-La-Esu"/>
                             <constraint firstItem="xVM-ae-RWw" firstAttribute="top" secondItem="vFb-2t-dlQ" secondAttribute="bottom" constant="4" id="Wb3-Xx-0ls"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="XFu-rW-w4h"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="xVM-ae-RWw" secondAttribute="bottom" id="YQk-ZO-A2t"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="45" id="Zd4-Rf-Cwm"/>
                             <constraint firstItem="2co-iD-gnC" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="aVK-KQ-Hwl"/>
                             <constraint firstItem="vFb-2t-dlQ" firstAttribute="top" secondItem="ZgB-qM-dqV" secondAttribute="bottom" constant="4" id="b9E-aA-D2c"/>
-                            <constraint firstAttribute="trailing" secondItem="FA0-yK-aiw" secondAttribute="trailing" id="bVb-79-0nD"/>
                             <constraint firstItem="2co-iD-gnC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cYH-JS-Enb"/>
-                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="45" id="giw-5k-asd"/>
-                            <constraint firstItem="xVM-ae-RWw" firstAttribute="top" secondItem="FA0-yK-aiw" secondAttribute="bottom" id="guW-Rr-jcc"/>
+                            <constraint firstItem="Kl4-SK-P5A" firstAttribute="leading" secondItem="FA0-yK-aiw" secondAttribute="trailing" constant="-148" id="dsR-fy-RXs"/>
                             <constraint firstAttribute="trailing" secondItem="xVM-ae-RWw" secondAttribute="trailing" id="hBm-bf-s4B"/>
                             <constraint firstItem="ZgB-qM-dqV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="w67-sy-pJP"/>
+                            <constraint firstItem="FA0-yK-aiw" firstAttribute="top" secondItem="Kl4-SK-P5A" secondAttribute="bottom" constant="-203" id="zLy-ee-lVd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hIR-Va-xO0"/>
@@ -133,7 +133,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1076" y="138.98050974512745"/>
+            <point key="canvasLocation" x="1075.3623188405797" y="138.58695652173915"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="auN-bE-qel">

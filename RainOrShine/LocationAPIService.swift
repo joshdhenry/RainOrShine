@@ -35,7 +35,7 @@ class LocationAPIService {
     
     //This method gets the current location of the user and sets currentPlace
     class public func setCurrentExactPlace(completion: @escaping (_ result: Bool, _ locationPlace: Place?)->()) {
-        print("In function setCurrentExactPlace...")
+        //print("In function setCurrentExactPlace...")
 
         var placeFindComplete: Bool = false
                 
@@ -56,12 +56,8 @@ class LocationAPIService {
                 completion(true, nil)
                 return
             }
-
             
             let placeToReturn: Place = Place(place: firstPlaceLikelihoodFound.place)
-            
-            print("Returning the place...")
-            print(firstPlaceLikelihoodFound.place.placeID)
             
             placeFindComplete = true
             completion(true, placeToReturn)

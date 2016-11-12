@@ -27,6 +27,8 @@ class LocationSearchView: UIView {
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         searchController?.searchBar.barTintColor = UIColor(netHex: ColorScheme.lightGray)
+        //searchController?.searchBar.isTranslucent = true
+
         self.addSubview((searchController?.searchBar)!)
         
         self.accessibilityIdentifier = "Location Search Bar"

@@ -21,6 +21,7 @@ class WeatherAPIService {
     //Private initializer prevents any outside code from using the default '()' initializer for this class, which could create duplicates of LocationAPIService
     private init() {}
     
+    
     class public func setWeatherClient() {
         WeatherAPIService.weatherClient = DarkSkyClient(apiKey: WeatherAPIService.keys["DarkSkyAPIKey"] as! String)
     }
@@ -35,9 +36,7 @@ class WeatherAPIService {
                 
                 //THIS IS JUST A TEMPORARY ELSE.  NOT SURE IF I SHOULD RETURN SO DEFINITELY CHECK BEFORE YOU LEAVE IT
                 guard let dailyForecastDataBlock = currentForecast.daily else {return}
-                
-                print(dailyForecastDataBlock.summary)
-                
+                                
                 //Loop through 5 days of data, Skip the first one because that one is today
                 for dayForecastIndex in 1..<6 {
                     if (dayForecastIndex < dailyForecastDataBlock.data.count) {
