@@ -16,18 +16,16 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBOutlet weak var currentWeatherView: WeatherView!
     @IBOutlet weak var locationView: LocationView!
     public var locationSearchView: LocationSearchView!
-
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var photoDetailView: PhotoDetailView!
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
     let locationManager = CLLocationManager()
     var screenWidthAndHeight: CGSize = CGSize(width: 0, height: 0)
-    
-    var statusBarHidden: Bool = false
+    var isStatusBarVisible: Bool = true
     
     override var prefersStatusBarHidden: Bool {
-        return statusBarHidden
+        return !isStatusBarVisible
     }
 
     
@@ -166,16 +164,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIDevice.current.isBatteryMonitoringEnabled = true
-        
+        //MAKE THIS A COMPUTED PROPERTY
         screenWidthAndHeight = getScreenWidthAndHeight()
+        
         setAllAPIKeys()
         configureLocationManager()
+        WeatherAPIService.setWeatherClient()
         createObservers()
         createLocationSearchElements()
-        
-        WeatherAPIService.setWeatherClient()
-
         viewModel = WeatherViewModel()
         
         setNightStandMode()
@@ -272,6 +268,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Begin monitoring charging state.
     private func createBatteryStateObserver() {
+        UIDevice.current.isBatteryMonitoringEnabled = true
         NotificationCenter.default.addObserver(self, selector: #selector(self.batteryStateDidChange), name: Notification.Name.UIDeviceBatteryStateDidChange, object: nil)
     }
     
@@ -377,7 +374,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Initialize and configure the Google Places search controllers
     private func createLocationSearchElements() {
-        initializeLocationSearchView()
+        locationSearchView = LocationSearchView(withOrientation: UIDevice.current.orientation, screenWidthAndHeight: screenWidthAndHeight)
         
         locationSearchView.resultsViewController?.delegate = self
         locationSearchView.searchController?.searchBar.delegate = self
@@ -394,48 +391,28 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Get the width and height of the UI Screen
     private func getScreenWidthAndHeight() -> CGSize {
-        var screenWidth: CGFloat = 0.0
-        var screenHeight: CGFloat = 0.0
+        var widthAndHeight = (width: CGFloat(), height: CGFloat())
         
         if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
-            screenWidth = UIScreen.main.bounds.width
-            screenHeight = UIScreen.main.bounds.height
+            widthAndHeight = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
         }
         else {
-            screenWidth = UIScreen.main.bounds.height
-            screenHeight = UIScreen.main.bounds.width
+            widthAndHeight = (UIScreen.main.bounds.height, UIScreen.main.bounds.width)
         }
+        let sizeToReturn = CGSize(width: widthAndHeight.width, height: widthAndHeight.height)
         
-        return CGSize(width: screenWidth, height: screenHeight)
-    }
-    
-
-    //Create the views necessary for searching locations
-    private func initializeLocationSearchView() {
-        if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
-            // portrait
-            locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45))
-
-        } else {
-            // landscape
-            if (UIApplication.shared.isStatusBarHidden) {
-                locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45))
-            }
-            else {
-                locationSearchView = LocationSearchView(frame: CGRect(x: 0, y: 20, width: screenWidthAndHeight.height, height: 45))
-            }
-        }
+        return sizeToReturn
     }
     
     
+    //CAN I MAKE THIS A METHOD OF LOCATIONSEARCHVIEW CLASS?????
     internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {
-        print("In resizeLocationSearchView...")
+        //print("In resizeLocationSearchView...")
         
         if orientationAfterRotation.isPortrait {
             print("Switching to portrait...")
             
-            statusBarHidden = false
-            setNeedsStatusBarAppearanceUpdate()
+            showStatusBar(enabled: true)
             
             locationSearchView.frame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
             locationSearchView.searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
@@ -443,12 +420,17 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         else if orientationAfterRotation.isLandscape {
             print("Switching to landscape...")
             
-            statusBarHidden = true
-            setNeedsStatusBarAppearanceUpdate()
+            showStatusBar(enabled: false)
             
             locationSearchView.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45)
         }
         locationSearchView.searchController?.searchBar.sizeToFit()
+    }
+    
+    
+    func showStatusBar(enabled: Bool) {
+        isStatusBarVisible = enabled
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     
