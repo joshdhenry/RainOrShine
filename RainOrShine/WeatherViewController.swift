@@ -27,53 +27,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
-
-    
-    var viewModel: WeatherViewModel? {
-        didSet {
-            //unowned is fine here because this view controller is the owner of view model so view model will not outlive view controller.
-            viewModel?.currentForecast.observe { [unowned self] in
-                //I SHOULD BE ABLE TO ERASE THIS WITHOUT CONSEQUENCE, BUT IT WONT LET ME
-                guard let forecast: Forecast = $0 else {return}
-                
-                //Get the 5 day forecast
-                var futureDaySubViewsArray: [UIView] = [UIView]()
-                
-                if (!WeatherAPIService.forecastDayDataPointArray.isEmpty) {
-                    for thisView in self.futureWeatherView.allSubViews {
-                        if let futureDayView = thisView as? FutureWeatherDayView {
-                            futureDaySubViewsArray.append(futureDayView)
-                        }
-                    }
-                    futureDaySubViewsArray.sort(by: { $0.center.x < $1.center.x })
-                }
-
-                //Update the UI on the main thread
-                DispatchQueue.main.async {
-                    //Populate five day forecast from the sorted array
-                    for futureDaySubViewIndex in 0..<futureDaySubViewsArray.count {
-                        if let futureDayView = futureDaySubViewsArray[futureDaySubViewIndex] as? FutureWeatherDayView {
-                            futureDayView.summaryLabel.text = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].summary
-                            futureDayView.weatherConditionView.setType = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].icon?.getSkycon() ?? Skycons.partlyCloudyDay
-                            futureDayView.weatherConditionView.play()
-                            
-                            futureDayView.dayLabel.text = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].time.toAbbreviatedDayString()
-                            
-                            var temperatureLabelText: String = String()
-                            
-                            //MAKE A DICTIONARY WITH THE MIN AND MAX.  CREATE AN EXTENSION OF A DICTIONARY THAT WILL BE CALLED getFormattedTemperatureRANGEString and implement it here
-                            let minTemperatureText = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMin?.getFormattedTemperatureString() ?? ""
-                            let maxTemperatureText = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMax?.getFormattedTemperatureString() ?? ""
-                            
-                            temperatureLabelText = minTemperatureText + "/" + maxTemperatureText
-                            
-                            futureDayView.temperatureLabel.text = temperatureLabelText
-                        }
-                    }
-                }
-            }
-        }
-    }
     
     
     //Initialize values for the first time
@@ -88,7 +41,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         WeatherAPIService.setWeatherClient()
         createObservers()
         createLocationSearchElements()
-        viewModel = WeatherViewModel()
         
         setNightStandMode()
     }
@@ -265,7 +217,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             
             let currentPage = advancePage(direction: swipeGesture.direction, currentPageNumber: self.photoDetailView.photoPageControl.currentPage, totalNumberOfPages: self.photoDetailView.photoPageControl.numberOfPages)
             
-            viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
             photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
         }
@@ -386,7 +337,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
-                self.viewModel?.updatePlace(newPlace: locationPlace)
                 self.photoDetailView.viewModel?.updatePlace(newPlace: locationPlace)
                 
                 LocationAPIService.currentPlace = locationPlace
@@ -420,7 +370,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         
         //Reset some values
-        self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         
@@ -458,7 +407,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         LocationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             if (isImageSet == true) {
                 //Reset image page control
-                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
                 self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
                 self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
 
@@ -486,8 +434,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         WeatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
             if (forecastRetrieved) {
-                self.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
                 self.currentWeatherView.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
+                self.futureWeatherView.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
                 
                 completion(true)
             }

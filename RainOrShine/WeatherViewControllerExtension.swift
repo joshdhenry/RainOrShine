@@ -21,7 +21,6 @@ extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
         
         let searchedPlace = Place(place: place)
         
-        self.viewModel?.updatePlace(newPlace: searchedPlace)
         self.photoDetailView.viewModel?.updatePlace(newPlace: searchedPlace)
 
         LocationAPIService.currentPlace = searchedPlace
