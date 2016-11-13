@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GooglePlaces
 
 class PhotoDetailView: UIVisualEffectView {
     @IBOutlet weak var view: UIView!
@@ -24,6 +25,51 @@ class PhotoDetailView: UIVisualEffectView {
                     self.isHidden = true
                 }
             }
+            
+            viewModel?.currentPlaceImageIndex.observe { [unowned self] in
+                guard let currentPlace: Place = LocationAPIService.currentPlace else {
+                    //Place is nil.  App must be just starting
+                    self.photoPageControl.isHidden = true
+                    self.photoPageControl.currentPage = 0
+                    
+                    self.photoAttributionLabel.isHidden = true
+                    
+                    return
+                }
+                
+                if (currentPlace.generalLocalePhotoArray.count > 0) {
+                    self.photoPageControl.isHidden = false
+                    self.photoPageControl.currentPage = $0!
+                    
+                    guard let photoMetaData: GMSPlacePhotoMetadata = currentPlace.generalLocalePhotoMetaDataArray[$0!] else {
+                        self.photoAttributionLabel.isHidden = true
+                        return
+                    }
+                    
+                    //This can be tested by using Oirschot, Netherlands as the location.  One photo does not have an attribution.
+                    guard let photoAttributions = photoMetaData.attributions else {
+                        self.photoAttributionLabel.text = ""
+                        self.photoAttributionLabel.isHidden = true
+                        return
+                    }
+                    
+                    let attributionPrefixAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 12)]
+                    let attributionPrefixString: NSMutableAttributedString = NSMutableAttributedString(string: "Photo by ", attributes: attributionPrefixAttributes)
+                    let completeAttributionString = NSMutableAttributedString()
+                    
+                    completeAttributionString.append(attributionPrefixString)
+                    completeAttributionString.append(photoAttributions)
+                    
+                    self.photoAttributionLabel.attributedText = completeAttributionString
+                    self.photoAttributionLabel.isHidden = false
+                }
+                else {
+                    self.photoPageControl.isHidden = true
+                    self.photoPageControl.currentPage = 0
+                    self.photoAttributionLabel.isHidden = true
+                }
+            }
+
         }
     }
 

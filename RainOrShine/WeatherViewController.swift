@@ -87,50 +87,16 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                     //I DON'T KNOW WHY BUT MY TEST DOES NOT LIKE THIS, YET IN PRODUCTION IT WORKS FINE.
                     //Place is nil.  App must be just starting
                     self.locationImageView.image = nil
-                
-                    self.photoDetailView.photoPageControl.isHidden = true
-                    self.photoDetailView.photoPageControl.currentPage = 0
-                    
-                    self.photoDetailView.photoAttributionLabel.isHidden = true
                     
                     return
                 }
                 
                 if (currentPlace.generalLocalePhotoArray.count > 0) {
                     self.locationImageView.image = currentPlace.generalLocalePhotoArray[($0)!]
-                    
-                    self.photoDetailView.photoPageControl.isHidden = false
-                    self.photoDetailView.photoPageControl.currentPage = $0!
-                    
-                    guard let photoMetaData: GMSPlacePhotoMetadata = currentPlace.generalLocalePhotoMetaDataArray[$0!] else {
-                        self.photoDetailView.photoAttributionLabel.isHidden = true
-                        return
-                    }
-                    
-                    //This can be tested by using Oirschot, Netherlands as the location.  One photo does not have an attribution.
-                    guard let photoAttributions = photoMetaData.attributions else {
-                        self.photoDetailView.photoAttributionLabel.text = ""
-                        self.photoDetailView.photoAttributionLabel.isHidden = true
-                        return
-                    }
-                    
-                    let attributionPrefixAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 12)]
-                    let attributionPrefixString: NSMutableAttributedString = NSMutableAttributedString(string: "Photo by ", attributes: attributionPrefixAttributes)
-                    let completeAttributionString = NSMutableAttributedString()
-                    
-                    completeAttributionString.append(attributionPrefixString)
-                    completeAttributionString.append(photoAttributions)
-                    
-                    self.photoDetailView.photoAttributionLabel.attributedText = completeAttributionString
-                    self.photoDetailView.photoAttributionLabel.isHidden = false
                 }
                 else {
                     //No images
                     self.locationImageView.image = nil
-                    
-                    self.photoDetailView.photoPageControl.isHidden = true
-                    self.photoDetailView.photoPageControl.currentPage = 0
-                    self.photoDetailView.photoAttributionLabel.isHidden = true
                 }
             }
         }
@@ -257,7 +223,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     
     func timeIntervalReached() {
-        //print("In func oneMinuteElapsed...")
+        //print("In func timeIntervalReached...")
         
         self.activityIndicator.startAnimating()
         
@@ -327,6 +293,10 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             let currentPage = advancePage(direction: swipeGesture.direction, currentPageNumber: self.photoDetailView.photoPageControl.currentPage, totalNumberOfPages: self.photoDetailView.photoPageControl.numberOfPages)
             
             viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
+            
+            photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
+            
+            
         }
     }
     
@@ -476,11 +446,12 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         print(LocationAPIService.currentPlace?.gmsPlace?.formattedAddress)
         print(LocationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)
 
-        
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         
         //Reset some values
         self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
+        photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
+        
         LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
         LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
         
@@ -516,6 +487,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             if (isImageSet == true) {
                 //Reset image page control
                 self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
+                self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
                 
                 //Adjust the page control according to the newly loaded place (if the place is not nil)
                 guard let currentPlace = LocationAPIService.currentPlace else {return}
