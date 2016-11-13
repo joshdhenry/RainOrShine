@@ -13,7 +13,7 @@ import ForecastIO
 
 class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISearchBarDelegate {
     @IBOutlet weak var locationImageView: LocationImageView!
-    @IBOutlet weak var currentWeatherView: WeatherView!
+    @IBOutlet weak var currentWeatherView: CurrentWeatherView!    
     @IBOutlet weak var locationView: LocationView!
     public var locationSearchView: LocationSearchView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -33,12 +33,10 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         didSet {
             //unowned is fine here because this view controller is the owner of view model so view model will not outlive view controller.
             viewModel?.currentForecast.observe { [unowned self] in
-                guard let forecast: Forecast = $0 else {
-                    self.currentWeatherView.isHidden = true
-                    return
-                }
-                guard let currently = forecast.currently else {return}
+                //I SHOULD BE ABLE TO ERASE THIS WITHOUT CONSEQUENCE, BUT IT WONT LET ME
+                guard let forecast: Forecast = $0 else {return}
                 
+                //Get the 5 day forecast
                 var futureDaySubViewsArray: [UIView] = [UIView]()
                 
                 if (!WeatherAPIService.forecastDayDataPointArray.isEmpty) {
@@ -52,13 +50,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
 
                 //Update the UI on the main thread
                 DispatchQueue.main.async {
-                    self.currentWeatherView.temperatureLabel.text = currently.temperature?.getFormattedTemperatureString() ?? ""
-                    self.currentWeatherView.summaryLabel.text = currently.summary
-                    self.currentWeatherView.weatherConditionView.setType =  currently.icon?.getSkycon() ?? Skycons.partlyCloudyDay
-                    self.currentWeatherView.weatherConditionView.play()
-                    self.currentWeatherView.isHidden = false
-                    self.currentWeatherView.fadeIn()
-                    
                     //Populate five day forecast from the sorted array
                     for futureDaySubViewIndex in 0..<futureDaySubViewsArray.count {
                         if let futureDayView = futureDaySubViewsArray[futureDaySubViewIndex] as? FutureWeatherDayView {
@@ -496,6 +487,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         WeatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
             if (forecastRetrieved) {
                 self.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
+                self.currentWeatherView.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
                 
                 completion(true)
             }

@@ -71,7 +71,7 @@
                                 </constraints>
                                 <blurEffect style="dark"/>
                             </visualEffectView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-SK-P5A" customClass="WeatherView" customModule="RainOrShine" customModuleProvider="target">
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kl4-SK-P5A" customClass="CurrentWeatherView" customModule="RainOrShine" customModuleProvider="target">
                                 <rect key="frame" x="266" y="113" width="144" height="199"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="anu-pC-58L">
                                     <rect key="frame" x="0.0" y="0.0" width="144" height="199"/>
@@ -115,7 +115,7 @@
                     <navigationItem key="navigationItem" id="hIR-Va-xO0"/>
                     <connections>
                         <outlet property="activityIndicator" destination="2co-iD-gnC" id="3Du-pT-kOv"/>
-                        <outlet property="currentWeatherView" destination="Kl4-SK-P5A" id="rbu-Ow-m0r"/>
+                        <outlet property="currentWeatherView" destination="Kl4-SK-P5A" id="ncz-ny-jFp"/>
                         <outlet property="futureWeatherView" destination="ZgB-qM-dqV" id="hTC-pq-DqU"/>
                         <outlet property="locationImageView" destination="FA0-yK-aiw" id="XA6-ds-ZNW"/>
                         <outlet property="locationView" destination="lRn-hE-dqW" id="hoX-Og-JkO"/>
