@@ -87,7 +87,7 @@ class PhotoDetailView: UIVisualEffectView {
     
     
     func initializeViewModel() {
-        print("Initializing location view model...")
+        print("Initializing photo detail view model...")
         self.viewModel = PhotoDetailViewModel()
     }
     

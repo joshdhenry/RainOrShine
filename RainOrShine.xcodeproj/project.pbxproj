@@ -33,6 +33,8 @@
 		038354C31DD40A00005C1F76 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354C21DD40A00005C1F76 /* DateExtension.swift */; };
 		038354C71DD81F69005C1F76 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354C61DD81F69005C1F76 /* LocationViewModel.swift */; };
 		038354C91DD85807005C1F76 /* PhotoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354C81DD85807005C1F76 /* PhotoDetailViewModel.swift */; };
+		038354CC1DD85F29005C1F76 /* LocationImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354CB1DD85F29005C1F76 /* LocationImageView.swift */; };
+		038354CE1DD85F5B005C1F76 /* LocationImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354CD1DD85F5B005C1F76 /* LocationImageViewModel.swift */; };
 		03B2DE701DC5D1EA00CFFA83 /* WeatherAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */; };
 		03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE711DC7073900CFFA83 /* Place.swift */; };
 		03B2DE761DC73ECD00CFFA83 /* WeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03B2DE751DC73ECD00CFFA83 /* WeatherView.xib */; };
@@ -101,6 +103,8 @@
 		038354C21DD40A00005C1F76 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		038354C61DD81F69005C1F76 /* LocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		038354C81DD85807005C1F76 /* PhotoDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewModel.swift; sourceTree = "<group>"; };
+		038354CB1DD85F29005C1F76 /* LocationImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationImageView.swift; sourceTree = "<group>"; };
+		038354CD1DD85F5B005C1F76 /* LocationImageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationImageViewModel.swift; sourceTree = "<group>"; };
 		03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAPIService.swift; sourceTree = "<group>"; };
 		03B2DE711DC7073900CFFA83 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		03B2DE751DC73ECD00CFFA83 /* WeatherView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeatherView.xib; sourceTree = "<group>"; };
@@ -220,6 +224,7 @@
 		03391ABE1DC8A35D00EBF622 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				038354CA1DD85F04005C1F76 /* LocationImageView */,
 				038354BF1DD3DB51005C1F76 /* LocationSearchView */,
 				038354B21DD2D921005C1F76 /* FutureWeatherView */,
 				03FD6DD91DD15461004F7FA6 /* PhotoDetailView */,
@@ -283,6 +288,15 @@
 				038354C01DD3DB61005C1F76 /* LocationSearchView.swift */,
 			);
 			name = LocationSearchView;
+			sourceTree = "<group>";
+		};
+		038354CA1DD85F04005C1F76 /* LocationImageView */ = {
+			isa = PBXGroup;
+			children = (
+				038354CB1DD85F29005C1F76 /* LocationImageView.swift */,
+				038354CD1DD85F5B005C1F76 /* LocationImageViewModel.swift */,
+			);
+			name = LocationImageView;
 			sourceTree = "<group>";
 		};
 		0391F84F1DC55689005B5BBF /* Protocols */ = {
@@ -581,6 +595,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				03B2DE701DC5D1EA00CFFA83 /* WeatherAPIService.swift in Sources */,
+				038354CE1DD85F5B005C1F76 /* LocationImageViewModel.swift in Sources */,
 				03FD6DD01DD06099004F7FA6 /* ColorScheme.swift in Sources */,
 				0313E50A1DC1DBC200E453A0 /* WeatherViewController.swift in Sources */,
 				0337AA771DCDCBD200E6478B /* Temperature.swift in Sources */,
@@ -607,6 +622,7 @@
 				038354C31DD40A00005C1F76 /* DateExtension.swift in Sources */,
 				033DE0651DCD0E140082F7A0 /* UIColorExtension.swift in Sources */,
 				038354BC1DD3CE89005C1F76 /* FloatExtension.swift in Sources */,
+				038354CC1DD85F29005C1F76 /* LocationImageView.swift in Sources */,
 				038354BA1DD2E6B6005C1F76 /* FutureWeatherDayView.swift in Sources */,
 				038354C11DD3DB61005C1F76 /* LocationSearchView.swift in Sources */,
 			);

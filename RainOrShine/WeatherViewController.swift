@@ -12,7 +12,7 @@ import CoreLocation
 import ForecastIO
 
 class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISearchBarDelegate {
-    @IBOutlet weak var locationImageView: UIImageView!
+    @IBOutlet weak var locationImageView: LocationImageView!
     @IBOutlet weak var currentWeatherView: WeatherView!
     @IBOutlet weak var locationView: LocationView!
     public var locationSearchView: LocationSearchView!
@@ -79,24 +79,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                             futureDayView.temperatureLabel.text = temperatureLabelText
                         }
                     }
-                }
-            }
-            
-            viewModel?.currentPlaceImageIndex.observe { [unowned self] in
-                guard let currentPlace: Place = LocationAPIService.currentPlace else {
-                    //I DON'T KNOW WHY BUT MY TEST DOES NOT LIKE THIS, YET IN PRODUCTION IT WORKS FINE.
-                    //Place is nil.  App must be just starting
-                    self.locationImageView.image = nil
-                    
-                    return
-                }
-                
-                if (currentPlace.generalLocalePhotoArray.count > 0) {
-                    self.locationImageView.image = currentPlace.generalLocalePhotoArray[($0)!]
-                }
-                else {
-                    //No images
-                    self.locationImageView.image = nil
                 }
             }
         }
@@ -293,10 +275,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             let currentPage = advancePage(direction: swipeGesture.direction, currentPageNumber: self.photoDetailView.photoPageControl.currentPage, totalNumberOfPages: self.photoDetailView.photoPageControl.numberOfPages)
             
             viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
-            
             photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
-            
-            
+            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
         }
     }
     
@@ -451,6 +431,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         //Reset some values
         self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
+        locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
         
         LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
         LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
@@ -488,7 +469,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 //Reset image page control
                 self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
                 self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
-                
+                self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
+
                 //Adjust the page control according to the newly loaded place (if the place is not nil)
                 guard let currentPlace = LocationAPIService.currentPlace else {return}
                 

@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FA0-yK-aiw">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FA0-yK-aiw" customClass="LocationImageView" customModule="RainOrShine" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="109" width="414" height="627"/>
                                 <gestureRecognizers/>
                             </imageView>
@@ -117,7 +117,7 @@
                         <outlet property="activityIndicator" destination="2co-iD-gnC" id="3Du-pT-kOv"/>
                         <outlet property="currentWeatherView" destination="Kl4-SK-P5A" id="rbu-Ow-m0r"/>
                         <outlet property="futureWeatherView" destination="ZgB-qM-dqV" id="hTC-pq-DqU"/>
-                        <outlet property="locationImageView" destination="FA0-yK-aiw" id="jc3-dV-bca"/>
+                        <outlet property="locationImageView" destination="FA0-yK-aiw" id="XA6-ds-ZNW"/>
                         <outlet property="locationView" destination="lRn-hE-dqW" id="hoX-Og-JkO"/>
                         <outlet property="photoDetailView" destination="vFb-2t-dlQ" id="drG-IF-w2I"/>
                         <outlet property="searchDisplayController" destination="RZq-xM-vUq" id="csA-QN-hQ0"/>
