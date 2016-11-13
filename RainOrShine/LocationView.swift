@@ -19,9 +19,12 @@ class LocationView: UIVisualEffectView {
                 print("Changing location label....")
                 if ($0 != nil) {
                     self.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+                    self.isHidden = false
+                    self.fadeIn()
                 }
                 else {
                     self.locationLabel.text = ""
+                    self.isHidden = true
                 }
             }
         }

@@ -84,14 +84,10 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             
             viewModel?.currentPlace.observe { [unowned self] in
                 if ($0 != nil) {
-                    self.locationView.isHidden = false
-                    self.locationView.fadeIn()
-                    
                     self.photoDetailView.isHidden = false
                     self.photoDetailView.fadeIn()
                 }
                 else {
-                    self.locationView.isHidden = true
                     self.photoDetailView.isHidden = true
                 }
             }
