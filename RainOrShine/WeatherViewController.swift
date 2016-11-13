@@ -82,16 +82,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 }
             }
             
-            viewModel?.currentPlace.observe { [unowned self] in
-                if ($0 != nil) {
-                    self.photoDetailView.isHidden = false
-                    self.photoDetailView.fadeIn()
-                }
-                else {
-                    self.photoDetailView.isHidden = true
-                }
-            }
-            
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 guard let currentPlace: Place = LocationAPIService.currentPlace else {
                     //I DON'T KNOW WHY BUT MY TEST DOES NOT LIKE THIS, YET IN PRODUCTION IT WORKS FINE.
@@ -456,6 +446,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
                 self.viewModel?.updatePlace(newPlace: locationPlace)
+                self.photoDetailView.viewModel?.updatePlace(newPlace: locationPlace)
                 
                 LocationAPIService.currentPlace = locationPlace
                 
