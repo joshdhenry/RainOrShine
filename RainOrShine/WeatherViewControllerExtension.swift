@@ -28,7 +28,7 @@ extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
         //Set the general locale of the place (better for pictures and displaying user's location)
         LocationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
             if (isGeneralLocaleFound) {
-                self.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
+                self.locationView.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
                 
                 LocationAPIService.generalLocalePlace = generalLocalePlace
                 

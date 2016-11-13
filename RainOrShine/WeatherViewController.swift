@@ -96,15 +96,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 }
             }
             
-            viewModel?.currentGeneralLocalePlace.observe { [unowned self] in
-                if ($0 != nil) {
-                    self.locationView.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
-                }
-                else {
-                    self.locationView.locationLabel.text = ""
-                }
-            }
-            
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 guard let currentPlace: Place = LocationAPIService.currentPlace else {
                     //I DON'T KNOW WHY BUT MY TEST DOES NOT LIKE THIS, YET IN PRODUCTION IT WORKS FINE.
@@ -233,9 +224,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
-    //Create a time observer to run every 60 seconds to refresh the weather forecast
+    //Create a time observer to run every 10 minutes to refresh the weather forecast
     private func createTimeObserver() {
-        Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(self.oneMinuteElapsed), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 600.0, target: self, selector: #selector(self.timeIntervalReached), userInfo: nil, repeats: true)
     }
     
     
@@ -279,7 +270,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
-    func oneMinuteElapsed() {
+    func timeIntervalReached() {
         //print("In func oneMinuteElapsed...")
         
         self.activityIndicator.startAnimating()
@@ -475,8 +466,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 //Set the general locale of the place (better for pictures and displaying user's location than exact addresses)
                 LocationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
                     if (isGeneralLocaleFound) {
-                        
-                        self.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
+                        self.locationView.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
                         
                         LocationAPIService.generalLocalePlace = generalLocalePlace
                         

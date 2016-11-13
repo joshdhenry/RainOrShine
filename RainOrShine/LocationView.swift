@@ -13,6 +13,20 @@ class LocationView: UIVisualEffectView {
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var locationLabel: UILabel!
     
+    var viewModel: LocationViewModel? {
+        didSet {
+            viewModel?.currentGeneralLocalePlace.observe { [unowned self] in
+                print("Changing location label....")
+                if ($0 != nil) {
+                    self.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
+                }
+                else {
+                    self.locationLabel.text = ""
+                }
+            }
+        }
+    }
+    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -21,6 +35,14 @@ class LocationView: UIVisualEffectView {
         setViewStyle()
         
         addSubview(view)
+        
+        initializeViewModel()
+    }
+    
+    
+    func initializeViewModel() {
+        print("Initializing location view model...")
+        self.viewModel = LocationViewModel()
     }
     
     
