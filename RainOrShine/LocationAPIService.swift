@@ -37,10 +37,11 @@ class LocationAPIService {
     
     //This method gets the current location of the user and sets currentPlace
     class public func setCurrentExactPlace(completion: @escaping (_ result: Bool, _ locationPlace: Place?)->()) {
-        //print("In function setCurrentExactPlace...")
+        print("In function setCurrentExactPlace...")
 
+        
+        
         var placeFindComplete: Bool = false
-                
         LocationAPIService.placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
             guard error == nil else {
                 print("Current Place error: \(error!.localizedDescription)")
@@ -61,10 +62,13 @@ class LocationAPIService {
             
             let placeToReturn: Place = Place(place: firstPlaceLikelihoodFound.place)
             
+            print("RETURNING \(firstPlaceLikelihoodFound.place.formattedAddress)")
+            print("RETURNING \(placeToReturn.gmsPlace?.formattedAddress)")
             placeFindComplete = true
             completion(true, placeToReturn)
         })
-        if (placeFindComplete == false) {
+        if (!placeFindComplete) {
+            print("STILL FINDING EXACT PLACE")
             completion(false, nil)
         }
     }
@@ -192,9 +196,20 @@ class LocationAPIService {
                 
                 if ((photos?.results.count)! > 0) {
                     LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray = (photos?.results)!
+                    
+                    photoMetaDataFindComplete = true
+                    completion(true)
                 }
-                photoMetaDataFindComplete = true
-                completion(true)
+                    //I SHOULD BE ABLE TO GET RID OF THIS ELSE STATEMENT
+                else {
+                    print("No photos found. Resetting image view to blank...")
+
+                    LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll()
+                    LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll()
+                    
+                    completion(true)
+                }
+                
             }
         }
         if (photoMetaDataFindComplete == false) {

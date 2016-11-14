@@ -20,9 +20,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBOutlet weak var photoDetailView: PhotoDetailView!
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
-    
     // MARK: Constants
-    var screenWidthAndHeight: CGSize {
+    private var screenWidthAndHeight: CGSize {
         if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
             return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }
@@ -38,6 +37,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
+    
+    var gpsConsecutiveSignalsReceived: Int = 0
     
     
     // MARK: - Methods
@@ -102,6 +103,28 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Called every time a new gps signal is received
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        
+        //Sometimes the first coordinates received from the GPS might be inaccurate or cached locations from previous location locks.
+        //Wait for 5 GPS signals to be received before we have a semi reliable tracking.
+        //ALSO, I NEED TO CACHE THE LAST FIVE LOCATIONS ACTUALLY USED.  MAKE SURE THE SIGNAL IS NOT REPORTING A PREVIOUS TRACKING AND IS GIVING FRESH, ACCURATE RESULTS
+        gpsConsecutiveSignalsReceived += 1
+        print("gpsConsecutiveSignalsReceived is \(gpsConsecutiveSignalsReceived)")
+        if gpsConsecutiveSignalsReceived == 5 {
+            self.updateLocation()
+        }
+    }
+    
+    
+    //Handle location manager errors
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location manager error - \(error)")
+    }
+    
+    
     // MARK: Observers and Recognizers
     //Create and start all observers
     private func createObservers() {
@@ -158,7 +181,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
-    func timeIntervalReached() {
+    //This is called when the time observer's time has been reached.  It refreshes the weather.
+    dynamic func timeIntervalReached() {
         //print("In func timeIntervalReached...")
         
         self.activityIndicator.startAnimating()
@@ -205,6 +229,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //If the view was tapped, fade in or out the 5 day forecast
     internal func viewTapped(_ sender:UITapGestureRecognizer) {
         if (futureWeatherView.alpha == 0) {
             futureWeatherView.fadeIn(withDuration: 0.75, finalAlpha: 0.8)
@@ -267,6 +292,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Resize the location search view with the current screen dimensions
     internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {
         //print("In resizeLocationSearchView...")
         
@@ -325,7 +351,16 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             return
         }
         
-        //GPS is allowed.  Continue seeking the weather for current location
+        //Reset the gps signals received counter
+        gpsConsecutiveSignalsReceived = 0
+        
+        //Start updating the location and location manager's didUpdateLocation will take over from there
+        locationManager.startUpdatingLocation()
+    }
+    
+    
+    //This method updates the location by running setCurrentExactPlace and setGeneralLocalePlace.  It is only called when the user taps the GPS current location button.
+    func updateLocation() {
         makeSubViewsInvisible()
         
         LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
@@ -334,12 +369,18 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 
                 LocationAPIService.currentPlace = locationPlace
                 
+                print("FOUND EXACT PLACE \(LocationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
                 //Set the general locale of the place (better for pictures and displaying user's location than exact addresses)
                 LocationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
                     if (isGeneralLocaleFound) {
+                        
                         self.locationView.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
                         
                         LocationAPIService.generalLocalePlace = generalLocalePlace
+                        
+                        print("FOUND GENERAL PLACE \(LocationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
+                        
+                        //self.locationManager.stopUpdatingLocation()
                         
                         self.changePlaceShown()
                     }
@@ -370,6 +411,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 changePlaceCompletionFlags.photosComplete = true
                 if (changePlaceCompletionFlags.weatherComplete == true) {
                     DispatchQueue.main.async {
+                        self.locationManager.stopUpdatingLocation()
                         self.activityIndicator.stopAnimating()
                     }
                 }
@@ -380,6 +422,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 changePlaceCompletionFlags.weatherComplete = true
                 if (changePlaceCompletionFlags.photosComplete == true) {
                     DispatchQueue.main.async {
+                        self.locationManager.stopUpdatingLocation()
                         self.activityIndicator.stopAnimating()
                     }
                 }
