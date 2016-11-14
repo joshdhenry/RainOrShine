@@ -8,10 +8,9 @@
 
 import UIKit
 
-class FutureWeatherDayView: UIVisualEffectView {
+class FutureWeatherDayView: UIVisualEffectView, WeatherViewControllerSubView {
 
     @IBOutlet weak var view: UIView!
-    
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var weatherConditionView: SKYIconView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -27,11 +26,13 @@ class FutureWeatherDayView: UIVisualEffectView {
     }
     
     
-    private func setViewStyle() {
+    internal func setViewStyle() {
         self.setViewEdges()
         
         weatherConditionView.backgroundColor = UIColor.clear
         weatherConditionView.setColor = UIColor.white
     }
 
+    
+    internal func initializeViewModel() {}
 }

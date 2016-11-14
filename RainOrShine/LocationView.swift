@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LocationView: UIVisualEffectView {
+class LocationView: UIVisualEffectView, WeatherViewControllerSubView {
 
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var locationLabel: UILabel!
@@ -43,13 +43,13 @@ class LocationView: UIVisualEffectView {
     }
     
     
-    func initializeViewModel() {
+    internal func initializeViewModel() {
         print("Initializing location view model...")
         self.viewModel = LocationViewModel()
     }
     
     
-    private func setViewStyle() {
+    internal func setViewStyle() {
         self.setViewEdges()
         
         self.locationLabel.textColor = UIColor.white

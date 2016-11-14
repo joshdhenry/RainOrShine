@@ -7,7 +7,10 @@
 //
 
 import Foundation
+import UIKit
 
 struct ColorScheme {
-    static var lightGray: Int = 0xf9f9f9
+    static var lightGray: UIColor {
+        return UIColor(netHex: 0xf9f9f9)
+    }
 }

@@ -17,6 +17,7 @@ extension UIView {
         return array
     }
     
+    
     public func setViewEdges() {
         self.layer.cornerRadius = 10.0
         self.clipsToBounds = true
@@ -31,6 +32,7 @@ extension UIView {
             self.alpha = finalAlpha
         })
     }
+    
     
     public func fadeOut(withDuration duration: TimeInterval = 0.5) {
         UIView.animate(withDuration: duration, animations: {

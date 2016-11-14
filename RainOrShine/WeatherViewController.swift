@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import GooglePlaces
 import CoreLocation
-import ForecastIO
 
 class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISearchBarDelegate {
     @IBOutlet weak var locationImageView: LocationImageView!
@@ -21,8 +19,16 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
     let locationManager = CLLocationManager()
-    var screenWidthAndHeight: CGSize = CGSize(width: 0, height: 0)
     var isStatusBarVisible: Bool = true
+    
+    var screenWidthAndHeight: CGSize {
+        if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
+            return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        }
+        else {
+            return CGSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+        }
+    }
     
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
@@ -33,16 +39,13 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //MAKE THIS A COMPUTED PROPERTY
-        screenWidthAndHeight = getScreenWidthAndHeight()
-        
         setAllAPIKeys()
         configureLocationManager()
         WeatherAPIService.setWeatherClient()
         createObservers()
         createLocationSearchElements()
         
-        setNightStandMode()
+        setNightStandMode()        
     }
     
     
@@ -183,7 +186,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     //If the user is searching, disable rotation until finished
     internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //print("searchBarTextDidBeginEditing...")
-        
         Rotation.allowed = false
     }
     
@@ -191,7 +193,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     //If the user is done searching, re-enable screen rotation
     internal func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         //print("searchBarTextDidEndEditing...")
-        
         Rotation.allowed = true
     }
     
@@ -255,22 +256,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
         self.definesPresentationContext = true
-    }
-    
-    
-    //Get the width and height of the UI Screen
-    private func getScreenWidthAndHeight() -> CGSize {
-        var widthAndHeight = (width: CGFloat(), height: CGFloat())
-        
-        if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
-            widthAndHeight = (UIScreen.main.bounds.width, UIScreen.main.bounds.height)
-        }
-        else {
-            widthAndHeight = (UIScreen.main.bounds.height, UIScreen.main.bounds.width)
-        }
-        let sizeToReturn = CGSize(width: widthAndHeight.width, height: widthAndHeight.height)
-        
-        return sizeToReturn
     }
     
     

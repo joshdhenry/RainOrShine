@@ -9,7 +9,7 @@
 import UIKit
 import GooglePlaces
 
-class PhotoDetailView: UIVisualEffectView {
+class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var photoAttributionLabel: UILabel!
     @IBOutlet weak var photoPageControl: UIPageControl!
@@ -69,7 +69,6 @@ class PhotoDetailView: UIVisualEffectView {
                     self.photoAttributionLabel.isHidden = true
                 }
             }
-
         }
     }
 
@@ -86,13 +85,13 @@ class PhotoDetailView: UIVisualEffectView {
     }
     
     
-    func initializeViewModel() {
+    internal func initializeViewModel() {
         print("Initializing photo detail view model...")
         self.viewModel = PhotoDetailViewModel()
     }
     
     
-    private func setViewStyle() {
+    internal func setViewStyle() {
         self.setViewEdges()
         
         self.photoAttributionLabel.textColor = UIColor.white

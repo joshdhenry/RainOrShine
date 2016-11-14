@@ -9,18 +9,15 @@
 import UIKit
 import ForecastIO
 
-class FutureWeatherView: UIView {
+class FutureWeatherView: UIView, WeatherViewControllerSubView {
 
     @IBOutlet var view: UIView!
-    
-    @IBOutlet weak var day1View: FutureWeatherDayView!
     
     
     var viewModel: FutureWeatherViewModel? {
         didSet {
             viewModel?.currentForecast.observe { [unowned self] in
-                //I SHOULD BE ABLE TO ERASE THIS WITHOUT CONSEQUENCE, BUT IT WONT LET ME
-                guard let forecast: Forecast = $0 else {return}
+                guard let _: Forecast = $0 else {return}
                 
                 //Get the 5 day forecast
                 var futureDaySubViewsArray: [UIView] = [UIView]()
@@ -45,15 +42,9 @@ class FutureWeatherView: UIView {
                             
                             futureDayView.dayLabel.text = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].time.toAbbreviatedDayString()
                             
-                            var temperatureLabelText: String = String()
-                            
-                            //MAKE A DICTIONARY WITH THE MIN AND MAX.  CREATE AN EXTENSION OF A DICTIONARY THAT WILL BE CALLED getFormattedTemperatureRANGEString and implement it here
-                            let minTemperatureText = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMin?.getFormattedTemperatureString() ?? ""
-                            let maxTemperatureText = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMax?.getFormattedTemperatureString() ?? ""
-                            
-                            temperatureLabelText = minTemperatureText + "/" + maxTemperatureText
-                            
-                            futureDayView.temperatureLabel.text = temperatureLabelText
+                            let minMaxTemperatureDictionary = (min: WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMin?.formattedTemperatureString ?? "", max: WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMax?.formattedTemperatureString ?? "")
+
+                            futureDayView.temperatureLabel.text = minMaxTemperatureDictionary.min + "/" + minMaxTemperatureDictionary.max
                         }
                     }
                 }
@@ -65,15 +56,18 @@ class FutureWeatherView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         UINib(nibName: "FutureWeatherView", bundle: nil).instantiate(withOwner: self, options: nil)
-        
+                
         addSubview(view)
         
         initializeViewModel()
     }
     
     
-    func initializeViewModel() {
+    internal func initializeViewModel() {
         print("Initializing photo detail view model...")
         self.viewModel = FutureWeatherViewModel()
     }
+    
+    
+    internal func setViewStyle() {}
 }

@@ -9,7 +9,7 @@
 import UIKit
 import ForecastIO
 
-class CurrentWeatherView: UIVisualEffectView {
+class CurrentWeatherView: UIVisualEffectView, WeatherViewControllerSubView {
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
@@ -27,7 +27,8 @@ class CurrentWeatherView: UIVisualEffectView {
                 
                 //Update the UI on the main thread
                 DispatchQueue.main.async {
-                    self.temperatureLabel.text = currently.temperature?.getFormattedTemperatureString() ?? ""
+                    self.temperatureLabel.text = currently.temperature?.formattedTemperatureString ?? ""
+
                     self.summaryLabel.text = currently.summary
                     self.weatherConditionView.setType =  currently.icon?.getSkycon() ?? Skycons.partlyCloudyDay
                     self.weatherConditionView.play()
@@ -49,13 +50,13 @@ class CurrentWeatherView: UIVisualEffectView {
     }
     
     
-    func initializeViewModel() {
+    internal func initializeViewModel() {
         print("Initializing location view model...")
         self.viewModel = CurrentWeatherViewModel()
     }
     
 
-    private func setViewStyle() {
+    internal func setViewStyle() {
         self.setViewEdges()
         
         self.temperatureLabel.textColor = UIColor.white

@@ -11,7 +11,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FutureWeatherView" customModule="RainOrShine" customModuleProvider="target">
             <connections>
-                <outlet property="day1View" destination="hLv-gV-Tst" id="Lbf-Qp-tM6"/>
                 <outlet property="view" destination="iN0-l3-epB" id="JoI-xY-ip7"/>
             </connections>
         </placeholder>

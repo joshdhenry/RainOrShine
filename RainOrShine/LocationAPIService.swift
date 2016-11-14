@@ -190,18 +190,9 @@ class LocationAPIService {
                 
                 if ((photos?.results.count)! > 0) {
                     LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray = (photos?.results)!
-                    
-                    photoMetaDataFindComplete = true
-                    completion(true)
                 }
-                else {
-                    print("No photos found. Resetting image view to blank...")
-                    
-                    LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll()
-                    LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll()
-                    
-                    completion(true)
-                }
+                photoMetaDataFindComplete = true
+                completion(true)
             }
         }
         if (photoMetaDataFindComplete == false) {
@@ -235,7 +226,6 @@ class LocationAPIService {
                 print("generalLocalePhotoMetaDataArray was empty.  Exiting out of this function...")
             
                 imageArrayFindComplete = true
-                
                 completion(imageArrayFindComplete)
             }
         if (imageArrayFindComplete == false) {
@@ -265,7 +255,7 @@ class LocationAPIService {
             }
         }
         else {
-            //print("GeneralLocalePhotoMetaData for this index was nil.  Exiting out of this function...")
+            //GeneralLocalePhotoMetaData for this index was nil.  Exiting out of this function.
             imageFindComplete = true
         }
 
