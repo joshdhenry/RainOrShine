@@ -37,7 +37,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
-    
     var gpsConsecutiveSignalsReceived: Int = 0
     
     
@@ -97,8 +96,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     private func configureLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        
-        //This will reduce battery usage and processing time
         locationManager.desiredAccuracy  = kCLLocationAccuracyKilometer
     }
     
@@ -163,8 +160,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Create the tap recognizer to detect if the screen was tapped once, which will show/hide futureWeatherView
     private func setTapRecognizer() -> UITapGestureRecognizer {
-        let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (self.viewTapped (_:)))
-        return tapRecognizer
+        return UITapGestureRecognizer(target: self, action: #selector (self.viewTapped (_:)))
     }
     
     
@@ -253,13 +249,10 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     //Initialize and configure the Google Places search controllers
     private func createLocationSearchElements() {
         locationSearchView = LocationSearchView(withOrientation: UIDevice.current.orientation, screenWidthAndHeight: screenWidthAndHeight)
-        
         locationSearchView.resultsViewController?.delegate = self
         locationSearchView.searchController?.searchBar.delegate = self
-
         self.view.addSubview(locationSearchView)
         
-        locationSearchView.searchController?.searchBar.sizeToFit()
         locationSearchView.searchController?.hidesNavigationBarDuringPresentation = false
         
         //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
@@ -272,7 +265,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         //print("In resizeLocationSearchView...")
         
         if orientationAfterRotation.isPortrait {
-            print("Switching to portrait...")
+            //print("Switching to portrait...")
             
             showStatusBar(enabled: true)
             
@@ -280,7 +273,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             locationSearchView.searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
         }
         else if orientationAfterRotation.isLandscape {
-            print("Switching to landscape...")
+            //print("Switching to landscape...")
             
             showStatusBar(enabled: false)
             
@@ -421,7 +414,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
         LocationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             if (isImageSet == true) {
-                //Reset image page control
+                //Reset image page control to the beginning
                 self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
                 self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
 
