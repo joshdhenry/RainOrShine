@@ -9,16 +9,19 @@
 import Foundation
 
 class PhotoDetailViewModel {
+    // MARK: - Properties
     let currentPlace: Observable<Place?>
     let currentPlaceImageIndex: Observable<Int?>
 
     
+    // MARK: - Initializer
     init() {
         currentPlace = Observable(LocationAPIService.currentPlace)
         currentPlaceImageIndex = Observable(LocationAPIService.currentPlaceImageIndex)
     }
     
     
+    // MARK: - Methods
     func updatePlace(newPlace: Place?) {
         currentPlace.value = newPlace
     }

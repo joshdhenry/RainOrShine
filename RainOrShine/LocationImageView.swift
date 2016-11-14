@@ -10,6 +10,8 @@ import UIKit
 
 class LocationImageView: UIImageView {
 
+    // MARK: - Properties
+    // MARK: View Model
     var viewModel: LocationImageViewModel? {
         didSet {
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
@@ -30,14 +32,14 @@ class LocationImageView: UIImageView {
         }
     }
     
-            
+    // MARK: - Initializer
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         initializeViewModel()
     }
     
-    
+    // MARK: - Methods
     func initializeViewModel() {
         print("Initializing location image view model...")
         self.viewModel = LocationImageViewModel()

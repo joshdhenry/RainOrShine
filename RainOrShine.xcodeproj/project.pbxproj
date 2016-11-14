@@ -16,7 +16,6 @@
 		0313E5281DC1DBC200E453A0 /* RainOrShineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5271DC1DBC200E453A0 /* RainOrShineUITests.swift */; };
 		0313E5381DC2A21A00E453A0 /* WeatherViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5371DC2A21A00E453A0 /* WeatherViewControllerExtension.swift */; };
 		0313E53A1DC3C94600E453A0 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0313E5391DC3C94600E453A0 /* APIKeys.plist */; };
-		0337AA771DCDCBD200E6478B /* Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337AA761DCDCBD200E6478B /* Temperature.swift */; };
 		0337AA7A1DCEA7C600E6478B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337AA791DCEA7C600E6478B /* SettingsViewController.swift */; };
 		0337AA7C1DCEB2DC00E6478B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337AA7B1DCEB2DC00E6478B /* UIViewExtension.swift */; };
 		033DE0611DCD06DF0082F7A0 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033DE0601DCD06DF0082F7A0 /* LocationView.swift */; };
@@ -88,7 +87,6 @@
 		0313E5291DC1DBC200E453A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0313E5371DC2A21A00E453A0 /* WeatherViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerExtension.swift; sourceTree = "<group>"; };
 		0313E5391DC3C94600E453A0 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
-		0337AA761DCDCBD200E6478B /* Temperature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temperature.swift; sourceTree = "<group>"; };
 		0337AA791DCEA7C600E6478B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		0337AA7B1DCEB2DC00E6478B /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		033DE0601DCD06DF0082F7A0 /* LocationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
@@ -266,7 +264,6 @@
 				03B2DE7B1DC8428D00CFFA83 /* Observable.swift */,
 				03B2DE711DC7073900CFFA83 /* Place.swift */,
 				03FD6DD71DD13F2C004F7FA6 /* Rotation.swift */,
-				0337AA761DCDCBD200E6478B /* Temperature.swift */,
 				03FD6DE21DD1BD33004F7FA6 /* SKYIconView.swift */,
 				03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */,
 				03FD6DD51DD13E61004F7FA6 /* WeatherNavigationController.swift */,
@@ -604,7 +601,6 @@
 				038354CE1DD85F5B005C1F76 /* LocationImageViewModel.swift in Sources */,
 				03FD6DD01DD06099004F7FA6 /* ColorScheme.swift in Sources */,
 				0313E50A1DC1DBC200E453A0 /* WeatherViewController.swift in Sources */,
-				0337AA771DCDCBD200E6478B /* Temperature.swift in Sources */,
 				0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */,
 				038354D21DD92145005C1F76 /* FutureWeatherViewModel.swift in Sources */,
 				0337AA7C1DCEB2DC00E6478B /* UIViewExtension.swift in Sources */,

@@ -10,10 +10,10 @@ import UIKit
 import ForecastIO
 
 class FutureWeatherView: UIView, WeatherViewControllerSubView {
-
+    // MARK: - Properties
     @IBOutlet var view: UIView!
     
-    
+    // MARK: View Model
     var viewModel: FutureWeatherViewModel? {
         didSet {
             viewModel?.currentForecast.observe { [unowned self] in
@@ -52,7 +52,7 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
         }
     }
     
-    
+    // MARK: - Initializer
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         UINib(nibName: "FutureWeatherView", bundle: nil).instantiate(withOwner: self, options: nil)
@@ -63,6 +63,7 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
     }
     
     
+    // MARK: - Methods
     internal func initializeViewModel() {
         print("Initializing photo detail view model...")
         self.viewModel = FutureWeatherViewModel()

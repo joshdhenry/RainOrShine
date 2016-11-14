@@ -10,6 +10,7 @@ import Foundation
 import ForecastIO
 
 class WeatherAPIService {
+    // MARK: - Properties
     static private var keys: NSDictionary = NSDictionary()
     static private var weatherClient: DarkSkyClient?
     
@@ -18,10 +19,12 @@ class WeatherAPIService {
     static var forecastDayDataPointArray: [DataPoint] = [DataPoint]()
         
     
+    // MARK: - Initializer
     //Private initializer prevents any outside code from using the default '()' initializer for this class, which could create duplicates of LocationAPIService
     private init() {}
     
     
+    // MARK: - Methods
     class public func setWeatherClient() {
         WeatherAPIService.weatherClient = DarkSkyClient(apiKey: WeatherAPIService.keys["DarkSkyAPIKey"] as! String)
     }

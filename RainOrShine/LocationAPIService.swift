@@ -11,7 +11,7 @@ import GooglePlaces
 import SwiftyJSON
 
 class LocationAPIService {
-    
+    // MARK: - Properties
     static private var keys: NSDictionary = NSDictionary()
     static private var baseURL: String = "https://maps.googleapis.com/maps/api/place/"
     static private var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
@@ -22,10 +22,12 @@ class LocationAPIService {
     static var currentPlaceImageIndex: Int = 0
 
     
+    // MARK: - Initializer
     //Private initializer prevents any outside code from using the default '()' initializer for this class, which could create duplicates of LocationAPIService
     private init() {}
     
     
+    // MARK: - Methods
     //Load the Google Places API keys from APIKeys.plist
     class public func setAPIKeys() {
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}

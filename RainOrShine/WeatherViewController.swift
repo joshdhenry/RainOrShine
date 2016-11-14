@@ -10,6 +10,8 @@ import UIKit
 import CoreLocation
 
 class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISearchBarDelegate {
+    // MARK: - Properties
+    // MARK: Views
     @IBOutlet weak var locationImageView: LocationImageView!
     @IBOutlet weak var currentWeatherView: CurrentWeatherView!    
     @IBOutlet weak var locationView: LocationView!
@@ -18,9 +20,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBOutlet weak var photoDetailView: PhotoDetailView!
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
-    let locationManager = CLLocationManager()
-    var isStatusBarVisible: Bool = true
     
+    // MARK: Constants
     var screenWidthAndHeight: CGSize {
         if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
             return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -30,11 +31,16 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         }
     }
     
+    let locationManager = CLLocationManager()
+    
+    // MARK: Variables
+    var isStatusBarVisible: Bool = true
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
     
     
+    // MARK: - Methods
     //Initialize values for the first time
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,6 +102,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    // MARK: Observers and Recognizers
     //Create and start all observers
     private func createObservers() {
         createTimeObserver()
@@ -131,6 +138,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Create the tap recognizer to detect if the screen was tapped once, which will show/hide futureWeatherView
     private func setTapRecognizer() -> UITapGestureRecognizer {
         let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector (self.viewTapped (_:)))
         return tapRecognizer
@@ -259,7 +267,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
-    //CAN I MAKE THIS A METHOD OF LOCATIONSEARCHVIEW CLASS?????
     internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {
         //print("In resizeLocationSearchView...")
         
@@ -282,7 +289,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
-    func showStatusBar(enabled: Bool) {
+    //Show or hide the status bar
+    private func showStatusBar(enabled: Bool) {
         isStatusBarVisible = enabled
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -354,14 +362,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
 
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         
-        //Reset some values
-        photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
-        locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
-        
-        LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
-        LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
-        
-        WeatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
+        resetValuesForNewPlace()
         
         //Run both functions.  If both are complete, stop the activity indicator
         loadNewPlacePhotos() { (isComplete) -> () in
@@ -384,6 +385,19 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 }
             }
         }
+    }
+    
+    
+    //This function is called by changePlaceShown and is run right before acquiring new values for a new place.
+    //It resets some values to create a clean slate.
+    private func resetValuesForNewPlace() {
+        photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
+        locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
+        
+        LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
+        LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
+        
+        WeatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
     }
     
     

@@ -10,10 +10,12 @@ import UIKit
 import GooglePlaces
 
 class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
+    // MARK: - Properties
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var photoAttributionLabel: UILabel!
     @IBOutlet weak var photoPageControl: UIPageControl!
 
+    // MARK: View Model
     var viewModel: PhotoDetailViewModel? {
         didSet {
             viewModel?.currentPlace.observe { [unowned self] in
@@ -72,7 +74,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
         }
     }
 
-    
+    // MARK: - Initializer
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         UINib(nibName: "PhotoDetailView", bundle: nil).instantiate(withOwner: self, options: nil)
@@ -85,6 +87,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
     }
     
     
+    // MARK: - Methods
     internal func initializeViewModel() {
         print("Initializing photo detail view model...")
         self.viewModel = PhotoDetailViewModel()

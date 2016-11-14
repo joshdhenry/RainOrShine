@@ -10,11 +10,13 @@ import Foundation
 import ForecastIO
 
 class WeatherViewModel {
+    // MARK: - Properties
     let currentPlace: Observable<Place?>
     let currentForecast: Observable<Forecast?>
     let currentPlaceImageIndex: Observable<Int?>
     
     
+    // MARK: - Initializer
     init() {
         self.currentPlace = Observable(LocationAPIService.currentPlace)
         self.currentForecast = Observable(WeatherAPIService.currentWeatherForecast)
@@ -22,6 +24,7 @@ class WeatherViewModel {
     }
     
     
+    // MARK: - Methods
     func updateForecast(newForecast: Forecast?) {
         //print("In func updateForecast...")
         currentForecast.value = newForecast

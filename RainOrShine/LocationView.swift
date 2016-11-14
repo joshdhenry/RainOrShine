@@ -9,10 +9,11 @@
 import UIKit
 
 class LocationView: UIVisualEffectView, WeatherViewControllerSubView {
-
+    // MARK: - Properties
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var locationLabel: UILabel!
     
+    // MARK: View Model
     var viewModel: LocationViewModel? {
         didSet {
             viewModel?.currentGeneralLocalePlace.observe { [unowned self] in
@@ -31,6 +32,7 @@ class LocationView: UIVisualEffectView, WeatherViewControllerSubView {
     }
     
     
+    // MARK: - Initializer
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         UINib(nibName: "LocationView", bundle: nil).instantiate(withOwner: self, options: nil)
@@ -43,6 +45,7 @@ class LocationView: UIVisualEffectView, WeatherViewControllerSubView {
     }
     
     
+    // MARK: - Methods
     internal func initializeViewModel() {
         print("Initializing location view model...")
         self.viewModel = LocationViewModel()

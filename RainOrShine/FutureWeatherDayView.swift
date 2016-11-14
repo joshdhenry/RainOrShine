@@ -9,13 +9,14 @@
 import UIKit
 
 class FutureWeatherDayView: UIVisualEffectView, WeatherViewControllerSubView {
-
+    // MARK: - Properties
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var weatherConditionView: SKYIconView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
     
+    // MARK: - Initializer
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         UINib(nibName: "FutureWeatherDayView", bundle: nil).instantiate(withOwner: self, options: nil)
@@ -26,6 +27,7 @@ class FutureWeatherDayView: UIVisualEffectView, WeatherViewControllerSubView {
     }
     
     
+    // MARK: - Methods
     internal func setViewStyle() {
         self.setViewEdges()
         

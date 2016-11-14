@@ -10,12 +10,13 @@ import UIKit
 import ForecastIO
 
 class CurrentWeatherView: UIVisualEffectView, WeatherViewControllerSubView {
+    // MARK: - Properties
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
     @IBOutlet weak var weatherConditionView: SKYIconView!
 
-    
+    // MARK: View Model
     var viewModel: CurrentWeatherViewModel? {
         didSet {
             viewModel?.currentForecast.observe { [unowned self] in
@@ -40,6 +41,7 @@ class CurrentWeatherView: UIVisualEffectView, WeatherViewControllerSubView {
     }
     
     
+    // MARK: - Initializer
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         UINib(nibName: "CurrentWeatherView", bundle: nil).instantiate(withOwner: self, options: nil)
@@ -50,6 +52,7 @@ class CurrentWeatherView: UIVisualEffectView, WeatherViewControllerSubView {
     }
     
     
+    // MARK: - Methods
     internal func initializeViewModel() {
         print("Initializing location view model...")
         self.viewModel = CurrentWeatherViewModel()
