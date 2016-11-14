@@ -58,7 +58,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     // Hide the navigation bar on the this view controller
     override func viewWillAppear(_ animated: Bool) {
-        print("In func viewWillAppear...")
+        //print("In func viewWillAppear...")
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
@@ -198,19 +198,15 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     
     private func setNightStandMode() {
-        print("In setNightStand Mode...")
+        //print("In setNightStand Mode...")
 
         if (UIDevice.current.batteryState == UIDeviceBatteryState.charging) {
             //Turn off the screen lock
             UIApplication.shared.isIdleTimerDisabled = true
-            
-            print("Charging...")
         }
         else if (UIDevice.current.batteryState == UIDeviceBatteryState.unplugged) {
             //Turn on the screen lock
             UIApplication.shared.isIdleTimerDisabled = false
-            
-            print("Unplugged")
         }
     }
     
@@ -248,30 +244,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         //If there are photos to swipe through, then allow swiping
         if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! > 0) {
-            
-            let currentPage = advancePage(direction: swipeGesture.direction, currentPageNumber: self.photoDetailView.photoPageControl.currentPage, totalNumberOfPages: self.photoDetailView.photoPageControl.numberOfPages)
-            
-            photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
+            let currentPage = self.photoDetailView.advancePage(direction: swipeGesture.direction)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
         }
-    }
-    
-    
-    //Advance forwards or backwards through page numbers, accounting for total number of pages
-    private func advancePage(direction: UISwipeGestureRecognizerDirection, currentPageNumber: Int, totalNumberOfPages: Int) -> Int {
-        var newPageNumber: Int = currentPageNumber
-        
-        if (direction == UISwipeGestureRecognizerDirection.left) {
-            if (currentPageNumber < totalNumberOfPages - 1) {
-                newPageNumber += 1
-            }
-        }
-        else {
-            if (currentPageNumber > 0) {
-                newPageNumber -= 1
-            }
-        }
-        return newPageNumber
     }
     
     
@@ -369,7 +344,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 
                 LocationAPIService.currentPlace = locationPlace
                 
-                print("FOUND EXACT PLACE \(LocationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
+                //print("FOUND EXACT PLACE \(LocationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
                 //Set the general locale of the place (better for pictures and displaying user's location than exact addresses)
                 LocationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
                     if (isGeneralLocaleFound) {
@@ -378,9 +353,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                         
                         LocationAPIService.generalLocalePlace = generalLocalePlace
                         
-                        print("FOUND GENERAL PLACE \(LocationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
-                        
-                        //self.locationManager.stopUpdatingLocation()
+                        //print("FOUND GENERAL PLACE \(LocationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
                         
                         self.changePlaceShown()
                     }

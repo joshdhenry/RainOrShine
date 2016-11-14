@@ -99,5 +99,21 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
         
         self.photoAttributionLabel.textColor = UIColor.white
     }
+    
+
+    //Advance forwards or backwards through page numbers, accounting for total number of pages
+    public func advancePage(direction: UISwipeGestureRecognizerDirection) -> Int {
+        if (direction == UISwipeGestureRecognizerDirection.left) {
+            if (self.photoPageControl.currentPage < self.photoPageControl.numberOfPages - 1) {
+                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: (self.photoPageControl.currentPage + 1))
+            }
+        }
+        else {
+            if (self.photoPageControl.currentPage > 0) {
+                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: (self.photoPageControl.currentPage - 1))
+            }
+        }
+        return self.photoPageControl.currentPage
+    }
 }
 
