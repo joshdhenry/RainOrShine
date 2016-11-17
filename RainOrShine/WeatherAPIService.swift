@@ -11,11 +11,12 @@ import ForecastIO
 
 class WeatherAPIService {
     // MARK: - Properties
+    typealias Result = (_ result: Bool) ->()
+    
     static private var keys: NSDictionary = NSDictionary()
     static private var weatherClient: DarkSkyClient?
     
     static var currentWeatherForecast: Forecast?
-    
     static var forecastDayDataPointArray: [DataPoint] = [DataPoint]()
         
     
@@ -30,12 +31,12 @@ class WeatherAPIService {
     }
     
     
-    class public func setCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping (_ result: Bool) ->()) {
+    class public func setCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping Result) {
         //print("In func setCurrentWeatherForecast...")
         WeatherAPIService.weatherClient?.getForecast(latitude: latitude, longitude: longitude) { (result) in
             //print("Retrieved forecast from server...")
             switch result {
-            case .success(let currentForecast, let requestMetadata):
+            case .success(let currentForecast, _):
                 
                 //THIS IS JUST A TEMPORARY ELSE.  NOT SURE IF I SHOULD RETURN SO DEFINITELY CHECK BEFORE YOU LEAVE IT
                 guard let dailyForecastDataBlock = currentForecast.daily else {return}

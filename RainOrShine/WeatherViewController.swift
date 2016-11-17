@@ -11,6 +11,10 @@ import CoreLocation
 
 class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISearchBarDelegate {
     // MARK: - Properties
+    
+    // MARK: Type Aliases
+    typealias ScreenSize = CGSize
+    
     // MARK: Views
     @IBOutlet weak var locationImageView: LocationImageView!
     @IBOutlet weak var currentWeatherView: CurrentWeatherView!    
@@ -21,12 +25,13 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
     // MARK: Constants
-    private var screenWidthAndHeight: CGSize {
+    
+    private var screenWidthAndHeight: ScreenSize {
         if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
-            return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            return ScreenSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }
         else {
-            return CGSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+            return ScreenSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
         }
     }
     
@@ -51,13 +56,13 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         createObservers()
         createLocationSearchElements()
         
-        setNightStandMode()        
+        setNightStandMode()
     }
     
     
     // Hide the navigation bar on the this view controller
     override func viewWillAppear(_ animated: Bool) {
-        //print("In func viewWillAppear...")
+        print("In func viewWillAppear...")
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         

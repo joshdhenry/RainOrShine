@@ -16,7 +16,9 @@ class Place {
     public var generalLocalePhotoArray: [UIImage?] = [UIImage?]()
     
     // MARK: - Initializers
-    init() {}
+    convenience init() {
+        self.init(place: nil)
+    }
     
     init(place: GMSPlace?) {
         self.gmsPlace = place

@@ -12,6 +12,9 @@ import SwiftyJSON
 
 class LocationAPIService {
     // MARK: - Properties
+    typealias PlaceResult = (_ result: Bool, _ generalLocalePlace: Place?)->()
+    typealias Result = (_ result: Bool) ->()
+
     static private var keys: NSDictionary = NSDictionary()
     static private var baseURL: String = "https://maps.googleapis.com/maps/api/place/"
     static private var placesClient: GMSPlacesClient? = GMSPlacesClient.shared()
@@ -20,7 +23,7 @@ class LocationAPIService {
     static var generalLocalePlace: Place?
     
     static var currentPlaceImageIndex: Int = 0
-
+    
     
     // MARK: - Initializer
     //Private initializer prevents any outside code from using the default '()' initializer for this class, which could create duplicates of LocationAPIService
@@ -36,11 +39,10 @@ class LocationAPIService {
     
     
     //This method gets the current location of the user and sets currentPlace
-    class public func setCurrentExactPlace(completion: @escaping (_ result: Bool, _ locationPlace: Place?)->()) {
+    //class public func setCurrentExactPlace(completion: @escaping (_ result: Bool, _ locationPlace: Place?)->()) {
+    class public func setCurrentExactPlace(completion: @escaping PlaceResult) {
         print("In function setCurrentExactPlace...")
 
-        
-        
         var placeFindComplete: Bool = false
         LocationAPIService.placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
             guard error == nil else {
@@ -73,9 +75,9 @@ class LocationAPIService {
         }
     }
     
-   
-    //class public func setGeneralLocalePlace(placeIDOfGeneralLocale: String?, completion: @escaping (_ result: Bool, _ locationPlace: Place?)->()) {
-    class public func setGeneralLocalePlace(completion: @escaping (_ result: Bool, _ generalLocalePlace: Place?)->()) {
+    
+    class public func setGeneralLocalePlace(completion: @escaping PlaceResult) {
+
         var placeFindComplete: Bool = false
         
         let generalLocaleString: String = LocationAPIService.currentPlace?.getGeneralLocaleString() ?? ""
@@ -121,7 +123,7 @@ class LocationAPIService {
     
     
     //This method finds a photo of the general locale
-    class public func setPhotosOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
+    class public func setPhotosOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping Result) {
         //print("In function setPhotoOfGeneralLocale...")
         if (LocationAPIService.generalLocalePlace?.gmsPlace != nil) {
 
@@ -181,7 +183,7 @@ class LocationAPIService {
     
     
     //Retrieve photo metadata for place
-    class private func setPhotoMetaData(placeIDOfGeneralLocale: String?, completion: @escaping (_ result: Bool)->()) {
+    class private func setPhotoMetaData(placeIDOfGeneralLocale: String?, completion: @escaping Result) {
         //print("In function setPhotoMetaDataForLocation...(#3)")
         
         var photoMetaDataFindComplete: Bool = false
@@ -219,7 +221,7 @@ class LocationAPIService {
     
     
     //Retrieve image based on place metadata
-    class private func setImagesArrayForMetadata(size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) ->()) {
+    class private func setImagesArrayForMetadata(size: CGSize, scale: CGFloat, completion: @escaping Result) {
         //print("In function setImagesArrayForMetadata...(#4)")
 
         var imageArrayFindComplete: Bool = false
@@ -252,7 +254,7 @@ class LocationAPIService {
     
     
     //Cycle through generalLocalePhotoMetaDataArray and perform a request for each image and populate generalLocalePhotoArray with UIImages
-    class private func setImageForMetaData(index: Int, size: CGSize, scale: CGFloat, completion: @escaping (_ result: Bool) -> ()) {
+    class private func setImageForMetaData(index: Int, size: CGSize, scale: CGFloat, completion: @escaping Result) {
         //print("In function setImageForMetadata...(#4)")
 
         var imageFindComplete: Bool = false

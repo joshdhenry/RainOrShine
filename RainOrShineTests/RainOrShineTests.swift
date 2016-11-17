@@ -37,17 +37,17 @@ class RainOrShineTests: XCTestCase {
     }
     
     
-    func testUpdateForecast() {
-        let weatherViewModel: WeatherViewModel = WeatherViewModel()
+    func testCurrentWeatherViewModelUpdateForecast() {
+        let currentWeatherViewModel: CurrentWeatherViewModel = CurrentWeatherViewModel()
         let jsonString: String = "{\"latitude\":12,\"longitude\":12,\"timezone\":\"Etc/GMT\",\"offset\":0}"
         let jsonDictionary = jsonString.convertStringToDictionary()
         
         if jsonDictionary != nil {
             let forecast = Forecast(fromJSON: jsonDictionary as! NSDictionary)
             
-            weatherViewModel.updateForecast(newForecast: forecast)
+            currentWeatherViewModel.updateForecast(newForecast: forecast)
             
-            XCTAssertEqual(weatherViewModel.currentForecast.value?.latitude, forecast.latitude, "weatherViewModel.updateForecast did not correctly update weatherViewModel.currentForecast...")
+            XCTAssertEqual(currentWeatherViewModel.currentForecast.value?.latitude, forecast.latitude, "currentWeatherViewModel.updateForecast did not correctly update currentWeatherViewModel.currentForecast...")
         }
         //Else the jsonDictionary is nil.  Fail to indicate we have a problem
         else {
@@ -57,27 +57,27 @@ class RainOrShineTests: XCTestCase {
     
     
     //Test the updatePlace method by calling it with an argument of a place with a test image.  If the value changes in the view model, the updatePlace works correctly.
-    func testUpdatePlace() {
-        let weatherViewModel: WeatherViewModel = WeatherViewModel()
+    func testLocationViewModelUpdatePlace() {
+        let locationViewModel: LocationViewModel = LocationViewModel()
         
         let newPlace: Place = Place()
         let testImage = UIImage(named: "TestImage")
         newPlace.generalLocalePhotoArray.append(testImage)
         
-        weatherViewModel.updatePlace(newPlace: newPlace)
+        locationViewModel.updateGeneralLocalePlace(newPlace: newPlace)
         
-        XCTAssertEqual(weatherViewModel.currentPlace.value?.generalLocalePhotoArray[0], newPlace.generalLocalePhotoArray[0], "weatherViewModel.updatePlace did not correctly update weatherViewModel.currentPlace...")
+        XCTAssertEqual(locationViewModel.currentGeneralLocalePlace.value?.generalLocalePhotoArray[0], newPlace.generalLocalePhotoArray[0], "locationViewModel.updatePlace did not correctly update locationViewModel.currentPlace...")
     }
     
     
-    func testUpdatePlaceImageIndex() {
-        let weatherViewModel: WeatherViewModel = WeatherViewModel()
+    func testPhotoDetailViewModelUpdatePlaceImageIndex() {
+        let photoDetailViewModel: PhotoDetailViewModel = PhotoDetailViewModel()
         
         let newPlaceImageIndex = 123
         
-        weatherViewModel.updatePlaceImageIndex(newPlaceImageIndex: newPlaceImageIndex)
+        photoDetailViewModel.updatePlaceImageIndex(newPlaceImageIndex: newPlaceImageIndex)
         
-        XCTAssertEqual(weatherViewModel.currentPlaceImageIndex.value, newPlaceImageIndex, "weatherViewModel.updatePlaceImageIndex did not correctly update weatherViewModel.currentPlaceImageIndex...")
+        XCTAssertEqual(photoDetailViewModel.currentPlaceImageIndex.value, newPlaceImageIndex, "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex...")
     }
     
     
