@@ -63,6 +63,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     // Hide the navigation bar on the this view controller
     override func viewWillAppear(_ animated: Bool) {
         print("In func viewWillAppear...")
+        super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
