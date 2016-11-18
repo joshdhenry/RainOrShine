@@ -7,12 +7,12 @@
 //
 
 import XCTest
-//import GooglePlaces
 import ForecastIO
+import CoreLocation
 
 @testable import RainOrShine
 
-class RainOrShineTests: XCTestCase {
+class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     
     override func setUp() {
         super.setUp()
@@ -124,4 +124,39 @@ class RainOrShineTests: XCTestCase {
         XCTAssertTrue(searchBarFound, "viewController.displayLocationSearchBar did not correctly add the search bar to the view...")
     }
     
+    func testColorSchemeComputedVar() {
+        let lightGrayColor = ColorScheme.lightGray
+        
+        XCTAssertTrue(lightGrayColor == UIColor(netHex: 0xf9f9f9), "ColorScheme's computed color vars are not returning the correct value...")
+    }
+    
+    
+    
+    func testSetCurrentExactPlace() {
+        let locationManager = MockLocationManager()
+        //locationManager.delegate = self
+        //locationManager.requestWhenInUseAuthorization()
+        //locationManager.desiredAccuracy  = kCLLocationAccuracyKilometer
+        
+        print(locationManager.location)
+        
+        LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
+            if (isLocationFound) {
+                print("Found the exact place...")
+                print(locationPlace?.gmsPlace?.formattedAddress)
+            }
+        }
+    }
 }
+
+
+protocol LocationManager{
+    var location:CLLocation? {get}
+}
+
+extension CLLocationManager: LocationManager{}
+
+class MockLocationManager:LocationManager{
+    var location:CLLocation? = CLLocation(latitude: 55.213448, longitude: 20.608194)
+}
+

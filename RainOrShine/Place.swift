@@ -45,7 +45,7 @@ class Place {
         var isFirstItemInQueryString: Bool = true
         var cityNameAlreadyFound: Bool = false
         var naturalFeatureName: String?
-        
+
         for addressComponent in (self.gmsPlace?.addressComponents)! {
             print(addressComponent.name)
             print(addressComponent.type)

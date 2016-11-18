@@ -33,6 +33,7 @@ class LocationAPIService {
     // MARK: - Methods
     //Load the Google Places API keys from APIKeys.plist
     class public func setAPIKeys() {
+        print("In func setAPIKeys...")
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         keys = NSDictionary(contentsOfFile: path)!
     }
@@ -41,9 +42,12 @@ class LocationAPIService {
     //This method gets the current location of the user and sets currentPlace
     class public func setCurrentExactPlace(completion: @escaping PlaceResult) {
         print("In function setCurrentExactPlace...")
+        print(LocationAPIService.placesClient)
 
         var placeFindComplete: Bool = false
+        print("START")
         LocationAPIService.placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
+            print("ZERO")
             guard error == nil else {
                 print("Current Place error: \(error!.localizedDescription)")
                 
@@ -53,14 +57,18 @@ class LocationAPIService {
             }
             
             guard let thisPlaceLikelihoods = placeLikelihoods else {
+                print("ONE")
                 completion(true, nil)
                 return
             }
             guard let firstPlaceLikelihoodFound = thisPlaceLikelihoods.likelihoods.first else {
+                print("TWO")
+
                 completion(true, nil)
                 return
             }
-            
+            print("THREE")
+
             let placeToReturn: Place = Place(place: firstPlaceLikelihoodFound.place)
             
             print("RETURNING \(firstPlaceLikelihoodFound.place.formattedAddress)")
@@ -68,6 +76,8 @@ class LocationAPIService {
             placeFindComplete = true
             completion(true, placeToReturn)
         })
+        print("FOUR")
+
         if (!placeFindComplete) {
             print("STILL FINDING EXACT PLACE")
             completion(false, nil)
