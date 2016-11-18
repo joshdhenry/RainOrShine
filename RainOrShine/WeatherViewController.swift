@@ -64,6 +64,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     override func viewWillAppear(_ animated: Bool) {
         print("In func viewWillAppear...")
         super.viewWillAppear(animated)
+        //Ayyy
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
