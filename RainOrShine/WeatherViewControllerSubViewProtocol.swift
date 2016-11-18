@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol WeatherViewControllerSubView {
-    func initializeViewModel()
+    //func initializeViewModel()
     func setViewStyle()
     func setViewEdges()
     func fadeIn(withDuration duration: TimeInterval, finalAlpha: CGFloat)

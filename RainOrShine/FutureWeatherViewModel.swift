@@ -11,18 +11,18 @@ import ForecastIO
 
 class FutureWeatherViewModel {
     // MARK: - Properties
-    let currentForecast: Observable<Forecast?>
+    let currentForecastDayDataPointArray: Observable<[DataPoint]?>
     
     
     // MARK: - Initializer
-    init() {
-        self.currentForecast = Observable(WeatherAPIService.currentWeatherForecast)
+    init(forecastDataPointArray: [DataPoint]?) {
+        currentForecastDayDataPointArray = Observable(forecastDataPointArray)
     }
     
     
     // MARK: - Methods
-    func updateForecast(newForecast: Forecast?) {
-        //print("In func updateForecast...")
-        currentForecast.value = newForecast
+    func updateForecastDayDataPointArray(newForecastDayDataPointArray: [DataPoint]?) {
+        print("In func updateForecastDayDataPointArray...")
+        currentForecastDayDataPointArray.value = newForecastDayDataPointArray
     }
 }

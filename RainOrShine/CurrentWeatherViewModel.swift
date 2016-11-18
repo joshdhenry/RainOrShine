@@ -15,8 +15,8 @@ class CurrentWeatherViewModel {
 
     
     // MARK: - Initializer
-    init() {
-        currentForecast = Observable(WeatherAPIService.currentWeatherForecast)
+    init(forecast: Forecast?) {
+        currentForecast = Observable(forecast)
     }
     
     

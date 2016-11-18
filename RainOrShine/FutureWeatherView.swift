@@ -16,13 +16,13 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
     // MARK: View Model
     var viewModel: FutureWeatherViewModel? {
         didSet {
-            viewModel?.currentForecast.observe { [unowned self] in
-                guard let _: Forecast = $0 else {return}
+            viewModel?.currentForecastDayDataPointArray.observe { [unowned self] in
+                guard let fiveDayForecastArray: [DataPoint] = $0 else {return}
                 
                 //Get the 5 day forecast
                 var futureDaySubViewsArray: [UIView] = [UIView]()
                 
-                if (!WeatherAPIService.forecastDayDataPointArray.isEmpty) {
+                if (!fiveDayForecastArray.isEmpty) {
                     for thisView in self.allSubViews {
                         if let futureDayView = thisView as? FutureWeatherDayView {
                             futureDaySubViewsArray.append(futureDayView)
@@ -36,13 +36,13 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
                     //Populate five day forecast from the sorted array
                     for futureDaySubViewIndex in 0..<futureDaySubViewsArray.count {
                         if let futureDayView = futureDaySubViewsArray[futureDaySubViewIndex] as? FutureWeatherDayView {
-                            futureDayView.summaryLabel.text = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].summary
-                            futureDayView.weatherConditionView.setType = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].icon?.getSkycon() ?? Skycons.partlyCloudyDay
+                            futureDayView.summaryLabel.text = fiveDayForecastArray[futureDaySubViewIndex].summary
+                            futureDayView.weatherConditionView.setType = fiveDayForecastArray[futureDaySubViewIndex].icon?.getSkycon() ?? Skycons.partlyCloudyDay
                             futureDayView.weatherConditionView.play()
                             
-                            futureDayView.dayLabel.text = WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].time.toAbbreviatedDayString()
+                            futureDayView.dayLabel.text = fiveDayForecastArray[futureDaySubViewIndex].time.toAbbreviatedDayString()
                             
-                            let minMaxTemperatureDictionary = (min: WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMin?.formattedTemperatureString ?? "", max: WeatherAPIService.forecastDayDataPointArray[futureDaySubViewIndex].temperatureMax?.formattedTemperatureString ?? "")
+                            let minMaxTemperatureDictionary = (min: fiveDayForecastArray[futureDaySubViewIndex].temperatureMin?.formattedTemperatureString ?? "", max: fiveDayForecastArray[futureDaySubViewIndex].temperatureMax?.formattedTemperatureString ?? "")
 
                             futureDayView.temperatureLabel.text = minMaxTemperatureDictionary.min + "/" + minMaxTemperatureDictionary.max
                         }
@@ -58,15 +58,6 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
         UINib(nibName: "FutureWeatherView", bundle: nil).instantiate(withOwner: self, options: nil)
                 
         addSubview(view)
-        
-        initializeViewModel()
-    }
-    
-    
-    // MARK: - Methods
-    internal func initializeViewModel() {
-        print("Initializing photo detail view model...")
-        self.viewModel = FutureWeatherViewModel()
     }
     
     

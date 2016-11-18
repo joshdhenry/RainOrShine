@@ -44,6 +44,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     var gpsConsecutiveSignalsReceived: Int = 0
     
+    var weatherAPIService: WeatherAPIService = WeatherAPIService()
+    
     
     // MARK: - Methods
     //Initialize values for the first time
@@ -52,7 +54,13 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         setAllAPIKeys()
         configureLocationManager()
-        WeatherAPIService.setWeatherClient()
+        weatherAPIService.setWeatherClient()
+        
+        
+        currentWeatherView.viewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
+        futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray)
+        
+
         createObservers()
         createLocationSearchElements()
         
@@ -95,7 +103,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     //Set all API keys for all APIs being used
     private func setAllAPIKeys() {
         LocationAPIService.setAPIKeys()
-        WeatherAPIService.setAPIKeys()
+        weatherAPIService.setAPIKeys()
+
     }
     
     
@@ -413,7 +422,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
         LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
         
-        WeatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
+        weatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
     }
     
     
@@ -447,10 +456,10 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         guard let currentPlace = LocationAPIService.currentPlace else {return}
         guard let currentGMSPlace = currentPlace.gmsPlace else {return}
         
-        WeatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
+        weatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
             if (forecastRetrieved) {
-                self.currentWeatherView.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
-                self.futureWeatherView.viewModel?.updateForecast(newForecast: WeatherAPIService.currentWeatherForecast)
+                self.currentWeatherView.viewModel?.updateForecast(newForecast: self.weatherAPIService.currentWeatherForecast)
+                self.futureWeatherView.viewModel?.updateForecastDayDataPointArray(newForecastDayDataPointArray: self.weatherAPIService.forecastDayDataPointArray)
                 
                 completion(true)
             }

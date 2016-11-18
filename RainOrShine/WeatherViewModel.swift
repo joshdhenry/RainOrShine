@@ -5,7 +5,7 @@
 //  Created by Josh Henry on 10/31/16.
 //  Copyright © 2016 Big Smash Software. All rights reserved.
 //
-
+/*
 import Foundation
 import ForecastIO
 
@@ -19,7 +19,9 @@ class WeatherViewModel {
     // MARK: - Initializer
     init() {
         self.currentPlace = Observable(LocationAPIService.currentPlace)
+        //self.currentForecast = Observable(WeatherAPIService.currentWeatherForecast)
         self.currentForecast = Observable(WeatherAPIService.currentWeatherForecast)
+
         self.currentPlaceImageIndex = Observable(LocationAPIService.currentPlaceImageIndex)
     }
     
@@ -42,3 +44,4 @@ class WeatherViewModel {
         currentPlaceImageIndex.value = newPlaceImageIndex
     }
 }
+*/

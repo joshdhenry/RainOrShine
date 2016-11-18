@@ -47,15 +47,6 @@ class CurrentWeatherView: UIVisualEffectView, WeatherViewControllerSubView {
         UINib(nibName: "CurrentWeatherView", bundle: nil).instantiate(withOwner: self, options: nil)
         setViewStyle()
         addSubview(view)
-        
-        initializeViewModel()
-    }
-    
-    
-    // MARK: - Methods
-    internal func initializeViewModel() {
-        print("Initializing location view model...")
-        self.viewModel = CurrentWeatherViewModel()
     }
     
 

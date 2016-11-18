@@ -16,22 +16,17 @@ class WeatherAPIService {
     static private var keys: NSDictionary = NSDictionary()
     static private var weatherClient: DarkSkyClient?
     
-    static var currentWeatherForecast: Forecast?
-    static var forecastDayDataPointArray: [DataPoint] = [DataPoint]()
-        
-    
-    // MARK: - Initializer
-    //Private initializer prevents any outside code from using the default '()' initializer for this class, which could create duplicates of LocationAPIService
-    private init() {}
-    
-    
+    public var forecastDayDataPointArray: [DataPoint] = [DataPoint]()
+    public var currentWeatherForecast: Forecast?
+ 
+ 
     // MARK: - Methods
-    class public func setWeatherClient() {
+    public func setWeatherClient() {
         WeatherAPIService.weatherClient = DarkSkyClient(apiKey: WeatherAPIService.keys["DarkSkyAPIKey"] as! String)
     }
-    
-    
-    class public func setCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping Result) {
+ 
+ 
+    public func setCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping Result) {
         //print("In func setCurrentWeatherForecast...")
         WeatherAPIService.weatherClient?.getForecast(latitude: latitude, longitude: longitude) { (result) in
             //print("Retrieved forecast from server...")
@@ -48,13 +43,13 @@ class WeatherAPIService {
                         let dayForecast = dailyForecastDataBlock.data[dayForecastIndex]
                         print(dayForecast.time)
                         
-                        forecastDayDataPointArray.append(dayForecast)
+                        self.forecastDayDataPointArray.append(dayForecast)
                     }
                 }
                 
-                WeatherAPIService.currentWeatherForecast = currentForecast
+                self.currentWeatherForecast = currentForecast
             case .failure(let error):
-                WeatherAPIService.currentWeatherForecast = nil
+                self.currentWeatherForecast = nil
                 print("Error retrieving current weather forecast - \(error)")
             }
             completion(true)
@@ -63,7 +58,7 @@ class WeatherAPIService {
     
     
     //Load the Dark Sky API keys from APIKeys.plist
-    class public func setAPIKeys() {
+    public func setAPIKeys() {
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         WeatherAPIService.keys = NSDictionary(contentsOfFile: path)!
     }
