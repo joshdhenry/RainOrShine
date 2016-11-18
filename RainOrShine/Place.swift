@@ -54,8 +54,7 @@ class Place {
             switch (addressComponent.type) {
             //Prefer city, then county, then state, etc.
             case "locality", "administrative_area_level_3", "administrative_area_level_2":
-                if (cityNameAlreadyFound == false) {
-                    
+                if (!cityNameAlreadyFound) {
                     if (isFirstItemInQueryString) {
                         queryString += addressComponent.name
                         isFirstItemInQueryString = false
@@ -94,5 +93,4 @@ class Place {
         
         return queryString
     }
-    
 }

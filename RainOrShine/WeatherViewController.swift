@@ -189,7 +189,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         self.activityIndicator.startAnimating()
         
         loadNewPlaceWeather() { (isComplete) -> () in
-            if (isComplete == true) {
+            if (isComplete) {
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
                 }
@@ -378,9 +378,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         //Run both functions.  If both are complete, stop the activity indicator
         loadNewPlacePhotos() { (isComplete) -> () in
-            if (isComplete == true) {
+            if (isComplete) {
                 changePlaceCompletionFlags.photosComplete = true
-                if (changePlaceCompletionFlags.weatherComplete == true) {
+                if (changePlaceCompletionFlags.weatherComplete) {
                     DispatchQueue.main.async {
                         self.locationManager.stopUpdatingLocation()
                         self.activityIndicator.stopAnimating()
@@ -389,9 +389,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             }
         }
         loadNewPlaceWeather() { (isComplete) -> () in
-            if (isComplete == true) {
+            if (isComplete) {
                 changePlaceCompletionFlags.weatherComplete = true
-                if (changePlaceCompletionFlags.photosComplete == true) {
+                if (changePlaceCompletionFlags.photosComplete) {
                     DispatchQueue.main.async {
                         self.locationManager.stopUpdatingLocation()
                         self.activityIndicator.stopAnimating()
@@ -418,7 +418,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     //Display new place photos when a new place has been chosen
     private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
         LocationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
-            if (isImageSet == true) {
+            if (isImageSet) {
                 //Reset image page control to the beginning
                 self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
                 self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)

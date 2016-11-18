@@ -21,7 +21,7 @@ class LocationImageView: UIImageView {
                     return
                 }
                 
-                if (currentPlace.generalLocalePhotoArray.count > 0) {
+                if (!currentPlace.generalLocalePhotoArray.isEmpty) {
                     self.image = currentPlace.generalLocalePhotoArray[($0)!]
                 }
                 else {

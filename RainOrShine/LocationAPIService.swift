@@ -39,7 +39,6 @@ class LocationAPIService {
     
     
     //This method gets the current location of the user and sets currentPlace
-    //class public func setCurrentExactPlace(completion: @escaping (_ result: Bool, _ locationPlace: Place?)->()) {
     class public func setCurrentExactPlace(completion: @escaping PlaceResult) {
         print("In function setCurrentExactPlace...")
 
@@ -77,7 +76,6 @@ class LocationAPIService {
     
     
     class public func setGeneralLocalePlace(completion: @escaping PlaceResult) {
-
         var placeFindComplete: Bool = false
         
         let generalLocaleString: String = LocationAPIService.currentPlace?.getGeneralLocaleString() ?? ""
@@ -87,9 +85,8 @@ class LocationAPIService {
         
         //Some places, like Lake Superior (47, -90) do not return a general locale string because it only has a formatted string of type natural_feature
         //In that case, set the general locale to the exact location
-        if placeIDOfGeneralLocale == nil {
+        if (placeIDOfGeneralLocale == nil) {
             placeFindComplete = true
-            
             let placeToReturn: Place? = LocationAPIService.currentPlace
             
             completion(true, placeToReturn)
@@ -105,6 +102,9 @@ class LocationAPIService {
                     return
                 }
                 guard let thisPlace = place else {
+                    print("Error - the data received does not conform to Place class.")
+                    
+                    placeFindComplete = true
                     completion(true, nil)
                     return
                 }
@@ -116,8 +116,8 @@ class LocationAPIService {
                 completion(true, placeToReturn)
             })
         }
-        if (placeFindComplete == false) {
-            completion(false, nil)
+        if (!placeFindComplete) {
+            completion(placeFindComplete, nil)
         }
     }
     
@@ -128,9 +128,10 @@ class LocationAPIService {
         if (LocationAPIService.generalLocalePlace?.gmsPlace != nil) {
 
             LocationAPIService.setPhotoMetaData(placeIDOfGeneralLocale: LocationAPIService.generalLocalePlace?.gmsPlace?.placeID) { (photoMetaDataFound) -> () in
-                if (photoMetaDataFound == true) {
+                if (photoMetaDataFound) {
+                    print("FOUND METADATA")
                     LocationAPIService.setImagesArrayForMetadata(size: size, scale: scale) { (imageFound) -> () in
-                        if (imageFound == true) {
+                        if (imageFound) {
                             completion(true)
                         }
                     }
@@ -142,6 +143,7 @@ class LocationAPIService {
             completion(true)
         }
     }
+    
     
     
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
@@ -161,21 +163,24 @@ class LocationAPIService {
         // Make call. Handle it in a completion handler.
         session.dataTask(with: url as URL, completionHandler: { ( data: Data?, response: URLResponse?, error: Error?) -> Void in
             //Ensure the  response isn't an error
+            guard (error == nil && data != nil) else {
+                print("Error - failed to download place data...")
+                return
+            }
             guard let thisURLResponse = response as? HTTPURLResponse,
                 thisURLResponse.statusCode == 200 else {
                     print("Not a 200 (successful) response")
                     completionHandlerCodeComplete = true
                     return
             }
-
             let json = JSON(data: data!)
+            
             placeID = json["results"][0]["place_id"].string
             
             completionHandlerCodeComplete = true
         }).resume()
                 
-        //DO I NEED TO IMPLEMENT PROPER COMPLETION HANDLER INTO THIS FUNCTION?????
-        while (completionHandlerCodeComplete == false) {
+        while (!completionHandlerCodeComplete) {
             //print("Waiting on the photo reference to retrieve...")
         }
         return placeID
@@ -189,32 +194,29 @@ class LocationAPIService {
         var photoMetaDataFindComplete: Bool = false
         
         LocationAPIService.placesClient?.lookUpPhotos(forPlaceID: placeIDOfGeneralLocale!) { (photos, error) -> Void in
-            if let error = error {
-                print("Error loading photo from Google API: \(error.localizedDescription)")
+            guard (error == nil) else {
+                print("Error loading photo from Google API: \(error?.localizedDescription)")
+                photoMetaDataFindComplete = true
                 completion(true)
                 return
-            } else {
-                print("Photos count is \(photos?.results.count)")
-                
-                if ((photos?.results.count)! > 0) {
-                    LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray = (photos?.results)!
-                    
-                    photoMetaDataFindComplete = true
-                    completion(true)
-                }
-                    //I SHOULD BE ABLE TO GET RID OF THIS ELSE STATEMENT
-                else {
-                    print("No photos found. Resetting image view to blank...")
-
-                    LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll()
-                    LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll()
-                    
-                    completion(true)
-                }
-                
             }
+            
+            guard let photosList = photos else {
+                print("Error - Photos returned from lookup are nil.")
+                photoMetaDataFindComplete = true
+                completion(true)
+                return
+            }
+            
+            print("Photos count is \(photosList.results.count)")
+            
+            if (!photosList.results.isEmpty) {
+                LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray = (photos?.results)!
+            }
+            photoMetaDataFindComplete = true
+            completion(true)
         }
-        if (photoMetaDataFindComplete == false) {
+        if (!photoMetaDataFindComplete) {
             completion(false)
         }
     }
@@ -222,33 +224,40 @@ class LocationAPIService {
     
     //Retrieve image based on place metadata
     class private func setImagesArrayForMetadata(size: CGSize, scale: CGFloat, completion: @escaping Result) {
-        //print("In function setImagesArrayForMetadata...(#4)")
+        print("In function setImagesArrayForMetadata...(#4)")
 
         var imageArrayFindComplete: Bool = false
-            if ((LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.count)! > 0) {
-                
-                for photoMetaDataIndex in 0..<(LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray)!.count {
-                    setImageForMetaData(index: photoMetaDataIndex, size: size, scale: scale) { imageSet -> () in
-                        if (imageSet) {
-                            //If we are on the last element, mark completion as true
-                            if (photoMetaDataIndex == (LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray)!.count - 1) {
-                                //print("ON LAST ELEMENT in photo meta data array.  mark completion...")
-                                imageArrayFindComplete = true
-                                completion(true)
-                            }
-                            completion(imageArrayFindComplete)
+        
+        guard let currentPlace = LocationAPIService.currentPlace else {
+            print("Error setting images array for metadata. Place was nil.")
+            
+            imageArrayFindComplete = true
+            completion(true)
+            return
+        }
+        
+        if (!currentPlace.generalLocalePhotoMetaDataArray.isEmpty) {
+            for photoMetaDataIndex in 0..<currentPlace.generalLocalePhotoMetaDataArray.count {
+                setImageForMetaData(index: photoMetaDataIndex, size: size, scale: scale) { imageSet -> () in
+                    if (imageSet) {
+                        //If we are on the last element, mark completion as true
+                        if (photoMetaDataIndex == currentPlace.generalLocalePhotoMetaDataArray.count - 1) {
+                            imageArrayFindComplete = true
+                            completion(true)
                         }
+                        completion(imageArrayFindComplete)
                     }
                 }
             }
-            else {
-                print("generalLocalePhotoMetaDataArray was empty.  Exiting out of this function...")
-            
-                imageArrayFindComplete = true
-                completion(imageArrayFindComplete)
-            }
-        if (imageArrayFindComplete == false) {
-            completion(false)
+        }
+        else {
+            print("generalLocalePhotoMetaDataArray was empty.  Exiting out of this function...")
+        
+            imageArrayFindComplete = true
+            completion(imageArrayFindComplete)
+        }
+        if (!imageArrayFindComplete) {
+            completion(imageArrayFindComplete)
         }
     }
     
@@ -263,6 +272,8 @@ class LocationAPIService {
             LocationAPIService.placesClient?.loadPlacePhoto((LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray[index])!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
                 if let error = error {
                     print("Error loading image for metadata: \(error.localizedDescription)")
+                    
+                    imageFindComplete = true
                     completion(true)
                     return
                 } else {                    
@@ -277,9 +288,8 @@ class LocationAPIService {
             //GeneralLocalePhotoMetaData for this index was nil.  Exiting out of this function.
             imageFindComplete = true
         }
-
-        if (imageFindComplete == false) {
-            completion(false)
+        if (!imageFindComplete) {
+            completion(imageFindComplete)
         }
     }
 }

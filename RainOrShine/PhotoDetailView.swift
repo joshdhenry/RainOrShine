@@ -39,7 +39,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                     return
                 }
                 
-                if (currentPlace.generalLocalePhotoArray.count > 0) {
+                if (!currentPlace.generalLocalePhotoArray.isEmpty) {
                     self.photoPageControl.isHidden = false
                     self.photoPageControl.currentPage = $0!
                     
