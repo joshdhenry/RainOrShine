@@ -9,7 +9,7 @@
 import Foundation
 import ForecastIO
 
-class CurrentWeatherViewModel {
+struct CurrentWeatherViewModel {
     // MARK: - Properties
     let currentForecast: Observable<Forecast?>
 

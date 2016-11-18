@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LocationViewModel {
+struct LocationViewModel {
     let currentGeneralLocalePlace: Observable<Place?>
 
     init() {

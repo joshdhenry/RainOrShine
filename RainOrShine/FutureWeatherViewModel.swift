@@ -9,7 +9,7 @@
 import Foundation
 import ForecastIO
 
-class FutureWeatherViewModel {
+struct FutureWeatherViewModel {
     // MARK: - Properties
     let currentForecastDayDataPointArray: Observable<[DataPoint]?>
     

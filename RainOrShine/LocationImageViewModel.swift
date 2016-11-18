@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LocationImageViewModel {
+struct LocationImageViewModel {
     // MARK: - Properties
     let currentPlaceImageIndex: Observable<Int?>
     

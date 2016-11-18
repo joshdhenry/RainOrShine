@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PhotoDetailViewModel {
+struct PhotoDetailViewModel {
     // MARK: - Properties
     let currentPlace: Observable<Place?>
     let currentPlaceImageIndex: Observable<Int?>

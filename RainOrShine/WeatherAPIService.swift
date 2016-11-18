@@ -13,8 +13,8 @@ class WeatherAPIService {
     // MARK: - Properties
     typealias Result = (_ result: Bool) ->()
     
-    static private var keys: NSDictionary = NSDictionary()
-    static private var weatherClient: DarkSkyClient?
+    public var keys: NSDictionary = NSDictionary()
+    public var weatherClient: DarkSkyClient?
     
     public var forecastDayDataPointArray: [DataPoint] = [DataPoint]()
     public var currentWeatherForecast: Forecast?
@@ -22,17 +22,23 @@ class WeatherAPIService {
  
     // MARK: - Methods
     public func setWeatherClient() {
-        WeatherAPIService.weatherClient = DarkSkyClient(apiKey: WeatherAPIService.keys["DarkSkyAPIKey"] as! String)
+        //print("In func setWeatherClient...")
+        weatherClient = DarkSkyClient(apiKey: self.keys["DarkSkyAPIKey"] as! String)
     }
  
  
     public func setCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping Result) {
         //print("In func setCurrentWeatherForecast...")
-        WeatherAPIService.weatherClient?.getForecast(latitude: latitude, longitude: longitude) { (result) in
+        
+        guard let thisWeatherClient = self.weatherClient else {
+            print("Error setting the current weather forecast. Invalid weather client.")
+            return
+        }
+        
+        thisWeatherClient.getForecast(latitude: latitude, longitude: longitude) { (result) in
             //print("Retrieved forecast from server...")
             switch result {
             case .success(let currentForecast, _):
-                
                 //THIS IS JUST A TEMPORARY ELSE.  NOT SURE IF I SHOULD RETURN SO DEFINITELY CHECK BEFORE YOU LEAVE IT
                 guard let dailyForecastDataBlock = currentForecast.daily else {return}
                                 
@@ -59,7 +65,9 @@ class WeatherAPIService {
     
     //Load the Dark Sky API keys from APIKeys.plist
     public func setAPIKeys() {
+        //print("In func setAPIKeys in WeatherAPIService...")
+        
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
-        WeatherAPIService.keys = NSDictionary(contentsOfFile: path)!
+        self.keys = NSDictionary(contentsOfFile: path)!
     }
 }

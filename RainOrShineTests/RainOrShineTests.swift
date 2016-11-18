@@ -39,12 +39,13 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     
     
     func testCurrentWeatherViewModelUpdateForecast() {
-        let currentWeatherViewModel: CurrentWeatherViewModel = CurrentWeatherViewModel()
+        
         let jsonString: String = "{\"latitude\":12,\"longitude\":12,\"timezone\":\"Etc/GMT\",\"offset\":0}"
         let jsonDictionary = jsonString.convertStringToDictionary()
         
         if jsonDictionary != nil {
             let forecast = Forecast(fromJSON: jsonDictionary as! NSDictionary)
+            let currentWeatherViewModel: CurrentWeatherViewModel = CurrentWeatherViewModel(forecast: forecast)
             
             currentWeatherViewModel.updateForecast(newForecast: forecast)
             
