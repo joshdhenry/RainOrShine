@@ -38,13 +38,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     let locationManager = CLLocationManager()
     
     // MARK: Variables
-    var isStatusBarVisible: Bool = true
+    private var isStatusBarVisible: Bool = true
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
-    var gpsConsecutiveSignalsReceived: Int = 0
+    private var gpsConsecutiveSignalsReceived: Int = 0
     
-    var weatherAPIService: WeatherAPIService = WeatherAPIService()
+    internal var weatherAPIService: WeatherAPIService = WeatherAPIService()
+    internal var locationAPIService: LocationAPIService = LocationAPIService()
     
     
     // MARK: - Methods
@@ -56,10 +57,11 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         configureLocationManager()
         weatherAPIService.setWeatherClient()
         
-        
         currentWeatherView.viewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
         futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray)
-        
+        locationView.viewModel = LocationViewModel(place: locationAPIService.currentPlace)
+        locationImageView.viewModel = LocationImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
+        photoDetailView.viewModel = PhotoDetailViewModel(place: locationAPIService.currentPlace, imageIndex: nil)
 
         createObservers()
         createLocationSearchElements()
@@ -72,7 +74,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     override func viewWillAppear(_ animated: Bool) {
         print("In func viewWillAppear...")
         super.viewWillAppear(animated)
-        //Ayyy
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
@@ -102,7 +103,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Set all API keys for all APIs being used
     private func setAllAPIKeys() {
-        LocationAPIService.setAPIKeys()
+        locationAPIService.setAPIKeys()
         weatherAPIService.setAPIKeys()
 
     }
@@ -253,11 +254,12 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         //print("In func respondToSwipeGesture")
         
         guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
+        guard let currentPlace = locationAPIService.currentPlace else {return}
         
         //If there are photos to swipe through, then allow swiping
-        if ((LocationAPIService.currentPlace?.generalLocalePhotoArray.count)! > 0) {
-            let currentPage = self.photoDetailView.advancePage(direction: swipeGesture.direction)
-            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage)
+        if (!currentPlace.generalLocalePhotoArray.isEmpty) {
+            let currentPage = self.photoDetailView.advancePage(direction: swipeGesture.direction, place: currentPlace)
+            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage, place: currentPlace)
         }
     }
     
@@ -347,22 +349,22 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     func updateLocation() {
         makeSubViewsInvisible()
         
-        LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
+        locationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
                 self.photoDetailView.viewModel?.updatePlace(newPlace: locationPlace)
                 
-                LocationAPIService.currentPlace = locationPlace
+                self.locationAPIService.currentPlace = locationPlace
                 
-                //print("FOUND EXACT PLACE \(LocationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
+                //print("FOUND EXACT PLACE \(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
                 //Set the general locale of the place (better for pictures and displaying user's location than exact addresses)
-                LocationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
+                self.locationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
                     if (isGeneralLocaleFound) {
                         
                         self.locationView.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
                         
-                        LocationAPIService.generalLocalePlace = generalLocalePlace
+                        self.locationAPIService.generalLocalePlace = generalLocalePlace
                         
-                        //print("FOUND GENERAL PLACE \(LocationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
+                        //print("FOUND GENERAL PLACE \(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
                         
                         self.changePlaceShown()
                     }
@@ -377,11 +379,11 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         //print("In func changePlaceShown...")
         
         print("PLACE IDS")
-        print(LocationAPIService.currentPlace?.gmsPlace?.placeID)
-        print(LocationAPIService.generalLocalePlace?.gmsPlace?.placeID)
+        print(locationAPIService.currentPlace?.gmsPlace?.placeID)
+        print(locationAPIService.generalLocalePlace?.gmsPlace?.placeID)
         
-        print(LocationAPIService.currentPlace?.gmsPlace?.formattedAddress)
-        print(LocationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)
+        print(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)
+        print(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)
 
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         
@@ -416,11 +418,11 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     //This function is called by changePlaceShown and is run right before acquiring new values for a new place.
     //It resets some values to create a clean slate.
     private func resetValuesForNewPlace() {
-        photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
-        locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil)
+        photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
+        locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
         
-        LocationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
-        LocationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
+        locationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
+        locationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
         
         weatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
     }
@@ -428,14 +430,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Display new place photos when a new place has been chosen
     private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
-        LocationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
+        locationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             if (isImageSet) {
                 //Reset image page control to the beginning
-                self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
-                self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0)
+                self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.currentPlace)
+                self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.currentPlace)
 
                 //Adjust the page control according to the newly loaded place (if the place is not nil)
-                guard let currentPlace = LocationAPIService.currentPlace else {return}
+                guard let currentPlace = self.locationAPIService.currentPlace else {return}
                 
                 if (currentPlace.generalLocalePhotoArray.count == 0) {
                     self.photoDetailView.photoPageControl.isHidden = true
@@ -453,7 +455,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     //Display weather info when a new place has been chosen. Get the weather forecast.
     private func loadNewPlaceWeather(completion: @escaping (_ result: Bool) ->()) {
-        guard let currentPlace = LocationAPIService.currentPlace else {return}
+        guard let currentPlace = locationAPIService.currentPlace else {return}
         guard let currentGMSPlace = currentPlace.gmsPlace else {return}
         
         weatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in

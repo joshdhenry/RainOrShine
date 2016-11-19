@@ -15,9 +15,9 @@ struct PhotoDetailViewModel {
 
     
     // MARK: - Initializer
-    init() {
-        currentPlace = Observable(LocationAPIService.currentPlace)
-        currentPlaceImageIndex = Observable(LocationAPIService.currentPlaceImageIndex)
+    init(place: Place?, imageIndex: Int?) {
+        currentPlace = Observable(place)
+        currentPlaceImageIndex = Observable(imageIndex)
     }
     
     
@@ -27,8 +27,10 @@ struct PhotoDetailViewModel {
     }
     
     
-    func updatePlaceImageIndex(newPlaceImageIndex: Int?) {
+    func updatePlaceImageIndex(newPlaceImageIndex: Int?, place: Place?) {
         //print("In func updatePlaceImageIndex...")
         currentPlaceImageIndex.value = newPlaceImageIndex
+        
+        currentPlace.value = place
     }
 }

@@ -29,7 +29,8 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
             }
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
-                guard let currentPlace: Place = LocationAPIService.currentPlace else {
+                guard let currentPlaceImageIndex = $0 else {
+                
                     //Place is nil.  App must be just starting
                     self.photoPageControl.isHidden = true
                     self.photoPageControl.currentPage = 0
@@ -39,11 +40,15 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                     return
                 }
                 
-                if (!currentPlace.generalLocalePhotoArray.isEmpty) {
+                //i need to make sure (elsewhere) that the photo array is not empty and if it is, set the index to nil
+                
+                guard let thisCurrentPlace = self.viewModel?.currentPlace.value else {return}
+                
+                if (!thisCurrentPlace.generalLocalePhotoArray.isEmpty) {
                     self.photoPageControl.isHidden = false
                     self.photoPageControl.currentPage = $0!
                     
-                    guard let photoMetaData: GMSPlacePhotoMetadata = currentPlace.generalLocalePhotoMetaDataArray[$0!] else {
+                    guard let photoMetaData: GMSPlacePhotoMetadata = thisCurrentPlace.generalLocalePhotoMetaDataArray[$0!] else {
                         self.photoAttributionLabel.isHidden = true
                         return
                     }
@@ -73,6 +78,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
             }
         }
     }
+    
 
     // MARK: - Initializer
     required init?(coder aDecoder: NSCoder) {
@@ -82,16 +88,8 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
         setViewStyle()
         
         addSubview(view)
-        
-        initializeViewModel()
     }
     
-    
-    // MARK: - Methods
-    internal func initializeViewModel() {
-        print("Initializing photo detail view model...")
-        self.viewModel = PhotoDetailViewModel()
-    }
     
     
     internal func setViewStyle() {
@@ -102,15 +100,15 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
     
 
     //Advance forwards or backwards through page numbers, accounting for total number of pages
-    public func advancePage(direction: UISwipeGestureRecognizerDirection) -> Int {
+    public func advancePage(direction: UISwipeGestureRecognizerDirection, place: Place) -> Int {
         if (direction == UISwipeGestureRecognizerDirection.left) {
             if (self.photoPageControl.currentPage < self.photoPageControl.numberOfPages - 1) {
-                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: (self.photoPageControl.currentPage + 1))
+                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: (self.photoPageControl.currentPage + 1), place: place)
             }
         }
         else {
             if (self.photoPageControl.currentPage > 0) {
-                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: (self.photoPageControl.currentPage - 1))
+                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: (self.photoPageControl.currentPage - 1), place: place)
             }
         }
         return self.photoPageControl.currentPage

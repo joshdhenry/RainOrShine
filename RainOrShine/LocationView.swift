@@ -39,16 +39,7 @@ class LocationView: UIVisualEffectView, WeatherViewControllerSubView {
         
         setViewStyle()
         
-        addSubview(view)
-        
-        initializeViewModel()
-    }
-    
-    
-    // MARK: - Methods
-    internal func initializeViewModel() {
-        print("Initializing location view model...")
-        self.viewModel = LocationViewModel()
+        addSubview(view)        
     }
     
     

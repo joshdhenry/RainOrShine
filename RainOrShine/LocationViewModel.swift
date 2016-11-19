@@ -11,8 +11,8 @@ import Foundation
 struct LocationViewModel {
     let currentGeneralLocalePlace: Observable<Place?>
 
-    init() {
-        currentGeneralLocalePlace = Observable(LocationAPIService.generalLocalePlace)
+    init(place: Place?) {
+        currentGeneralLocalePlace = Observable(place)
     }
     
     

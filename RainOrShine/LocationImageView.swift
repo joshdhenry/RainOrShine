@@ -9,20 +9,25 @@
 import UIKit
 
 class LocationImageView: UIImageView {
-
-    // MARK: - Properties
+    
     // MARK: View Model
     var viewModel: LocationImageViewModel? {
         didSet {
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
-                guard let currentPlace: Place = LocationAPIService.currentPlace else {
+                guard let thisCurrentPlace = self.viewModel?.currentPlace.value else {
                     //Place is nil.  App must be just starting
                     self.image = nil
                     return
                 }
                 
-                if (!currentPlace.generalLocalePhotoArray.isEmpty) {
-                    self.image = currentPlace.generalLocalePhotoArray[($0)!]
+                guard let imageIndex = $0 else {
+                    //No images
+                    self.image = nil
+                    return
+                }
+                
+                if (!thisCurrentPlace.generalLocalePhotoArray.isEmpty) {
+                    self.image = thisCurrentPlace.generalLocalePhotoArray[imageIndex]
                 }
                 else {
                     //No images
@@ -35,13 +40,5 @@ class LocationImageView: UIImageView {
     // MARK: - Initializer
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        initializeViewModel()
-    }
-    
-    // MARK: - Methods
-    func initializeViewModel() {
-        print("Initializing location image view model...")
-        self.viewModel = LocationImageViewModel()
     }
 }

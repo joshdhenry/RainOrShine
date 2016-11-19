@@ -28,12 +28,12 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
-            print("RUNNING....")
+            /*print("RUNNING....")
             LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
                 if(isLocationFound) {
                     print("Set the exact place...")
                 }
-            }
+            }*/
         }
     }
     
@@ -60,7 +60,7 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     
     //Test the updatePlace method by calling it with an argument of a place with a test image.  If the value changes in the view model, the updatePlace works correctly.
     func testLocationViewModelUpdatePlace() {
-        let locationViewModel: LocationViewModel = LocationViewModel()
+        let locationViewModel: LocationViewModel = LocationViewModel(place: nil)
         
         let newPlace: Place = Place()
         let testImage = UIImage(named: "TestImage")
@@ -73,11 +73,11 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     
     
     func testPhotoDetailViewModelUpdatePlaceImageIndex() {
-        let photoDetailViewModel: PhotoDetailViewModel = PhotoDetailViewModel()
+        let photoDetailViewModel: PhotoDetailViewModel = PhotoDetailViewModel(place: nil, imageIndex: nil)
         
         let newPlaceImageIndex = 123
         
-        photoDetailViewModel.updatePlaceImageIndex(newPlaceImageIndex: newPlaceImageIndex)
+        photoDetailViewModel.updatePlaceImageIndex(newPlaceImageIndex: newPlaceImageIndex, place: nil)
         
         XCTAssertEqual(photoDetailViewModel.currentPlaceImageIndex.value, newPlaceImageIndex, "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex...")
     }
@@ -130,34 +130,4 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         
         XCTAssertTrue(lightGrayColor == UIColor(netHex: 0xf9f9f9), "ColorScheme's computed color vars are not returning the correct value...")
     }
-    
-    
-    
-    func testSetCurrentExactPlace() {
-        let locationManager = MockLocationManager()
-        //locationManager.delegate = self
-        //locationManager.requestWhenInUseAuthorization()
-        //locationManager.desiredAccuracy  = kCLLocationAccuracyKilometer
-        
-        print(locationManager.location)
-        
-        LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
-            if (isLocationFound) {
-                print("Found the exact place...")
-                print(locationPlace?.gmsPlace?.formattedAddress)
-            }
-        }
-    }
 }
-
-
-protocol LocationManager{
-    var location:CLLocation? {get}
-}
-
-extension CLLocationManager: LocationManager{}
-
-class MockLocationManager:LocationManager{
-    var location:CLLocation? = CLLocation(latitude: 55.213448, longitude: 20.608194)
-}
-

@@ -23,14 +23,14 @@ extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
         
         self.photoDetailView.viewModel?.updatePlace(newPlace: searchedPlace)
 
-        LocationAPIService.currentPlace = searchedPlace
+        locationAPIService.currentPlace = searchedPlace
 
         //Set the general locale of the place (better for pictures and displaying user's location)
-        LocationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
+        locationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
             if (isGeneralLocaleFound) {
                 self.locationView.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
                 
-                LocationAPIService.generalLocalePlace = generalLocalePlace
+                self.locationAPIService.generalLocalePlace = generalLocalePlace
                 
                 self.changePlaceShown()
             }

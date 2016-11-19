@@ -11,15 +11,20 @@ import Foundation
 struct LocationImageViewModel {
     // MARK: - Properties
     let currentPlaceImageIndex: Observable<Int?>
+    let currentPlace: Observable<Place?>
+
     
     // MARK: - Initializer
-    init() {
-        currentPlaceImageIndex = Observable(LocationAPIService.currentPlaceImageIndex)
+    init(placeImageIndex: Int?, place: Place?) {
+        currentPlaceImageIndex = Observable(placeImageIndex)
+        currentPlace = Observable(place)
     }
     
     // MARK: - Methods
-    func updatePlaceImageIndex(newPlaceImageIndex: Int?) {
+    func updatePlaceImageIndex(newPlaceImageIndex: Int?, place: Place?) {
         //print("In func updatePlaceImageIndex...")
         currentPlaceImageIndex.value = newPlaceImageIndex
+        
+        currentPlace.value = place
     }
 }
