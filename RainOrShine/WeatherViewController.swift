@@ -100,6 +100,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Create all the view models that will be needed for this controller and its subviews
     func initializeViewModels() {
         currentWeatherView.viewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
         futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray)
@@ -165,6 +166,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         futureWeatherView.addGestureRecognizer(setTapRecognizer())
         photoDetailView.addGestureRecognizer(setTapRecognizer())
         
+        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         self.view.addGestureRecognizer(swipeRight)
@@ -210,15 +212,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     }
     
     
+    //Turn on or off the screen lock depending on the charging status
     private func setNightStandMode() {
         //print("In setNightStand Mode...")
 
         if (UIDevice.current.batteryState == UIDeviceBatteryState.charging) {
-            //Turn off the screen lock
             UIApplication.shared.isIdleTimerDisabled = true
         }
         else if (UIDevice.current.batteryState == UIDeviceBatteryState.unplugged) {
-            //Turn on the screen lock
             UIApplication.shared.isIdleTimerDisabled = false
         }
     }
@@ -258,8 +259,8 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         
         //If there are photos to swipe through, then allow swiping
         if (!currentPlace.generalLocalePhotoArray.isEmpty) {
-            let currentPage = self.photoDetailView.advancePage(direction: swipeGesture.direction, place: currentPlace)
-            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPage, place: currentPlace)
+            let currentPageNumber = self.photoDetailView.advancePage(direction: swipeGesture.direction, place: currentPlace)
+            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentPlace)
         }
     }
     
@@ -283,18 +284,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         //print("In resizeLocationSearchView...")
         
         if orientationAfterRotation.isPortrait {
-            //print("Switching to portrait...")
-            
+            //Switching to portrait
             showStatusBar(enabled: true)
-            
             locationSearchView.frame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
             locationSearchView.searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
         }
         else if orientationAfterRotation.isLandscape {
-            //print("Switching to landscape...")
-            
+            //Switching to landscape
             showStatusBar(enabled: false)
-            
             locationSearchView.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45)
         }
         locationSearchView.searchController?.searchBar.sizeToFit()
@@ -355,16 +352,12 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
                 
                 self.locationAPIService.currentPlace = locationPlace
                 
-                //print("FOUND EXACT PLACE \(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
                 //Set the general locale of the place (better for pictures and displaying user's location than exact addresses)
                 self.locationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
                     if (isGeneralLocaleFound) {
-                        
                         self.locationView.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
                         
                         self.locationAPIService.generalLocalePlace = generalLocalePlace
-                        
-                        //print("FOUND GENERAL PLACE \(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
                         
                         self.changePlaceShown()
                     }
@@ -432,21 +425,15 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
         locationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             if (isImageSet) {
-                //Reset image page control to the beginning
-                self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.currentPlace)
-                self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.currentPlace)
-
-                //Adjust the page control according to the newly loaded place (if the place is not nil)
-                guard let currentPlace = self.locationAPIService.currentPlace else {return}
+                guard let thisCurrentPlace = self.locationAPIService.currentPlace else {
+                    print("Error - Current place is nil. Cannot set photos of the general locale.")
+                    return
+                }
                 
-                if (currentPlace.generalLocalePhotoArray.count == 0) {
-                    self.photoDetailView.photoPageControl.isHidden = true
-                    self.photoDetailView.photoPageControl.numberOfPages = 0
-                }
-                else {
-                    self.photoDetailView.photoPageControl.numberOfPages = currentPlace.generalLocalePhotoArray.count
-                    self.photoDetailView.photoPageControl.isHidden = false
-                }
+                //Reset image page control to the beginning
+                self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: thisCurrentPlace)
+                self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: thisCurrentPlace)
+
                 completion(true)
             }
         }

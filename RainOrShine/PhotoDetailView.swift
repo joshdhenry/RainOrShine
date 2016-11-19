@@ -47,6 +47,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                 if (!thisCurrentPlace.generalLocalePhotoArray.isEmpty) {
                     self.photoPageControl.isHidden = false
                     self.photoPageControl.currentPage = $0!
+                    self.photoPageControl.numberOfPages = thisCurrentPlace.generalLocalePhotoArray.count
                     
                     guard let photoMetaData: GMSPlacePhotoMetadata = thisCurrentPlace.generalLocalePhotoMetaDataArray[$0!] else {
                         self.photoAttributionLabel.isHidden = true
@@ -73,7 +74,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                 else {
                     self.photoPageControl.isHidden = true
                     self.photoPageControl.currentPage = 0
-                    self.photoAttributionLabel.isHidden = true
+                    self.photoAttributionLabel.isHidden = truegeControl.numberOfPages = 0
                 }
             }
         }
