@@ -23,7 +23,7 @@ class PlaceTests: XCTestCase {
         super.tearDown()
     }
     
-    
+    //DOESNT WORK
     func testGetGeneralLocaleString() {
         let addressComponent = MockGMSAddressComponent()
         
@@ -83,7 +83,7 @@ class PlaceTests: XCTestCase {
         
         let mockPlace: Place = Place(place: mockGMSPlace)
         let generalLocaleString = mockPlace.getGeneralLocaleString()
-        
+        print("generalLocaleString is \(generalLocaleString)")
         
         XCTAssert(generalLocaleString == "Seattle+Washington+United+States", "Yada")
     }
@@ -115,7 +115,7 @@ class PlaceTests: XCTestCase {
 }
 
 public class MockGMSPlace: GMSPlace {
-    var addressComponentsArray: [MockGMSAddressComponent]? = [MockGMSAddressComponent]()
+    var addressComponentsArray: [GMSAddressComponent]? = [GMSAddressComponent]()
     
     override open var addressComponents: [GMSAddressComponent]? {
         get {
@@ -124,9 +124,5 @@ public class MockGMSPlace: GMSPlace {
         set {
             self.addressComponentsArray = newValue as! [MockGMSAddressComponent]?
         }
-    }
-    
-    override init() {
-        super.init()
     }
 }

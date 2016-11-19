@@ -62,6 +62,16 @@ class LocationAPIServiceTests: XCTestCase {
             }
         }
     }
+    
+    
+    func testSetGeneralLocalePlace() {
+        
+    }
+    
+    
+    func testSetPhotosOfGeneralLocale() {
+        
+    }
 }
 
 

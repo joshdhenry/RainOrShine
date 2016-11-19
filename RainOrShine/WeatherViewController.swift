@@ -25,7 +25,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
     // MARK: Constants
-    
     private var screenWidthAndHeight: ScreenSize {
         if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
             return ScreenSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -56,19 +55,12 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         setAllAPIKeys()
         configureLocationManager()
         weatherAPIService.setWeatherClient()
-        
-        currentWeatherView.viewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
-        futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray)
-        locationView.viewModel = LocationViewModel(place: locationAPIService.currentPlace)
-        locationImageView.viewModel = LocationImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
-        photoDetailView.viewModel = PhotoDetailViewModel(place: locationAPIService.currentPlace, imageIndex: nil)
-
+        initializeViewModels()
         createObservers()
         createLocationSearchElements()
-        
         setNightStandMode()
     }
-    
+
     
     // Hide the navigation bar on the this view controller
     override func viewWillAppear(_ animated: Bool) {
@@ -105,7 +97,15 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     private func setAllAPIKeys() {
         locationAPIService.setAPIKeys()
         weatherAPIService.setAPIKeys()
-
+    }
+    
+    
+    func initializeViewModels() {
+        currentWeatherView.viewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
+        futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray)
+        locationView.viewModel = LocationViewModel(place: locationAPIService.currentPlace)
+        locationImageView.viewModel = LocationImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
+        photoDetailView.viewModel = PhotoDetailViewModel(place: locationAPIService.currentPlace, imageIndex: nil)
     }
     
     

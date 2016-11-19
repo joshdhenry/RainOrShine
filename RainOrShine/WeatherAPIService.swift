@@ -47,7 +47,7 @@ class WeatherAPIService {
                     if (dayForecastIndex < dailyForecastDataBlock.data.count) {
                         //DOUBLE CHECK IF I CAN AND SHOULD RETURN IN THIS ELSE STATEMENT.  SO SLEEPY RIGHT NOW.
                         let dayForecast = dailyForecastDataBlock.data[dayForecastIndex]
-                        print(dayForecast.time)
+                        //print(dayForecast.time)
                         
                         self.forecastDayDataPointArray.append(dayForecast)
                     }

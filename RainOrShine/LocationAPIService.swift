@@ -24,7 +24,7 @@ class LocationAPIService {
     public var currentPlaceImageIndex: Int = 0
     
     
-    // MARK: - Methods
+    // MARK: - Public Methods
     //Load the Google Places API keys from APIKeys.plist
     public func setAPIKeys() {
         print("In func setAPIKeys...")
@@ -119,7 +119,7 @@ class LocationAPIService {
     
     //This method finds a photo of the general locale
     public func setPhotosOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping Result) {
-        //print("In function setPhotoOfGeneralLocale...")
+        //print("In function setPhotosOfGeneralLocale...")
         guard let _ = generalLocalePlace else {
             print("Not loading a photo since place of general area was nil...")
             completion(true)
@@ -142,10 +142,11 @@ class LocationAPIService {
     }
     
     
+    // MARK: - Private Methods
     
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
     private func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) -> String? {
-        //print("In function getPlaceIDOfGeneralLocale...(#2)")
+        print("In function getPlaceIDOfGeneralLocale...(#2)")
 
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
