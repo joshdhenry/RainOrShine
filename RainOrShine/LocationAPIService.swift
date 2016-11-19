@@ -208,7 +208,7 @@ class LocationAPIService {
             
             print("Photos count is \(photosList.results.count)")
             
-            guard let thisCurrentPlace = self.currentPlace else {
+            guard let _ = self.currentPlace else {
                 print("Error - the current place was nil.")
                 photoMetaDataFindComplete = true
                 completion(true)

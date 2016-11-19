@@ -40,8 +40,6 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                     return
                 }
                 
-                //i need to make sure (elsewhere) that the photo array is not empty and if it is, set the index to nil
-                
                 guard let thisCurrentPlace = self.viewModel?.currentPlace.value else {return}
                 
                 if (!thisCurrentPlace.generalLocalePhotoArray.isEmpty) {
@@ -74,7 +72,8 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                 else {
                     self.photoPageControl.isHidden = true
                     self.photoPageControl.currentPage = 0
-                    self.photoAttributionLabel.isHidden = truegeControl.numberOfPages = 0
+                    self.photoAttributionLabel.isHidden = true
+                    self.photoPageControl.numberOfPages = 0
                 }
             }
         }
