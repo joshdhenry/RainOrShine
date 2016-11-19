@@ -33,7 +33,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             return ScreenSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
         }
     }
-    
+    //Ayyy
     let locationManager = CLLocationManager()
     
     // MARK: Variables
