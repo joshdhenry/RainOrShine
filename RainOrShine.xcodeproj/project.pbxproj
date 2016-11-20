@@ -47,6 +47,9 @@
 		03B556A21DE142B400B1B55A /* WeatherViewControllerUISearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B556A11DE142B400B1B55A /* WeatherViewControllerUISearchBarDelegate.swift */; };
 		03D47E471DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D47E461DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift */; };
 		03D47E4B1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D47E4A1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift */; };
+		03E614BD1DE17CC900F2C157 /* ColorSchemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E614BC1DE17CC900F2C157 /* ColorSchemeTests.swift */; };
+		03E614BF1DE17E1900F2C157 /* LocationSearchViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E614BE1DE17E1900F2C157 /* LocationSearchViewTests.swift */; };
+		03E614C11DE17EB500F2C157 /* WeatherViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E614C01DE17EB500F2C157 /* WeatherViewControllerTests.swift */; };
 		03FD6DD01DD06099004F7FA6 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */; };
 		03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DD51DD13E61004F7FA6 /* WeatherNavigationController.swift */; };
 		03FD6DD81DD13F2C004F7FA6 /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DD71DD13F2C004F7FA6 /* Rotation.swift */; };
@@ -122,6 +125,9 @@
 		03B556A11DE142B400B1B55A /* WeatherViewControllerUISearchBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerUISearchBarDelegate.swift; sourceTree = "<group>"; };
 		03D47E461DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAPIServiceTests.swift; sourceTree = "<group>"; };
 		03D47E4A1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAPIServiceTests.swift; sourceTree = "<group>"; };
+		03E614BC1DE17CC900F2C157 /* ColorSchemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSchemeTests.swift; sourceTree = "<group>"; };
+		03E614BE1DE17E1900F2C157 /* LocationSearchViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchViewTests.swift; sourceTree = "<group>"; };
+		03E614C01DE17EB500F2C157 /* WeatherViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerTests.swift; sourceTree = "<group>"; };
 		03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		03FD6DD51DD13E61004F7FA6 /* WeatherNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherNavigationController.swift; sourceTree = "<group>"; };
 		03FD6DD71DD13F2C004F7FA6 /* Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
@@ -212,6 +218,9 @@
 				0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */,
 				03D47E461DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift */,
 				03D47E4A1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift */,
+				03E614BC1DE17CC900F2C157 /* ColorSchemeTests.swift */,
+				03E614BE1DE17E1900F2C157 /* LocationSearchViewTests.swift */,
+				03E614C01DE17EB500F2C157 /* WeatherViewControllerTests.swift */,
 			);
 			path = RainOrShineTests;
 			sourceTree = "<group>";
@@ -666,6 +675,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0313E51D1DC1DBC200E453A0 /* RainOrShineTests.swift in Sources */,
+				03E614BF1DE17E1900F2C157 /* LocationSearchViewTests.swift in Sources */,
+				03E614BD1DE17CC900F2C157 /* ColorSchemeTests.swift in Sources */,
+				03E614C11DE17EB500F2C157 /* WeatherViewControllerTests.swift in Sources */,
 				0363E8261DDECAC8009EA3E0 /* PlaceTests.swift in Sources */,
 				03D47E471DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift in Sources */,
 				03D47E4B1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift in Sources */,

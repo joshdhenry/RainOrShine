@@ -27,13 +27,6 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         super.tearDown()
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
     
     //Test retrieving the current forecast with a mock location and make sure it returns a value.
     //The dummy value is the coordinates of Yobe, Nigeria
@@ -79,88 +72,5 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         photoDetailViewModel.updatePlaceImageIndex(newPlaceImageIndex: newPlaceImageIndex, place: nil)
         
         XCTAssertEqual(photoDetailViewModel.currentPlaceImageIndex.value, newPlaceImageIndex, "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex...")
-    }
-    
-    
-    //Test to make sure that createGestureRecognizer creates and attaches to the view in ViewController
-    func testCreateGestureRecognizers() {
-        
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        viewController = navigationController.topViewController as! WeatherViewController
-        UIApplication.shared.keyWindow!.rootViewController = viewController
-        
-        var numOfGestureRecognizers: Int = 0
-
-        if (viewController.view.gestureRecognizers != nil) {
-            for recognizer in viewController.view.gestureRecognizers! {
-                if let _ = recognizer as? UISwipeGestureRecognizer {
-                    numOfGestureRecognizers += 1
-                }
-            }
-        }
-        
-        XCTAssertEqual(numOfGestureRecognizers, 2, "Not all gesture recognizers were successfully added to ViewController...")
-    }
-    
-    
-
-    //Test to make sure that viewController.displayLocationSearchBar adds the subview to the view
-    func testDisplayLocationSearchBar() {
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        viewController = navigationController.topViewController as! WeatherViewController
-        UIApplication.shared.keyWindow!.rootViewController = viewController
-        
-        var searchBarFound: Bool = false
-        
-        for view in viewController.view.subviews {
-            if (view.accessibilityIdentifier == "Location Search Bar") {
-                searchBarFound = true
-            }
-        }
-        
-        XCTAssertTrue(searchBarFound, "viewController.displayLocationSearchBar did not correctly add the search bar to the view...")
-    }
-    
-    
-    //Test the color scheme structs computed var by getting the light gray color and assuring it returns the correct UIColor
-    func testColorSchemeComputedVar() {
-        let lightGrayColor = ColorScheme.lightGray
-        
-        XCTAssertTrue(lightGrayColor == UIColor(netHex: 0xf9f9f9), "ColorScheme's computed color vars are not returning the correct value...")
-    }
-    
-    
-    //Rotate the main screen to landscape and check that the locationSearchView resized its width correctly
-    func testLandscapeLocationSearchView() {
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        viewController = navigationController.topViewController as! WeatherViewController
-        UIApplication.shared.keyWindow!.rootViewController = viewController
-
-        XCUIDevice.shared().orientation = .landscapeRight
-        viewController.resizeLocationSearchView(orientationAfterRotation: .landscapeRight)
-        
-        let locationSearchViewWidth = viewController.locationSearchView.searchController?.searchBar.frame.size.width
-        let screenHeight = viewController.screenWidthAndHeight.height
-        
-        XCTAssert(locationSearchViewWidth == screenHeight, "locationSearchViewWidth did not resize correctly after switching to landscape mode.")
-    }
-    
-    
-    //Rotate the main screen to landscape then back to portrait and check that the locationSearchView resized its width correctly
-    func testPortraitLocationSearchView() {
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        viewController = navigationController.topViewController as! WeatherViewController
-        UIApplication.shared.keyWindow!.rootViewController = viewController
-        
-        XCUIDevice.shared().orientation = .landscapeRight
-        viewController.resizeLocationSearchView(orientationAfterRotation: .landscapeRight)
-        
-        XCUIDevice.shared().orientation = .portrait
-        viewController.resizeLocationSearchView(orientationAfterRotation: .portrait)
-        
-        let locationSearchViewWidth = viewController.locationSearchView.searchController?.searchBar.frame.size.width
-        let screenWidth = viewController.screenWidthAndHeight.width
-        
-        XCTAssert(locationSearchViewWidth == screenWidth, "locationSearchViewWidth did not resize correctly after going from portrait to landscape then back to portrait again.")
     }
 }
