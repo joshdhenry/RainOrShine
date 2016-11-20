@@ -34,8 +34,6 @@ extension Icon {
             return Skycons.snow
         case .wind:
             return Skycons.wind
-        default:
-            return nil
         }
     }
 }

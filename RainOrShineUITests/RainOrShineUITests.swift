@@ -8,7 +8,12 @@
 
 import XCTest
 
+@testable import RainOrShine
+
 class RainOrShineUITests: XCTestCase {
+    
+    //var viewController: WeatherViewController!
+    //let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         
     override func setUp() {
         super.setUp()
@@ -35,14 +40,10 @@ class RainOrShineUITests: XCTestCase {
     
     
     func testSettingsButton() {
-        XCUIApplication().toolbars.buttons["Settings"].tap()
+        let app = XCUIApplication()
         
-    }
-    
-    
-    func testLandscape() {
-        XCUIDevice.shared().orientation = .landscapeRight
-        
+        app.toolbars.buttons["Settings"].tap()
+        XCTAssert(app.navigationBars["Settings"].exists)
     }
     
     

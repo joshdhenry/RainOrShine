@@ -11,7 +11,7 @@ import CoreLocation
 
 class WeatherViewController: UIViewController {
     // MARK: - Properties
-    //Ayyy
+
     // MARK: Type Aliases
     typealias ScreenSize = CGSize
     
@@ -102,6 +102,9 @@ class WeatherViewController: UIViewController {
     
     //Create all the view models that will be needed for this controller and its subviews
     func initializeViewModels() {
+        print(currentWeatherView.viewModel)
+        print(weatherAPIService.currentWeatherForecast)
+        
         currentWeatherView.viewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
         futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray)
         locationView.viewModel = LocationViewModel(place: locationAPIService.currentPlace)
