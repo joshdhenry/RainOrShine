@@ -64,11 +64,11 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         
         let newPlace: Place = Place()
         let testImage = UIImage(named: "TestImage")
-        newPlace.generalLocalePhotoArray.append(testImage)
+        newPlace.photoArray.append(testImage)
         
         locationViewModel.updateGeneralLocalePlace(newPlace: newPlace)
         
-        XCTAssertEqual(locationViewModel.currentGeneralLocalePlace.value?.generalLocalePhotoArray[0], newPlace.generalLocalePhotoArray[0], "locationViewModel.updatePlace did not correctly update locationViewModel.currentPlace...")
+        XCTAssertEqual(locationViewModel.currentGeneralLocalePlace.value?.photoArray[0], newPlace.photoArray[0], "locationViewModel.updatePlace did not correctly update locationViewModel.currentPlace...")
     }
     
     
@@ -82,7 +82,7 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         XCTAssertEqual(photoDetailViewModel.currentPlaceImageIndex.value, newPlaceImageIndex, "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex...")
     }
     
-    
+    //FIXME: -testCreateGestureRecognizers
     //Test to make sure that createGestureRecognizer creates and attaches to the view in ViewController
     /*func testCreateGestureRecognizers() {
         let viewController = WeatherViewController()
@@ -110,6 +110,7 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     }*/
     
     
+    //FIXME: -testDisplayLocationSearchBar
     //SHOULD THIS BE IN UI TESTS?
     //Test to make sure that viewController.displayLocationSearchBar adds the subview to the view
     func testDisplayLocationSearchBar() {

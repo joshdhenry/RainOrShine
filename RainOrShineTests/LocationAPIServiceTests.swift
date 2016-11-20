@@ -64,6 +64,7 @@ class LocationAPIServiceTests: XCTestCase {
     }
     
     
+    //TODO: -Finish test functions for LocationAPIService
     func testSetGeneralLocalePlace() {
         
     }

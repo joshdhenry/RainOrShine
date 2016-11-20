@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISearchBarDelegate {
+class WeatherViewController: UIViewController, UISearchBarDelegate {
     // MARK: - Properties
     
     // MARK: Type Aliases
@@ -41,7 +41,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
-    private var gpsConsecutiveSignalsReceived: Int = 0
+    internal var gpsConsecutiveSignalsReceived: Int = 0
     
     internal var weatherAPIService: WeatherAPIService = WeatherAPIService()
     internal var locationAPIService: LocationAPIService = LocationAPIService()
@@ -64,7 +64,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     
     // Hide the navigation bar on the this view controller
     override func viewWillAppear(_ animated: Bool) {
-        print("In func viewWillAppear...")
+        //print("In func viewWillAppear...")
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -107,36 +107,6 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         locationView.viewModel = LocationViewModel(place: locationAPIService.currentPlace)
         locationImageView.viewModel = LocationImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
         photoDetailView.viewModel = PhotoDetailViewModel(place: locationAPIService.currentPlace, imageIndex: nil)
-    }
-    
-    
-    //Set and configure the location manager
-    private func configureLocationManager() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy  = kCLLocationAccuracyKilometer
-    }
-    
-    
-    //Called every time a new gps signal is received
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
-        
-        //Sometimes the first coordinates received from the GPS might be inaccurate or cached locations from previous location locks.
-        //Wait for 5 GPS signals to be received before we have a semi reliable tracking.
-        //ALSO, I NEED TO CACHE THE LAST FIVE LOCATIONS ACTUALLY USED.  MAKE SURE THE SIGNAL IS NOT REPORTING A PREVIOUS TRACKING AND IS GIVING FRESH, ACCURATE RESULTS
-        gpsConsecutiveSignalsReceived += 1
-        //print("gpsConsecutiveSignalsReceived is \(gpsConsecutiveSignalsReceived)")
-        if gpsConsecutiveSignalsReceived == 5 {
-            self.updateLocation()
-        }
-    }
-    
-    
-    //Handle location manager errors
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Location manager error - \(error)")
     }
     
     

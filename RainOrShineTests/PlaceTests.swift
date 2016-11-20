@@ -23,7 +23,7 @@ class PlaceTests: XCTestCase {
         super.tearDown()
     }
     
-    //DOESNT WORK
+    // FIXME: - testGetGeneralLocaleString
     func testGetGeneralLocaleString() {
         /*let addressComponent = MockGMSAddressComponent()
         

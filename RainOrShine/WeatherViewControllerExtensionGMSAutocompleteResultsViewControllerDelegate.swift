@@ -1,5 +1,5 @@
 //
-//  ViewControllerExtension.swift
+//  WeatherViewControllerGMSAutocompleteResultsViewControllerDelegateExtension.swift
 //  RainOrShine
 //
 //  Created by Josh Henry on 10/27/16.
