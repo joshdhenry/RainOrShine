@@ -26,8 +26,8 @@ class LocationImageView: UIImageView {
                     return
                 }
 
-                if (!(self.viewModel?.currentGeneralLocalePlace.value?.generalLocalePhotoArray.isEmpty)!) {
-                    self.image = self.viewModel?.currentGeneralLocalePlace.value?.generalLocalePhotoArray[imageIndex]
+                if (!(self.viewModel?.currentGeneralLocalePlace.value?.photoArray.isEmpty)!) {
+                    self.image = self.viewModel?.currentGeneralLocalePlace.value?.photoArray[imageIndex]
                 }
                 else {
                     //No images

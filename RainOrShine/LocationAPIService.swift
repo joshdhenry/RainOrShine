@@ -27,7 +27,7 @@ class LocationAPIService {
     // MARK: - Public Methods
     //Load the Google Places API keys from APIKeys.plist
     public func setAPIKeys() {
-        print("In func setAPIKeys...")
+        //print("In func setAPIKeys...")
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         self.keys = NSDictionary(contentsOfFile: path)!
     }
@@ -35,7 +35,7 @@ class LocationAPIService {
     
     //This method gets the current location of the user and sets currentPlace
     public func setCurrentExactPlace(completion: @escaping PlaceResult) {
-        print("In function setCurrentExactPlace...")
+        //print("In function setCurrentExactPlace...")
 
         var placeFindComplete: Bool = false
         placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
@@ -58,8 +58,6 @@ class LocationAPIService {
 
             let placeToReturn: Place = Place(place: firstPlaceLikelihoodFound.place)
             
-            print("RETURNING \(firstPlaceLikelihoodFound.place.formattedAddress)")
-            print("RETURNING \(placeToReturn.gmsPlace?.formattedAddress)")
             placeFindComplete = true
             completion(true, placeToReturn)
         })
@@ -146,7 +144,7 @@ class LocationAPIService {
     
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
     private func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) -> String? {
-        print("In function getPlaceIDOfGeneralLocale...(#2)")
+        //print("In function getPlaceIDOfGeneralLocale...(#2)")
 
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
@@ -206,7 +204,7 @@ class LocationAPIService {
                 return
             }
             
-            print("Photos count is \(photosList.results.count)")
+            //print("Photos count is \(photosList.results.count)")
             
             guard let _ = self.currentPlace else {
                 print("Error - the current place was nil.")
@@ -217,7 +215,7 @@ class LocationAPIService {
             
             if (!photosList.results.isEmpty) {
                 //SHOULD BE ABLE TO USE THISCURRENTPLACE HERE INSTEAD.  SEE IF IT WORKS.
-                self.generalLocalePlace?.generalLocalePhotoMetaDataArray = (photos?.results)!
+                self.generalLocalePlace?.photoMetaDataArray = (photos?.results)!
             }
             photoMetaDataFindComplete = true
             completion(true)
@@ -230,7 +228,7 @@ class LocationAPIService {
     
     //Retrieve image based on place metadata
     private func setImagesArrayForMetadata(size: CGSize, scale: CGFloat, completion: @escaping Result) {
-        print("In function setImagesArrayForMetadata...(#4)")
+        //print("In function setImagesArrayForMetadata...(#4)")
 
         var imageArrayFindComplete: Bool = false
         
@@ -242,17 +240,14 @@ class LocationAPIService {
             return
         }
         
-        let photoArrayCount: Int = generalLocalePlace?.generalLocalePhotoMetaDataArray.count ?? 0
+        let photoArrayCount: Int = generalLocalePlace?.photoMetaDataArray.count ?? 0
         
-        if (!(generalLocalePlace?.generalLocalePhotoMetaDataArray.isEmpty)!) {
+        if (!(generalLocalePlace?.photoMetaDataArray.isEmpty)!) {
             for photoMetaDataIndex in 0..<photoArrayCount {
                 setImageForMetaData(index: photoMetaDataIndex, size: size, scale: scale) { imageSet -> () in
                     if (imageSet) {
                         //If we are on the last element, mark completion as true
-                        
-                        print("IMAGE SET - ")
                         if (photoMetaDataIndex == photoArrayCount - 1) {
-                            print("LAST ELEMENT")
                             imageArrayFindComplete = true
                             completion(true)
                         }
@@ -262,7 +257,7 @@ class LocationAPIService {
             }
         }
         else {
-            print("generalLocalePhotoMetaDataArray was empty.  Exiting out of this function...")
+            print("photoMetaDataArray was empty.  Exiting out of this function...")
         
             imageArrayFindComplete = true
             completion(imageArrayFindComplete)
@@ -273,14 +268,14 @@ class LocationAPIService {
     }
     
     
-    //Cycle through generalLocalePhotoMetaDataArray and perform a request for each image and populate generalLocalePhotoArray with UIImages
+    //Cycle through photoMetaDataArray and perform a request for each image and populate photoArray with UIImages
     private func setImageForMetaData(index: Int, size: CGSize, scale: CGFloat, completion: @escaping Result) {
         //print("In function setImageForMetadata...(#4)")
 
         var imageFindComplete: Bool = false
         
-        if (generalLocalePlace?.generalLocalePhotoMetaDataArray[index] != nil) {
-            placesClient?.loadPlacePhoto((generalLocalePlace?.generalLocalePhotoMetaDataArray[index])!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
+        if (generalLocalePlace?.photoMetaDataArray[index] != nil) {
+            placesClient?.loadPlacePhoto((generalLocalePlace?.photoMetaDataArray[index])!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
                 if let error = error {
                     print("Error loading image for metadata: \(error.localizedDescription)")
                     
@@ -288,7 +283,7 @@ class LocationAPIService {
                     completion(true)
                     return
                 } else {
-                    self.generalLocalePlace?.generalLocalePhotoArray.append(photo)
+                    self.generalLocalePlace?.photoArray.append(photo)
                     
                     imageFindComplete = true
                     completion(true)

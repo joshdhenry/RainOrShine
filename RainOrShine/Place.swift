@@ -12,8 +12,8 @@ import GooglePlaces
 class Place {
     // MARK: - Properties
     public var gmsPlace: GMSPlace?
-    public var generalLocalePhotoMetaDataArray: [GMSPlacePhotoMetadata?] = [GMSPlacePhotoMetadata?]()
-    public var generalLocalePhotoArray: [UIImage?] = [UIImage?]()
+    public lazy var photoMetaDataArray: [GMSPlacePhotoMetadata?] = [GMSPlacePhotoMetadata?]()
+    public lazy var photoArray: [UIImage?] = [UIImage?]()
     
     // MARK: - Initializers
     convenience init() {
@@ -85,8 +85,6 @@ class Place {
             naturalFeatureName != nil) {
             queryString += naturalFeatureName!
         }
-        
-        print("QUERY IS \(queryString)")
         
         //Replace any spaces in the URL with "+"
         queryString = queryString.replacingOccurrences(of: " ", with: "+")

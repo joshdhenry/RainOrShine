@@ -17,7 +17,6 @@ class LocationView: UIVisualEffectView, WeatherViewControllerSubView {
     var viewModel: LocationViewModel? {
         didSet {
             viewModel?.currentGeneralLocalePlace.observe { [unowned self] in
-                print("Changing location label....")
                 if ($0 != nil) {
                     self.locationLabel.text = $0?.gmsPlace?.formattedAddress!.components(separatedBy: ", ").joined(separator: "\n")
                     self.isHidden = false

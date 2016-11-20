@@ -127,7 +127,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         //Wait for 5 GPS signals to be received before we have a semi reliable tracking.
         //ALSO, I NEED TO CACHE THE LAST FIVE LOCATIONS ACTUALLY USED.  MAKE SURE THE SIGNAL IS NOT REPORTING A PREVIOUS TRACKING AND IS GIVING FRESH, ACCURATE RESULTS
         gpsConsecutiveSignalsReceived += 1
-        print("gpsConsecutiveSignalsReceived is \(gpsConsecutiveSignalsReceived)")
+        //print("gpsConsecutiveSignalsReceived is \(gpsConsecutiveSignalsReceived)")
         if gpsConsecutiveSignalsReceived == 5 {
             self.updateLocation()
         }
@@ -258,7 +258,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
         
         //If there are photos to swipe through, then allow swiping
-        if (!currentGeneralLocalePlace.generalLocalePhotoArray.isEmpty) {
+        if (!currentGeneralLocalePlace.photoArray.isEmpty) {
             let currentPageNumber = self.photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         }
@@ -371,10 +371,9 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     internal func changePlaceShown() {
         //print("In func changePlaceShown...")
         
-        print("PLACE IDS")
-        print(locationAPIService.currentPlace?.gmsPlace?.placeID)
-        print(locationAPIService.generalLocalePlace?.gmsPlace?.placeID)
-        
+        //print("PLACE IDS")
+        //print(locationAPIService.currentPlace?.gmsPlace?.placeID)
+        //print(locationAPIService.generalLocalePlace?.gmsPlace?.placeID)
         print(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)
         print(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)
 
@@ -414,10 +413,10 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
         locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
         
-        //locationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
-        //locationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
-        locationAPIService.generalLocalePlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
-        locationAPIService.generalLocalePlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
+        //locationAPIService.currentPlace?.photoArray.removeAll(keepingCapacity: false)
+        //locationAPIService.currentPlace?.photoMetaDataArray.removeAll(keepingCapacity: false)
+        locationAPIService.generalLocalePlace?.photoArray.removeAll(keepingCapacity: false)
+        locationAPIService.generalLocalePlace?.photoMetaDataArray.removeAll(keepingCapacity: false)
 
         
         weatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
