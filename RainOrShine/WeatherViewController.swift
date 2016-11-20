@@ -136,7 +136,6 @@ class WeatherViewController: UIViewController {
         futureWeatherView.addGestureRecognizer(setTapRecognizer())
         photoDetailView.addGestureRecognizer(setTapRecognizer())
         
-        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         self.view.addGestureRecognizer(swipeRight)
