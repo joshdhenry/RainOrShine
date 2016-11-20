@@ -19,11 +19,11 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var locationImageView: LocationImageView!
     @IBOutlet weak var currentWeatherView: CurrentWeatherView!    
     @IBOutlet weak var locationView: LocationView!
-    public var locationSearchView: LocationSearchView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var photoDetailView: PhotoDetailView!
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
-    
+    public var locationSearchView: LocationSearchView!
+
     // MARK: Constants
     internal var screenWidthAndHeight: ScreenSize {
         if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {

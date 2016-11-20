@@ -19,17 +19,20 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
             viewModel?.currentForecastDayDataPointArray.observe { [unowned self] in
                 guard let fiveDayForecastArray: [DataPoint] = $0 else {return}
                 
+                guard (!fiveDayForecastArray.isEmpty) else {
+                    self.isHidden = true
+                    return
+                }
+                
                 //Get the 5 day forecast
                 var futureDaySubViewsArray: [UIView] = [UIView]()
                 
-                if (!fiveDayForecastArray.isEmpty) {
-                    for thisView in self.allSubViews {
-                        if let futureDayView = thisView as? FutureWeatherDayView {
-                            futureDaySubViewsArray.append(futureDayView)
-                        }
+                for thisView in self.allSubViews {
+                    if let futureDayView = thisView as? FutureWeatherDayView {
+                        futureDaySubViewsArray.append(futureDayView)
                     }
-                    futureDaySubViewsArray.sort(by: { $0.center.x < $1.center.x })
                 }
+                futureDaySubViewsArray.sort(by: { $0.center.x < $1.center.x })
                 
                 //Update the UI on the main thread
                 DispatchQueue.main.async {
@@ -48,6 +51,7 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
                         }
                     }
                 }
+                self.isHidden = false
             }
         }
     }
