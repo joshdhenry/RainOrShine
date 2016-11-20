@@ -44,6 +44,7 @@
 		03B2DE781DC73F9700CFFA83 /* CurrentWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE771DC73F9700CFFA83 /* CurrentWeatherView.swift */; };
 		03B2DE7C1DC8428D00CFFA83 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE7B1DC8428D00CFFA83 /* Observable.swift */; };
 		03B5569F1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B5569E1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift */; };
+		03B556A21DE142B400B1B55A /* WeatherViewControllerUISearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B556A11DE142B400B1B55A /* WeatherViewControllerUISearchBarDelegate.swift */; };
 		03D47E471DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D47E461DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift */; };
 		03D47E4B1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D47E4A1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift */; };
 		03FD6DD01DD06099004F7FA6 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */; };
@@ -118,6 +119,7 @@
 		03B2DE771DC73F9700CFFA83 /* CurrentWeatherView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentWeatherView.swift; sourceTree = "<group>"; };
 		03B2DE7B1DC8428D00CFFA83 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		03B5569E1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerExtensionCLLocationManagerDelegate.swift; sourceTree = "<group>"; };
+		03B556A11DE142B400B1B55A /* WeatherViewControllerUISearchBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerUISearchBarDelegate.swift; sourceTree = "<group>"; };
 		03D47E461DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAPIServiceTests.swift; sourceTree = "<group>"; };
 		03D47E4A1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAPIServiceTests.swift; sourceTree = "<group>"; };
 		03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
@@ -226,10 +228,8 @@
 		0337AA781DCEA78D00E6478B /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				03B556A01DE1418800B1B55A /* WeatherViewController */,
 				0337AA791DCEA7C600E6478B /* SettingsViewController.swift */,
-				0313E5091DC1DBC200E453A0 /* WeatherViewController.swift */,
-				03B5569E1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift */,
-				0313E5371DC2A21A00E453A0 /* WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -329,6 +329,17 @@
 				0337AA7B1DCEB2DC00E6478B /* UIViewExtension.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		03B556A01DE1418800B1B55A /* WeatherViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0313E5091DC1DBC200E453A0 /* WeatherViewController.swift */,
+				03B5569E1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift */,
+				0313E5371DC2A21A00E453A0 /* WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift */,
+				03B556A11DE142B400B1B55A /* WeatherViewControllerUISearchBarDelegate.swift */,
+			);
+			name = WeatherViewController;
 			sourceTree = "<group>";
 		};
 		03D47E451DDF990F00CE89B6 /* Services */ = {
@@ -622,6 +633,7 @@
 				0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */,
 				038354D21DD92145005C1F76 /* FutureWeatherViewModel.swift in Sources */,
 				0337AA7C1DCEB2DC00E6478B /* UIViewExtension.swift in Sources */,
+				03B556A21DE142B400B1B55A /* WeatherViewControllerUISearchBarDelegate.swift in Sources */,
 				03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */,
 				03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */,
 				038354B61DD2DAD4005C1F76 /* FutureWeatherView.swift in Sources */,

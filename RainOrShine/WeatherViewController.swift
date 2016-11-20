@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class WeatherViewController: UIViewController, UISearchBarDelegate {
+class WeatherViewController: UIViewController {
     // MARK: - Properties
     
     // MARK: Type Aliases
@@ -25,7 +25,7 @@ class WeatherViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     
     // MARK: Constants
-    private var screenWidthAndHeight: ScreenSize {
+    internal var screenWidthAndHeight: ScreenSize {
         if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
             return ScreenSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }
@@ -234,42 +234,9 @@ class WeatherViewController: UIViewController, UISearchBarDelegate {
         }
     }
     
-    
-    //Initialize and configure the Google Places search controllers
-    private func createLocationSearchElements() {
-        locationSearchView = LocationSearchView(withOrientation: UIDevice.current.orientation, screenWidthAndHeight: screenWidthAndHeight)
-        locationSearchView.resultsViewController?.delegate = self
-        locationSearchView.searchController?.searchBar.delegate = self
-        self.view.addSubview(locationSearchView)
-        
-        locationSearchView.searchController?.hidesNavigationBarDuringPresentation = false
-        
-        //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
-        self.definesPresentationContext = true
-    }
-    
-    
-    //Resize the location search view with the current screen dimensions
-    internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {
-        //print("In resizeLocationSearchView...")
-        
-        if orientationAfterRotation.isPortrait {
-            //Switching to portrait
-            showStatusBar(enabled: true)
-            locationSearchView.frame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
-            locationSearchView.searchController?.view.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.width, height: screenWidthAndHeight.height)
-        }
-        else if orientationAfterRotation.isLandscape {
-            //Switching to landscape
-            showStatusBar(enabled: false)
-            locationSearchView.frame = CGRect(x: 0, y: 0, width: screenWidthAndHeight.height, height: 45)
-        }
-        locationSearchView.searchController?.searchBar.sizeToFit()
-    }
-    
-    
+
     //Show or hide the status bar
-    private func showStatusBar(enabled: Bool) {
+    internal func showStatusBar(enabled: Bool) {
         isStatusBarVisible = enabled
         setNeedsStatusBarAppearanceUpdate()
     }
@@ -341,9 +308,6 @@ class WeatherViewController: UIViewController, UISearchBarDelegate {
     internal func changePlaceShown() {
         //print("In func changePlaceShown...")
         
-        //print("PLACE IDS")
-        //print(locationAPIService.currentPlace?.gmsPlace?.placeID)
-        //print(locationAPIService.generalLocalePlace?.gmsPlace?.placeID)
         print(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)
         print(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)
 
@@ -383,11 +347,8 @@ class WeatherViewController: UIViewController, UISearchBarDelegate {
         photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
         locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
         
-        //locationAPIService.currentPlace?.photoArray.removeAll(keepingCapacity: false)
-        //locationAPIService.currentPlace?.photoMetaDataArray.removeAll(keepingCapacity: false)
         locationAPIService.generalLocalePlace?.photoArray.removeAll(keepingCapacity: false)
         locationAPIService.generalLocalePlace?.photoMetaDataArray.removeAll(keepingCapacity: false)
-
         
         weatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
     }
