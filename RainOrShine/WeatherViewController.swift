@@ -11,7 +11,7 @@ import CoreLocation
 
 class WeatherViewController: UIViewController {
     // MARK: - Properties
-    
+    //Ayyy
     // MARK: Type Aliases
     typealias ScreenSize = CGSize
     
