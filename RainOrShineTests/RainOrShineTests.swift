@@ -31,18 +31,13 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
-            /*print("RUNNING....")
-            LocationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
-                if(isLocationFound) {
-                    print("Set the exact place...")
-                }
-            }*/
         }
     }
     
     
+    //Test retrieving the current forecast with a mock location and make sure it returns a value.
+    //The dummy value is the coordinates of Yobe, Nigeria
     func testCurrentWeatherViewModelUpdateForecast() {
-        
         let jsonString: String = "{\"latitude\":12,\"longitude\":12,\"timezone\":\"Etc/GMT\",\"offset\":0}"
         let jsonDictionary = jsonString.convertStringToDictionary()
         
@@ -54,7 +49,7 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
             
             XCTAssertEqual(currentWeatherViewModel.currentForecast.value?.latitude, forecast.latitude, "currentWeatherViewModel.updateForecast did not correctly update currentWeatherViewModel.currentForecast...")
         }
-        //Else the jsonDictionary is nil.  Fail to indicate we have a problem
+        //Else the jsonDictionary is nil.  Fail the test.
         else {
             XCTAssert(false)
         }
@@ -75,6 +70,7 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     }
     
     
+    //Test the updatePlaceImageIndex() method of photoDetailViewModel by setting an index of 123 and verifying that the view model altered the view
     func testPhotoDetailViewModelUpdatePlaceImageIndex() {
         let photoDetailViewModel: PhotoDetailViewModel = PhotoDetailViewModel(place: nil, imageIndex: nil)
         
@@ -85,7 +81,7 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         XCTAssertEqual(photoDetailViewModel.currentPlaceImageIndex.value, newPlaceImageIndex, "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex...")
     }
     
-    //FIXME: -testCreateGestureRecognizers
+    
     //Test to make sure that createGestureRecognizer creates and attaches to the view in ViewController
     func testCreateGestureRecognizers() {
         
@@ -125,6 +121,8 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         XCTAssertTrue(searchBarFound, "viewController.displayLocationSearchBar did not correctly add the search bar to the view...")
     }
     
+    
+    //Test the color scheme structs computed var by getting the light gray color and assuring it returns the correct UIColor
     func testColorSchemeComputedVar() {
         let lightGrayColor = ColorScheme.lightGray
         

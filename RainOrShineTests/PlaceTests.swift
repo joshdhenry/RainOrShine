@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import GooglePlaces
+//import GooglePlaces
 
 @testable import RainOrShine
 
@@ -89,7 +89,7 @@ class PlaceTests: XCTestCase {
     }
 }
 
- 
+ /*
  public class MockGMSAddressComponent: GMSAddressComponent {
     
     var typeText = ""
@@ -126,3 +126,4 @@ public class MockGMSPlace: GMSPlace {
         }
     }
 }
+*/

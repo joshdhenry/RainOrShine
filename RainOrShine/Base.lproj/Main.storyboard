@@ -135,10 +135,10 @@
             </objects>
             <point key="canvasLocation" x="1075.3623188405797" y="138.58695652173915"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings-->
         <scene sceneID="auN-bE-qel">
             <objects>
-                <viewController id="2At-m9-9dU" customClass="SettingsViewController" customModule="RainOrShine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Settings" id="2At-m9-9dU" customClass="SettingsViewController" customModule="RainOrShine" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Y4r-Um-ads"/>
                         <viewControllerLayoutGuide type="bottom" id="dXZ-Cn-gSP"/>

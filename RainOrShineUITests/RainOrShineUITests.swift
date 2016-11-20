@@ -11,18 +11,10 @@ import XCTest
 @testable import RainOrShine
 
 class RainOrShineUITests: XCTestCase {
-    
-    //var viewController: WeatherViewController!
-    //let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         
     override func setUp() {
         super.setUp()
-        
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
         XCUIApplication().launch()
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
@@ -33,12 +25,8 @@ class RainOrShineUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
     
-    
+    //Tap the settings button and ensure that the SettingsViewController appears on the screen.
     func testSettingsButton() {
         let app = XCUIApplication()
         
@@ -47,16 +35,9 @@ class RainOrShineUITests: XCTestCase {
     }
     
     
-    func testPortrait() {
-        XCUIDevice.shared().orientation = .portrait
-
-    }
-    
+    //TODO: -Finish writing this test
     func testGPSButton() {
-        
         let gpsiconButton = XCUIApplication().toolbars.buttons["GPSIcon"]
         gpsiconButton.tap()
-        
     }
-    
 }
