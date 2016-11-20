@@ -1,5 +1,5 @@
 //
-//  WeatherViewControllerUISearchBarDelegate.swift
+//  WeatherViewControllerExtensionUISearchBarDelegate.swift
 //  RainOrShine
 //
 //  Created by Josh Henry on 11/19/16.
