@@ -217,7 +217,7 @@ class LocationAPIService {
             
             if (!photosList.results.isEmpty) {
                 //SHOULD BE ABLE TO USE THISCURRENTPLACE HERE INSTEAD.  SEE IF IT WORKS.
-                self.currentPlace?.generalLocalePhotoMetaDataArray = (photos?.results)!
+                self.generalLocalePlace?.generalLocalePhotoMetaDataArray = (photos?.results)!
             }
             photoMetaDataFindComplete = true
             completion(true)
@@ -234,7 +234,7 @@ class LocationAPIService {
 
         var imageArrayFindComplete: Bool = false
         
-        guard let thisCurrentPlace = currentPlace else {
+        guard let _ = generalLocalePlace else {
             print("Error setting images array for metadata. Place was nil.")
             
             imageArrayFindComplete = true
@@ -242,12 +242,17 @@ class LocationAPIService {
             return
         }
         
-        if (!thisCurrentPlace.generalLocalePhotoMetaDataArray.isEmpty) {
-            for photoMetaDataIndex in 0..<thisCurrentPlace.generalLocalePhotoMetaDataArray.count {
+        let photoArrayCount: Int = generalLocalePlace?.generalLocalePhotoMetaDataArray.count ?? 0
+        
+        if (!(generalLocalePlace?.generalLocalePhotoMetaDataArray.isEmpty)!) {
+            for photoMetaDataIndex in 0..<photoArrayCount {
                 setImageForMetaData(index: photoMetaDataIndex, size: size, scale: scale) { imageSet -> () in
                     if (imageSet) {
                         //If we are on the last element, mark completion as true
-                        if (photoMetaDataIndex == thisCurrentPlace.generalLocalePhotoMetaDataArray.count - 1) {
+                        
+                        print("IMAGE SET - ")
+                        if (photoMetaDataIndex == photoArrayCount - 1) {
+                            print("LAST ELEMENT")
                             imageArrayFindComplete = true
                             completion(true)
                         }
@@ -274,16 +279,16 @@ class LocationAPIService {
 
         var imageFindComplete: Bool = false
         
-        if (currentPlace?.generalLocalePhotoMetaDataArray[index] != nil) {
-            placesClient?.loadPlacePhoto((currentPlace?.generalLocalePhotoMetaDataArray[index])!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
+        if (generalLocalePlace?.generalLocalePhotoMetaDataArray[index] != nil) {
+            placesClient?.loadPlacePhoto((generalLocalePlace?.generalLocalePhotoMetaDataArray[index])!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
                 if let error = error {
                     print("Error loading image for metadata: \(error.localizedDescription)")
                     
                     imageFindComplete = true
                     completion(true)
                     return
-                } else {                    
-                    self.currentPlace?.generalLocalePhotoArray.append(photo)
+                } else {
+                    self.generalLocalePlace?.generalLocalePhotoArray.append(photo)
                     
                     imageFindComplete = true
                     completion(true)

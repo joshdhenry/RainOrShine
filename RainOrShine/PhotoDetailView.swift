@@ -18,7 +18,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
     // MARK: View Model
     var viewModel: PhotoDetailViewModel? {
         didSet {
-            viewModel?.currentPlace.observe { [unowned self] in
+            viewModel?.currentGeneralLocalePlace.observe { [unowned self] in
                 if ($0 != nil) {
                     self.isHidden = false
                     self.fadeIn()
@@ -30,7 +30,6 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 guard let currentPlaceImageIndex = $0 else {
-                
                     //Place is nil.  App must be just starting
                     self.photoPageControl.isHidden = true
                     self.photoPageControl.currentPage = 0
@@ -40,14 +39,14 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                     return
                 }
                 
-                guard let thisCurrentPlace = self.viewModel?.currentPlace.value else {return}
+                guard let thisCurrentGeneralLocalePlace = self.viewModel?.currentGeneralLocalePlace.value else {return}
                 
-                if (!thisCurrentPlace.generalLocalePhotoArray.isEmpty) {
+                if (!thisCurrentGeneralLocalePlace.generalLocalePhotoArray.isEmpty) {
                     self.photoPageControl.isHidden = false
-                    self.photoPageControl.currentPage = $0!
-                    self.photoPageControl.numberOfPages = thisCurrentPlace.generalLocalePhotoArray.count
+                    self.photoPageControl.currentPage = currentPlaceImageIndex
+                    self.photoPageControl.numberOfPages = thisCurrentGeneralLocalePlace.generalLocalePhotoArray.count
                     
-                    guard let photoMetaData: GMSPlacePhotoMetadata = thisCurrentPlace.generalLocalePhotoMetaDataArray[$0!] else {
+                    guard let photoMetaData: GMSPlacePhotoMetadata = thisCurrentGeneralLocalePlace.generalLocalePhotoMetaDataArray[currentPlaceImageIndex] else {
                         self.photoAttributionLabel.isHidden = true
                         return
                     }

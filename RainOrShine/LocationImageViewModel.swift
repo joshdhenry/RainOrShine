@@ -11,13 +11,13 @@ import Foundation
 struct LocationImageViewModel {
     // MARK: - Properties
     let currentPlaceImageIndex: Observable<Int?>
-    let currentPlace: Observable<Place?>
+    let currentGeneralLocalePlace: Observable<Place?>
 
     
     // MARK: - Initializer
     init(placeImageIndex: Int?, place: Place?) {
         currentPlaceImageIndex = Observable(placeImageIndex)
-        currentPlace = Observable(place)
+        currentGeneralLocalePlace = Observable(place)
     }
     
     // MARK: - Methods
@@ -25,6 +25,6 @@ struct LocationImageViewModel {
         //print("In func updatePlaceImageIndex...")
         currentPlaceImageIndex.value = newPlaceImageIndex
         
-        currentPlace.value = place
+        currentGeneralLocalePlace.value = place
     }
 }

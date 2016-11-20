@@ -10,20 +10,20 @@ import Foundation
 
 struct PhotoDetailViewModel {
     // MARK: - Properties
-    let currentPlace: Observable<Place?>
+    let currentGeneralLocalePlace: Observable<Place?>
     let currentPlaceImageIndex: Observable<Int?>
 
     
     // MARK: - Initializer
     init(place: Place?, imageIndex: Int?) {
-        currentPlace = Observable(place)
+        currentGeneralLocalePlace = Observable(place)
         currentPlaceImageIndex = Observable(imageIndex)
     }
     
     
     // MARK: - Methods
     func updatePlace(newPlace: Place?) {
-        currentPlace.value = newPlace
+        currentGeneralLocalePlace.value = newPlace
     }
     
     
@@ -31,6 +31,6 @@ struct PhotoDetailViewModel {
         //print("In func updatePlaceImageIndex...")
         currentPlaceImageIndex.value = newPlaceImageIndex
         
-        currentPlace.value = place
+        currentGeneralLocalePlace.value = place
     }
 }

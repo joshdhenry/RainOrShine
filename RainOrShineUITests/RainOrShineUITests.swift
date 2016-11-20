@@ -1,4 +1,3 @@
-XCUIDevice.shared().orientation = .portrait
 //
 //  RainOrShineUITests.swift
 //  RainOrShineUITests
@@ -44,6 +43,12 @@ class RainOrShineUITests: XCTestCase {
     func testLandscape() {
         XCUIDevice.shared().orientation = .landscapeRight
         
+    }
+    
+    
+    func testPortrait() {
+        XCUIDevice.shared().orientation = .portrait
+
     }
     
     func testGPSButton() {

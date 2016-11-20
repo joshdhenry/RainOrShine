@@ -84,7 +84,7 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
     
     
     //Test to make sure that createGestureRecognizer creates and attaches to the view in ViewController
-    func testCreateGestureRecognizers() {
+    /*func testCreateGestureRecognizers() {
         let viewController = WeatherViewController()
         print("A")
         
@@ -107,13 +107,13 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
         }
         
         XCTAssertEqual(numOfGestureRecognizers, 2, "Not all gesture recognizers were successfully added to ViewController...")
-    }
+    }*/
     
     
     //SHOULD THIS BE IN UI TESTS?
     //Test to make sure that viewController.displayLocationSearchBar adds the subview to the view
     func testDisplayLocationSearchBar() {
-        let viewController = WeatherViewController()
+        /*let viewController = WeatherViewController()
         var searchBarFound: Bool = false
         
         for view in viewController.view.subviews {
@@ -122,7 +122,7 @@ class RainOrShineTests: XCTestCase, CLLocationManagerDelegate {
             }
         }
         
-        XCTAssertTrue(searchBarFound, "viewController.displayLocationSearchBar did not correctly add the search bar to the view...")
+        XCTAssertTrue(searchBarFound, "viewController.displayLocationSearchBar did not correctly add the search bar to the view...")*/
     }
     
     func testColorSchemeComputedVar() {

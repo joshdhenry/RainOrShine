@@ -14,20 +14,20 @@ class LocationImageView: UIImageView {
     var viewModel: LocationImageViewModel? {
         didSet {
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
-                guard let thisCurrentPlace = self.viewModel?.currentPlace.value else {
+                guard let _ = self.viewModel?.currentGeneralLocalePlace.value else {
                     //Place is nil.  App must be just starting
                     self.image = nil
                     return
                 }
-                
+
                 guard let imageIndex = $0 else {
                     //No images
                     self.image = nil
                     return
                 }
-                
-                if (!thisCurrentPlace.generalLocalePhotoArray.isEmpty) {
-                    self.image = thisCurrentPlace.generalLocalePhotoArray[imageIndex]
+
+                if (!(self.viewModel?.currentGeneralLocalePlace.value?.generalLocalePhotoArray.isEmpty)!) {
+                    self.image = self.viewModel?.currentGeneralLocalePlace.value?.generalLocalePhotoArray[imageIndex]
                 }
                 else {
                     //No images

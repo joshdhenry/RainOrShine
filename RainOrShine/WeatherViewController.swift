@@ -33,7 +33,7 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
             return ScreenSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
         }
     }
-    //Ayyy
+    
     let locationManager = CLLocationManager()
     
     // MARK: Variables
@@ -255,12 +255,12 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         //print("In func respondToSwipeGesture")
         
         guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
-        guard let currentPlace = locationAPIService.currentPlace else {return}
+        guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
         
         //If there are photos to swipe through, then allow swiping
-        if (!currentPlace.generalLocalePhotoArray.isEmpty) {
-            let currentPageNumber = self.photoDetailView.advancePage(direction: swipeGesture.direction, place: currentPlace)
-            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentPlace)
+        if (!currentGeneralLocalePlace.generalLocalePhotoArray.isEmpty) {
+            let currentPageNumber = self.photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace)
+            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         }
     }
     
@@ -414,8 +414,11 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
         photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
         locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
         
-        locationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
-        locationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
+        //locationAPIService.currentPlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
+        //locationAPIService.currentPlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
+        locationAPIService.generalLocalePlace?.generalLocalePhotoArray.removeAll(keepingCapacity: false)
+        locationAPIService.generalLocalePlace?.generalLocalePhotoMetaDataArray.removeAll(keepingCapacity: false)
+
         
         weatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
     }
@@ -425,14 +428,14 @@ class WeatherViewController: UIViewController , CLLocationManagerDelegate, UISea
     private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
         locationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             if (isImageSet) {
-                guard let thisCurrentPlace = self.locationAPIService.currentPlace else {
+                guard let thisCurrentgeneralLocalePlace = self.locationAPIService.generalLocalePlace else {
                     print("Error - Current place is nil. Cannot set photos of the general locale.")
                     return
                 }
                 
                 //Reset image page control to the beginning
-                self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: thisCurrentPlace)
-                self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: thisCurrentPlace)
+                self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: thisCurrentgeneralLocalePlace)
+                self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: thisCurrentgeneralLocalePlace)
 
                 completion(true)
             }
