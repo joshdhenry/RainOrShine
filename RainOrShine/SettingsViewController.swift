@@ -9,12 +9,39 @@
 import Foundation
 import UIKit
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: UITableViewController {
     
-    @IBOutlet weak var settingsTableView: UITableView!
+    private lazy var selectedSettingsCategory: String = String()
     
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        print(indexPath.section, indexPath.row)
+        
+        switch (indexPath.section, indexPath.row) {
+        case (0, 0):
+            selectedSettingsCategory = "Temperature Unit"
+        case (0, 1):
+            selectedSettingsCategory = "Update Weather Every"
+        case (1, 0):
+            selectedSettingsCategory = "Use Default Photos"
+        case (1, 1):
+            selectedSettingsCategory = "Change Photo Every"
+        default:
+            return
+        }
+        performSegue(withIdentifier: "segueSettingsDetail", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "segueSettingsDetail") {
+            guard let segueViewController = segue.destination as? SettingsDetailTableViewController else {return}
+            
+            segueViewController.currentSettingsCategory = selectedSettingsCategory
+        }
     }
 }

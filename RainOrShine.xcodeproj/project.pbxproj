@@ -23,6 +23,7 @@
 		033DE0651DCD0E140082F7A0 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033DE0641DCD0E140082F7A0 /* UIColorExtension.swift */; };
 		035401751DE280D900E79A07 /* DefaultPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035401741DE280D900E79A07 /* DefaultPhotos.swift */; };
 		035401771DE2999D00E79A07 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035401761DE2999D00E79A07 /* Settings.swift */; };
+		035401791DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035401781DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift */; };
 		035811EE1DC429E0002ECB85 /* LocationAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035811ED1DC429E0002ECB85 /* LocationAPIService.swift */; };
 		0363E8261DDECAC8009EA3E0 /* PlaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */; };
 		038354B41DD2D9B7005C1F76 /* FutureWeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038354B31DD2D9B7005C1F76 /* FutureWeatherView.xib */; };
@@ -103,6 +104,7 @@
 		033DE0641DCD0E140082F7A0 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		035401741DE280D900E79A07 /* DefaultPhotos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPhotos.swift; sourceTree = "<group>"; };
 		035401761DE2999D00E79A07 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		035401781DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDetailTableViewController.swift; sourceTree = "<group>"; };
 		035811ED1DC429E0002ECB85 /* LocationAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LocationAPIService.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceTests.swift; sourceTree = "<group>"; };
 		038354B31DD2D9B7005C1F76 /* FutureWeatherView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FutureWeatherView.xib; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 			children = (
 				03B556A01DE1418800B1B55A /* WeatherViewController */,
 				0337AA791DCEA7C600E6478B /* SettingsViewController.swift */,
+				035401781DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				038354D21DD92145005C1F76 /* FutureWeatherViewModel.swift in Sources */,
 				0337AA7C1DCEB2DC00E6478B /* UIViewExtension.swift in Sources */,
 				03B556A21DE142B400B1B55A /* WeatherViewControllerExtensionUISearchBarDelegate.swift in Sources */,
+				035401791DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift in Sources */,
 				03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */,
 				03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */,
 				038354B61DD2DAD4005C1F76 /* FutureWeatherView.swift in Sources */,
