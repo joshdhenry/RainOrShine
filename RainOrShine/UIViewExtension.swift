@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UIView {
-    
+    // MARK: - Properties
     var allSubViews : [UIView] {
         var array = [self.subviews].flatMap {$0}
         array.forEach { array.append(contentsOf: $0.allSubViews) }
@@ -18,6 +18,7 @@ extension UIView {
     }
     
     
+    // MARK: - Methods
     public func setViewEdges() {
         self.layer.cornerRadius = 10.0
         self.clipsToBounds = true

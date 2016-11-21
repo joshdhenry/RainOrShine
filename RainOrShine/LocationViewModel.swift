@@ -9,13 +9,17 @@
 import Foundation
 
 struct LocationViewModel {
+    // MARK: - Properties
     let currentGeneralLocalePlace: Observable<Place?>
 
+    
+    // MARK: - Initializer
     init(place: Place?) {
         currentGeneralLocalePlace = Observable(place)
     }
     
     
+    // MARK: - Methods
     func updateGeneralLocalePlace(newPlace: Place?) {
         currentGeneralLocalePlace.value = newPlace
     }

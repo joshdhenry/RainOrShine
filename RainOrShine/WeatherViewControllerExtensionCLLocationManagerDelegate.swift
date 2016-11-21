@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 
 extension WeatherViewController: CLLocationManagerDelegate {
+    // MARK: - Methods
     //Set and configure the location manager
     internal func configureLocationManager() {
         locationManager.delegate = self

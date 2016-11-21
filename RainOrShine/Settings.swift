@@ -9,6 +9,7 @@
 import Foundation
 
 struct Settings {
+    // MARK: - Properties
     let savedAppSettings = UserDefaults.standard
     
     enum UseDefaultPhotosSetting: String {
@@ -17,6 +18,8 @@ struct Settings {
         never = "never"
     }
     
+    
+    // MARK: - Methods
     var useDefaultPhotos: UseDefaultPhotosSetting {
         get {
             let appSettingRawValue: String = savedAppSettings.object(forKey: "useDefaultPhotos") as? String ?? UseDefaultPhotosSetting.whenNoPictures.rawValue

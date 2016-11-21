@@ -11,6 +11,7 @@ import GooglePlaces
 // Handle the user's selection..
 extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
     
+    // MARK: - Methods
     //If the user selects a new city from the place search, display it's info and picture
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
         self.locationSearchView.searchController?.isActive = false

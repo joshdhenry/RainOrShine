@@ -15,6 +15,7 @@ class LocationSearchView: UIView {
     public var resultsViewController: GMSAutocompleteResultsViewController?
     public var searchController: UISearchController?
     
+    
     // MARK: - Initializers
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

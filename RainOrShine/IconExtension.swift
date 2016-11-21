@@ -12,6 +12,7 @@ import ForecastIO
 
 extension Icon {
     
+    // MARK: - Method
     func getSkycon() -> Skycons? {
         switch self {
         case .clearDay:

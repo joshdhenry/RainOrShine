@@ -10,6 +10,8 @@ import Foundation
 
 extension Date {
     
+    // MARK: - Methods
+    //TODO: -CHANGE THIS TO A COMPUTED VAR
     //Return the abbreviated day (ex: Mon, Tue, Wed, etc)
     func toAbbreviatedDayString() -> String {
         let dateFormatter = DateFormatter()
