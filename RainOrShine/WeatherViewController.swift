@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation
 
+import GooglePlaces
+
 class WeatherViewController: UIViewController {
     // MARK: - Properties
 
@@ -37,6 +39,8 @@ class WeatherViewController: UIViewController {
     let locationManager = CLLocationManager()
     
     // MARK: Variables
+    private var appSettings: Settings = Settings()
+    
     private var isStatusBarVisible: Bool = true
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
@@ -224,13 +228,21 @@ class WeatherViewController: UIViewController {
     
     //If the user swipes right or left, adjust viewmodel.updatePlaceImageIndex accordingly
     dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
-        //print("In func respondToSwipeGesture")
+        print("In func respondToSwipeGesture")
         
         guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
         guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
         
-        //If there are photos to swipe through, then allow swiping
-        if (!currentGeneralLocalePlace.photoArray.isEmpty) {
+        //THIS LINE IS TEMPORARY.  EVENTUALLY MAKE THIS SETTABLE IN SETTINGS SCREEN AND REMOVE FROM HERE
+        appSettings.useDefaultPhotos = Settings.UseDefaultPhotosSetting.whenNoPictures
+        print(appSettings.useDefaultPhotos)
+        
+        
+        //If there are photos to swipe through, or, 
+        //if the settings are set to allow use of the default photos when none are received,
+        //then allow swiping
+        if (!currentGeneralLocalePlace.photoArray.isEmpty ||
+            appSettings.useDefaultPhotos == Settings.UseDefaultPhotosSetting.whenNoPictures) {
             let currentPageNumber = self.photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         }
@@ -347,7 +359,9 @@ class WeatherViewController: UIViewController {
     //It resets some values to create a clean slate.
     private func resetValuesForNewPlace() {
         photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
-        locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
+        
+        //this was nil, changed to zero 11-20-16
+        locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: nil)
         
         locationAPIService.generalLocalePlace?.photoArray.removeAll(keepingCapacity: false)
         locationAPIService.generalLocalePlace?.photoMetaDataArray.removeAll(keepingCapacity: false)
@@ -360,15 +374,15 @@ class WeatherViewController: UIViewController {
     private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
         locationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             if (isImageSet) {
-                guard let thisCurrentgeneralLocalePlace = self.locationAPIService.generalLocalePlace else {
+                guard let thisCurrentGeneralLocalePlace = self.locationAPIService.generalLocalePlace else {
                     print("Error - Current place is nil. Cannot set photos of the general locale.")
                     return
                 }
                 
                 //Reset image page control to the beginning
-                self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: thisCurrentgeneralLocalePlace)
-                self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: thisCurrentgeneralLocalePlace)
-
+                self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
+                self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
+                
                 completion(true)
             }
         }

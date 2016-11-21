@@ -9,6 +9,7 @@
 import UIKit
 
 class LocationImageView: UIImageView {
+
     
     // MARK: View Model
     var viewModel: LocationImageViewModel? {
@@ -21,17 +22,19 @@ class LocationImageView: UIImageView {
                 }
 
                 guard let imageIndex = $0 else {
-                    //No images
+                    //Nil currentPlaceImageIndex. No images.
                     self.image = nil
                     return
                 }
 
                 if (!(self.viewModel?.currentGeneralLocalePlace.value?.photoArray.isEmpty)!) {
+                    //Place is not nil and has images
                     self.image = self.viewModel?.currentGeneralLocalePlace.value?.photoArray[imageIndex]
                 }
                 else {
-                    //No images
-                    self.image = nil
+                    //Place is not nil and has no images
+                    //Use the default photos array
+                    self.image = UIImage(named: String(imageIndex))
                 }
             }
         }

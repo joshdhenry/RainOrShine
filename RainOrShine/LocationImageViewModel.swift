@@ -22,9 +22,8 @@ struct LocationImageViewModel {
     
     // MARK: - Methods
     func updatePlaceImageIndex(newPlaceImageIndex: Int?, place: Place?) {
-        //print("In func updatePlaceImageIndex...")
-        currentPlaceImageIndex.value = newPlaceImageIndex
-        
+        print("In func LocationImageViewModel.updatePlaceImageIndex...")
         currentGeneralLocalePlace.value = place
+        currentPlaceImageIndex.value = newPlaceImageIndex
     }
 }

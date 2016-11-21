@@ -214,7 +214,6 @@ class LocationAPIService {
             }
             
             if (!photosList.results.isEmpty) {
-                //SHOULD BE ABLE TO USE THISCURRENTPLACE HERE INSTEAD.  SEE IF IT WORKS.
                 self.generalLocalePlace?.photoMetaDataArray = (photos?.results)!
             }
             photoMetaDataFindComplete = true
@@ -270,7 +269,7 @@ class LocationAPIService {
     
     //Cycle through photoMetaDataArray and perform a request for each image and populate photoArray with UIImages
     private func setImageForMetaData(index: Int, size: CGSize, scale: CGFloat, completion: @escaping Result) {
-        //print("In function setImageForMetadata...(#4)")
+        print("In function setImageForMetadata...(#4)")
 
         var imageFindComplete: Bool = false
         

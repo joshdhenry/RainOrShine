@@ -24,13 +24,16 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                     self.fadeIn()
                 }
                 else {
+                    //Place is nil.  App must be just starting
                     self.isHidden = true
                 }
             }
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 guard let currentPlaceImageIndex = $0 else {
-                    //Place is nil.  App must be just starting
+                    //Place index is nil.  App must be just starting
+                    print("Place is nil.  App must be just starting...")
+                    
                     self.photoPageControl.isHidden = true
                     self.photoPageControl.currentPage = 0
                     
@@ -41,9 +44,16 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                 
                 guard let thisCurrentGeneralLocalePlace = self.viewModel?.currentGeneralLocalePlace.value else {return}
                 
+                let completeAttributionString = NSMutableAttributedString()
+                let attributionPrefixAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 12)]
+                let attributionPrefixString: NSMutableAttributedString = NSMutableAttributedString(string: "Photo by ", attributes: attributionPrefixAttributes)
+    
+                completeAttributionString.append(attributionPrefixString)
+                
+                self.photoPageControl.isHidden = false
+                self.photoPageControl.currentPage = currentPlaceImageIndex
+
                 if (!thisCurrentGeneralLocalePlace.photoArray.isEmpty) {
-                    self.photoPageControl.isHidden = false
-                    self.photoPageControl.currentPage = currentPlaceImageIndex
                     self.photoPageControl.numberOfPages = thisCurrentGeneralLocalePlace.photoArray.count
                     
                     guard let photoMetaData: GMSPlacePhotoMetadata = thisCurrentGeneralLocalePlace.photoMetaDataArray[currentPlaceImageIndex] else {
@@ -58,22 +68,17 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                         return
                     }
                     
-                    let attributionPrefixAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 12)]
-                    let attributionPrefixString: NSMutableAttributedString = NSMutableAttributedString(string: "Photo by ", attributes: attributionPrefixAttributes)
-                    let completeAttributionString = NSMutableAttributedString()
-                    
-                    completeAttributionString.append(attributionPrefixString)
                     completeAttributionString.append(photoAttributions)
-                    
-                    self.photoAttributionLabel.attributedText = completeAttributionString
-                    self.photoAttributionLabel.isHidden = false
                 }
                 else {
-                    self.photoPageControl.isHidden = true
-                    self.photoPageControl.currentPage = 0
-                    self.photoAttributionLabel.isHidden = true
-                    self.photoPageControl.numberOfPages = 0
+                    //Else place is not nil and has no images
+                    //Load default photos
+                    self.photoPageControl.numberOfPages = DefaultPhotos.defaultPhotosAttributionArray.count
+                    let photoAttributions: NSAttributedString = NSAttributedString(string: DefaultPhotos.defaultPhotosAttributionArray[currentPlaceImageIndex])
+                    completeAttributionString.append(photoAttributions)
                 }
+                self.photoAttributionLabel.attributedText = completeAttributionString
+                self.photoAttributionLabel.isHidden = false
             }
         }
     }
