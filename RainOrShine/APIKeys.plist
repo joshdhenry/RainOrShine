@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>GoogleMobileAdsAdUnitID</key>
-	<string></string>
+	<string>TEST1</string>
 	<key>DarkSkyAPIKey</key>
 	<string>99fdb7916a09bf62906e8f81f265c59b</string>
 	<key>GooglePlacesAPIKeyiOS</key>
