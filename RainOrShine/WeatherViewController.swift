@@ -8,8 +8,8 @@
 
 import UIKit
 import CoreLocation
-
 import GooglePlaces
+import GoogleMobileAds
 
 class WeatherViewController: UIViewController {
     // MARK: - Properties
@@ -24,6 +24,10 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var photoDetailView: PhotoDetailView!
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
+    @IBOutlet weak var adBannerView: GADBannerView!
+
+    @IBOutlet weak var photoDetailViewBottomConstraint: NSLayoutConstraint!
+    
     public var locationSearchView: LocationSearchView!
 
     // MARK: Constants
@@ -55,6 +59,20 @@ class WeatherViewController: UIViewController {
     //Initialize values for the first time
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        print("Google Mobile Ads SDK version: \(GADRequest.sdkVersion())")
+        
+        //TEST BANNER AD ID
+        adBannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        adBannerView.rootViewController = self
+        adBannerView.load(GADRequest())
+        //adBannerView.adSize.size.height = 0
+
+        
+        
+        
         
         setAllAPIKeys()
         configureLocationManager()
@@ -268,6 +286,13 @@ class WeatherViewController: UIViewController {
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
         activityIndicator.startAnimating()
+        
+        
+        //REMOVE ADS EXPERIMENTAL CODE
+        adBannerView.removeFromSuperview()
+        photoDetailViewBottomConstraint.constant -= 50
+        
+        
         
         //If GPS is turned off, show an error message
         if (!CLLocationManager.locationServicesEnabled()) {

@@ -7,6 +7,8 @@ target 'RainOrShine' do
     pod 'GooglePlaces'
     pod 'SwiftyJSON'
     pod 'ForecastIO'
+    pod ‘Firebase/Core’
+    pod ‘Firebase/AdMob’
 end
 
 target 'RainOrShineTests' do

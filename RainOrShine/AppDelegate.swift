@@ -8,6 +8,7 @@
 
 import UIKit
 import GooglePlaces
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let keys = NSDictionary(contentsOfFile: path)
             GMSPlacesClient.provideAPIKey(keys?["GooglePlacesAPIKeyiOS"] as! String)
         }
+        
+        // Use Firebase library to configure APIs
+        FIRApp.configure()
+        
+        // Initialize Google Mobile Ads SDK
+        //GADMobileAds.configure(withApplicationID: "XXXXX")
         
         return true
     }

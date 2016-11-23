@@ -14,7 +14,7 @@ class SettingsDetailTableViewController: UITableViewController {
     public var currentSettingsCategory: String!
     private let settingsCategoryTableViewItemStrings: [String : [String]] = ["Temperature Unit" : ["Fahrenheit", "Celcius"],
                                                                      "Update Weather Every" : ["15 Minutes", "30 Minutes", "60 Minutes"],
-                                                                     "Use Default Photos" : ["When No Location Photos Available"],
+                                                                     "Use Default Photos" : ["When No Location Photos Available", "Always", "Never"],
                                                                      "Change Photo Every" : ["1 Minute", "3 Minutes", "5 Minutes", "10 Minutes", "30 Minutes", "Never"]]
     
     
