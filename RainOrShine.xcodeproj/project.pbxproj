@@ -25,6 +25,7 @@
 		035401771DE2999D00E79A07 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035401761DE2999D00E79A07 /* Settings.swift */; };
 		035401791DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035401781DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift */; };
 		035811EE1DC429E0002ECB85 /* LocationAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035811ED1DC429E0002ECB85 /* LocationAPIService.swift */; };
+		035DED641DE6533700F7BFFF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 035DED631DE6533700F7BFFF /* GoogleService-Info.plist */; };
 		0363E8261DDECAC8009EA3E0 /* PlaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */; };
 		038354B41DD2D9B7005C1F76 /* FutureWeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038354B31DD2D9B7005C1F76 /* FutureWeatherView.xib */; };
 		038354B61DD2DAD4005C1F76 /* FutureWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354B51DD2DAD4005C1F76 /* FutureWeatherView.swift */; };
@@ -41,7 +42,6 @@
 		038354D01DD86590005C1F76 /* CurrentWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354CF1DD86590005C1F76 /* CurrentWeatherViewModel.swift */; };
 		038354D21DD92145005C1F76 /* FutureWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354D11DD92145005C1F76 /* FutureWeatherViewModel.swift */; };
 		038354D61DD94904005C1F76 /* WeatherViewControllerSubViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354D51DD94904005C1F76 /* WeatherViewControllerSubViewProtocol.swift */; };
-		038877FD1DE6308400A529F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 038877FC1DE6308400A529F1 /* GoogleService-Info.plist */; };
 		03B2DE701DC5D1EA00CFFA83 /* WeatherAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */; };
 		03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE711DC7073900CFFA83 /* Place.swift */; };
 		03B2DE761DC73ECD00CFFA83 /* CurrentWeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03B2DE751DC73ECD00CFFA83 /* CurrentWeatherView.xib */; };
@@ -108,6 +108,7 @@
 		035401761DE2999D00E79A07 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		035401781DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDetailTableViewController.swift; sourceTree = "<group>"; };
 		035811ED1DC429E0002ECB85 /* LocationAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LocationAPIService.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		035DED631DE6533700F7BFFF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceTests.swift; sourceTree = "<group>"; };
 		038354B31DD2D9B7005C1F76 /* FutureWeatherView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FutureWeatherView.xib; sourceTree = "<group>"; };
 		038354B51DD2DAD4005C1F76 /* FutureWeatherView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureWeatherView.swift; sourceTree = "<group>"; };
@@ -124,7 +125,6 @@
 		038354CF1DD86590005C1F76 /* CurrentWeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentWeatherViewModel.swift; sourceTree = "<group>"; };
 		038354D11DD92145005C1F76 /* FutureWeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureWeatherViewModel.swift; sourceTree = "<group>"; };
 		038354D51DD94904005C1F76 /* WeatherViewControllerSubViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerSubViewProtocol.swift; sourceTree = "<group>"; };
-		038877FC1DE6308400A529F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAPIService.swift; sourceTree = "<group>"; };
 		03B2DE711DC7073900CFFA83 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Place.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		03B2DE751DC73ECD00CFFA83 /* CurrentWeatherView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentWeatherView.xib; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 		0313E5061DC1DBC200E453A0 /* RainOrShine */ = {
 			isa = PBXGroup;
 			children = (
-				038877FC1DE6308400A529F1 /* GoogleService-Info.plist */,
+				035DED631DE6533700F7BFFF /* GoogleService-Info.plist */,
 				0337AA781DCEA78D00E6478B /* View Controllers */,
 				03E614C31DE1876F00F2C157 /* Navigation Controllers */,
 				03391ABE1DC8A35D00EBF622 /* Custom Views */,
@@ -554,7 +554,7 @@
 				038354B41DD2D9B7005C1F76 /* FutureWeatherView.xib in Resources */,
 				038354B81DD2E4FF005C1F76 /* FutureWeatherDayView.xib in Resources */,
 				0313E53A1DC3C94600E453A0 /* APIKeys.plist in Resources */,
-				038877FD1DE6308400A529F1 /* GoogleService-Info.plist in Resources */,
+				035DED641DE6533700F7BFFF /* GoogleService-Info.plist in Resources */,
 				0313E50F1DC1DBC200E453A0 /* Assets.xcassets in Resources */,
 				0313E50D1DC1DBC200E453A0 /* Main.storyboard in Resources */,
 			);
