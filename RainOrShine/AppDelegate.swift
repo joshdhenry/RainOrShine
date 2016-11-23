@@ -17,19 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        //print("In AppDelegate's didFinishLaunchingWithOptions. Setting the Google Places API key...")
-        //Set the API key for GMSPlacesClient
-        if let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") {
-            let keys = NSDictionary(contentsOfFile: path)
-            GMSPlacesClient.provideAPIKey(keys?["GooglePlacesAPIKeyiOS"] as! String)
-        }
+        //print("In AppDelegate's didFinishLaunchingWithOptions...")
         
         // Use Firebase library to configure APIs
         FIRApp.configure()
         
-        // Initialize Google Mobile Ads SDK
-        //GADMobileAds.configure(withApplicationID: "XXXXX")
-        
+        //Set the API key for GMSPlacesClient
+        if let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") {
+            let keys = NSDictionary(contentsOfFile: path)
+            GMSPlacesClient.provideAPIKey(keys?["GooglePlacesAPIKeyiOS"] as! String)
+            
+            // Initialize Google Mobile Ads SDK
+            GADMobileAds.configure(withApplicationID: keys?["GoogleMobileAdsApplicationID"] as! String)
+        }
         return true
     }
     

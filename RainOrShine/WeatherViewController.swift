@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import GooglePlaces
 import GoogleMobileAds
-//TESTING
+
 class WeatherViewController: UIViewController {
     // MARK: - Properties
 
@@ -60,19 +60,16 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         print("Google Mobile Ads SDK version: \(GADRequest.sdkVersion())")
+        guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
+        let keys = NSDictionary(contentsOfFile: path)!
         
-        //TEST BANNER AD ID
-        adBannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        //CURRENTLY USING A TEST UNIT ID FOR DEVELOPMENT.
+        //SWITCH TO THE REAL UNIT ID BEFORE PUBLISHING
+        adBannerView.adUnitID = keys["TestGoogleMobileAdsAdUnitID"] as? String
         adBannerView.rootViewController = self
         adBannerView.load(GADRequest())
-        //adBannerView.adSize.size.height = 0
 
-        
-        
-        
         
         setAllAPIKeys()
         configureLocationManager()
