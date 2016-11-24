@@ -279,7 +279,7 @@ class WeatherViewController: UIViewController {
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
-        activityIndicator.startAnimating()
+        
         
         
         
@@ -315,6 +315,8 @@ class WeatherViewController: UIViewController {
             
             return
         }
+        
+        activityIndicator.startAnimating()
         
         //Reset the gps signals received counter
         gpsConsecutiveSignalsReceived = 0
