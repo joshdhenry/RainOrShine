@@ -16,6 +16,7 @@
 		0313E5281DC1DBC200E453A0 /* RainOrShineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5271DC1DBC200E453A0 /* RainOrShineUITests.swift */; };
 		0313E5381DC2A21A00E453A0 /* WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5371DC2A21A00E453A0 /* WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift */; };
 		0313E53A1DC3C94600E453A0 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0313E5391DC3C94600E453A0 /* APIKeys.plist */; };
+		0332B1CF1DE66C0000659E41 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0332B1CE1DE66C0000659E41 /* StoreKit.framework */; };
 		0337AA7A1DCEA7C600E6478B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337AA791DCEA7C600E6478B /* SettingsViewController.swift */; };
 		0337AA7C1DCEB2DC00E6478B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0337AA7B1DCEB2DC00E6478B /* UIViewExtension.swift */; };
 		033DE0611DCD06DF0082F7A0 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033DE0601DCD06DF0082F7A0 /* LocationView.swift */; };
@@ -99,6 +100,7 @@
 		0313E5291DC1DBC200E453A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0313E5371DC2A21A00E453A0 /* WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift; sourceTree = "<group>"; };
 		0313E5391DC3C94600E453A0 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
+		0332B1CE1DE66C0000659E41 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0337AA791DCEA7C600E6478B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		0337AA7B1DCEB2DC00E6478B /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		033DE0601DCD06DF0082F7A0 /* LocationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				984B1DCDF974DCFA79CD1307 /* Pods_RainOrShine.framework in Frameworks */,
+				0332B1CF1DE66C0000659E41 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +422,7 @@
 		8D26A8DADADEC47E89DD7CD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0332B1CE1DE66C0000659E41 /* StoreKit.framework */,
 				645F92CCC59186601B54B8E0 /* Pods_RainOrShine.framework */,
 				9FF9466CBF953509F9B3E83C /* Pods_RainOrShineTests.framework */,
 				4F0D3098ABCD101C867CE713 /* Pods_RainOrShineUITests.framework */,
@@ -505,6 +509,11 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = JNJPB8D7PF;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 					0313E5171DC1DBC200E453A0 = {
 						CreatedOnToolsVersion = 8.0;
