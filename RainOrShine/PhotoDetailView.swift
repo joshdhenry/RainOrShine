@@ -31,9 +31,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 guard let currentPlaceImageIndex = $0 else {
-                    //Place index is nil.  App must be just starting
-                    print("Place is nil.  App must be just starting...")
-                    
+                    //Place index is nil.  App must be just starting                    
                     self.photoPageControl.isHidden = true
                     self.photoPageControl.currentPage = 0
                     

@@ -121,9 +121,6 @@ class WeatherViewController: UIViewController {
     
     //Create all the view models that will be needed for this controller and its subviews
     func initializeViewModels() {
-        print(currentWeatherView.viewModel)
-        print(weatherAPIService.currentWeatherForecast)
-        
         currentWeatherView.viewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
         futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray)
         locationView.viewModel = LocationViewModel(place: locationAPIService.currentPlace)
@@ -285,9 +282,21 @@ class WeatherViewController: UIViewController {
         activityIndicator.startAnimating()
         
         
+        
+        
+        
+        
+        
         //REMOVE ADS EXPERIMENTAL CODE
         adBannerView.removeFromSuperview()
-        photoDetailViewBottomConstraint.constant -= 50
+
+        //Move the photo detail view down to account for the ads being gone now
+        photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
+        
+        
+        
+        
+        
         
         
         

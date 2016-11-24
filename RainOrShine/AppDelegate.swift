@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use Firebase library to configure APIs
         FIRApp.configure()
         
-        //Set the API key for GMSPlacesClient
+        //Set the API key for GMSPlacesClient and GADMobileAds
         if let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") {
             let keys = NSDictionary(contentsOfFile: path)
             GMSPlacesClient.provideAPIKey(keys?["GooglePlacesAPIKeyiOS"] as! String)

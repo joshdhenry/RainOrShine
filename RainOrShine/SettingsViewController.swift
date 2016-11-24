@@ -17,12 +17,14 @@ class SettingsViewController: UITableViewController, SKProductsRequestDelegate, 
     
     let defaults = UserDefaults.standard
     
-    var productID: String?
+    var productID: String = String()
     
     
     override func viewDidLoad() {
-        productID = "com.bigsmashsoftware.vistaweather.removeads"
+        //productID = "com.bigsmashsoftware.vistaweather.removeads"
         super.viewDidLoad()
+        
+        //Add the observer (DOES THIS GO IN APPDELEFATE?)
         SKPaymentQueue.default().add(self)
         
         if (defaults.bool(forKey: "purchased")){
@@ -49,10 +51,13 @@ class SettingsViewController: UITableViewController, SKProductsRequestDelegate, 
             performSegue(withIdentifier: "segueSettingsDetail", sender: self)
         case (3, 0):
             if (SKPaymentQueue.canMakePayments()) {
-                let productIDSet: Set<String> = [productID!]
+                productID = "com.bigsmashsoftware.vistaweather.removeads"
+                let productIDSet: Set<String> = [productID]
+                
                 let productsRequest: SKProductsRequest = SKProductsRequest(productIdentifiers: productIDSet)
                 productsRequest.delegate = self
                 productsRequest.start()
+                
                 print("Fetching Products")
             }
             else{
@@ -64,6 +69,7 @@ class SettingsViewController: UITableViewController, SKProductsRequestDelegate, 
     }
     
     
+    //Buy a product by adding a payment to the SKPaymentQueue
     func buyProduct(product: SKProduct){
         print("Sending the Payment Request to Apple")
         
@@ -72,22 +78,25 @@ class SettingsViewController: UITableViewController, SKProductsRequestDelegate, 
     }
     
     
+    //If the product ID requested matches a product, purchase it by running buyProduct()
     func productsRequest (_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if (!response.products.isEmpty) {
-            //var validProducts = response.products
-            //INSTEAD OF ACCESSING THE FIRST ONE, LOOP THROUGH THEM ALL HERE
-            let validProduct: SKProduct = response.products[0] as SKProduct
+            let validProducts = response.products
             
-            if (validProduct.productIdentifier == self.productID) {
-                print(validProduct.localizedTitle)
-                print(validProduct.localizedDescription)
-                print(validProduct.price)
-                buyProduct(product: validProduct)
+            for thisProduct in validProducts {
+                if (thisProduct.productIdentifier == productID) {
+                    print(thisProduct.localizedTitle)
+                    print(thisProduct.localizedDescription)
+                    print(thisProduct.price)
+                    
+                    buyProduct(product: thisProduct)
+                }
+                else {
+                    print(thisProduct.productIdentifier)
+                }
             }
-            else {
-                print(validProduct.productIdentifier)
-            }
-        } else {
+        }
+        else {
             print("Error - Product request returned no products.")
         }
     }
@@ -105,16 +114,17 @@ class SettingsViewController: UITableViewController, SKProductsRequestDelegate, 
             if let trans: SKPaymentTransaction = transaction as? SKPaymentTransaction{
                 switch trans.transactionState {
                 case .purchased:
-                    print("Product Purchased");
+                    print("Product Purchased")
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                     defaults.set(true, forKey: "purchased")
                     break
                 case .failed:
-                    print("Purchased Failed");
+                    print("Purchased Failed")
+                    print(trans.error?.localizedDescription)
                     SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                     break
                 case .restored:
-                    print("Already Purchased");
+                    print("Already Purchased")
                     SKPaymentQueue.default().restoreCompletedTransactions()
                 default:
                     print("No conditions met...")
