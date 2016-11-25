@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,35 +18,34 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <visualEffectView opaque="NO" contentMode="scaleToFill" id="4on-2G-7a2">
-            <rect key="frame" x="0.0" y="0.0" width="240" height="58"/>
+            <rect key="frame" x="0.0" y="0.0" width="240" height="46"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ly6-R8-8nb">
-                <rect key="frame" x="0.0" y="0.0" width="240" height="58"/>
+                <rect key="frame" x="0.0" y="0.0" width="240" height="46"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ahm-wW-Kbk">
-                        <rect key="frame" x="8" y="4" width="224" height="21"/>
+                        <rect key="frame" x="8" y="4" width="224" height="14"/>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="13" translatesAutoresizingMaskIntoConstraints="NO" id="FEk-lK-r9M">
-                        <rect key="frame" x="8" y="21" width="224" height="37"/>
+                        <rect key="frame" x="8" y="11" width="224" height="37"/>
                         <color key="currentPageIndicatorTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </pageControl>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="Ahm-wW-Kbk" secondAttribute="bottom" constant="33" id="AgI-Dt-cbx"/>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="Ly6-R8-8nb" secondAttribute="leadingMargin" id="LWJ-m9-PSx"/>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="top" secondItem="Ly6-R8-8nb" secondAttribute="top" constant="4" id="UVJ-gT-xr5"/>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="Ly6-R8-8nb" secondAttribute="trailingMargin" id="WiA-5c-8I5"/>
-                    <constraint firstAttribute="bottom" secondItem="FEk-lK-r9M" secondAttribute="bottom" id="hZD-Ra-pRl"/>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="FEk-lK-r9M" secondAttribute="trailing" id="sGi-TR-h0p"/>
-                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="FEk-lK-r9M" secondAttribute="leading" id="ua2-Os-i3D"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="Ly6-R8-8nb" secondAttribute="trailingMargin" id="IgR-Oz-vgf"/>
+                    <constraint firstItem="FEk-lK-r9M" firstAttribute="top" secondItem="Ly6-R8-8nb" secondAttribute="top" constant="11" id="K5x-OY-0o5"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="Ly6-R8-8nb" secondAttribute="leadingMargin" id="gmN-rB-lKV"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="trailing" secondItem="FEk-lK-r9M" secondAttribute="trailing" id="odN-RE-QsD"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="leading" secondItem="FEk-lK-r9M" secondAttribute="leading" id="qeZ-i1-wc7"/>
+                    <constraint firstItem="Ahm-wW-Kbk" firstAttribute="top" secondItem="Ly6-R8-8nb" secondAttribute="top" constant="4" id="xCE-fK-bgF"/>
                 </constraints>
             </view>
             <blurEffect style="light"/>
-            <point key="canvasLocation" x="159" y="-81"/>
+            <point key="canvasLocation" x="159" y="-87"/>
         </visualEffectView>
     </objects>
 </document>

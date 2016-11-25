@@ -10,6 +10,8 @@ import Foundation
 import StoreKit
 
 extension IAPHelper: SKPaymentTransactionObserver {
+    
+    // MARK: - Methods
     //Handle transactions and the response from Apple's servers
     internal func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         print("Received Payment Transaction Response from Apple")

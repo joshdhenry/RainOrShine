@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,14 +16,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <visualEffectView opaque="NO" contentMode="scaleToFill" id="Soh-r9-Za7">
-            <rect key="frame" x="0.0" y="0.0" width="144" height="102"/>
+            <rect key="frame" x="0.0" y="0.0" width="135" height="99"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="FPF-hb-eXH">
-                <rect key="frame" x="0.0" y="0.0" width="144" height="102"/>
+                <rect key="frame" x="0.0" y="0.0" width="135" height="99"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="pY0-gc-774">
-                        <rect key="frame" x="0.0" y="4" width="144" height="79"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="pY0-gc-774">
+                        <rect key="frame" x="1" y="4" width="135" height="79"/>
                         <string key="text">Label f dsg
 edfdsf</string>
                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
@@ -32,25 +31,24 @@ edfdsf</string>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PoweredByGoogle" translatesAutoresizingMaskIntoConstraints="NO" id="f7z-OX-Qnj">
-                        <rect key="frame" x="28" y="88" width="88" height="10"/>
+                        <rect key="frame" x="23" y="87" width="89" height="10"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="88" id="0KV-Xr-JPx"/>
-                            <constraint firstAttribute="height" constant="10" id="kOL-6P-JyO"/>
+                            <constraint firstAttribute="height" constant="10" id="yjJ-yM-3tm"/>
                         </constraints>
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="pY0-gc-774" firstAttribute="leading" secondItem="FPF-hb-eXH" secondAttribute="leading" id="5Dy-zQ-XHi"/>
-                    <constraint firstItem="pY0-gc-774" firstAttribute="top" secondItem="FPF-hb-eXH" secondAttribute="top" constant="4" id="EEA-m1-bK4"/>
-                    <constraint firstAttribute="bottom" secondItem="f7z-OX-Qnj" secondAttribute="bottom" constant="4" id="Qo2-Ai-B1F"/>
-                    <constraint firstAttribute="trailing" secondItem="pY0-gc-774" secondAttribute="trailing" id="WnA-At-fed"/>
-                    <constraint firstItem="f7z-OX-Qnj" firstAttribute="top" secondItem="pY0-gc-774" secondAttribute="bottom" constant="5" id="pyM-z1-97p"/>
-                    <constraint firstItem="pY0-gc-774" firstAttribute="centerX" secondItem="FPF-hb-eXH" secondAttribute="centerX" id="uVw-iT-sJ2"/>
-                    <constraint firstItem="f7z-OX-Qnj" firstAttribute="centerX" secondItem="FPF-hb-eXH" secondAttribute="centerX" id="yqD-2l-CAE"/>
+                    <constraint firstItem="pY0-gc-774" firstAttribute="leading" secondItem="FPF-hb-eXH" secondAttribute="leading" id="ClY-rQ-CbC"/>
+                    <constraint firstItem="f7z-OX-Qnj" firstAttribute="top" secondItem="pY0-gc-774" secondAttribute="bottom" constant="4" id="JfB-Ar-uio"/>
+                    <constraint firstAttribute="trailing" secondItem="pY0-gc-774" secondAttribute="trailing" id="UZL-Wu-dUw"/>
+                    <constraint firstItem="pY0-gc-774" firstAttribute="top" secondItem="FPF-hb-eXH" secondAttribute="top" constant="4" id="i5h-lM-hk9"/>
+                    <constraint firstItem="pY0-gc-774" firstAttribute="centerX" secondItem="f7z-OX-Qnj" secondAttribute="centerX" id="nW1-9T-ZoQ"/>
+                    <constraint firstItem="f7z-OX-Qnj" firstAttribute="leading" secondItem="FPF-hb-eXH" secondAttribute="leading" constant="23" id="wlx-9p-sFi"/>
+                    <constraint firstAttribute="bottom" secondItem="f7z-OX-Qnj" secondAttribute="bottom" constant="2" id="zZp-ad-bp9"/>
                 </constraints>
             </view>
             <blurEffect style="light"/>
-            <point key="canvasLocation" x="-88" y="37"/>
+            <point key="canvasLocation" x="-88.5" y="37"/>
         </visualEffectView>
     </objects>
     <resources>

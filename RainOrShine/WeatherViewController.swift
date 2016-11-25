@@ -83,6 +83,8 @@ class WeatherViewController: UIViewController {
         createObservers()
         createLocationSearchElements()
         setNightStandMode()
+        
+        
     }
 
     

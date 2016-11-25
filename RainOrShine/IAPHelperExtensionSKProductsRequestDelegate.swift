@@ -10,6 +10,8 @@ import Foundation
 import StoreKit
 
 extension IAPHelper: SKProductsRequestDelegate {
+    
+    // MARK: - Methods
     //If the product ID requested matches a product, purchase it by running buyProduct()
     internal func productsRequest (_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if (!response.products.isEmpty) {

@@ -14,12 +14,14 @@ class IAPHelper: NSObject {
     // MARK: - Properties
     internal let defaults = UserDefaults.standard
 
+    // MARK: - Initializer
     override init() {
         super.init()
         SKPaymentQueue.default().add(self)
     }
     
     
+    // MARK: - Methods
     //Buy a product by adding a payment to the SKPaymentQueue
     internal func buyProduct(product: SKProduct){
         print("Sending the Payment Request to Apple")
