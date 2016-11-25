@@ -966,8 +966,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = JNJPB8D7PF;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/Firebase/**";
 				INFOPLIST_FILE = RainOrShineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_SWIFT_FLAGS = "";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "";
 				PRODUCT_BUNDLE_IDENTIFIER = BigSmashSoftware.RainOrShineTests;
@@ -984,8 +986,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = JNJPB8D7PF;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/Firebase/**";
 				INFOPLIST_FILE = RainOrShineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_SWIFT_FLAGS = "";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "";
 				PRODUCT_BUNDLE_IDENTIFIER = BigSmashSoftware.RainOrShineTests;
@@ -1001,6 +1005,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = JNJPB8D7PF;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/Firebase/**";
 				INFOPLIST_FILE = RainOrShineUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = BigSmashSoftware.RainOrShineUITests;
@@ -1016,6 +1021,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = JNJPB8D7PF;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Pods/Firebase/**";
 				INFOPLIST_FILE = RainOrShineUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = BigSmashSoftware.RainOrShineUITests;

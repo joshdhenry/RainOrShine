@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 import StoreKit
+import MessageUI
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
     
     // MARK: - Properties
     private lazy var selectedSettingsCategory: String = String()
@@ -46,7 +47,16 @@ class SettingsViewController: UITableViewController {
             selectedSettingsCategory = "Change Photo Every"
             performSegue(withIdentifier: "segueSettingsDetail", sender: self)
         case (3, 0):
-            iapHelper.startProductRequest()
+            iapHelper.startProductRequest(productID: Products.removeAds)
+        case (3, 1):
+            if MFMailComposeViewController.canSendMail() {
+                let mailController = MFMailComposeViewController()
+                mailController.mailComposeDelegate = self
+                mailController.setToRecipients(["support@vistaweatherapp.com"])
+                mailController.setSubject("Question/comment/concern about the Vista Weather app")
+                
+                present(mailController, animated: true, completion: nil)
+            }
         default:
             return
         }

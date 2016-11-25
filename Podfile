@@ -13,6 +13,7 @@ end
 
 target 'RainOrShineTests' do
     pod 'GooglePlaces'
+    pod 'ForecastIO'
 end
 
 target 'RainOrShineUITests' do

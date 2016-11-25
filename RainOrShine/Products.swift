@@ -5,18 +5,10 @@
 //  Created by Josh Henry on 11/24/16.
 //  Copyright © 2016 Big Smash Software. All rights reserved.
 //
-/*
+
 import Foundation
 
+//This is a list of all the products available for in app purchasing
 public struct Products {
-    
-    public static let removeAds = "com.bigsmashsoftware.vistaweather.removeads"
-    
-    fileprivate static let productIdentifiers: Set<ProductIdentifier> = [Products.removeAds]
-    
-    public static let store = IAPHelper(productIds: Products.productIdentifiers)
+    public static let removeAds: String = "com.bigsmashsoftware.vistaweather.removeads"
 }
-
-func resourceNameForProductIdentifier(_ productIdentifier: String) -> String? {
-    return productIdentifier.components(separatedBy: ".").last
-}*/
