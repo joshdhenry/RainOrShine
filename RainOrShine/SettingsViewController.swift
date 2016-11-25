@@ -9,9 +9,8 @@
 import Foundation
 import UIKit
 import StoreKit
-import MessageUI
 
-class SettingsViewController: UITableViewController, MFMailComposeViewControllerDelegate {
+class SettingsViewController: UITableViewController {
     
     // MARK: - Properties
     private lazy var selectedSettingsCategory: String = String()
@@ -20,9 +19,6 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Add the observer
-        iapHelper.addPaymentObserver()
         
         /*if (defaults.bool(forKey: "purchased")){
             print("ADS REMOVED HAS BEEN PURCHASED...")
@@ -49,14 +45,9 @@ class SettingsViewController: UITableViewController, MFMailComposeViewController
         case (3, 0):
             iapHelper.startProductRequest(productID: Products.removeAds)
         case (3, 1):
-            if MFMailComposeViewController.canSendMail() {
-                let mailController = MFMailComposeViewController()
-                mailController.mailComposeDelegate = self
-                mailController.setToRecipients(["support@vistaweatherapp.com"])
-                mailController.setSubject("Question/comment/concern about the Vista Weather app")
-                
-                present(mailController, animated: true, completion: nil)
-            }
+            composeMail()
+        case (3, 2):
+            UIApplication.shared.openURL(NSURL(string : "http://www.vistaweatherapp.com")! as URL)
         default:
             return
         }

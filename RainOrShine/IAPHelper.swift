@@ -11,13 +11,10 @@ import StoreKit
 
 class IAPHelper: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
     // MARK: - Properties
-
-    //var productID: String = String()
     private let defaults = UserDefaults.standard
 
-    
-    ////Add the payment observer
-    public func addPaymentObserver() {
+    override init() {
+        super.init()
         SKPaymentQueue.default().add(self)
     }
     
@@ -34,16 +31,12 @@ class IAPHelper: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObserv
     //If the product ID requested matches a product, purchase it by running buyProduct()
     internal func productsRequest (_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if (!response.products.isEmpty) {
-            let validProducts = response.products
-            
-            for thisProduct in validProducts {
-                //if (thisProduct.productIdentifier == productID) {
-                    print(thisProduct.localizedTitle)
-                    print(thisProduct.localizedDescription)
-                    print(thisProduct.price)
-                    
-                    buyProduct(product: thisProduct)
-                //}
+            for thisProduct in response.products {
+                print(thisProduct.localizedTitle)
+                print(thisProduct.localizedDescription)
+                print(thisProduct.price)
+                
+                buyProduct(product: thisProduct)
             }
         }
         else {
@@ -63,31 +56,34 @@ class IAPHelper: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObserv
         print("Received Payment Transaction Response from Apple")
         
         for transaction: AnyObject in transactions {
-            if let trans: SKPaymentTransaction = transaction as? SKPaymentTransaction{
-                print("Transaction state is \(trans.transactionState.rawValue)")
-                switch trans.transactionState {
-                case .purchasing:
-                    print("Purchasing item...")
-                case .purchased:
-                    print("Product Purchased")
-                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-                    defaults.set(true, forKey: "purchased")
-                    break
-                case .failed:
-                    print("Purchased Failed")
-                    if let error = trans.error {
-                        print(error.localizedDescription)
-                    }
-                    SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-                    break
-                case .restored:
-                    print("Already Purchased")
-                    SKPaymentQueue.default().restoreCompletedTransactions()
-                    //DO I NEED TO RUN FINISHTRANSACTION() HERE???
-                default:
-                    print("No conditions met...")
-                    break
+            guard let trans: SKPaymentTransaction = transaction as? SKPaymentTransaction else {return}
+            
+            print("Transaction state is \(trans.transactionState.rawValue)")
+            
+            switch trans.transactionState {
+            case .purchasing:
+                print("Purchasing item...")
+            case .purchased:
+                print("Product Purchased")
+                SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                defaults.set(true, forKey: "RemoveAdsPurchased")
+                break
+            case .failed:
+                print("Purchased Failed")
+                if let error = trans.error {
+                    print(error.localizedDescription)
                 }
+                SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                break
+            case .restored:
+                print("Already Purchased")
+                SKPaymentQueue.default().restoreCompletedTransactions()
+                
+                //Not sure if this is needed?
+                //SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+            default:
+                print("No conditions met...")
+                break
             }
         }
     }

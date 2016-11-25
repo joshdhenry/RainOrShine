@@ -74,6 +74,11 @@ class WeatherViewController: UIViewController {
         setAllAPIKeys()
         configureLocationManager()
         weatherAPIService.setWeatherClient()
+        
+        //This line is needed to avoid ugly graphics artifact in the top right of the navigation bar when segueing to SettingsViewController
+        self.navigationController?.view.backgroundColor = UIColor.white
+
+        
         initializeViewModels()
         createObservers()
         createLocationSearchElements()
@@ -277,28 +282,20 @@ class WeatherViewController: UIViewController {
     }
    
     
+    @IBAction func settingsButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: "SegueSettings", sender: self)
+    }
+    
+    
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
-        
-        
-        
-        
-        
-        
-        
-        
+        ////////////////////////////////
         //REMOVE ADS EXPERIMENTAL CODE
         adBannerView.removeFromSuperview()
 
         //Move the photo detail view down to account for the ads being gone now
         photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
-        
-        
-        
-        
-        
-        
-        
+        ////////////////////////////////
         
         //If GPS is turned off, show an error message
         if (!CLLocationManager.locationServicesEnabled()) {
