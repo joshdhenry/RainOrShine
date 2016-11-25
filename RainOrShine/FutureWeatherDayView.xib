@@ -26,27 +26,31 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thu" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyw-aP-RP6">
-                        <rect key="frame" x="0.0" y="0.0" width="55" height="21"/>
+                        <rect key="frame" x="0.0" y="2" width="55" height="17"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="LD2-S5-Ypg"/>
+                            <constraint firstAttribute="height" constant="17" id="mNE-0e-eLg"/>
                         </constraints>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LNn-F4-chT" customClass="SKYIconView" customModule="RainOrShine" customModuleProvider="target">
+                        <rect key="frame" x="11" y="19" width="32" height="32"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="70 / 88" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UbG-Bv-2nE">
-                        <rect key="frame" x="0.0" y="53" width="54" height="14"/>
+                        <rect key="frame" x="0.0" y="51" width="54" height="14"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="14" id="Vri-LW-M4k"/>
+                            <constraint firstAttribute="height" constant="14" id="KmU-Y7-CbF"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="10"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="ymR-cc-zp8">
-                        <rect key="frame" x="0.0" y="67" width="55" height="56"/>
+                        <rect key="frame" x="2" y="65" width="50" height="56"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="56" id="kvW-zY-ePp"/>
+                            <constraint firstAttribute="height" constant="56" id="8TM-ZK-9sR"/>
                         </constraints>
                         <string key="text">Line 1
 Line 2
@@ -56,25 +60,21 @@ Line 4 Line 5</string>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LNn-F4-chT" customClass="SKYIconView" customModule="RainOrShine" customModuleProvider="target">
-                        <rect key="frame" x="11" y="21" width="32" height="32"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="LNn-F4-chT" firstAttribute="top" secondItem="iyw-aP-RP6" secondAttribute="bottom" id="1QD-tc-ghh"/>
-                    <constraint firstItem="ymR-cc-zp8" firstAttribute="top" secondItem="UbG-Bv-2nE" secondAttribute="bottom" id="4d5-9A-rHS"/>
-                    <constraint firstItem="iyw-aP-RP6" firstAttribute="top" secondItem="NdC-WO-zJi" secondAttribute="top" id="52s-SH-Q3f"/>
-                    <constraint firstItem="iyw-aP-RP6" firstAttribute="centerX" secondItem="LNn-F4-chT" secondAttribute="centerX" id="8yN-11-gyy"/>
-                    <constraint firstItem="iyw-aP-RP6" firstAttribute="trailing" secondItem="ymR-cc-zp8" secondAttribute="trailing" id="D9v-lg-FYS"/>
-                    <constraint firstItem="iyw-aP-RP6" firstAttribute="leading" secondItem="NdC-WO-zJi" secondAttribute="leading" id="NHH-OR-pkx"/>
-                    <constraint firstItem="LNn-F4-chT" firstAttribute="leading" secondItem="NdC-WO-zJi" secondAttribute="leading" constant="11" id="SRy-MN-nv5"/>
-                    <constraint firstItem="UbG-Bv-2nE" firstAttribute="leading" secondItem="ymR-cc-zp8" secondAttribute="leading" id="XV1-iq-ozQ"/>
-                    <constraint firstItem="LNn-F4-chT" firstAttribute="centerX" secondItem="UbG-Bv-2nE" secondAttribute="centerX" id="jX8-NG-27I"/>
-                    <constraint firstItem="UbG-Bv-2nE" firstAttribute="top" secondItem="LNn-F4-chT" secondAttribute="bottom" id="p3T-ZV-3Gc"/>
-                    <constraint firstAttribute="trailing" secondItem="UbG-Bv-2nE" secondAttribute="trailing" id="rAJ-N6-YY4"/>
-                    <constraint firstItem="iyw-aP-RP6" firstAttribute="leading" secondItem="UbG-Bv-2nE" secondAttribute="leading" id="rbk-ba-EFN"/>
-                    <constraint firstAttribute="bottom" secondItem="ymR-cc-zp8" secondAttribute="bottom" id="wOl-vD-9GZ"/>
+                    <constraint firstItem="LNn-F4-chT" firstAttribute="leading" secondItem="NdC-WO-zJi" secondAttribute="leading" constant="11" id="0F7-kq-5tX"/>
+                    <constraint firstAttribute="bottom" secondItem="ymR-cc-zp8" secondAttribute="bottom" constant="2" id="0hk-cc-13x"/>
+                    <constraint firstItem="UbG-Bv-2nE" firstAttribute="centerX" secondItem="ymR-cc-zp8" secondAttribute="centerX" id="AVF-2P-Fs3"/>
+                    <constraint firstAttribute="trailing" secondItem="UbG-Bv-2nE" secondAttribute="trailing" id="IlC-84-Yn8"/>
+                    <constraint firstItem="iyw-aP-RP6" firstAttribute="top" secondItem="NdC-WO-zJi" secondAttribute="top" constant="2" id="OJU-cl-YWb"/>
+                    <constraint firstItem="iyw-aP-RP6" firstAttribute="centerX" secondItem="LNn-F4-chT" secondAttribute="centerX" id="SbL-Ux-Bpr"/>
+                    <constraint firstItem="LNn-F4-chT" firstAttribute="top" secondItem="iyw-aP-RP6" secondAttribute="bottom" id="Tk4-9U-ctv"/>
+                    <constraint firstItem="ymR-cc-zp8" firstAttribute="top" secondItem="UbG-Bv-2nE" secondAttribute="bottom" id="a9P-fu-5LE"/>
+                    <constraint firstItem="LNn-F4-chT" firstAttribute="centerX" secondItem="UbG-Bv-2nE" secondAttribute="centerX" id="bgi-vS-58z"/>
+                    <constraint firstItem="UbG-Bv-2nE" firstAttribute="top" secondItem="LNn-F4-chT" secondAttribute="bottom" id="hqP-yb-ooh"/>
+                    <constraint firstItem="iyw-aP-RP6" firstAttribute="leading" secondItem="NdC-WO-zJi" secondAttribute="leading" id="lfw-6Y-3MU"/>
+                    <constraint firstItem="iyw-aP-RP6" firstAttribute="leading" secondItem="UbG-Bv-2nE" secondAttribute="leading" id="npX-nB-aEu"/>
+                    <constraint firstItem="ymR-cc-zp8" firstAttribute="leading" secondItem="NdC-WO-zJi" secondAttribute="leading" constant="2" id="ytg-Tj-Yts"/>
                 </constraints>
             </view>
             <blurEffect style="light"/>
