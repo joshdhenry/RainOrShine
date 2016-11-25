@@ -13,29 +13,29 @@ struct Settings {
     let savedAppSettings = UserDefaults.standard
     
     enum UseDefaultPhotosSetting: String {
-        case always = "always",
-        whenNoPictures = "whenNoPictures",
-        never = "never"
+        case always = "Always",
+        whenNoPictures = "When No Location Photos Available",
+        never = "Never"
     }
     
     enum TemperatureUnitSetting: String {
-        case fahrenheit = "fahrenheit",
-        celcius = "celcius"
+        case fahrenheit = "Fahrenheit",
+        celcius = "Celcius"
     }
     
     enum UpdateWeatherIntervalSetting: String {
-        case fifteen = "15",
-        thirty = "30",
-        sixty = "60"
+        case fifteen = "15 Minutes",
+        thirty = "30 Minutes",
+        sixty = "60 Minutes"
     }
     
     enum ChangePhotoIntervalSetting: String {
-        case one = "1",
-        three = "3",
-        five = "5",
-        ten = "10",
-        thirty = "30",
-        never = "0"
+        case one = "1 Minute",
+        three = "3 Minutes",
+        five = "5 Minutes",
+        ten = "10 Minutes",
+        thirty = "30 Minutes",
+        never = "Never"
     }
     
     

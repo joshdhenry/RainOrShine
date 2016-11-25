@@ -28,7 +28,8 @@ class LocationSearchView: UIView {
         if (withOrientation.isPortrait ||
            withOrientation.isFlat) {
             locationSearchViewFrame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
-        } else if (withOrientation.isLandscape) {
+        }
+        else if (withOrientation.isLandscape) {
             locationSearchViewFrame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.height, height: 45)
         }
         super.init(frame: locationSearchViewFrame)
@@ -44,6 +45,7 @@ class LocationSearchView: UIView {
         searchController?.searchBar.barTintColor = ColorScheme.lightGray
 
         self.addSubview((searchController?.searchBar)!)
+        
         
         self.accessibilityIdentifier = "Location Search Bar"
         self.searchController?.searchBar.sizeToFit()

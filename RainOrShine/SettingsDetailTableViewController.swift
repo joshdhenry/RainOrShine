@@ -16,7 +16,8 @@ class SettingsDetailTableViewController: UITableViewController {
                                                                      "Update Weather Every" : ["15 Minutes", "30 Minutes", "60 Minutes"],
                                                                      "Use Default Photos" : ["When No Location Photos Available", "Always", "Never"],
                                                                      "Change Photo Every" : ["1 Minute", "3 Minutes", "5 Minutes", "10 Minutes", "30 Minutes", "Never"]]
-    
+    var currentSettings = Settings()
+    var checkedCell: UITableViewCell?
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -38,6 +39,52 @@ class SettingsDetailTableViewController: UITableViewController {
         cell.textLabel?.text = settingsList?[indexPath.row]
         cell.textLabel?.adjustsFontSizeToFitWidth = true
 
+        var currentSettingRawValue: String = String()
+        
+        switch (currentSettingsCategory) {
+        case "Temperature Unit":
+            currentSettingRawValue = currentSettings.temperatureUnit.rawValue
+        case "Update Weather Every":
+            currentSettingRawValue = currentSettings.updateWeatherInterval.rawValue
+        case "Use Default Photos":
+            currentSettingRawValue = currentSettings.useDefaultPhotos.rawValue
+        case "Change Photo Every":
+            currentSettingRawValue = currentSettings.changePhotoInterval.rawValue
+        default:
+            return cell
+        }
+        
+        if (currentSettingRawValue != settingsList?[indexPath.row]) {
+            cell.accessoryType = .none
+        }
+        else {
+            checkedCell = cell
+        }
+        
         return cell
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentCell = tableView.cellForRow(at: indexPath)! as UITableViewCell
+        let currentCellText: String = currentCell.textLabel?.text ?? ""
+        
+        checkedCell?.accessoryType = .none
+        currentCell.accessoryType = .checkmark
+        checkedCell = currentCell
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        switch (currentSettingsCategory) {
+        case "Temperature Unit":
+            currentSettings.temperatureUnit = Settings.TemperatureUnitSetting(rawValue: currentCellText) ?? Settings.TemperatureUnitSetting.fahrenheit
+        case "Update Weather Every":
+            currentSettings.updateWeatherInterval = Settings.UpdateWeatherIntervalSetting(rawValue: currentCellText) ?? Settings.UpdateWeatherIntervalSetting.thirty
+        case "Use Default Photos":
+            currentSettings.useDefaultPhotos = Settings.UseDefaultPhotosSetting(rawValue: currentCellText) ?? Settings.UseDefaultPhotosSetting.whenNoPictures
+        case "Change Photo Every":
+            currentSettings.changePhotoInterval = Settings.ChangePhotoIntervalSetting(rawValue: currentCellText) ?? Settings.ChangePhotoIntervalSetting.three
+        default:
+            break
+        }
     }
 }

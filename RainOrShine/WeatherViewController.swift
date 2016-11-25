@@ -97,6 +97,13 @@ class WeatherViewController: UIViewController {
         
         //Redraw the location search bar when coming back to this view controller from other view controllers.  User could have changed orientations since leaving this controller.
         resizeLocationSearchView(orientationAfterRotation: UIDevice.current.orientation)
+        
+        
+        let currentSettings = Settings()
+        print("TEMP UNIT IS SET TO \(currentSettings.temperatureUnit.rawValue)")
+        print(currentSettings.updateWeatherInterval.rawValue)
+        print(currentSettings.useDefaultPhotos.rawValue)
+        print(currentSettings.changePhotoInterval.rawValue)
     }
     
     
