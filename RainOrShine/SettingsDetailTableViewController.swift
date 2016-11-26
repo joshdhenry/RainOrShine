@@ -77,6 +77,24 @@ class SettingsDetailTableViewController: UITableViewController {
         switch (currentSettingsCategory) {
         case "Temperature Unit":
             currentSettings.temperatureUnit = Settings.TemperatureUnitSetting(rawValue: currentCellText) ?? Settings.TemperatureUnitSetting.fahrenheit
+            
+            
+            
+            
+            
+            
+            /////
+            var weatherAPIService: WeatherAPIService = WeatherAPIService()
+
+            var currentWeatherViewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
+            currentWeatherViewModel.updateForecast(newForecast: weatherAPIService.currentWeatherForecast)
+            
+            
+            
+            
+            
+            
+            
         case "Update Weather Every":
             currentSettings.updateWeatherInterval = Settings.UpdateWeatherIntervalSetting(rawValue: currentCellText) ?? Settings.UpdateWeatherIntervalSetting.thirty
         case "Use Default Photos":

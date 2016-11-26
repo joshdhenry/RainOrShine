@@ -29,7 +29,6 @@ class CurrentWeatherView: UIVisualEffectView, WeatherViewControllerSubView {
                 //Update the UI on the main thread
                 DispatchQueue.main.async {
                     self.temperatureLabel.text = currently.temperature?.formattedTemperatureString ?? ""
-
                     self.summaryLabel.text = currently.summary
                     self.weatherConditionView.setType =  currently.icon?.getSkycon() ?? Skycons.partlyCloudyDay
                     self.weatherConditionView.play()
@@ -37,6 +36,21 @@ class CurrentWeatherView: UIVisualEffectView, WeatherViewControllerSubView {
                     self.fadeIn()
                 }
             }
+            /*viewModel?.currentTemperatureUnit.observe { [unowned self] in
+                
+                
+                print("TEMPERATURE UNIT CHANGED.  REFLECTING CHANGES IN VIEW MODEL... - \($0)")
+                
+                guard let currentTemperatureUnit: Settings.TemperatureUnitSetting = $0 else {
+                    return
+                }
+                guard let currently = self.viewModel?.currentForecast.value?.currently else {return}
+                
+                //Update the UI on the main thread
+                DispatchQueue.main.async {
+                    self.temperatureLabel.text = currently.temperature?.formattedTemperatureString ?? ""
+                }
+            }*/
         }
     }
     

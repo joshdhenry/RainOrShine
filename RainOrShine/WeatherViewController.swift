@@ -11,7 +11,7 @@ import CoreLocation
 import GooglePlaces
 import GoogleMobileAds
 
-class WeatherViewController: UIViewController {
+class WeatherViewController: UIViewController, WeatherRefreshDelegate {
     // MARK: - Properties
 
     // MARK: Type Aliases
@@ -54,6 +54,15 @@ class WeatherViewController: UIViewController {
     internal var weatherAPIService: WeatherAPIService = WeatherAPIService()
     internal var locationAPIService: LocationAPIService = LocationAPIService()
     
+    var currentSettings = Settings()
+    
+    var needsWeatherRefresh: Bool = false
+    
+    
+
+    func updateNeedsWeatherRefresh(needsWeatherRefresh: Bool) {
+        self.needsWeatherRefresh = needsWeatherRefresh
+    }
     
     // MARK: - Methods
     //Initialize values for the first time
@@ -70,7 +79,6 @@ class WeatherViewController: UIViewController {
         adBannerView.rootViewController = self
         adBannerView.load(GADRequest())
 
-        
         setAllAPIKeys()
         configureLocationManager()
         weatherAPIService.setWeatherClient()
@@ -78,13 +86,10 @@ class WeatherViewController: UIViewController {
         //This line is needed to avoid ugly graphics artifact in the top right of the navigation bar when segueing to SettingsViewController
         self.navigationController?.view.backgroundColor = UIColor.white
 
-        
         initializeViewModels()
         createObservers()
         createLocationSearchElements()
         setNightStandMode()
-        
-        
     }
 
     
@@ -104,6 +109,20 @@ class WeatherViewController: UIViewController {
         print(currentSettings.updateWeatherInterval.rawValue)
         print(currentSettings.useDefaultPhotos.rawValue)
         print(currentSettings.changePhotoInterval.rawValue)
+        
+        //If the needsWeatherRefresh flag is true, refresh the weather
+        print("needsWeatherRefresh is \(needsWeatherRefresh)")
+        if (needsWeatherRefresh) {
+            loadNewPlaceWeather() { (isComplete) -> () in
+                if (isComplete) {
+                    self.needsWeatherRefresh = false
+                    
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
+                }
+            }
+        }
     }
     
     
@@ -293,6 +312,12 @@ class WeatherViewController: UIViewController {
     
     @IBAction func settingsButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "SegueSettings", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "SegueSettings") {
+            (segue.destination as! SettingsViewController).delegate = self
+        }
     }
     
     

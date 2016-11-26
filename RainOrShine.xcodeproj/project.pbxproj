@@ -36,6 +36,7 @@
 		0374C2531DE858D700E86B21 /* SettingsDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2521DE858D700E86B21 /* SettingsDetailViewControllerTests.swift */; };
 		0374C2551DE859E100E86B21 /* SettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2541DE859E100E86B21 /* SettingsViewControllerTests.swift */; };
 		0374C2571DE8D01C00E86B21 /* SettingsDetailViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2561DE8D01C00E86B21 /* SettingsDetailViewControllerUITests.swift */; };
+		0374C2591DE90C6A00E86B21 /* WeatherRefreshProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2581DE90C6A00E86B21 /* WeatherRefreshProtocol.swift */; };
 		038354B41DD2D9B7005C1F76 /* FutureWeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038354B31DD2D9B7005C1F76 /* FutureWeatherView.xib */; };
 		038354B61DD2DAD4005C1F76 /* FutureWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038354B51DD2DAD4005C1F76 /* FutureWeatherView.swift */; };
 		038354B81DD2E4FF005C1F76 /* FutureWeatherDayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 038354B71DD2E4FF005C1F76 /* FutureWeatherDayView.xib */; };
@@ -128,6 +129,7 @@
 		0374C2521DE858D700E86B21 /* SettingsDetailViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDetailViewControllerTests.swift; sourceTree = "<group>"; };
 		0374C2541DE859E100E86B21 /* SettingsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewControllerTests.swift; sourceTree = "<group>"; };
 		0374C2561DE8D01C00E86B21 /* SettingsDetailViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDetailViewControllerUITests.swift; sourceTree = "<group>"; };
+		0374C2581DE90C6A00E86B21 /* WeatherRefreshProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherRefreshProtocol.swift; sourceTree = "<group>"; };
 		038354B31DD2D9B7005C1F76 /* FutureWeatherView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FutureWeatherView.xib; sourceTree = "<group>"; };
 		038354B51DD2DAD4005C1F76 /* FutureWeatherView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureWeatherView.swift; sourceTree = "<group>"; };
 		038354B71DD2E4FF005C1F76 /* FutureWeatherDayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FutureWeatherDayView.xib; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			children = (
 				03B556A01DE1418800B1B55A /* WeatherViewController */,
 				0337AA791DCEA7C600E6478B /* SettingsViewController.swift */,
+				0374C2581DE90C6A00E86B21 /* WeatherRefreshProtocol.swift */,
 				035401781DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift */,
 			);
 			name = "View Controllers";
@@ -776,6 +779,7 @@
 				03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */,
 				03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */,
 				038354B61DD2DAD4005C1F76 /* FutureWeatherView.swift in Sources */,
+				0374C2591DE90C6A00E86B21 /* WeatherRefreshProtocol.swift in Sources */,
 				03FD6DDB1DD154C4004F7FA6 /* PhotoDetailView.swift in Sources */,
 				0313E5381DC2A21A00E453A0 /* WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift in Sources */,
 				038354C91DD85807005C1F76 /* PhotoDetailViewModel.swift in Sources */,

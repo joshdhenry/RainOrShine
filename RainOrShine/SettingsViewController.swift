@@ -16,6 +16,8 @@ class SettingsViewController: UITableViewController {
     private lazy var selectedSettingsCategory: String = String()
     var iapHelper: IAPHelper = IAPHelper()
     
+    var delegate: WeatherRefreshDelegate?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,25 @@ class SettingsViewController: UITableViewController {
         /*if (defaults.bool(forKey: "purchased")){
             print("ADS REMOVED HAS BEEN PURCHASED...")
         }*/
+        
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(SettingsViewController.back(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
+    }
+    
+    func back(sender: UIBarButtonItem) {
+        // Perform your custom actions
+        // ...
+        // Go back to the previous ViewController
+        
+        
+        //THIS WON'T ALWAYS BE TRUE.  JUST DOING THIS FOR NOW
+        //self.delegate?.needsWeatherRefresh = true
+        self.delegate?.updateNeedsWeatherRefresh(needsWeatherRefresh: true)
+        
+        
+        _ = navigationController?.popViewController(animated: true)
+        
     }
     
     

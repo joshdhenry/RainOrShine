@@ -35,6 +35,16 @@ class WeatherAPIService {
             return
         }
         
+        let currentSettings = Settings()
+        if currentSettings.temperatureUnit == Settings.TemperatureUnitSetting.celcius {
+            print("Getting CELCIUS forecast...")
+            weatherClient?.units = .si
+        }
+        else {
+            print("Getting FARENHEIT forecast...")
+            weatherClient?.units = .us
+        }
+        
         thisWeatherClient.getForecast(latitude: latitude, longitude: longitude) { (result) in
             //print("Retrieved forecast from server...")
             switch result {
