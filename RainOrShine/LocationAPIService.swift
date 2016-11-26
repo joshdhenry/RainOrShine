@@ -72,7 +72,6 @@ class LocationAPIService {
         var placeFindComplete: Bool = false
         
         let generalLocaleString: String = currentPlace?.getGeneralLocaleString() ?? ""
-        
         //Get the place ID of the general area so that we can grab an image of the city
         let placeIDOfGeneralLocale: String? = getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
         

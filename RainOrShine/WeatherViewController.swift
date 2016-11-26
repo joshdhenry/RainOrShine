@@ -71,6 +71,7 @@ class WeatherViewController: UIViewController {
         createLocationSearchElements()
         createAdBannerView()
         setNightStandMode()
+        
     }
 
     
@@ -432,6 +433,8 @@ class WeatherViewController: UIViewController {
     
     //Display new place photos when a new place has been chosen
     private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
+        print("SCALE IS \(self.locationImageView.window!.screen.scale)")
+
         locationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             if (isImageSet) {
                 guard let thisCurrentGeneralLocalePlace = self.locationAPIService.generalLocalePlace else {
