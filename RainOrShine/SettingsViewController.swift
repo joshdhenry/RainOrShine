@@ -16,8 +16,6 @@ class SettingsViewController: UITableViewController {
     private lazy var selectedSettingsCategory: String = String()
     var iapHelper: IAPHelper = IAPHelper()
     
-    var delegate: WeatherRefreshDelegate?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,15 +33,7 @@ class SettingsViewController: UITableViewController {
         // Perform your custom actions
         // ...
         // Go back to the previous ViewController
-        
-        
-        //THIS WON'T ALWAYS BE TRUE.  JUST DOING THIS FOR NOW
-        //self.delegate?.needsWeatherRefresh = true
-        self.delegate?.updateNeedsWeatherRefresh(needsWeatherRefresh: true)
-        
-        
         _ = navigationController?.popViewController(animated: true)
-        
     }
     
     

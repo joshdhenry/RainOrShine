@@ -11,7 +11,7 @@ import CoreLocation
 import GooglePlaces
 import GoogleMobileAds
 
-class WeatherViewController: UIViewController, WeatherRefreshDelegate {
+class WeatherViewController: UIViewController {
     // MARK: - Properties
 
     // MARK: Type Aliases
@@ -25,12 +25,15 @@ class WeatherViewController: UIViewController, WeatherRefreshDelegate {
     @IBOutlet weak var photoDetailView: PhotoDetailView!
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     @IBOutlet weak var adBannerView: GADBannerView!
-
     @IBOutlet weak var photoDetailViewBottomConstraint: NSLayoutConstraint!
-    
     public var locationSearchView: LocationSearchView!
-
+    
     // MARK: Constants
+    let locationManager = CLLocationManager()
+    
+    let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
+
+    // MARK: Computed vars
     internal var screenWidthAndHeight: ScreenSize {
         if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
             return ScreenSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -39,8 +42,6 @@ class WeatherViewController: UIViewController, WeatherRefreshDelegate {
             return ScreenSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
         }
     }
-    
-    let locationManager = CLLocationManager()
     
     // MARK: Variables
     private var appSettings: Settings = Settings()
@@ -56,39 +57,19 @@ class WeatherViewController: UIViewController, WeatherRefreshDelegate {
     
     var currentSettings = Settings()
     
-    var needsWeatherRefresh: Bool = false
-    
-    
-
-    func updateNeedsWeatherRefresh(needsWeatherRefresh: Bool) {
-        self.needsWeatherRefresh = needsWeatherRefresh
-    }
     
     // MARK: - Methods
     //Initialize values for the first time
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("Google Mobile Ads SDK version: \(GADRequest.sdkVersion())")
-        guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
-        let keys = NSDictionary(contentsOfFile: path)!
-        
-        //CURRENTLY USING A TEST UNIT ID FOR DEVELOPMENT.
-        //SWITCH TO THE REAL UNIT ID BEFORE PUBLISHING
-        adBannerView.adUnitID = keys["TestGoogleMobileAdsAdUnitID"] as? String
-        adBannerView.rootViewController = self
-        adBannerView.load(GADRequest())
-
         setAllAPIKeys()
         configureLocationManager()
         weatherAPIService.setWeatherClient()
-        
-        //This line is needed to avoid ugly graphics artifact in the top right of the navigation bar when segueing to SettingsViewController
-        self.navigationController?.view.backgroundColor = UIColor.white
-
         initializeViewModels()
         createObservers()
         createLocationSearchElements()
+        createAdBannerView()
         setNightStandMode()
     }
 
@@ -109,20 +90,6 @@ class WeatherViewController: UIViewController, WeatherRefreshDelegate {
         print(currentSettings.updateWeatherInterval.rawValue)
         print(currentSettings.useDefaultPhotos.rawValue)
         print(currentSettings.changePhotoInterval.rawValue)
-        
-        //If the needsWeatherRefresh flag is true, refresh the weather
-        print("needsWeatherRefresh is \(needsWeatherRefresh)")
-        if (needsWeatherRefresh) {
-            loadNewPlaceWeather() { (isComplete) -> () in
-                if (isComplete) {
-                    self.needsWeatherRefresh = false
-                    
-                    DispatchQueue.main.async {
-                        self.activityIndicator.stopAnimating()
-                    }
-                }
-            }
-        }
     }
     
     
@@ -165,9 +132,32 @@ class WeatherViewController: UIViewController, WeatherRefreshDelegate {
     // MARK: Observers and Recognizers
     //Create and start all observers
     private func createObservers() {
+        createNotificationCenterObserver()
         createTimeObserver()
         createGestureRecognizers()
         createBatteryStateObserver()
+    }
+    
+    
+    private func createNotificationCenterObserver() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(forName:refreshWeatherForecastNotification, object:nil, queue:nil, using:catchNotification)
+    }
+    
+    
+    //Catch notification center notifications
+    func catchNotification(notification:Notification) -> Void {
+        print("Catch notification")
+        
+        if(notification.name.rawValue == "RefreshWeatherForecast") {
+            loadNewPlaceWeather() { (isComplete) -> () in
+                if (isComplete) {
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
+                    }
+                }
+            }
+        }
     }
     
     
@@ -231,6 +221,21 @@ class WeatherViewController: UIViewController, WeatherRefreshDelegate {
             }
         }
     }
+    
+    
+    //Load the banner ad
+    private func createAdBannerView() {
+        print("Google Mobile Ads SDK version: \(GADRequest.sdkVersion())")
+        guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
+        let keys = NSDictionary(contentsOfFile: path)!
+        
+        //CURRENTLY USING A TEST UNIT ID FOR DEVELOPMENT.
+        //SWITCH TO THE REAL UNIT ID BEFORE PUBLISHING
+        adBannerView.adUnitID = keys["TestGoogleMobileAdsAdUnitID"] as? String
+        adBannerView.rootViewController = self
+        adBannerView.load(GADRequest())
+    }
+    
     
     
     //Turn on or off the screen lock depending on the charging status
@@ -312,12 +317,6 @@ class WeatherViewController: UIViewController, WeatherRefreshDelegate {
     
     @IBAction func settingsButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "SegueSettings", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "SegueSettings") {
-            (segue.destination as! SettingsViewController).delegate = self
-        }
     }
     
     
