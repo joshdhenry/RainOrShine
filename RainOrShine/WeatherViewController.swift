@@ -423,13 +423,10 @@ class WeatherViewController: UIViewController {
     private func resetValuesForNewPlace() {
         photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
         
-        //this was nil, changed to zero 11-20-16
         locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: nil)
         
         locationAPIService.generalLocalePlace?.photoArray.removeAll(keepingCapacity: false)
         locationAPIService.generalLocalePlace?.photoMetaDataArray.removeAll(keepingCapacity: false)
-        
-        weatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
     }
     
     
@@ -456,6 +453,8 @@ class WeatherViewController: UIViewController {
     private func loadNewPlaceWeather(completion: @escaping (_ result: Bool) ->()) {
         guard let currentPlace = locationAPIService.currentPlace else {return}
         guard let currentGMSPlace = currentPlace.gmsPlace else {return}
+        
+        weatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
         
         weatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
             if (forecastRetrieved) {
