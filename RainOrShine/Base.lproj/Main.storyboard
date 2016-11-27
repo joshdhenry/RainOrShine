@@ -153,7 +153,7 @@
         <!--Settings-->
         <scene sceneID="7Y3-pM-PMQ">
             <objects>
-                <tableViewController title="Settings" id="zyP-gl-qSp" customClass="SettingsViewController" customModule="RainOrShine" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Settings" id="zyP-gl-qSp" customClass="SettingsTableViewController" customModule="RainOrShine" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="hnz-BU-Rfd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -174,7 +174,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fahrenheit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CUO-rb-mSp">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unit" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CUO-rb-mSp">
                                                     <rect key="frame" x="198" y="11" width="81" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="81" id="r9E-Ze-YEr"/>
@@ -319,6 +319,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="moa-8s-r0z">
                                                     <rect key="frame" x="216" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="nightStandModeOnSwitchValueChanged:" destination="zyP-gl-qSp" eventType="valueChanged" id="zE5-3o-JGa"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -405,6 +408,11 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="changePhotoIntervalCellSubtitle" destination="8zl-Tg-fwA" id="ODd-3A-ct5"/>
+                        <outlet property="nightStandModeSwitch" destination="moa-8s-r0z" id="9By-6K-ky2"/>
+                        <outlet property="temperatureUnitCellSubtitle" destination="CUO-rb-mSp" id="2Os-eV-YWF"/>
+                        <outlet property="updateWeatherIntervalCellSubtitle" destination="9GQ-gK-I63" id="1ll-Fu-DMT"/>
+                        <outlet property="useDefaultPhotosCellSubtitle" destination="yIZ-bd-e9E" id="ctU-uE-9SQ"/>
                         <segue destination="2C3-MT-C9w" kind="show" identifier="segueSettingsDetail" id="c7B-Ra-E7t"/>
                     </connections>
                 </tableViewController>

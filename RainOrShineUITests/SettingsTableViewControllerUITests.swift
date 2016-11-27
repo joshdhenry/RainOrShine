@@ -1,5 +1,5 @@
 //
-//  SettingsViewControllerUITests.swift
+//  SettingsTableViewControllerUITests.swift
 //  RainOrShine
 //
 //  Created by Josh Henry on 11/26/16.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class SettingsViewControllerUITests: XCTestCase {
+class SettingsTableViewControllerUITests: XCTestCase {
     
     let app = XCUIApplication()
         
@@ -16,7 +16,7 @@ class SettingsViewControllerUITests: XCTestCase {
         super.setUp()
         
         continueAfterFailure = false
-        XCUIApplication().launch()
+        app.launch()
     }
     
     override func tearDown() {
@@ -28,7 +28,7 @@ class SettingsViewControllerUITests: XCTestCase {
     func testBackButtonDismissesSettings() {
         app.toolbars.buttons["Settings"].tap()
         app.navigationBars["Settings"].buttons["Back"].tap()
-        XCTAssertFalse(app.navigationBars["Settings"].exists, "Pressing the back button did not dismiss SettingsViewController.")
+        XCTAssertFalse(app.navigationBars["Settings"].exists, "Pressing the back button did not dismiss SettingsTableViewController.")
     }
     
     

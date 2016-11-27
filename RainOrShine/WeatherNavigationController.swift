@@ -22,7 +22,7 @@ class WeatherNavigationController: UINavigationController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        //This line is needed to avoid ugly graphics artifact in the top right of the navigation bar when segueing to SettingsViewController
+        //This line is needed to avoid ugly graphics artifact in the top right of the navigation bar when segueing to SettingsTableViewController
         self.view.backgroundColor = UIColor.white
     }
 }

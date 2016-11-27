@@ -18,7 +18,7 @@ class WeatherViewControllerUITests: XCTestCase {
         super.setUp()
         
         continueAfterFailure = false
-        XCUIApplication().launch()
+        app.launch()
     }
     
     override func tearDown() {
@@ -26,7 +26,7 @@ class WeatherViewControllerUITests: XCTestCase {
     }
     
     
-    //Tap the settings button and ensure that the SettingsViewController appears on the screen.
+    //Tap the settings button and ensure that the SettingsTableViewController appears on the screen.
     func testSettingsButton() {
         app.toolbars.buttons["Settings"].tap()
         XCTAssert(app.navigationBars["Settings"].exists)

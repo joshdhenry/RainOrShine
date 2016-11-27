@@ -11,7 +11,7 @@ import UIKit
 import MessageUI
 
 
-extension SettingsViewController: MFMailComposeViewControllerDelegate {
+extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
     
     internal func composeMail() {
         if MFMailComposeViewController.canSendMail() {

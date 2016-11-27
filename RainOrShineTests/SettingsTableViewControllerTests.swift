@@ -1,5 +1,5 @@
 //
-//  SettingsViewControllerTests.swift
+//  SettingsTableViewControllerTests.swift
 //  RainOrShine
 //
 //  Created by Josh Henry on 11/25/16.
@@ -11,7 +11,7 @@ import XCTest
 
 @testable import RainOrShine
 
-class SettingsViewControllerTests: XCTest {
+class SettingsTableViewControllerTests: XCTest {
     
     override func setUp() {
         super.setUp()

@@ -14,17 +14,12 @@ import XCTest
 var viewController: SettingsDetailTableViewController!
 let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 
-class SettingsDetailViewControllerTests: XCTestCase {
+class SettingsDetailTableViewControllerTests: XCTestCase {
     override func setUp() {
         super.setUp()
     }
     
     override func tearDown() {
         super.tearDown()
-    }
-    
-    
-    func test() {
-        
     }
 }

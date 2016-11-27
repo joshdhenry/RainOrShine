@@ -77,9 +77,8 @@ class SettingsDetailTableViewController: UITableViewController {
         switch (currentSettingsCategory) {
         case "Temperature Unit":
             currentSettings.temperatureUnit = Settings.TemperatureUnitSetting(rawValue: currentCellText) ?? Settings.TemperatureUnitSetting.fahrenheit
-            
-            let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
             let notificationCenter = NotificationCenter.default
+            let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
             notificationCenter.post(name: refreshWeatherForecastNotification, object: nil)
         case "Update Weather Every":
             currentSettings.updateWeatherInterval = Settings.UpdateWeatherIntervalSetting(rawValue: currentCellText) ?? Settings.UpdateWeatherIntervalSetting.thirty
