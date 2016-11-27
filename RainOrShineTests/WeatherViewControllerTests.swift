@@ -12,25 +12,25 @@ import XCTest
 
 class WeatherViewControllerTests: XCTestCase {
     
+    var navigationController: UINavigationController!
     var viewController: WeatherViewController!
     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
+        viewController = navigationController.topViewController as! WeatherViewController
+        UIApplication.shared.keyWindow!.rootViewController = viewController
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+
     
     //Test to make sure that createGestureRecognizer creates and attaches to the view in ViewController
     func testCreateGestureRecognizers() {
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        viewController = navigationController.topViewController as! WeatherViewController
-        UIApplication.shared.keyWindow!.rootViewController = viewController
-        
         var numOfGestureRecognizers: Int = 0
         
         if (viewController.view.gestureRecognizers != nil) {
@@ -47,10 +47,6 @@ class WeatherViewControllerTests: XCTestCase {
     
     //Rotate the main screen to landscape and check that the locationSearchView resized its width correctly
     func testLandscapeLocationSearchView() {
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        viewController = navigationController.topViewController as! WeatherViewController
-        UIApplication.shared.keyWindow!.rootViewController = viewController
-        
         XCUIDevice.shared().orientation = .landscapeRight
         viewController.resizeLocationSearchView(orientationAfterRotation: .landscapeRight)
         
@@ -63,10 +59,6 @@ class WeatherViewControllerTests: XCTestCase {
     
     //Rotate the main screen to landscape then back to portrait and check that the locationSearchView resized its width correctly
     func testPortraitLocationSearchView() {
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        viewController = navigationController.topViewController as! WeatherViewController
-        UIApplication.shared.keyWindow!.rootViewController = viewController
-        
         XCUIDevice.shared().orientation = .landscapeRight
         viewController.resizeLocationSearchView(orientationAfterRotation: .landscapeRight)
         
@@ -83,12 +75,6 @@ class WeatherViewControllerTests: XCTestCase {
     //TODO:- Finish writing this test
     //Start the app in landscape and ensure the location search view sizes correctly.
     func testStartInLandscapeLocationSearchView() {
-        let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController
-        viewController = navigationController.topViewController as! WeatherViewController
-        UIApplication.shared.keyWindow!.rootViewController = viewController
+        
     }
-    
-    
-
-    
 }

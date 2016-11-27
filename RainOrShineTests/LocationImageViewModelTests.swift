@@ -1,18 +1,17 @@
 //
-//  SettingsViewControllerTests.swift
+//  LocationImageViewModelTests.swift
 //  RainOrShine
 //
-//  Created by Josh Henry on 11/25/16.
+//  Created by Josh Henry on 11/26/16.
 //  Copyright © 2016 Big Smash Software. All rights reserved.
 //
 
-import Foundation
 import XCTest
 
 @testable import RainOrShine
 
-class SettingsViewControllerTests: XCTest {
-    
+class LocationImageViewModelTests: XCTestCase {
+        
     override func setUp() {
         super.setUp()
     }
@@ -22,12 +21,8 @@ class SettingsViewControllerTests: XCTest {
     }
     
     
-    func testNightStandModeToggle() {
+    func testUpdatePlaceImageIndex() {
         
     }
     
-    
-    func testContactSupport() {
-        
-    }
 }

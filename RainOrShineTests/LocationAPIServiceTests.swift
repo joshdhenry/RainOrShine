@@ -13,8 +13,13 @@ import CoreLocation
 
 class LocationAPIServiceTests: XCTestCase {
     
+    let locationAPIService: LocationAPIService = LocationAPIService()
+
+    
     override func setUp() {
         super.setUp()
+        
+        locationAPIService.setAPIKeys()
     }
     
     override func tearDown() {
@@ -29,10 +34,6 @@ class LocationAPIServiceTests: XCTestCase {
     //Set the current exact place based on GPS signal and make sure that the returned address is correct
     func testSetCurrentExactPlace() {
         let setLocationExpectation = expectation(description: "setCurrentExactPlace finds the gmsPlace and runs the callback closure")
-        
-        let locationAPIService: LocationAPIService = LocationAPIService()
-
-        locationAPIService.setAPIKeys()
         
         locationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
@@ -61,15 +62,11 @@ class LocationAPIServiceTests: XCTestCase {
     func testSetGeneralLocalePlace() {
         let setGeneralLocalePlaceExpectation = expectation(description: "setGeneralLocalePlace finds the gmsPlace and runs the callback closure")
         
-        let locationAPIService: LocationAPIService = LocationAPIService()
-        
-        locationAPIService.setAPIKeys()
-        
         locationAPIService.setCurrentExactPlace() { (isExactLocationFound, exactLocationPlace) -> () in
             if (isExactLocationFound) {
-                locationAPIService.currentPlace = exactLocationPlace
+                self.locationAPIService.currentPlace = exactLocationPlace
             
-                locationAPIService.setGeneralLocalePlace { (isGeneralLocationFound, generalLocationPlace) -> () in
+                self.locationAPIService.setGeneralLocalePlace { (isGeneralLocationFound, generalLocationPlace) -> () in
                     if (isGeneralLocationFound) {
                         guard let formattedAddress = generalLocationPlace?.gmsPlace?.formattedAddress else {
                             XCTAssert(false, "The returned formatted address was nil.")
@@ -98,29 +95,23 @@ class LocationAPIServiceTests: XCTestCase {
         
         let setGeneralLocalePhotosExpectation = expectation(description: "setGeneralLocalePhotos finds photos and populates the photoArray.")
         
-        let locationAPIService: LocationAPIService = LocationAPIService()
-        
-        locationAPIService.setAPIKeys()
-        
         locationAPIService.setCurrentExactPlace() { (isExactLocationFound, exactLocationPlace) -> () in
             if (isExactLocationFound) {
-                locationAPIService.currentPlace = exactLocationPlace
+                self.locationAPIService.currentPlace = exactLocationPlace
                 
-                locationAPIService.setGeneralLocalePlace { (isGeneralLocationFound, generalLocationPlace) -> () in
+                self.locationAPIService.setGeneralLocalePlace { (isGeneralLocationFound, generalLocationPlace) -> () in
                     if (isGeneralLocationFound) {
-                        locationAPIService.generalLocalePlace = generalLocationPlace
+                        self.locationAPIService.generalLocalePlace = generalLocationPlace
                         
                         //Using a test image size of 500x500 and a test scale of 2.0
-                        locationAPIService.setPhotosOfGeneralLocale(size: CGSize(width: 500, height: 500), scale: 2.0) { (isImageSet) -> () in
+                        self.locationAPIService.setPhotosOfGeneralLocale(size: CGSize(width: 500, height: 500), scale: 2.0) { (isImageSet) -> () in
                             if (isImageSet) {
-                                guard let thisCurrentGeneralLocalePlace = locationAPIService.generalLocalePlace else {
+                                guard let thisCurrentGeneralLocalePlace = self.locationAPIService.generalLocalePlace else {
                                     XCTAssert(false, "The returned general locale place was nil.")
                                     return
                                 }
                                 
                                 if (asserted == false) {
-                                    print("ASSERTING TRUE>..")
-                                    
                                     XCTAssertTrue(!thisCurrentGeneralLocalePlace.photoArray.isEmpty, "Photo array was not populated with any photos.")
                                     setGeneralLocalePhotosExpectation.fulfill()
                                     asserted = true

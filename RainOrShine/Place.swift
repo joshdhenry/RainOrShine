@@ -88,7 +88,6 @@ class Place {
         
         //Replace any spaces in the URL with "+"
         queryString = queryString.replacingOccurrences(of: " ", with: "+")
-        
         return queryString
     }
 }

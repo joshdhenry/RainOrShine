@@ -15,22 +15,21 @@ class WeatherAPIServiceTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
+    
+    //Set the current weather forecast using a mock location (Washington, D.C., lat: 38.9, lon: -77.03)
     func testSetCurrentWeatherForecast() {
         let setForecastExpectation = expectation(description: "setCurrentWeatherForecast retrieves the forecast for the location and runs the callback closure")
         
         let weatherAPIService: WeatherAPIService = WeatherAPIService()
         weatherAPIService.setAPIKeys()
         weatherAPIService.setWeatherClient()
-        //Regardless if the forecast comes back nil or not nil, it is important that the completion(forecastRetrieved) was true
-        //This sets the test weather forecast for Washington, D.C.
+        //Regardless if the forecast comes back nil or not nil, what is important is that the completion(forecastRetrieved) was true
         weatherAPIService.setCurrentWeatherForecast(latitude: 38.9, longitude: -77.03) { (forecastRetrieved) -> () in
             if (forecastRetrieved) {
                 XCTAssertTrue(forecastRetrieved)
@@ -45,5 +44,4 @@ class WeatherAPIServiceTests: XCTestCase {
             }
         }
     }
-    
 }

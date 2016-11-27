@@ -1,33 +1,30 @@
 //
-//  SettingsViewControllerTests.swift
+//  FutureWeatherViewModelTests.swift
 //  RainOrShine
 //
-//  Created by Josh Henry on 11/25/16.
+//  Created by Josh Henry on 11/26/16.
 //  Copyright © 2016 Big Smash Software. All rights reserved.
 //
 
-import Foundation
 import XCTest
+import ForecastIO
 
 @testable import RainOrShine
 
-class SettingsViewControllerTests: XCTest {
+class FutureWeatherViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
     }
+    
     
     override func tearDown() {
         super.tearDown()
     }
     
     
-    func testNightStandModeToggle() {
+    func testUpdateForecastDayDataPointArray() {
         
     }
     
-    
-    func testContactSupport() {
-        
-    }
 }
