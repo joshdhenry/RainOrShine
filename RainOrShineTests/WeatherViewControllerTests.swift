@@ -70,11 +70,4 @@ class WeatherViewControllerTests: XCTestCase {
         
         XCTAssert(locationSearchViewWidth == screenWidth, "locationSearchViewWidth did not resize correctly after going from portrait to landscape then back to portrait again.")
     }
-    
-    
-    //TODO:- Finish writing this test
-    //Start the app in landscape and ensure the location search view sizes correctly.
-    func testStartInLandscapeLocationSearchView() {
-        
-    }
 }

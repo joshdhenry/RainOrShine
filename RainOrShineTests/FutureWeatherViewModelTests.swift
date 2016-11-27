@@ -25,6 +25,11 @@ class FutureWeatherViewModelTests: XCTestCase {
     
     func testUpdateForecastDayDataPointArray() {
         
+        //let datapoint = DataPoint()
+
+        
+        //let futureWeatherViewModel: FutureWeatherViewModel = FutureWeatherViewModel(forecastDataPointArray: <#T##[DataPoint]?#>)
+        
     }
     
 }

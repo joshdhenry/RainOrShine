@@ -20,6 +20,7 @@ class LocationViewModelTests: XCTestCase {
         super.tearDown()
     }
     
+    
     //Test the updatePlace method by calling it with an argument of a place with a test image.  If the value changes in the view model, the updatePlace works correctly
     func testupdateGeneralLocalePlace() {
         let locationViewModel: LocationViewModel = LocationViewModel(place: nil)
@@ -32,5 +33,4 @@ class LocationViewModelTests: XCTestCase {
         
         XCTAssertEqual(locationViewModel.currentGeneralLocalePlace.value?.photoArray[0], newPlace.photoArray[0], "locationViewModel.updatePlace did not correctly update locationViewModel.currentPlace...")
     }
-    
 }

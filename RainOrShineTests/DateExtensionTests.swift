@@ -20,8 +20,17 @@ class DateExtensionTests: XCTestCase {
         super.tearDown()
     }
     
-    func testToAbbreviatedDayString() {
-        
-    }
     
+    //Testing for November 26, 2016.  The string returned should be "Sat"
+    func testAbbreviatedDayString() {
+        var aDateComponents = DateComponents()
+        aDateComponents.year = 2016
+        aDateComponents.month = 11
+        aDateComponents.day = 26
+        
+        let aCalendar = Calendar.current
+        
+        let aDate = aCalendar.date(from: aDateComponents)!
+        XCTAssert(aDate.abbreviatedDayString == "Sat", "The abbreviated day name is not correct.")
+    }
 }

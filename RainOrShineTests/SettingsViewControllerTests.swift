@@ -25,9 +25,4 @@ class SettingsViewControllerTests: XCTest {
     func testNightStandModeToggle() {
         
     }
-    
-    
-    func testContactSupport() {
-        
-    }
 }

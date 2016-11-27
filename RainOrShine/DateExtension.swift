@@ -11,11 +11,12 @@ import Foundation
 extension Date {
 
     // MARK: - Methods
-    //TODO: -CHANGE THIS TO A COMPUTED VAR
     //Return the abbreviated day (ex: Mon, Tue, Wed, etc)
-    func toAbbreviatedDayString() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "E"
-        return dateFormatter.string(from: self)
+    var abbreviatedDayString: String {
+        get {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "E"
+            return dateFormatter.string(from: self)
+        }
     }
 }

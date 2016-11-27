@@ -23,6 +23,7 @@ class LocationSearchViewTests: XCTestCase {
         super.tearDown()
     }
     
+    
     //Test to make sure that viewController.displayLocationSearchBar adds the subview to the view
     func testLocationSearchBarAdded() {
         let navigationController = storyboard.instantiateInitialViewController() as! UINavigationController

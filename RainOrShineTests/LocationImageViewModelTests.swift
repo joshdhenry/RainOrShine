@@ -11,7 +11,9 @@ import XCTest
 @testable import RainOrShine
 
 class LocationImageViewModelTests: XCTestCase {
-        
+    
+    let locationImageViewModel: LocationImageViewModel = LocationImageViewModel(placeImageIndex: nil, place: nil)
+    
     override func setUp() {
         super.setUp()
     }
@@ -21,8 +23,12 @@ class LocationImageViewModelTests: XCTestCase {
     }
     
     
+    //Ensure that updatePlaceImageIndex() correctly updates the view model's currentPlaceImageIndex and currentGeneralLocalePlace
     func testUpdatePlaceImageIndex() {
+        locationImageViewModel.updatePlaceImageIndex(newPlaceImageIndex: 321, place: Place())
         
+        XCTAssert(locationImageViewModel.currentPlaceImageIndex.value == 321 &&
+                  locationImageViewModel.currentGeneralLocalePlace.value != nil,
+                  "UpdatePlaceImageIndex() did not correctly update the place and/or the image index.")
     }
-    
 }

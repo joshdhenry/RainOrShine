@@ -12,6 +12,8 @@ import XCTest
 
 class PhotoDetailViewModelTests: XCTestCase {
     
+    let photoDetailViewModel: PhotoDetailViewModel = PhotoDetailViewModel(place: nil, imageIndex: nil)
+    
     override func setUp() {
         super.setUp()
     }
@@ -22,19 +24,18 @@ class PhotoDetailViewModelTests: XCTestCase {
     
     
     func testUpdatePlace() {
+        photoDetailViewModel.updatePlace(newPlace: Place())
         
+        XCTAssert(photoDetailViewModel.currentGeneralLocalePlace.value != nil, "photoDetailViewModel.updatePlace did not correctly update photoDetailViewModel.currentGeneralLocalePlace...")
     }
     
     
     //Test the updatePlaceImageIndex() method of photoDetailViewModel by setting an index of 123 and verifying that the view model altered the view
     func testUpdatePlaceImageIndex() {
-        let photoDetailViewModel: PhotoDetailViewModel = PhotoDetailViewModel(place: nil, imageIndex: nil)
+        photoDetailViewModel.updatePlaceImageIndex(newPlaceImageIndex: 123, place: Place())
         
-        let newPlaceImageIndex = 123
-        
-        photoDetailViewModel.updatePlaceImageIndex(newPlaceImageIndex: newPlaceImageIndex, place: nil)
-        
-        XCTAssertEqual(photoDetailViewModel.currentPlaceImageIndex.value, newPlaceImageIndex, "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex...")
+        XCTAssert(photoDetailViewModel.currentPlaceImageIndex.value == 123 &&
+                  photoDetailViewModel.currentGeneralLocalePlace.value != nil,
+                  "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex...")
     }
-    
 }
