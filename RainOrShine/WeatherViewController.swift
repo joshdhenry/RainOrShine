@@ -44,7 +44,17 @@ class WeatherViewController: UIViewController {
     }
     
     // MARK: Variables
+    
+    
+    
+    
+    //THIS NEEDS TO GO.  WORK ON IT
     private var appSettings: Settings = Settings()
+    
+    
+    
+    
+    
     
     private var isStatusBarVisible: Bool = true
     override var prefersStatusBarHidden: Bool {
@@ -57,6 +67,9 @@ class WeatherViewController: UIViewController {
     
     var currentSettings = Settings()
     
+    var updateWeatherTimer: Timer = Timer()
+    var changePhotoTimer: Timer = Timer()
+
     
     // MARK: - Methods
     //Initialize values for the first time
@@ -85,12 +98,7 @@ class WeatherViewController: UIViewController {
         //Redraw the location search bar when coming back to this view controller from other view controllers.  User could have changed orientations since leaving this controller.
         resizeLocationSearchView(orientationAfterRotation: UIDevice.current.orientation)
         
-        
-        let currentSettings = Settings()
-        print("TEMP UNIT IS SET TO \(currentSettings.temperatureUnit.rawValue)")
-        print(currentSettings.updateWeatherInterval.rawValue)
-        print(currentSettings.useDefaultPhotos.rawValue)
-        print(currentSettings.changePhotoInterval.rawValue)
+        createTimeObservers()
     }
     
     
@@ -99,6 +107,8 @@ class WeatherViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        destroyTimeObservers()
     }
     
     
@@ -134,12 +144,12 @@ class WeatherViewController: UIViewController {
     //Create and start all observers
     private func createObservers() {
         createNotificationCenterObserver()
-        createTimeObserver()
         createGestureRecognizers()
         createBatteryStateObserver()
     }
     
     
+    //Create the notification center observer
     private func createNotificationCenterObserver() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(forName:refreshWeatherForecastNotification, object:nil, queue:nil, using:catchNotification)
@@ -163,8 +173,52 @@ class WeatherViewController: UIViewController {
     
     
     //Create a time observer to run every 10 minutes to refresh the weather forecast
-    private func createTimeObserver() {
-        Timer.scheduledTimer(timeInterval: 600.0, target: self, selector: #selector(self.timeIntervalReached), userInfo: nil, repeats: true)
+    private func createTimeObservers() {
+        //Create the update weather forecast timer
+        var updateWeatherTimeInterval: TimeInterval
+        
+        switch (currentSettings.updateWeatherInterval) {
+        case .fifteen:
+            //TEMPORARY EXPERIMENTAL.  CHANGE IT BACK
+            //updateWeatherTimeInterval = 900.0
+            updateWeatherTimeInterval = 10.0
+        case .thirty:
+            updateWeatherTimeInterval = 1_800.0
+        case .sixty:
+            updateWeatherTimeInterval = 3_600.0
+        }
+
+        updateWeatherTimer = Timer.scheduledTimer(timeInterval: updateWeatherTimeInterval, target: self, selector: #selector(self.timeIntervalReached), userInfo: "UpdateWeather", repeats: true)
+
+        
+        //Create the change photo timer
+        var changePhotoTimeInterval: TimeInterval
+        
+        switch (currentSettings.changePhotoInterval) {
+        case .never:
+            //TEMPORARY EXPERIMENTAL.  CHANGE IT BACK
+            //changePhotoTimeInterval = ???
+            changePhotoTimeInterval = 15.0
+        case .one:
+            changePhotoTimeInterval = 60.0
+        case .three:
+            changePhotoTimeInterval = 180.0
+        case .five:
+            changePhotoTimeInterval = 300.0
+        case .ten:
+            changePhotoTimeInterval = 600.0
+        case .thirty:
+            changePhotoTimeInterval = 1_800.0
+        }
+        
+        changePhotoTimer = Timer.scheduledTimer(timeInterval: changePhotoTimeInterval, target: self, selector: #selector(self.timeIntervalReached), userInfo: "ChangePhoto", repeats: true)
+    }
+    
+    
+    //Invalidate all of the time observers.  When the user returns from settings, all timers will be reset to whatever is in stored settings
+    private func destroyTimeObservers() {
+        updateWeatherTimer.invalidate()
+        changePhotoTimer.invalidate()
     }
     
     
@@ -208,18 +262,32 @@ class WeatherViewController: UIViewController {
     }
     
     
-    //This is called when the time observer's time has been reached.  It refreshes the weather.
-    dynamic func timeIntervalReached() {
+    //This is called when a time observer's time has been reached.
+    dynamic func timeIntervalReached(timer: Timer) {
         //print("In func timeIntervalReached...")
         
-        self.activityIndicator.startAnimating()
+        guard let userInfo = timer.userInfo as? String else {
+            print("Error - Time interval user info tag was nil.")
+            return
+        }
         
-        loadNewPlaceWeather() { (isComplete) -> () in
-            if (isComplete) {
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
+        switch (userInfo) {
+            case "UpdateWeather":
+                print("UPDATEWEATHER")
+                self.activityIndicator.startAnimating()
+                
+                loadNewPlaceWeather() { (isComplete) -> () in
+                    if (isComplete) {
+                        DispatchQueue.main.async {
+                            self.activityIndicator.stopAnimating()
+                        }
+                    }
                 }
-            }
+            case "ChangePhoto":
+                print("CHANGEPHOTO")
+        default:
+            print("Error - Time interval user info tag was not recognized.")
+            return
         }
     }
     
