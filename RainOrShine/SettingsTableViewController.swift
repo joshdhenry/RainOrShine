@@ -70,6 +70,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     
+    //Functionality for the back button in navigation bar
     func goBack(sender: UIBarButtonItem) {
         // Go back to the previous ViewController
         _ = navigationController?.popViewController(animated: true)

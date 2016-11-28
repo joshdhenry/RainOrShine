@@ -77,6 +77,7 @@ class SettingsDetailTableViewController: UITableViewController {
         switch (currentSettingsCategory) {
         case "Temperature Unit":
             currentSettings.temperatureUnit = Settings.TemperatureUnitSetting(rawValue: currentCellText) ?? Settings.TemperatureUnitSetting.fahrenheit
+            
             let notificationCenter = NotificationCenter.default
             let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
             notificationCenter.post(name: refreshWeatherForecastNotification, object: nil)
@@ -84,6 +85,10 @@ class SettingsDetailTableViewController: UITableViewController {
             currentSettings.updateWeatherInterval = Settings.UpdateWeatherIntervalSetting(rawValue: currentCellText) ?? Settings.UpdateWeatherIntervalSetting.thirty
         case "Use Default Photos":
             currentSettings.useDefaultPhotos = Settings.UseDefaultPhotosSetting(rawValue: currentCellText) ?? Settings.UseDefaultPhotosSetting.whenNoPictures
+            
+            let notificationCenter = NotificationCenter.default
+            let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshImageWithNewDefaultPhotosSettings")
+            notificationCenter.post(name: refreshWeatherForecastNotification, object: nil)
         case "Change Photo Every":
             currentSettings.changePhotoInterval = Settings.ChangePhotoIntervalSetting(rawValue: currentCellText) ?? Settings.ChangePhotoIntervalSetting.three
         default:

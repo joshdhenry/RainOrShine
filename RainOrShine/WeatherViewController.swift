@@ -44,18 +44,6 @@ class WeatherViewController: UIViewController {
     }
     
     // MARK: Variables
-    
-    
-    
-    
-    //THIS NEEDS TO GO.  WORK ON IT
-    private var appSettings: Settings = Settings()
-    
-    
-    
-    
-    
-    
     private var isStatusBarVisible: Bool = true
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
@@ -159,14 +147,19 @@ class WeatherViewController: UIViewController {
     func catchNotification(notification:Notification) -> Void {
         print("Catch notification")
         
-        if(notification.name.rawValue == "RefreshWeatherForecast") {
-            loadNewPlaceWeather() { (isComplete) -> () in
-                if (isComplete) {
-                    DispatchQueue.main.async {
-                        self.activityIndicator.stopAnimating()
+        switch (notification.name.rawValue) {
+            case "RefreshWeatherForecast":
+                loadNewPlaceWeather() { (isComplete) -> () in
+                    if (isComplete) {
+                        DispatchQueue.main.async {
+                            self.activityIndicator.stopAnimating()
+                        }
                     }
                 }
-            }
+            case "RefreshImageWithNewDefaultPhotosSettings":
+                print("HERE IS WHERE I NEED TO REFRESH THE IMAGE VIEW WITH EITHER NO IMAGE, THE DEFAULT IMAGES, OR THE LOCALE IMAGES...")
+        default:
+            return
         }
     }
     
@@ -262,7 +255,7 @@ class WeatherViewController: UIViewController {
                     }
                 }
             case "ChangePhoto":
-                print("CHANGEPHOTO")
+                print("HERE IS WHERE I NEED TO ADVANCE TO THE NEXT PHOTO IN THE ARRAY(OR BACK TO FIRST ONE) - CHANGEPHOTO")
         default:
             print("Error - Time interval user info tag was not recognized.")
             return
@@ -329,16 +322,20 @@ class WeatherViewController: UIViewController {
         
         guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
         guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
-        
-        //THIS LINE IS TEMPORARY.  EVENTUALLY MAKE THIS SETTABLE IN SETTINGS SCREEN AND REMOVE FROM HERE
-        appSettings.useDefaultPhotos = Settings.UseDefaultPhotosSetting.whenNoPictures
-        print(appSettings.useDefaultPhotos)
-        
-        //If there are photos to swipe through, or, 
-        //if the settings are set to allow use of the default photos when none are received,
-        //then allow swiping
-        if (!currentGeneralLocalePlace.photoArray.isEmpty ||
-            appSettings.useDefaultPhotos == Settings.UseDefaultPhotosSetting.whenNoPictures) {
+
+        if (currentGeneralLocalePlace.photoArray.isEmpty && currentSettings.useDefaultPhotos == .never) {
+            //No photos returned but the user doesn't want to see default photos
+            
+            //HERE I NEED TO UPDATE PLACE IMAGE INDEX SO THAT THE IMAGE DISAPPEARS AND IT JUST SHOWS A BLANK BACKGROUND
+            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: currentGeneralLocalePlace)
+            //THIS NEEDS TO MOVE TO EARLIER IN THE ALGORITHM SO IT DOESNT SHOW THE FIRST IMAGE.
+            
+            
+        }
+        //Else photos returned or default photos turned on, so allow swiping
+        else if (!currentGeneralLocalePlace.photoArray.isEmpty ||
+            currentSettings.useDefaultPhotos == .whenNoPictures ||
+            currentSettings.useDefaultPhotos == .always) {
             let currentPageNumber = self.photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         }
