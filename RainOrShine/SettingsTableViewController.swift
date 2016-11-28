@@ -28,7 +28,6 @@ class SettingsTableViewController: UITableViewController {
     var viewModel: SettingsViewModel? {
         didSet {
             viewModel?.currentTemperatureUnit.observe { [unowned self] in
-                print("Changing subtitle to \($0?.rawValue)")
                 self.temperatureUnitCellSubtitle.text = $0?.rawValue
             }
             viewModel?.currentUpdateWeatherInterval.observe { [unowned self] in
@@ -61,9 +60,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        print("In viewWillAppear...")
-        
-        print(currentSettings.nightStandModeOn)
+        //print("In viewWillAppear...")
         
         viewModel = SettingsViewModel(temperatureUnit: currentSettings.temperatureUnit,
                                       updateWeatherInterval: currentSettings.updateWeatherInterval,

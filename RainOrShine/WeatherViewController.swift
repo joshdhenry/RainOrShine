@@ -84,7 +84,6 @@ class WeatherViewController: UIViewController {
         createLocationSearchElements()
         createAdBannerView()
         setNightStandMode()
-        
     }
 
     
@@ -175,43 +174,22 @@ class WeatherViewController: UIViewController {
     //Create a time observer to run every 10 minutes to refresh the weather forecast
     private func createTimeObservers() {
         //Create the update weather forecast timer
-        var updateWeatherTimeInterval: TimeInterval
+        let weatherUpdateMinutes: Int = currentSettings.updateWeatherInterval.rawValue.intFromPlainEnglish
+        let updateWeatherTimeInterval: TimeInterval = Double(weatherUpdateMinutes * 60)
         
-        switch (currentSettings.updateWeatherInterval) {
-        case .fifteen:
-            //TEMPORARY EXPERIMENTAL.  CHANGE IT BACK
-            //updateWeatherTimeInterval = 900.0
-            updateWeatherTimeInterval = 10.0
-        case .thirty:
-            updateWeatherTimeInterval = 1_800.0
-        case .sixty:
-            updateWeatherTimeInterval = 3_600.0
+        //If it is not 0 ("Never"), start a timer to update the weather
+        if (updateWeatherTimeInterval != 0) {
+            updateWeatherTimer = Timer.scheduledTimer(timeInterval: updateWeatherTimeInterval, target: self, selector: #selector(self.timeIntervalReached), userInfo: "UpdateWeather", repeats: true)
         }
 
-        updateWeatherTimer = Timer.scheduledTimer(timeInterval: updateWeatherTimeInterval, target: self, selector: #selector(self.timeIntervalReached), userInfo: "UpdateWeather", repeats: true)
-
-        
         //Create the change photo timer
-        var changePhotoTimeInterval: TimeInterval
+        let photoIntervalMinutes: Int = currentSettings.changePhotoInterval.rawValue.intFromPlainEnglish
+        let changePhotoTimeInterval: TimeInterval = Double(photoIntervalMinutes * 60)
         
-        switch (currentSettings.changePhotoInterval) {
-        case .never:
-            //TEMPORARY EXPERIMENTAL.  CHANGE IT BACK
-            //changePhotoTimeInterval = ???
-            changePhotoTimeInterval = 15.0
-        case .one:
-            changePhotoTimeInterval = 60.0
-        case .three:
-            changePhotoTimeInterval = 180.0
-        case .five:
-            changePhotoTimeInterval = 300.0
-        case .ten:
-            changePhotoTimeInterval = 600.0
-        case .thirty:
-            changePhotoTimeInterval = 1_800.0
+        //If it is not 0 ("Never"), start a timer to change the photo
+        if (changePhotoTimeInterval != 0) {
+            changePhotoTimer = Timer.scheduledTimer(timeInterval: changePhotoTimeInterval, target: self, selector: #selector(self.timeIntervalReached), userInfo: "ChangePhoto", repeats: true)
         }
-        
-        changePhotoTimer = Timer.scheduledTimer(timeInterval: changePhotoTimeInterval, target: self, selector: #selector(self.timeIntervalReached), userInfo: "ChangePhoto", repeats: true)
     }
     
     
@@ -355,7 +333,6 @@ class WeatherViewController: UIViewController {
         //THIS LINE IS TEMPORARY.  EVENTUALLY MAKE THIS SETTABLE IN SETTINGS SCREEN AND REMOVE FROM HERE
         appSettings.useDefaultPhotos = Settings.UseDefaultPhotosSetting.whenNoPictures
         print(appSettings.useDefaultPhotos)
-        
         
         //If there are photos to swipe through, or, 
         //if the settings are set to allow use of the default photos when none are received,
