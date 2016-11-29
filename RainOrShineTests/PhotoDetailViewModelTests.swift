@@ -30,6 +30,13 @@ class PhotoDetailViewModelTests: XCTestCase {
     }
     
     
+    func testUpdatePlaceWithNil() {
+        photoDetailViewModel.updatePlace(newPlace: nil)
+        
+        XCTAssert(photoDetailViewModel.currentGeneralLocalePlace.value == nil, "photoDetailViewModel.updatePlace did not correctly update photoDetailViewModel.currentGeneralLocalePlace when passed a nil value.")
+    }
+    
+    
     //Test the updatePlaceImageIndex() method of photoDetailViewModel by setting an index of 123 and verifying that the view model altered the view
     func testUpdatePlaceImageIndex() {
         photoDetailViewModel.updatePlaceImageIndex(newPlaceImageIndex: 123, place: Place())
@@ -37,5 +44,15 @@ class PhotoDetailViewModelTests: XCTestCase {
         XCTAssert(photoDetailViewModel.currentPlaceImageIndex.value == 123 &&
                   photoDetailViewModel.currentGeneralLocalePlace.value != nil,
                   "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex...")
+    }
+    
+    
+    //Test the updatePlaceImageIndex() method of photoDetailViewModel by setting an index of nil and verifying that the view model altered the view
+    func testUpdatePlaceImageIndexWithNil() {
+        photoDetailViewModel.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
+        
+        XCTAssert(photoDetailViewModel.currentPlaceImageIndex.value == nil &&
+                  photoDetailViewModel.currentGeneralLocalePlace.value == nil,
+                  "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex when passed nil values.")
     }
 }

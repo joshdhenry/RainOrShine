@@ -31,4 +31,13 @@ class LocationImageViewModelTests: XCTestCase {
                   locationImageViewModel.currentGeneralLocalePlace.value != nil,
                   "UpdatePlaceImageIndex() did not correctly update the place and/or the image index.")
     }
+    
+    
+    func testUpdatePlaceImageIndexWithNil() {
+        locationImageViewModel.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
+        
+        XCTAssert(locationImageViewModel.currentPlaceImageIndex.value == nil &&
+            locationImageViewModel.currentGeneralLocalePlace.value == nil,
+                  "UpdatePlaceImageIndex() did not correctly update the place and/or the image index when passed nil.")
+    }
 }

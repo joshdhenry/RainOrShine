@@ -26,20 +26,18 @@ class CurrentWeatherViewModelTests: XCTestCase {
     //The dummy value is the coordinates of Yobe, Nigeria
     func testCurrentWeatherViewModelUpdateForecast() {
         let jsonString: String = "{\"latitude\":12,\"longitude\":12,\"timezone\":\"Etc/GMT\",\"offset\":0}"
-        let jsonDictionary = jsonString.convertStringToDictionary()
         
-        if jsonDictionary != nil {
-            let forecast = Forecast(fromJSON: jsonDictionary as! NSDictionary)
-            let currentWeatherViewModel: CurrentWeatherViewModel = CurrentWeatherViewModel(forecast: forecast)
-            
-            currentWeatherViewModel.updateForecast(newForecast: forecast)
-            
-            XCTAssertEqual(currentWeatherViewModel.currentForecast.value?.latitude, forecast.latitude, "currentWeatherViewModel.updateForecast did not correctly update currentWeatherViewModel.currentForecast...")
+        guard let jsonDictionary: NSDictionary = jsonString.convertStringToDictionary() as? NSDictionary else {
+            XCTAssert(false, "The JSON dictionary was nil.")
+            return
         }
-        //Else the jsonDictionary is nil.  Fail the test.
-        else {
-            XCTAssert(false)
-        }
+        
+        let forecast = Forecast(fromJSON: jsonDictionary)
+        let currentWeatherViewModel: CurrentWeatherViewModel = CurrentWeatherViewModel(forecast: forecast)
+        
+        currentWeatherViewModel.updateForecast(newForecast: forecast)
+        
+        XCTAssertEqual(currentWeatherViewModel.currentForecast.value?.latitude, forecast.latitude, "currentWeatherViewModel.updateForecast did not correctly update currentWeatherViewModel.currentForecast...")
     }
     
 }

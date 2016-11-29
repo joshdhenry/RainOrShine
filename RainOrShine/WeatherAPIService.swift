@@ -35,13 +35,16 @@ class WeatherAPIService {
             return
         }
         
+        guard (-90...90 ~= latitude && -180...180 ~= longitude) else {
+            print("Error - latitude and longitude values used to retrieve weather forecast is out of range.")
+            return
+        }
+        
         let currentSettings = Settings()
         if currentSettings.temperatureUnit == Settings.TemperatureUnitSetting.celcius {
-            print("Getting CELCIUS forecast...")
             weatherClient?.units = .si
         }
         else {
-            print("Getting FARENHEIT forecast...")
             weatherClient?.units = .us
         }
         
@@ -49,15 +52,17 @@ class WeatherAPIService {
             //print("Retrieved forecast from server...")
             switch result {
             case .success(let currentForecast, _):
-                //THIS IS JUST A TEMPORARY ELSE.  NOT SURE IF I SHOULD RETURN SO DEFINITELY CHECK BEFORE YOU LEAVE IT
-                guard let dailyForecastDataBlock = currentForecast.daily else {return}
+                guard let dailyForecastDataBlock = currentForecast.daily else {
+                    completion(true)
+                    return
+                }
                                 
                 //Loop through 5 days of data, Skip the first one because that one is today
                 for dayForecastIndex in 1..<6 {
                     if (dayForecastIndex < dailyForecastDataBlock.data.count) {
                         //DOUBLE CHECK IF I CAN AND SHOULD RETURN IN THIS ELSE STATEMENT.  SO SLEEPY RIGHT NOW.
                         let dayForecast = dailyForecastDataBlock.data[dayForecastIndex]
-                        //print(dayForecast.time)
+                        print("TIME OF FUTURE DAY FORECAST - \(dayForecast.time)")
                         
                         self.forecastDayDataPointArray.append(dayForecast)
                     }

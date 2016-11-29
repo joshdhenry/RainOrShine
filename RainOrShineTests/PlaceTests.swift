@@ -54,4 +54,13 @@ class PlaceTests: XCTestCase {
             }
         }
     }
+    
+    
+    func testGetGeneralLocaleStringWithNilString() {
+        let aPlace: Place = Place()
+
+        let generalLocaleString: String = aPlace.getGeneralLocaleString()
+                
+        XCTAssert(generalLocaleString == "", "The general locale string returned is not the correct one for a nil location.  The address should be blank.")
+    }
 }
