@@ -22,7 +22,6 @@ struct CurrentWeatherViewModel {
     
     // MARK: - Methods
     func updateForecast(newForecast: Forecast?) {
-        //print("In func updateForecast...")
         currentForecast.value = newForecast
     }
 }

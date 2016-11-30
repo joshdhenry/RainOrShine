@@ -89,7 +89,7 @@ class LocationAPIService {
 
         placesClient?.lookUpPlaceID(thisPlaceIDOfGeneralLocale, callback: { (place, error) -> Void in
             guard error == nil else {
-                print("General Locale Place error: \(error!.localizedDescription)")
+                print("Error - General Locale Place lookup error: \(error!.localizedDescription)")
                 
                 placeFindComplete = true
                 completion(true, nil)
@@ -183,7 +183,7 @@ class LocationAPIService {
     }
     
     
-    //Retrieve photo metadata for place
+    //Retrieve photo metadata for general locale place
     private func setPhotoMetaData(placeIDOfGeneralLocale: String?, completion: @escaping Result) {
         //print("In function setPhotoMetaDataForLocation...(#3)")
         
@@ -204,10 +204,8 @@ class LocationAPIService {
                 return
             }
             
-            //print("Photos count is \(photosList.results.count)")
-            
-            guard let _ = self.currentPlace else {
-                print("Error - the current place was nil.")
+            guard let _ = self.generalLocalePlace else {
+                print("Error - the current general locale place was nil.")
                 photoMetaDataFindComplete = true
                 completion(true)
                 return
@@ -227,7 +225,7 @@ class LocationAPIService {
     
     //Retrieve image based on place metadata
     private func setImagesArrayForMetadata(size: CGSize, scale: CGFloat, completion: @escaping Result) {
-        //print("In function setImagesArrayForMetadata...(#4)")
+        //print("In function setImagesArrayForMetadata...")
 
         var imageArrayFindComplete: Bool = false
         
@@ -245,7 +243,7 @@ class LocationAPIService {
             for photoMetaDataIndex in 0..<photoArrayCount {
                 setImageForMetaData(index: photoMetaDataIndex, size: size, scale: scale) { imageSet -> () in
                     if (imageSet) {
-                        //If we are on the last element, mark completion as true
+                        //If on the last element, mark completion as true
                         if (photoMetaDataIndex == photoArrayCount - 1) {
                             imageArrayFindComplete = true
                             completion(true)

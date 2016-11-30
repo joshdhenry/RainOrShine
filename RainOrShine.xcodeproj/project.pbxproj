@@ -22,7 +22,7 @@
 		033DE0611DCD06DF0082F7A0 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033DE0601DCD06DF0082F7A0 /* LocationView.swift */; };
 		033DE0631DCD070F0082F7A0 /* LocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 033DE0621DCD070F0082F7A0 /* LocationView.xib */; };
 		033DE0651DCD0E140082F7A0 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033DE0641DCD0E140082F7A0 /* UIColorExtension.swift */; };
-		035401751DE280D900E79A07 /* DefaultPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035401741DE280D900E79A07 /* DefaultPhotos.swift */; };
+		035401751DE280D900E79A07 /* DefaultPhotoAttributions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035401741DE280D900E79A07 /* DefaultPhotoAttributions.swift */; };
 		035401771DE2999D00E79A07 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035401761DE2999D00E79A07 /* Settings.swift */; };
 		035401791DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035401781DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift */; };
 		035811EE1DC429E0002ECB85 /* LocationAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035811ED1DC429E0002ECB85 /* LocationAPIService.swift */; };
@@ -124,7 +124,7 @@
 		033DE0601DCD06DF0082F7A0 /* LocationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		033DE0621DCD070F0082F7A0 /* LocationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LocationView.xib; sourceTree = "<group>"; };
 		033DE0641DCD0E140082F7A0 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
-		035401741DE280D900E79A07 /* DefaultPhotos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPhotos.swift; sourceTree = "<group>"; };
+		035401741DE280D900E79A07 /* DefaultPhotoAttributions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPhotoAttributions.swift; sourceTree = "<group>"; };
 		035401761DE2999D00E79A07 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		035401781DE2E3AD00E79A07 /* SettingsDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDetailTableViewController.swift; sourceTree = "<group>"; };
 		035811ED1DC429E0002ECB85 /* LocationAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LocationAPIService.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -348,7 +348,7 @@
 			children = (
 				03D47E451DDF990F00CE89B6 /* API Services */,
 				03FD6DCF1DD06099004F7FA6 /* ColorScheme.swift */,
-				035401741DE280D900E79A07 /* DefaultPhotos.swift */,
+				035401741DE280D900E79A07 /* DefaultPhotoAttributions.swift */,
 				0374C24D1DE8146D00E86B21 /* IAPHelper */,
 				03B2DE7B1DC8428D00CFFA83 /* Observable.swift */,
 				03B2DE711DC7073900CFFA83 /* Place.swift */,
@@ -831,7 +831,7 @@
 				038354D01DD86590005C1F76 /* CurrentWeatherViewModel.swift in Sources */,
 				038354BE1DD3D5DA005C1F76 /* IconExtension.swift in Sources */,
 				038354C31DD40A00005C1F76 /* DateExtension.swift in Sources */,
-				035401751DE280D900E79A07 /* DefaultPhotos.swift in Sources */,
+				035401751DE280D900E79A07 /* DefaultPhotoAttributions.swift in Sources */,
 				033DE0651DCD0E140082F7A0 /* UIColorExtension.swift in Sources */,
 				038354BC1DD3CE89005C1F76 /* FloatExtension.swift in Sources */,
 				038354CC1DD85F29005C1F76 /* LocationImageView.swift in Sources */,

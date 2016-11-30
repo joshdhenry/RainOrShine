@@ -1,5 +1,5 @@
 //
-//  DefaultPhotos.swift
+//  DefaultPhotoAttributions.swift
 //  RainOrShine
 //
 //  Created by Josh Henry on 11/20/16.
@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct DefaultPhotos {
+struct DefaultPhotoAttributions {
     // MARK: - Properties
-    static var defaultPhotosAttributionArray: [String] = ["diego_torres",
+    static var defaultPhotoAttributionsArray: [String] = ["diego_torres",
                                                           "ateles76",
                                                           "tpsdave",
                                                           "tpsdave",

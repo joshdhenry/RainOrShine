@@ -33,7 +33,6 @@ struct SettingsViewModel {
     
     // MARK: - Methods
     func updateTemperatureUnit(newTemperatureUnit: Settings.TemperatureUnitSetting?) {
-        //print("In func updateTemperatureUnit...")
         currentTemperatureUnit.value = newTemperatureUnit
     }
     

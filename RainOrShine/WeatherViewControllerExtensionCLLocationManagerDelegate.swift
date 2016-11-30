@@ -28,7 +28,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
         //Wait for 5 GPS signals to be received before we have a semi reliable tracking.
         //ALSO, I NEED TO CACHE THE LAST FIVE LOCATIONS ACTUALLY USED.  MAKE SURE THE SIGNAL IS NOT REPORTING A PREVIOUS TRACKING AND IS GIVING FRESH, ACCURATE RESULTS
         gpsConsecutiveSignalsReceived += 1
-        //print("gpsConsecutiveSignalsReceived is \(gpsConsecutiveSignalsReceived)")
+
         if gpsConsecutiveSignalsReceived == 5 {
             self.updateLocation()
         }

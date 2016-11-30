@@ -34,10 +34,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                     //Place index is nil.  App must be just starting or has no photos and default photos are turned off
                     self.isHidden = true
                     
-                    //self.photoPageControl.isHidden = true
                     self.photoPageControl.currentPage = 0
-                    
-                    //self.photoAttributionLabel.isHidden = true
                     
                     return
                 }
@@ -76,15 +73,15 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                 else if (!thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
                     currentSettings.useDefaultPhotos == .always) {
                     //Use the default photos array
-                    self.photoPageControl.numberOfPages = DefaultPhotos.defaultPhotosAttributionArray.count
-                    let photoAttributions: NSAttributedString = NSAttributedString(string: DefaultPhotos.defaultPhotosAttributionArray[currentPlaceImageIndex])
+                    self.photoPageControl.numberOfPages = DefaultPhotoAttributions.defaultPhotoAttributionsArray.count
+                    let photoAttributions: NSAttributedString = NSAttributedString(string: DefaultPhotoAttributions.defaultPhotoAttributionsArray[currentPlaceImageIndex])
                     completeAttributionString.append(photoAttributions)
                 }
                 else if (thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
                     currentSettings.useDefaultPhotos != .never){
                     //Use the default photos array
-                    self.photoPageControl.numberOfPages = DefaultPhotos.defaultPhotosAttributionArray.count
-                    let photoAttributions: NSAttributedString = NSAttributedString(string: DefaultPhotos.defaultPhotosAttributionArray[currentPlaceImageIndex])
+                    self.photoPageControl.numberOfPages = DefaultPhotoAttributions.defaultPhotoAttributionsArray.count
+                    let photoAttributions: NSAttributedString = NSAttributedString(string: DefaultPhotoAttributions.defaultPhotoAttributionsArray[currentPlaceImageIndex])
                     completeAttributionString.append(photoAttributions)
                 }
                 

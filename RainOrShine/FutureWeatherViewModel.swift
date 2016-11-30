@@ -22,7 +22,6 @@ struct FutureWeatherViewModel {
     
     // MARK: - Methods
     func updateForecastDayDataPointArray(newForecastDayDataPointArray: [DataPoint]?) {
-        //print("In func updateForecastDayDataPointArray...")
         currentForecastDayDataPointArray.value = newForecastDayDataPointArray
     }
 }

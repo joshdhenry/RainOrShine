@@ -28,19 +28,6 @@ class Place {
     // MARK: - Methods
     //This method builds a string of the general locality of the place, which will be used to query a photo of the general locale
     public func getGeneralLocaleString() -> String {
-        //print("In function setGeneralLocaleString... (#1)")
-        
-        //let specificityLevelArray: [[String] = [1, ["locality", "administrative_area_level_3", "administrative_area_level_2"]]
-        
-        /*var dict: [Int: [String]] = [1: ["natural_feature"],
-                                     1: ["locality", "administrative_area_level_3"],
-                                     2: ["locality", "administrative_area_level_3"],
-                                     3: ["locality", "administrative_area_level_3", "administrative_area_level_2"],
-                                     4: ["locality", "administrative_area_level_3", "administrative_area_level_2", "administrative_area_level_1"]]*/
-        //print("DICT")
-        //print(dict[1])
-        //let dict1Text = dict[1]
-        
         var queryString: String = ""
         var isFirstItemInQueryString: Bool = true
         var cityNameAlreadyFound: Bool = false
@@ -51,10 +38,6 @@ class Place {
         }
 
         for addressComponent in addresscomponents {
-            print(addressComponent.name)
-            print(addressComponent.type)
-            print("-----")
-            
             switch (addressComponent.type) {
             //Prefer city, then county, then state, etc.
             case "locality", "administrative_area_level_3", "administrative_area_level_2":

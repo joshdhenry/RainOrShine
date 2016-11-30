@@ -57,14 +57,12 @@ class WeatherAPIService {
                     return
                 }
                                 
-                //Loop through 5 days of data, Skip the first one because that one is today
+                //Loop through 5 days of data, Skip the first one because that one is today. Append each day's forecast to forecastDayDataPointArray
                 for dayForecastIndex in 1..<6 {
                     if (dayForecastIndex < dailyForecastDataBlock.data.count) {
-                        //DOUBLE CHECK IF I CAN AND SHOULD RETURN IN THIS ELSE STATEMENT.  SO SLEEPY RIGHT NOW.
                         let dayForecast = dailyForecastDataBlock.data[dayForecastIndex]
-                        print("TIME OF FUTURE DAY FORECAST - \(dayForecast.time)")
-                        
                         self.forecastDayDataPointArray.append(dayForecast)
+                        print("TIME OF FUTURE DAY FORECAST - \(dayForecast.time)")
                     }
                 }
                 

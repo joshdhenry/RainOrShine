@@ -10,6 +10,7 @@ import UIKit
 
 class LocationImageView: UIImageView {
 
+    let currentSettings = Settings()
     
     // MARK: View Model
     var viewModel: LocationImageViewModel? {
@@ -27,25 +28,23 @@ class LocationImageView: UIImageView {
                     return
                 }
 
-                let currentSettings = Settings()
-                
                 if (!thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
-                    currentSettings.useDefaultPhotos != .always) {
+                    self.currentSettings.useDefaultPhotos != .always) {
                     //Place is not nil and has images
                     self.image = self.viewModel?.currentGeneralLocalePlace.value?.photoArray[imageIndex]
                 }
                 else if (!thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
-                    currentSettings.useDefaultPhotos == .always) {
+                    self.currentSettings.useDefaultPhotos == .always) {
                     //Use the default photos array
                     self.image = UIImage(named: String(imageIndex))
                 }
                 else if (thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
-                    currentSettings.useDefaultPhotos != .never){
+                    self.currentSettings.useDefaultPhotos != .never){
                     //Use the default photos array
                     self.image = UIImage(named: String(imageIndex))
                 }
                 else if (thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
-                    currentSettings.useDefaultPhotos == .never) {
+                    self.currentSettings.useDefaultPhotos == .never) {
                     self.image = nil
                 }
             }

@@ -11,6 +11,7 @@ import UIKit
 import GooglePlaces
 
 class LocationSearchView: UIView {
+    
     // MARK: - Properties
     public var resultsViewController: GMSAutocompleteResultsViewController?
     public var searchController: UISearchController?
@@ -45,7 +46,6 @@ class LocationSearchView: UIView {
         searchController?.searchBar.barTintColor = ColorScheme.lightGray
 
         self.addSubview((searchController?.searchBar)!)
-        
         
         self.accessibilityIdentifier = "Location Search Bar"
         self.searchController?.searchBar.sizeToFit()

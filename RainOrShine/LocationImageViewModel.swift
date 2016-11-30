@@ -9,6 +9,7 @@
 import Foundation
 
 struct LocationImageViewModel {
+    
     // MARK: - Properties
     let currentPlaceImageIndex: Observable<Int?>
     let currentGeneralLocalePlace: Observable<Place?>
@@ -22,7 +23,6 @@ struct LocationImageViewModel {
     
     // MARK: - Methods
     func updatePlaceImageIndex(newPlaceImageIndex: Int?, place: Place?) {
-        //print("In func LocationImageViewModel.updatePlaceImageIndex...")
         currentGeneralLocalePlace.value = place
         currentPlaceImageIndex.value = newPlaceImageIndex
     }

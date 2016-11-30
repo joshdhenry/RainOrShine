@@ -28,7 +28,6 @@ struct PhotoDetailViewModel {
     
     
     func updatePlaceImageIndex(newPlaceImageIndex: Int?, place: Place?) {
-        //print("In func updatePlaceImageIndex...")
         currentGeneralLocalePlace.value = place
         currentPlaceImageIndex.value = newPlaceImageIndex
     }

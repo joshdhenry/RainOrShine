@@ -24,9 +24,10 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
                     return
                 }
                 
-                //Get the 5 day forecast
+                //Get the 5 day forecast.
                 var futureDaySubViewsArray: [UIView] = [UIView]()
                 
+                //Collect all futureDayView's in futureDaySubViewsArray, then sort them based on X-position.
                 for thisView in self.allSubViews {
                     if let futureDayView = thisView as? FutureWeatherDayView {
                         futureDaySubViewsArray.append(futureDayView)

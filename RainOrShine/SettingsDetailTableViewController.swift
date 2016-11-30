@@ -18,6 +18,7 @@ class SettingsDetailTableViewController: UITableViewController {
                                                                      "Change Photo Every" : ["1 Minute", "3 Minutes", "5 Minutes", "10 Minutes", "30 Minutes", "Never"]]
     var currentSettings = Settings()
     var checkedCell: UITableViewCell?
+    let notificationCenter = NotificationCenter.default
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -78,8 +79,6 @@ class SettingsDetailTableViewController: UITableViewController {
         case "Temperature Unit":
             currentSettings.temperatureUnit = Settings.TemperatureUnitSetting(rawValue: currentCellText) ?? Settings.TemperatureUnitSetting.fahrenheit
             
-            //SHOULD I MOVE THIS TO THE SETTINGS SETTER?
-            let notificationCenter = NotificationCenter.default
             let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
             notificationCenter.post(name: refreshWeatherForecastNotification, object: nil)
         case "Update Weather Every":
@@ -87,7 +86,6 @@ class SettingsDetailTableViewController: UITableViewController {
         case "Use Default Photos":
             currentSettings.useDefaultPhotos = Settings.UseDefaultPhotosSetting(rawValue: currentCellText) ?? Settings.UseDefaultPhotosSetting.whenNoPictures
             
-            let notificationCenter = NotificationCenter.default
             let RefreshImageWithNewDefaultPhotosSettingsNotification = Notification.Name(rawValue:"RefreshImageWithNewDefaultPhotosSettings")
             notificationCenter.post(name: RefreshImageWithNewDefaultPhotosSettingsNotification, object: nil)
         case "Change Photo Every":
