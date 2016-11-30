@@ -31,11 +31,13 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
             
             viewModel?.currentPlaceImageIndex.observe { [unowned self] in
                 guard let currentPlaceImageIndex = $0 else {
-                    //Place index is nil.  App must be just starting                    
-                    self.photoPageControl.isHidden = true
+                    //Place index is nil.  App must be just starting or has no photos and default photos are turned off
+                    self.isHidden = true
+                    
+                    //self.photoPageControl.isHidden = true
                     self.photoPageControl.currentPage = 0
                     
-                    self.photoAttributionLabel.isHidden = true
+                    //self.photoAttributionLabel.isHidden = true
                     
                     return
                 }
@@ -50,8 +52,11 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                 
                 self.photoPageControl.isHidden = false
                 self.photoPageControl.currentPage = currentPlaceImageIndex
-
-                if (!thisCurrentGeneralLocalePlace.photoArray.isEmpty) {
+                
+                let currentSettings = Settings()
+                
+                if (!thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
+                    currentSettings.useDefaultPhotos != .always) {
                     self.photoPageControl.numberOfPages = thisCurrentGeneralLocalePlace.photoArray.count
                     
                     guard let photoMetaData: GMSPlacePhotoMetadata = thisCurrentGeneralLocalePlace.photoMetaDataArray[currentPlaceImageIndex] else {
@@ -68,13 +73,21 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                     
                     completeAttributionString.append(photoAttributions)
                 }
-                else {
-                    //Else place is not nil and has no images
-                    //Load default photos
+                else if (!thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
+                    currentSettings.useDefaultPhotos == .always) {
+                    //Use the default photos array
                     self.photoPageControl.numberOfPages = DefaultPhotos.defaultPhotosAttributionArray.count
                     let photoAttributions: NSAttributedString = NSAttributedString(string: DefaultPhotos.defaultPhotosAttributionArray[currentPlaceImageIndex])
                     completeAttributionString.append(photoAttributions)
                 }
+                else if (thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
+                    currentSettings.useDefaultPhotos != .never){
+                    //Use the default photos array
+                    self.photoPageControl.numberOfPages = DefaultPhotos.defaultPhotosAttributionArray.count
+                    let photoAttributions: NSAttributedString = NSAttributedString(string: DefaultPhotos.defaultPhotosAttributionArray[currentPlaceImageIndex])
+                    completeAttributionString.append(photoAttributions)
+                }
+                
                 self.photoAttributionLabel.attributedText = completeAttributionString
                 self.photoAttributionLabel.isHidden = false
             }

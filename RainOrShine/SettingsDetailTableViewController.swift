@@ -78,6 +78,7 @@ class SettingsDetailTableViewController: UITableViewController {
         case "Temperature Unit":
             currentSettings.temperatureUnit = Settings.TemperatureUnitSetting(rawValue: currentCellText) ?? Settings.TemperatureUnitSetting.fahrenheit
             
+            //SHOULD I MOVE THIS TO THE SETTINGS SETTER?
             let notificationCenter = NotificationCenter.default
             let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
             notificationCenter.post(name: refreshWeatherForecastNotification, object: nil)
@@ -87,8 +88,8 @@ class SettingsDetailTableViewController: UITableViewController {
             currentSettings.useDefaultPhotos = Settings.UseDefaultPhotosSetting(rawValue: currentCellText) ?? Settings.UseDefaultPhotosSetting.whenNoPictures
             
             let notificationCenter = NotificationCenter.default
-            let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshImageWithNewDefaultPhotosSettings")
-            notificationCenter.post(name: refreshWeatherForecastNotification, object: nil)
+            let RefreshImageWithNewDefaultPhotosSettingsNotification = Notification.Name(rawValue:"RefreshImageWithNewDefaultPhotosSettings")
+            notificationCenter.post(name: RefreshImageWithNewDefaultPhotosSettingsNotification, object: nil)
         case "Change Photo Every":
             currentSettings.changePhotoInterval = Settings.ChangePhotoIntervalSetting(rawValue: currentCellText) ?? Settings.ChangePhotoIntervalSetting.three
         default:

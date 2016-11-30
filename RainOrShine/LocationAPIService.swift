@@ -230,7 +230,7 @@ class LocationAPIService {
 
         var imageArrayFindComplete: Bool = false
         
-        guard let _ = generalLocalePlace else {
+        guard let thisGeneralLocalePlace = generalLocalePlace else {
             print("Error setting images array for metadata. Place was nil.")
             
             imageArrayFindComplete = true
@@ -240,7 +240,7 @@ class LocationAPIService {
         
         let photoArrayCount: Int = generalLocalePlace?.photoMetaDataArray.count ?? 0
         
-        if (!(generalLocalePlace?.photoMetaDataArray.isEmpty)!) {
+        if (!thisGeneralLocalePlace.photoMetaDataArray.isEmpty) {
             for photoMetaDataIndex in 0..<photoArrayCount {
                 setImageForMetaData(index: photoMetaDataIndex, size: size, scale: scale) { imageSet -> () in
                     if (imageSet) {
