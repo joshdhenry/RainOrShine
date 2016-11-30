@@ -28,8 +28,11 @@ class LocationAPIService {
     //Load the Google Places API keys from APIKeys.plist
     public func setAPIKeys() {
         //print("In func setAPIKeys...")
-        guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
-        self.keys = NSDictionary(contentsOfFile: path)!
+        guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {
+            print("Error - Could not find APIKeys.plist.")
+            return
+        }
+        keys = NSDictionary(contentsOfFile: path)!
     }
     
     
@@ -68,6 +71,7 @@ class LocationAPIService {
     }
     
     
+    //Set the general area of the location (better chances of finding pictures)
     public func setGeneralLocalePlace(completion: @escaping PlaceResult) {
         var placeFindComplete: Bool = false
         
@@ -77,37 +81,34 @@ class LocationAPIService {
         
         //Some places, like Lake Superior (47, -90) do not return a general locale string because it only has a formatted string of type natural_feature
         //In that case, set the general locale to the exact location
-        if (placeIDOfGeneralLocale == nil) {
-            placeFindComplete = true
+        guard let thisPlaceIDOfGeneralLocale: String = placeIDOfGeneralLocale else {
             let placeToReturn: Place? = currentPlace
-            
             completion(true, placeToReturn)
+            return
         }
-        //Else, return the general locale place
-        else {
-            placesClient?.lookUpPlaceID(placeIDOfGeneralLocale!, callback: { (place, error) -> Void in
-                guard error == nil else {
-                    print("General Locale Place error: \(error!.localizedDescription)")
-                    
-                    placeFindComplete = true
-                    completion(true, nil)
-                    return
-                }
-                guard let thisPlace = place else {
-                    print("Error - the data received does not conform to Place class.")
-                    
-                    placeFindComplete = true
-                    completion(true, nil)
-                    return
-                }
+
+        placesClient?.lookUpPlaceID(thisPlaceIDOfGeneralLocale, callback: { (place, error) -> Void in
+            guard error == nil else {
+                print("General Locale Place error: \(error!.localizedDescription)")
                 
                 placeFindComplete = true
+                completion(true, nil)
+                return
+            }
+            guard let thisPlace = place else {
+                print("Error - the data received does not conform to Place class.")
                 
-                let placeToReturn: Place = Place(place: thisPlace)
-                
-                completion(true, placeToReturn)
-            })
-        }
+                placeFindComplete = true
+                completion(true, nil)
+                return
+            }
+            
+            placeFindComplete = true
+            
+            let placeToReturn: Place = Place(place: thisPlace)
+            
+            completion(true, placeToReturn)
+        })
         if (!placeFindComplete) {
             completion(placeFindComplete, nil)
         }
@@ -255,8 +256,7 @@ class LocationAPIService {
             }
         }
         else {
-            print("photoMetaDataArray was empty.  Exiting out of this function...")
-        
+            //photoMetaDataArray was empty.  Exiting out of this function
             imageArrayFindComplete = true
             completion(imageArrayFindComplete)
         }
@@ -268,7 +268,7 @@ class LocationAPIService {
     
     //Cycle through photoMetaDataArray and perform a request for each image and populate photoArray with UIImages
     private func setImageForMetaData(index: Int, size: CGSize, scale: CGFloat, completion: @escaping Result) {
-        print("In function setImageForMetadata...(#4)")
+        //print("In function setImageForMetadata...")
 
         var imageFindComplete: Bool = false
         
@@ -289,7 +289,7 @@ class LocationAPIService {
             }
         }
         else {
-            //GeneralLocalePhotoMetaData for this index was nil.  Exiting out of this function.
+            //GeneralLocalePhotoMetaData for this index was nil.  Mark complete and exit out of this function.
             imageFindComplete = true
         }
         if (!imageFindComplete) {

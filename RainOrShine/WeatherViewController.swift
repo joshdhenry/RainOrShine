@@ -28,11 +28,14 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var photoDetailViewBottomConstraint: NSLayoutConstraint!
     public var locationSearchView: LocationSearchView!
     
+    // MARK: UI Elements
+    @IBOutlet weak var currentLocationButton: UIBarButtonItem!
+    
     // MARK: Constants
     let locationManager = CLLocationManager()
     
-    let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
-    let refreshImageWithNewDefaultPhotosSettingsNotification = Notification.Name(rawValue: "RefreshImageWithNewDefaultPhotosSettings")
+    private let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
+    private let refreshImageWithNewDefaultPhotosSettingsNotification = Notification.Name(rawValue: "RefreshImageWithNewDefaultPhotosSettings")
 
     // MARK: Computed vars
     internal var screenWidthAndHeight: ScreenSize {
@@ -49,15 +52,14 @@ class WeatherViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
-    internal var gpsConsecutiveSignalsReceived: Int = 0
-    
-    internal var weatherAPIService: WeatherAPIService = WeatherAPIService()
+    private var weatherAPIService: WeatherAPIService = WeatherAPIService()
     internal var locationAPIService: LocationAPIService = LocationAPIService()
     
-    var currentSettings = Settings()
+    private var currentSettings = Settings()
+    internal var gpsConsecutiveSignalsReceived: Int = 0
     
-    var updateWeatherTimer: Timer = Timer()
-    var changePhotoTimer: Timer = Timer()
+    private var updateWeatherTimer: Timer = Timer()
+    private var changePhotoTimer: Timer = Timer()
 
     
     // MARK: - Methods
@@ -69,7 +71,7 @@ class WeatherViewController: UIViewController {
         configureLocationManager()
         weatherAPIService.setWeatherClient()
         initializeViewModels()
-        createNotificationCenterObserver()
+        createSettingsUpdatesObservers()
         createGestureRecognizers()
         createBatteryStateObserver()
         createLocationSearchElements()
@@ -132,8 +134,8 @@ class WeatherViewController: UIViewController {
     
     // MARK: Observers and Recognizers
     
-    //Create the notification center observer
-    private func createNotificationCenterObserver() {
+    //Create the observers to catch notifications sent from Settings Detail Table View Controller
+    private func createSettingsUpdatesObservers() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(forName:refreshWeatherForecastNotification, object:nil, queue:nil, using:catchRefreshWeatherForecastNotification)
         notificationCenter.addObserver(forName:refreshImageWithNewDefaultPhotosSettingsNotification, object:nil, queue:nil, using:catchRefreshImageWithNewDefaultPhotosSettingsNotification)
@@ -142,8 +144,6 @@ class WeatherViewController: UIViewController {
     
     //Catch notification center notifications
     func catchRefreshWeatherForecastNotification(notification:Notification) -> Void {
-        print("Catch notification")
-        
         loadNewPlaceWeather() { (isComplete) -> () in
             if (isComplete) {
                 DispatchQueue.main.async {
@@ -155,27 +155,20 @@ class WeatherViewController: UIViewController {
     
     
     func catchRefreshImageWithNewDefaultPhotosSettingsNotification(notification:Notification) -> Void {
-        print("Catch notification")
-        
         guard let generalLocalePlace = locationAPIService.generalLocalePlace else {return}
-        
-        print(currentSettings.useDefaultPhotos)
         
         if (generalLocalePlace.photoArray.isEmpty &&
             currentSettings.useDefaultPhotos == .never) {
-            print("AAA")
             photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: locationAPIService.generalLocalePlace)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: locationAPIService.generalLocalePlace)
         }
         else if (generalLocalePlace.photoArray.isEmpty &&
             currentSettings.useDefaultPhotos == .always ||
             currentSettings.useDefaultPhotos == .whenNoPictures) {
-            print("BBB")
             photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
         }
         else if (!generalLocalePlace.photoArray.isEmpty) {
-            print("CCC")
             photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
         }
@@ -273,9 +266,7 @@ class WeatherViewController: UIViewController {
             }
         case "ChangePhoto":
             guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
-            let swipeLeftGestureDirection = UISwipeGestureRecognizerDirection.left
-            
-            let currentPageNumber: Int = self.photoDetailView.advancePage(direction: swipeLeftGestureDirection, place: currentGeneralLocalePlace, looping: true)
+            let currentPageNumber: Int = self.photoDetailView.advancePage(direction: UISwipeGestureRecognizerDirection.left, place: currentGeneralLocalePlace, looping: true)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         default:
             print("Error - Time interval user info tag was not recognized.")
@@ -306,11 +297,9 @@ class WeatherViewController: UIViewController {
             UIDevice.current.batteryState == UIDeviceBatteryState.charging ||
             UIDevice.current.batteryState == UIDeviceBatteryState.full) {
             UIApplication.shared.isIdleTimerDisabled = true
-            print("NIGHT STAND MODE HAS BEEN TURNED ON...")
         }
         else {
             UIApplication.shared.isIdleTimerDisabled = false
-            print("NIGHT STAND MODE HAS BEEN TURNED OFF...")
         }
     }
     
@@ -382,10 +371,10 @@ class WeatherViewController: UIViewController {
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
         ////////////////////////////////
         //REMOVE ADS EXPERIMENTAL CODE
-        adBannerView.removeFromSuperview()
+        //adBannerView.removeFromSuperview()
 
         //Move the photo detail view down to account for the ads being gone now
-        photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
+        //photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
         ////////////////////////////////
         
         //If GPS is turned off, show an error message
@@ -404,6 +393,7 @@ class WeatherViewController: UIViewController {
             return
         }
         
+        currentLocationButton.isEnabled = false
         activityIndicator.startAnimating()
         
         //Reset the gps signals received counter
@@ -457,6 +447,7 @@ class WeatherViewController: UIViewController {
                 if (changePlaceCompletionFlags.weatherComplete) {
                     DispatchQueue.main.async {
                         self.locationManager.stopUpdatingLocation()
+                        self.currentLocationButton.isEnabled = true
                         self.activityIndicator.stopAnimating()
                     }
                 }
@@ -468,6 +459,7 @@ class WeatherViewController: UIViewController {
                 if (changePlaceCompletionFlags.photosComplete) {
                     DispatchQueue.main.async {
                         self.locationManager.stopUpdatingLocation()
+                        self.currentLocationButton.isEnabled = true
                         self.activityIndicator.stopAnimating()
                     }
                 }
@@ -497,13 +489,14 @@ class WeatherViewController: UIViewController {
                     return
                 }
                 
+                //If there are no photos and the user never wants to see default photos, hide location image and photo detail view
                 if (thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
                     self.currentSettings.useDefaultPhotos == .never) {
                     self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
                     self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
                 }
+                //Else reset image page control to the beginning
                 else {
-                    //Reset image page control to the beginning
                     self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
                     self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
                 }
