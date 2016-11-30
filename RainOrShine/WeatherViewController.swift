@@ -154,7 +154,6 @@ class WeatherViewController: UIViewController {
     }
     
     
-    
     func catchRefreshImageWithNewDefaultPhotosSettingsNotification(notification:Notification) -> Void {
         print("Catch notification")
         
@@ -262,19 +261,22 @@ class WeatherViewController: UIViewController {
         }
         
         switch (userInfo) {
-            case "UpdateWeather":
-                print("UPDATEWEATHER")
-                self.activityIndicator.startAnimating()
-                
-                loadNewPlaceWeather() { (isComplete) -> () in
-                    if (isComplete) {
-                        DispatchQueue.main.async {
-                            self.activityIndicator.stopAnimating()
-                        }
+        case "UpdateWeather":
+            self.activityIndicator.startAnimating()
+            
+            loadNewPlaceWeather() { (isComplete) -> () in
+                if (isComplete) {
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
                     }
                 }
-            case "ChangePhoto":
-                print("HERE IS WHERE I NEED TO ADVANCE TO THE NEXT PHOTO IN THE ARRAY(OR BACK TO FIRST ONE) - CHANGEPHOTO")
+            }
+        case "ChangePhoto":
+            guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
+            let swipeLeftGestureDirection = UISwipeGestureRecognizerDirection.left
+            
+            let currentPageNumber: Int = self.photoDetailView.advancePage(direction: swipeLeftGestureDirection, place: currentGeneralLocalePlace, looping: true)
+            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         default:
             print("Error - Time interval user info tag was not recognized.")
             return
@@ -294,7 +296,6 @@ class WeatherViewController: UIViewController {
         adBannerView.rootViewController = self
         adBannerView.load(GADRequest())
     }
-    
     
     
     //Turn on or off the screen lock depending on the charging status and whether night stand mode is on/off in Settings
@@ -341,7 +342,7 @@ class WeatherViewController: UIViewController {
     
     //If the user swipes right or left, adjust viewmodel.updatePlaceImageIndex accordingly
     dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
-        print("In func respondToSwipeGesture")
+        //print("In func respondToSwipeGesture")
         
         guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
         guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
@@ -350,7 +351,7 @@ class WeatherViewController: UIViewController {
          if (!currentGeneralLocalePlace.photoArray.isEmpty ||
             currentSettings.useDefaultPhotos == .whenNoPictures ||
             currentSettings.useDefaultPhotos == .always) {
-            let currentPageNumber = self.photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace)
+            let currentPageNumber: Int = photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace, looping: false)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         }
     }

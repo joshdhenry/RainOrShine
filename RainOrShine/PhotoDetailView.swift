@@ -115,14 +115,22 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
     
 
     //Advance forwards or backwards through page numbers, accounting for total number of pages
-    public func advancePage(direction: UISwipeGestureRecognizerDirection, place: Place) -> Int {
+    public func advancePage(direction: UISwipeGestureRecognizerDirection, place: Place, looping: Bool) -> Int{
         if (direction == UISwipeGestureRecognizerDirection.left) {
-            if (self.photoPageControl.currentPage < self.photoPageControl.numberOfPages - 1) {
+            if (self.photoPageControl.currentPage == (self.photoPageControl.numberOfPages - 1) &&
+                looping) {
+                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: place)
+            }
+            else if (self.photoPageControl.currentPage < self.photoPageControl.numberOfPages - 1) {
                 self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: (self.photoPageControl.currentPage + 1), place: place)
             }
         }
-        else {
-            if (self.photoPageControl.currentPage > 0) {
+        else if (direction == UISwipeGestureRecognizerDirection.right) {
+            if (self.photoPageControl.currentPage == 0 &&
+                looping) {
+                self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: (self.photoPageControl.numberOfPages - 1), place: place)
+            }
+            else if (self.photoPageControl.currentPage > 0) {
                 self.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: (self.photoPageControl.currentPage - 1), place: place)
             }
         }
