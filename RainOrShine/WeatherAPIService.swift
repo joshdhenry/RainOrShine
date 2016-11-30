@@ -22,7 +22,6 @@ class WeatherAPIService {
  
     // MARK: - Methods
     public func setWeatherClient() {
-        //print("In func setWeatherClient...")
         weatherClient = DarkSkyClient(apiKey: self.keys["DarkSkyAPIKey"] as! String)
     }
  
@@ -49,7 +48,6 @@ class WeatherAPIService {
         }
         
         thisWeatherClient.getForecast(latitude: latitude, longitude: longitude) { (result) in
-            //print("Retrieved forecast from server...")
             switch result {
             case .success(let currentForecast, _):
                 guard let dailyForecastDataBlock = currentForecast.daily else {
@@ -78,8 +76,6 @@ class WeatherAPIService {
     
     //Load the Dark Sky API keys from APIKeys.plist
     public func setAPIKeys() {
-        //print("In func setAPIKeys in WeatherAPIService...")
-        
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         self.keys = NSDictionary(contentsOfFile: path)!
     }

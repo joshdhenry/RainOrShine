@@ -60,7 +60,6 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        //print("In viewWillAppear...")
         
         viewModel = SettingsViewModel(temperatureUnit: currentSettings.temperatureUnit,
                                       updateWeatherInterval: currentSettings.updateWeatherInterval,

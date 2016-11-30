@@ -25,13 +25,15 @@ class LocationSearchView: UIView {
     
     init(withOrientation: UIDeviceOrientation, screenWidthAndHeight: CGSize) {
         var locationSearchViewFrame: CGRect = CGRect()
+        let locationSearchViewHeight: CGFloat = 45
+        let statusBarHeight: CGFloat = 20
         
         if (withOrientation.isPortrait ||
            withOrientation.isFlat) {
-            locationSearchViewFrame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.width, height: 45)
+            locationSearchViewFrame = CGRect(x: 0, y: statusBarHeight, width: screenWidthAndHeight.width, height: locationSearchViewHeight)
         }
-        else if (withOrientation.isLandscape) {
-            locationSearchViewFrame = CGRect(x: 0, y: 20, width: screenWidthAndHeight.height, height: 45)
+        else {
+            locationSearchViewFrame = CGRect(x: 0, y: statusBarHeight, width: screenWidthAndHeight.height, height: locationSearchViewHeight)
         }
         super.init(frame: locationSearchViewFrame)
         

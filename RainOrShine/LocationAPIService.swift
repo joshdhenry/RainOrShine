@@ -165,7 +165,7 @@ class LocationAPIService {
             }
             guard let thisURLResponse = response as? HTTPURLResponse,
                 thisURLResponse.statusCode == 200 else {
-                    print("Not a 200 (successful) response")
+                    print("Error - Not a 200 (successful) response")
                     completionHandlerCodeComplete = true
                     return
             }
@@ -185,7 +185,7 @@ class LocationAPIService {
     
     //Retrieve photo metadata for general locale place
     private func setPhotoMetaData(placeIDOfGeneralLocale: String?, completion: @escaping Result) {
-        //print("In function setPhotoMetaDataForLocation...(#3)")
+        //print("In function setPhotoMetaDataForLocation...")
         
         var photoMetaDataFindComplete: Bool = false
         

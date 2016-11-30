@@ -433,8 +433,8 @@ class WeatherViewController: UIViewController {
     internal func changePlaceShown() {
         //print("In func changePlaceShown...")
         
-        print(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)
-        print(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)
+        print("Exact place address - \(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
+        print("General location address - \(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
 
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         

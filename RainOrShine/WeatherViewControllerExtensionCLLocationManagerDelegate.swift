@@ -22,7 +22,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
     //Called every time a new gps signal is received
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        print("Location found - \(locValue.latitude) \(locValue.longitude)")
         
         //Sometimes the first coordinates received from the GPS might be inaccurate or cached locations from previous location locks.
         //Wait for 5 GPS signals to be received before we have a semi reliable tracking.
