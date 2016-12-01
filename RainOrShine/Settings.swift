@@ -52,6 +52,7 @@ struct Settings {
     }
     
     
+    
     var temperatureUnit: TemperatureUnitSetting {
         get {
             let appSettingRawValue: String = savedAppSettings.object(forKey: "temperatureUnit") as? String ?? TemperatureUnitSetting.fahrenheit.rawValue

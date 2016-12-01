@@ -371,10 +371,10 @@ class WeatherViewController: UIViewController {
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
         ////////////////////////////////
         //REMOVE ADS EXPERIMENTAL CODE
-        //adBannerView.removeFromSuperview()
+        adBannerView.removeFromSuperview()
 
         //Move the photo detail view down to account for the ads being gone now
-        //photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
+        photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
         ////////////////////////////////
         
         //If GPS is turned off, show an error message
