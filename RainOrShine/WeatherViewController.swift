@@ -76,6 +76,8 @@ class WeatherViewController: UIViewController {
         createBatteryStateObserver()
         createLocationSearchElements()
         createAdBannerView()
+        
+        startFindingCurrentLocation(alertsEnabled: false)
     }
 
     
@@ -255,16 +257,10 @@ class WeatherViewController: UIViewController {
         
         switch (userInfo) {
         case "UpdateWeather":
-            if (CLLocationManager.locationServicesEnabled() &&
-                (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
-                CLLocationManager.authorizationStatus() == .authorizedAlways)) {
-                self.activityIndicator.startAnimating()
-                
-                loadNewPlaceWeather() { (isComplete) -> () in
-                    if (isComplete) {
-                        DispatchQueue.main.async {
-                            self.activityIndicator.stopAnimating()
-                        }
+            loadNewPlaceWeather() { (isComplete) -> () in
+                if (isComplete) {
+                    DispatchQueue.main.async {
+                        self.activityIndicator.stopAnimating()
                     }
                 }
             }
@@ -381,25 +377,31 @@ class WeatherViewController: UIViewController {
         //photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
         ////////////////////////////////
         
-        //If GPS is turned off, show an error message
+        startFindingCurrentLocation(alertsEnabled: true)
+    }
+    
+    
+    func startFindingCurrentLocation(alertsEnabled: Bool) {
         if (!CLLocationManager.locationServicesEnabled()) {
-            let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "Location services are not enabled on this device.  Go to Settings -> Privacy -> Location Services and enable location services.", preferredStyle: .alert)
-            gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(gpsAlert, animated: true, completion: nil)
-            
+            if (alertsEnabled) {
+                let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "Location services are not enabled on this device.  Go to Settings -> Privacy -> Location Services and enable location services.", preferredStyle: .alert)
+                gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(gpsAlert, animated: true, completion: nil)
+            }
             return
         }
         else if (CLLocationManager.authorizationStatus() == .denied ||
-                 CLLocationManager.authorizationStatus() == .restricted ||
-                 CLLocationManager.authorizationStatus() == .notDetermined) {
-            let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "GPS is not enabled for this app.  Go to Settings -> Privacy -> Location Services and allow the app to utilize GPS.", preferredStyle: .alert)
-            gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(gpsAlert, animated: true, completion: nil)
-            
+            CLLocationManager.authorizationStatus() == .restricted ||
+            CLLocationManager.authorizationStatus() == .notDetermined) {
+            if (alertsEnabled) {
+                let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "GPS is not enabled for this app.  Go to Settings -> Privacy -> Location Services and allow the app to utilize GPS.", preferredStyle: .alert)
+                gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(gpsAlert, animated: true, completion: nil)
+            }
             return
         }
         else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
-                 CLLocationManager.authorizationStatus() == .authorizedAlways) {
+            CLLocationManager.authorizationStatus() == .authorizedAlways) {
             currentLocationButton.isEnabled = false
             activityIndicator.startAnimating()
             
@@ -413,7 +415,7 @@ class WeatherViewController: UIViewController {
     
     
     //This method updates the location by running setCurrentExactPlace and setGeneralLocalePlace.  It is only called when the user taps the GPS current location button.
-    func updateLocation() {
+    func updateLocationAPIServiceLocations() {
         makeSubViewsInvisible()
         
         locationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in

@@ -53,7 +53,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
 
         //One valid GPS reading in a row seems to be accurate enough for this app's purposes, but can be stepped up here to more.
         if (validGPSConsecutiveSignalsReceived == 1) {
-            self.updateLocation()
+            self.updateLocationAPIServiceLocations()
         }
     }
     
