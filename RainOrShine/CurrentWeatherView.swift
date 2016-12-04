@@ -26,9 +26,13 @@ class CurrentWeatherView: UIVisualEffectView, WeatherViewControllerSubView {
                 }
                 guard let currently = forecast.currently else {return}
                 
+                var temperatureLabelText = currently.temperature?.formattedTemperatureString ?? ""
+                //Add a space before the temperature text to give it the appearance of being better centered
+                temperatureLabelText = " " + temperatureLabelText
+                
                 //Update the UI on the main thread
                 DispatchQueue.main.async {
-                    self.temperatureLabel.text = currently.temperature?.formattedTemperatureString ?? ""
+                    self.temperatureLabel.text = temperatureLabelText
                     self.summaryLabel.text = currently.summary
                     self.weatherConditionView.setType =  currently.icon?.getSkycon() ?? Skycons.partlyCloudyDay
                     self.weatherConditionView.play()
