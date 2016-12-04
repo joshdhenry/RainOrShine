@@ -21,15 +21,38 @@ extension WeatherViewController: CLLocationManagerDelegate {
     
     //Called every time a new gps signal is received
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        print("Location found - \(locValue.latitude) \(locValue.longitude)")
+        guard let location = manager.location else {return}
+        print("--------------")
+        print("Location found - \(location.coordinate.latitude) \(location.coordinate.longitude)")
+        print("Accuracy - \(manager.location?.horizontalAccuracy)")
+        print("Desired Accuracy - \(manager.desiredAccuracy)")
+        print("Age -\(manager.location?.timestamp.timeIntervalSinceNow)")
         
-        //Sometimes the first coordinates received from the GPS might be inaccurate or cached locations from previous location locks.
-        //Wait for 5 GPS signals to be received before we have a semi reliable tracking.
-        //ALSO, I NEED TO CACHE THE LAST FIVE LOCATIONS ACTUALLY USED.  MAKE SURE THE SIGNAL IS NOT REPORTING A PREVIOUS TRACKING AND IS GIVING FRESH, ACCURATE RESULTS
-        gpsConsecutiveSignalsReceived += 1
+        //Sometimes the first coordinates received from the GPS might be inaccurate or cached locations from previous location locks. Filter those out.
+        let locationAge: TimeInterval = -(location.timestamp.timeIntervalSinceNow)
+        
+        //Test the age of the location to make sure it is not cached
+        guard (locationAge < 5.0) else {
+            print("Received cached location. Voiding this location and loading more until they are not cached...")
+            return
+        }
+        
+        //Less than 0 horizontalAccuracy means invalid reading
+        guard (location.horizontalAccuracy >= 0) else {
+            print("Received invalid reading (horizontalAccuracy < 0). Voiding this location and loading more...")
+            return
+        }
+        
+        //It seems that 1414 is the constant the CLLocationManager gives if it has determined your location based on cell tower triangulation. If it has determined your location based on wifi, it gives a horizontal accuracy of 65m.
+        guard (location.horizontalAccuracy <= 1414) else {
+            print("Received inaccurate reading (horizontalAccuracy > 1414). Voiding this location and loading more...")
+            return
+        }
+        
+        validGPSConsecutiveSignalsReceived += 1
 
-        if gpsConsecutiveSignalsReceived == 5 {
+        //One valid GPS reading in a row seems to be accurate enough for this app's purposes, but can be stepped up here to more.
+        if (validGPSConsecutiveSignalsReceived == 1) {
             self.updateLocation()
         }
     }

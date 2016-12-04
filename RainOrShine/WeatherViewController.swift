@@ -56,7 +56,7 @@ class WeatherViewController: UIViewController {
     internal var locationAPIService: LocationAPIService = LocationAPIService()
     
     private var currentSettings = Settings()
-    internal var gpsConsecutiveSignalsReceived: Int = 0
+    internal var validGPSConsecutiveSignalsReceived: Int = 0
     
     private var updateWeatherTimer: Timer = Timer()
     private var changePhotoTimer: Timer = Timer()
@@ -371,10 +371,10 @@ class WeatherViewController: UIViewController {
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
         ////////////////////////////////
         //REMOVE ADS EXPERIMENTAL CODE
-        adBannerView.removeFromSuperview()
+        //adBannerView.removeFromSuperview()
 
         //Move the photo detail view down to account for the ads being gone now
-        photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
+        //photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
         ////////////////////////////////
         
         //If GPS is turned off, show an error message
@@ -397,7 +397,7 @@ class WeatherViewController: UIViewController {
         activityIndicator.startAnimating()
         
         //Reset the gps signals received counter
-        gpsConsecutiveSignalsReceived = 0
+        validGPSConsecutiveSignalsReceived = 0
         
         //Start updating the location and location manager's didUpdateLocation method will take over from there
         locationManager.startUpdatingLocation()
