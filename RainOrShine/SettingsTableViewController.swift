@@ -20,8 +20,8 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var nightStandModeSwitch: UISwitch!
     
     private lazy var selectedSettingsCategory: String = String()
-    var currentSettings = Settings()
-    var iapHelper: IAPHelper = IAPHelper()
+    private var currentSettings = Settings()
+    private var iapHelper: IAPHelper = IAPHelper()
     
     
     // MARK: View Model
@@ -51,10 +51,6 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(SettingsTableViewController.goBack(sender:)))
-        self.navigationItem.leftBarButtonItem = newBackButton
     }
     
     
@@ -66,13 +62,6 @@ class SettingsTableViewController: UITableViewController {
                                       useDefaultPhotos: currentSettings.useDefaultPhotos,
                                       changePhotoInterval: currentSettings.changePhotoInterval,
                                       nightStandModeOn: currentSettings.nightStandModeOn)
-    }
-    
-    
-    //Functionality for the back button in navigation bar
-    func goBack(sender: UIBarButtonItem) {
-        // Go back to the previous ViewController
-        navigationController?.popViewController(animated: true)
     }
     
     
@@ -91,6 +80,9 @@ class SettingsTableViewController: UITableViewController {
         case (1, 1):
             selectedSettingsCategory = "Change Photo Every"
             performSegue(withIdentifier: "segueSettingsDetail", sender: self)
+        case (2, 0):
+            tableView.deselectRow(at: indexPath, animated: true)
+            presentNightStandInfoAlert()
         case (3, 0):
             iapHelper.startProductRequest(productID: Products.removeAds)
         case (3, 1):
@@ -100,6 +92,19 @@ class SettingsTableViewController: UITableViewController {
         default:
             return
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        if ((indexPath.section, indexPath.row) == (2,0)) {
+            presentNightStandInfoAlert()
+        }
+    }
+    
+    
+    func presentNightStandInfoAlert() {
+        let nightStandModeInfoAlert = UIAlertController(title: "Night Stand Mode", message: "Night Stand Mode prevents your device from locking and going to sleep as long as your device is on the charger.", preferredStyle: .alert)
+        nightStandModeInfoAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(nightStandModeInfoAlert, animated: true, completion: nil)
     }
     
     

@@ -18,6 +18,8 @@ class WeatherAPIService {
     
     public var forecastDayDataPointArray: [DataPoint] = [DataPoint]()
     public var currentWeatherForecast: Forecast?
+    
+    private let currentSettings = Settings()
  
  
     // MARK: - Methods
@@ -38,19 +40,22 @@ class WeatherAPIService {
             print("Error - latitude and longitude values used to retrieve weather forecast is out of range.")
             return
         }
-        
-        let currentSettings = Settings()
+       
         if currentSettings.temperatureUnit == Settings.TemperatureUnitSetting.celcius {
-            weatherClient?.units = .si
+            thisWeatherClient.units = .si
         }
         else {
-            weatherClient?.units = .us
+            thisWeatherClient.units = .us
         }
         
         thisWeatherClient.getForecast(latitude: latitude, longitude: longitude) { (result) in
             switch result {
             case .success(let currentForecast, _):
+                self.currentWeatherForecast = currentForecast
+                //print("TIME\(currentForecast.currently?.time)")
+
                 guard let dailyForecastDataBlock = currentForecast.daily else {
+                    print("Error - No daily forecast received from the server.")
                     completion(true)
                     return
                 }
@@ -60,11 +65,9 @@ class WeatherAPIService {
                     if (dayForecastIndex < dailyForecastDataBlock.data.count) {
                         let dayForecast = dailyForecastDataBlock.data[dayForecastIndex]
                         self.forecastDayDataPointArray.append(dayForecast)
-                        print("TIME OF FUTURE DAY FORECAST - \(dayForecast.time)")
+                        //print("TIME OF FUTURE DAY FORECAST - \(dayForecast.time)")
                     }
                 }
-                
-                self.currentWeatherForecast = currentForecast
             case .failure(let error):
                 self.currentWeatherForecast = nil
                 print("Error retrieving current weather forecast - \(error)")

@@ -255,12 +255,16 @@ class WeatherViewController: UIViewController {
         
         switch (userInfo) {
         case "UpdateWeather":
-            self.activityIndicator.startAnimating()
-            
-            loadNewPlaceWeather() { (isComplete) -> () in
-                if (isComplete) {
-                    DispatchQueue.main.async {
-                        self.activityIndicator.stopAnimating()
+            if (CLLocationManager.locationServicesEnabled() &&
+                (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+                CLLocationManager.authorizationStatus() == .authorizedAlways)) {
+                self.activityIndicator.startAnimating()
+                
+                loadNewPlaceWeather() { (isComplete) -> () in
+                    if (isComplete) {
+                        DispatchQueue.main.async {
+                            self.activityIndicator.stopAnimating()
+                        }
                     }
                 }
             }
@@ -385,22 +389,26 @@ class WeatherViewController: UIViewController {
             
             return
         }
-        else if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
+        else if (CLLocationManager.authorizationStatus() == .denied ||
+                 CLLocationManager.authorizationStatus() == .restricted ||
+                 CLLocationManager.authorizationStatus() == .notDetermined) {
             let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "GPS is not enabled for this app.  Go to Settings -> Privacy -> Location Services and allow the app to utilize GPS.", preferredStyle: .alert)
             gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
             self.present(gpsAlert, animated: true, completion: nil)
             
             return
         }
-        
-        currentLocationButton.isEnabled = false
-        activityIndicator.startAnimating()
-        
-        //Reset the gps signals received counter
-        validGPSConsecutiveSignalsReceived = 0
-        
-        //Start updating the location and location manager's didUpdateLocation method will take over from there
-        locationManager.startUpdatingLocation()
+        else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
+                 CLLocationManager.authorizationStatus() == .authorizedAlways) {
+            currentLocationButton.isEnabled = false
+            activityIndicator.startAnimating()
+            
+            //Reset the gps signals received counter
+            validGPSConsecutiveSignalsReceived = 0
+            
+            //Start updating the location and location manager's didUpdateLocation method will take over from there
+            locationManager.startUpdatingLocation()
+        }
     }
     
     

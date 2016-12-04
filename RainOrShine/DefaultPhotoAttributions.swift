@@ -10,14 +10,14 @@ import Foundation
 
 struct DefaultPhotoAttributions {
     // MARK: - Properties
-    static var defaultPhotoAttributionsArray: [String] = ["diego_torres",
-                                                          "ateles76",
-                                                          "tpsdave",
-                                                          "tpsdave",
-                                                          "superfactice",
-                                                          "smaragdzold",
-                                                          "acandraja",
-                                                          "k_r_craft",
-                                                          "skeeze",
-                                                          "unsplash"]
+    static var defaultPhotoAttributionsArray: [String] = ["diego_torres (pixabay.com)",
+                                                          "ateles76 (pixabay.com)",
+                                                          "tpsdave (pixabay.com)",
+                                                          "tpsdave (pixabay.com)",
+                                                          "superfactice (pixabay.com)",
+                                                          "smaragdzold (pixabay.com)",
+                                                          "acandraja (pixabay.com)",
+                                                          "k_r_craft (pixabay.com)",
+                                                          "skeeze (pixabay.com)",
+                                                          "unsplash (pixabay.com)"]
 }
