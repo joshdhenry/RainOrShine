@@ -290,9 +290,12 @@ class WeatherViewController: UIViewController {
             }
         case "ChangePhoto":
             guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
-            let currentPageNumber: Int = self.photoDetailView.advancePage(direction: UISwipeGestureRecognizerDirection.left, place: currentGeneralLocalePlace, looping: true)
-            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
-            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
+            
+            if (!currentGeneralLocalePlace.photoArray.isEmpty) {
+                let currentPageNumber: Int = self.photoDetailView.advancePage(direction: UISwipeGestureRecognizerDirection.left, place: currentGeneralLocalePlace, looping: true)
+                locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
+                appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
+            }
         default:
             print("Error - Time interval user info tag was not recognized.")
             return

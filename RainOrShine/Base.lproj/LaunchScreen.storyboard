@@ -34,16 +34,33 @@
                                     <constraint firstAttribute="height" constant="45" id="J26-je-rcP"/>
                                 </constraints>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DefaultBackground" translatesAutoresizingMaskIntoConstraints="NO" id="Myc-Xg-xBm">
+                                <rect key="frame" x="0.0" y="65" width="375" height="558"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo" translatesAutoresizingMaskIntoConstraints="NO" id="HJy-Nj-M70">
+                                <rect key="frame" x="4" y="172" width="135" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="H0z-D1-0fB"/>
+                                    <constraint firstAttribute="width" constant="135" id="j8x-zL-caI"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="tcI-uH-NoO" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="3lY-OZ-2in"/>
+                            <constraint firstItem="Myc-Xg-xBm" firstAttribute="top" secondItem="sTA-mD-1oF" secondAttribute="bottom" id="7nm-Mx-gjY"/>
                             <constraint firstAttribute="trailing" secondItem="tcI-uH-NoO" secondAttribute="trailing" id="8Fs-p7-gpj"/>
+                            <constraint firstItem="HJy-Nj-M70" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="4" id="Ags-32-MjZ"/>
                             <constraint firstItem="tcI-uH-NoO" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="DcA-Tf-OeN"/>
                             <constraint firstItem="sTA-mD-1oF" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="KBK-Mj-aPt"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="tcI-uH-NoO" secondAttribute="bottom" id="OOu-Cx-5mM"/>
                             <constraint firstItem="sTA-mD-1oF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="RPj-Ve-FlK"/>
+                            <constraint firstItem="tcI-uH-NoO" firstAttribute="top" secondItem="Myc-Xg-xBm" secondAttribute="bottom" id="SLk-41-tX2"/>
+                            <constraint firstItem="Myc-Xg-xBm" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="UnC-d1-GIS"/>
+                            <constraint firstItem="HJy-Nj-M70" firstAttribute="top" secondItem="sTA-mD-1oF" secondAttribute="bottom" constant="107" id="YJE-ji-c7I"/>
                             <constraint firstItem="sTA-mD-1oF" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="dqm-oT-Z8j"/>
+                            <constraint firstAttribute="trailing" secondItem="Myc-Xg-xBm" secondAttribute="trailing" id="fH2-Wn-6Ax"/>
+                            <constraint firstItem="Myc-Xg-xBm" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="jOP-UU-CLv"/>
                             <constraint firstAttribute="trailing" secondItem="sTA-mD-1oF" secondAttribute="trailing" id="v3a-3a-FU3"/>
                         </constraints>
                     </view>
@@ -53,4 +70,8 @@
             <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="AppLogo" width="90" height="36"/>
+        <image name="DefaultBackground" width="30" height="30"/>
+    </resources>
 </document>

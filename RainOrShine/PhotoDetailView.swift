@@ -33,9 +33,8 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                 guard let currentPlaceImageIndex = $0 else {
                     //Place index is nil.  App must be just starting or has no photos and default photos are turned off
                     self.isHidden = true
-                    
                     self.photoPageControl.currentPage = 0
-                    
+
                     return
                 }
                 
@@ -55,16 +54,18 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                 if (!thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
                     currentSettings.useDefaultPhotos != .always) {
                     self.photoPageControl.numberOfPages = thisCurrentGeneralLocalePlace.photoArray.count
-                    
+
                     guard let photoMetaData: GMSPlacePhotoMetadata = thisCurrentGeneralLocalePlace.photoMetaDataArray[currentPlaceImageIndex] else {
                         self.photoAttributionLabel.isHidden = true
+
                         return
                     }
                     
-                    //This can be tested by using Oirschot, Netherlands as the location.  One photo does not have an attribution.
+                    //This block can be tested by using Oirschot, Netherlands as the location.  One photo does not have an attribution.
                     guard let photoAttributions = photoMetaData.attributions else {
                         self.photoAttributionLabel.text = ""
                         self.photoAttributionLabel.isHidden = true
+
                         return
                     }
                     
@@ -84,7 +85,6 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
                     let photoAttributions: NSAttributedString = NSAttributedString(string: DefaultPhotoAttributions.defaultPhotoAttributionsArray[currentPlaceImageIndex])
                     completeAttributionString.append(photoAttributions)
                 }
-                
                 self.photoAttributionLabel.attributedText = completeAttributionString
                 self.photoAttributionLabel.isHidden = false
             }
