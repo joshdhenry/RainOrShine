@@ -17,7 +17,7 @@ class WeatherViewController: UIViewController {
     // MARK: Type Aliases
     typealias ScreenSize = CGSize
     
-    // MARK: Views
+    // MARK: UI Elements
     @IBOutlet weak var locationImageView: LocationImageView!
     @IBOutlet weak var currentWeatherView: CurrentWeatherView!    
     @IBOutlet weak var locationView: LocationView!
@@ -28,8 +28,6 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var photoDetailViewBottomConstraint: NSLayoutConstraint!
     public var locationSearchView: LocationSearchView!
     @IBOutlet weak var appLogoImageView: AppLogoImageView!
-    
-    // MARK: UI Elements
     @IBOutlet weak var currentLocationButton: UIBarButtonItem!
     
     // MARK: Constants
@@ -63,7 +61,6 @@ class WeatherViewController: UIViewController {
     
     
     // MARK: - Methods
-    //Initialize values for the first time
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,7 +76,6 @@ class WeatherViewController: UIViewController {
     }
 
     
-    // Hide the navigation bar on the this view controller
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         

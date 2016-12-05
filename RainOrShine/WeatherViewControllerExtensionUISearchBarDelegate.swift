@@ -16,9 +16,8 @@ extension WeatherViewController: UISearchBarDelegate {
         locationSearchView = LocationSearchView(withOrientation: UIDevice.current.orientation, screenWidthAndHeight: screenWidthAndHeight)
         locationSearchView.resultsViewController?.delegate = self
         locationSearchView.searchController?.searchBar.delegate = self
-        self.view.addSubview(locationSearchView)
-        
         locationSearchView.searchController?.hidesNavigationBarDuringPresentation = false
+        self.view.addSubview(locationSearchView)
         
         //When UISearchController presents the results view, present it in this view controller, not one further up the chain.
         self.definesPresentationContext = true
@@ -26,7 +25,7 @@ extension WeatherViewController: UISearchBarDelegate {
     
     
     //Resize the location search view with the current screen dimensions
-    internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {        
+    internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {
         let locationSearchViewHeight: CGFloat = 45
         let statusBarHeight: CGFloat = 20
         

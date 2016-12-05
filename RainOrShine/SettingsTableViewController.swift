@@ -12,19 +12,22 @@ import UIKit
 class SettingsTableViewController: UITableViewController {
     
     // MARK: - Properties
+    
+    // MARK: UI Elements
     @IBOutlet weak var temperatureUnitCellSubtitle: UILabel!
     @IBOutlet weak var updateWeatherIntervalCellSubtitle: UILabel!
     @IBOutlet weak var useDefaultPhotosCellSubtitle: UILabel!
     @IBOutlet weak var changePhotoIntervalCellSubtitle: UILabel!
     @IBOutlet weak var nightStandModeSwitch: UISwitch!
     
-    private lazy var selectedSettingsCategory: String = String()
-    private var currentSettings = Settings()
-    private var iapHelper: IAPHelper = IAPHelper()
-    
+    // MARK: Constants
     private let alertPurchasesRestoredNotification = Notification.Name(rawValue:"alertPurchasesRestored")
     private let alertPurchasesRestoreFailureNotification = Notification.Name(rawValue:"alertPurchasesRestoreFailed")
+    private let iapHelper: IAPHelper = IAPHelper()
     
+    // MARK: Variables
+    private var currentSettings = Settings()
+    private lazy var selectedSettingsCategory: String = String()
     
     // MARK: View Model
     var viewModel: SettingsViewModel? {
@@ -50,7 +53,6 @@ class SettingsTableViewController: UITableViewController {
     
     
     // MARK: - Methods
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,11 +63,7 @@ class SettingsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        viewModel = SettingsViewModel(temperatureUnit: currentSettings.temperatureUnit,
-                                      updateWeatherInterval: currentSettings.updateWeatherInterval,
-                                      useDefaultPhotos: currentSettings.useDefaultPhotos,
-                                      changePhotoInterval: currentSettings.changePhotoInterval,
-                                      nightStandModeOn: currentSettings.nightStandModeOn)
+        initializeViewModel()
     }
     
     
@@ -73,6 +71,15 @@ class SettingsTableViewController: UITableViewController {
     private func createPaymentUpdatesObservers() {
         NotificationCenter.default.addObserver(forName: alertPurchasesRestoredNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoredNotification)
         NotificationCenter.default.addObserver(forName: alertPurchasesRestoreFailureNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoreFailureNotification)
+    }
+    
+    
+    private func initializeViewModel() {
+        viewModel = SettingsViewModel(temperatureUnit: currentSettings.temperatureUnit,
+                                      updateWeatherInterval: currentSettings.updateWeatherInterval,
+                                      useDefaultPhotos: currentSettings.useDefaultPhotos,
+                                      changePhotoInterval: currentSettings.changePhotoInterval,
+                                      nightStandModeOn: currentSettings.nightStandModeOn)
     }
     
     
