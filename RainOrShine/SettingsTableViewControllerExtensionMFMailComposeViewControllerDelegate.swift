@@ -1,5 +1,5 @@
 //
-//  WeatherViewControllerExtensionMFMailComposeViewControllerDelegate.swift
+//  SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift
 //  RainOrShine
 //
 //  Created by Josh Henry on 11/24/16.

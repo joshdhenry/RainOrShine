@@ -23,7 +23,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationUsageDescription</key>
-	<string>Hullo</string>
+	<string>This app uses your location to retrieve weather data.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app uses your location to retrieve weather data.</string>
 	<key>UILaunchStoryboardName</key>

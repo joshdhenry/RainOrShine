@@ -149,6 +149,7 @@ class LocationAPIService {
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
         
+        //I*YE(*YEIUFGHBIUFEY*&OY$IUGFJHBCDHBE&IFT$&ITY$&*BF  LOTS OF !!!
         var placeTextSearchURL: String = baseURL + "textsearch/json?query=" + generalLocaleQueryString! + "&key=" + (keys["GooglePlacesAPIKeyWeb"] as! String)
 
         placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
@@ -189,6 +190,7 @@ class LocationAPIService {
         
         var photoMetaDataFindComplete: Bool = false
         
+        //&Y#I&GYFG#$&RTYFGCEYKFG#&F$ BFV$  LOTS OF !!!
         placesClient?.lookUpPhotos(forPlaceID: placeIDOfGeneralLocale!) { (photos, error) -> Void in
             guard (error == nil) else {
                 print("Error loading photo from Google API: \(error?.localizedDescription)")

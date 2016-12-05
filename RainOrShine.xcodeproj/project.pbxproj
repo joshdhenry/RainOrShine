@@ -28,7 +28,9 @@
 		035811EE1DC429E0002ECB85 /* LocationAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035811ED1DC429E0002ECB85 /* LocationAPIService.swift */; };
 		035DED641DE6533700F7BFFF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 035DED631DE6533700F7BFFF /* GoogleService-Info.plist */; };
 		0363E8261DDECAC8009EA3E0 /* PlaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */; };
-		0374C24C1DE80C3F00E86B21 /* WeatherViewControllerExtensionMFMailComposeViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C24B1DE80C3F00E86B21 /* WeatherViewControllerExtensionMFMailComposeViewControllerDelegate.swift */; };
+		03650ABA1DF53304004546C8 /* AppLogoImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03650AB91DF53304004546C8 /* AppLogoImageViewModel.swift */; };
+		03650ABC1DF53369004546C8 /* AppLogoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03650ABB1DF53369004546C8 /* AppLogoImageView.swift */; };
+		0374C24C1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C24B1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift */; };
 		0374C24F1DE8148E00E86B21 /* IAPHelperExtensionSKProductsRequestDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C24E1DE8148E00E86B21 /* IAPHelperExtensionSKProductsRequestDelegate.swift */; };
 		0374C2511DE8153700E86B21 /* IAPHelperExtensionSKPaymentTransactionObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2501DE8153700E86B21 /* IAPHelperExtensionSKPaymentTransactionObserver.swift */; };
 		0374C2531DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2521DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift */; };
@@ -130,7 +132,9 @@
 		035811ED1DC429E0002ECB85 /* LocationAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LocationAPIService.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		035DED631DE6533700F7BFFF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceTests.swift; sourceTree = "<group>"; };
-		0374C24B1DE80C3F00E86B21 /* WeatherViewControllerExtensionMFMailComposeViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerExtensionMFMailComposeViewControllerDelegate.swift; sourceTree = "<group>"; };
+		03650AB91DF53304004546C8 /* AppLogoImageViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppLogoImageViewModel.swift; sourceTree = "<group>"; };
+		03650ABB1DF53369004546C8 /* AppLogoImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppLogoImageView.swift; sourceTree = "<group>"; };
+		0374C24B1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift; sourceTree = "<group>"; };
 		0374C24E1DE8148E00E86B21 /* IAPHelperExtensionSKProductsRequestDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelperExtensionSKProductsRequestDelegate.swift; sourceTree = "<group>"; };
 		0374C2501DE8153700E86B21 /* IAPHelperExtensionSKPaymentTransactionObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelperExtensionSKPaymentTransactionObserver.swift; sourceTree = "<group>"; };
 		0374C2521DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDetailTableViewControllerTests.swift; sourceTree = "<group>"; };
@@ -313,6 +317,7 @@
 		03391ABE1DC8A35D00EBF622 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				03650AB81DF532DF004546C8 /* AppLogoImageView */,
 				03391ABF1DC8A38F00EBF622 /* CurrentWeatherView */,
 				038354B21DD2D921005C1F76 /* FutureWeatherView */,
 				033DE05F1DCD06AC0082F7A0 /* Location View */,
@@ -360,6 +365,15 @@
 			name = "Custom Classes";
 			sourceTree = "<group>";
 		};
+		03650AB81DF532DF004546C8 /* AppLogoImageView */ = {
+			isa = PBXGroup;
+			children = (
+				03650AB91DF53304004546C8 /* AppLogoImageViewModel.swift */,
+				03650ABB1DF53369004546C8 /* AppLogoImageView.swift */,
+			);
+			name = AppLogoImageView;
+			sourceTree = "<group>";
+		};
 		0374C24D1DE8146D00E86B21 /* IAPHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -374,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				0337AA791DCEA7C600E6478B /* SettingsTableViewController.swift */,
+				0374C24B1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift */,
 				0374C26E1DEB815F00E86B21 /* SettingsViewModel.swift */,
 			);
 			name = SettingsTableViewController;
@@ -435,7 +450,6 @@
 				03B5569E1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift */,
 				0313E5371DC2A21A00E453A0 /* WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift */,
 				03B556A11DE142B400B1B55A /* WeatherViewControllerExtensionUISearchBarDelegate.swift */,
-				0374C24B1DE80C3F00E86B21 /* WeatherViewControllerExtensionMFMailComposeViewControllerDelegate.swift */,
 			);
 			name = WeatherViewController;
 			sourceTree = "<group>";
@@ -799,9 +813,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				03B2DE701DC5D1EA00CFFA83 /* WeatherAPIService.swift in Sources */,
+				03650ABC1DF53369004546C8 /* AppLogoImageView.swift in Sources */,
 				0332B1D51DE6EC9D00659E41 /* IAPHelper.swift in Sources */,
 				038354CE1DD85F5B005C1F76 /* LocationImageViewModel.swift in Sources */,
-				0374C24C1DE80C3F00E86B21 /* WeatherViewControllerExtensionMFMailComposeViewControllerDelegate.swift in Sources */,
+				0374C24C1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift in Sources */,
 				03B5569F1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift in Sources */,
 				03FD6DD01DD06099004F7FA6 /* ColorScheme.swift in Sources */,
 				0313E50A1DC1DBC200E453A0 /* WeatherViewController.swift in Sources */,
@@ -820,6 +835,7 @@
 				0332B1D31DE6E65200659E41 /* Products.swift in Sources */,
 				038354C71DD81F69005C1F76 /* LocationViewModel.swift in Sources */,
 				03B2DE781DC73F9700CFFA83 /* CurrentWeatherView.swift in Sources */,
+				03650ABA1DF53304004546C8 /* AppLogoImageViewModel.swift in Sources */,
 				035401771DE2999D00E79A07 /* Settings.swift in Sources */,
 				033DE0611DCD06DF0082F7A0 /* LocationView.swift in Sources */,
 				03FD6DE11DD1A1E2004F7FA6 /* StringExtension.swift in Sources */,

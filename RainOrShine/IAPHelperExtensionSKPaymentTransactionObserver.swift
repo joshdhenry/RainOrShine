@@ -36,7 +36,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
                 print("Purchase Failed...")
                 
                 if let error = currentTransaction.error {
-                    print(error.localizedDescription)
+                    print("Error - Purchase Failed - \(error.localizedDescription)")
                 }
                 
                 SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
@@ -60,9 +60,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
     }
     
     
-    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        //print("You have finished restoring completed transactions.")
-        
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {        
         let alertPurchasesRestoredNotification = Notification.Name(rawValue:"alertPurchasesRestored")
         NotificationCenter.default.post(name: alertPurchasesRestoredNotification, object: nil)
     }

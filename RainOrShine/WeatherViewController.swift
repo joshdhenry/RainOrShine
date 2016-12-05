@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 import GooglePlaces
 import GoogleMobileAds
-import StoreKit
 
 class WeatherViewController: UIViewController {
     // MARK: - Properties
@@ -28,6 +27,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var adBannerView: GADBannerView!
     @IBOutlet weak var photoDetailViewBottomConstraint: NSLayoutConstraint!
     public var locationSearchView: LocationSearchView!
+    @IBOutlet weak var appLogoImageView: AppLogoImageView!
     
     // MARK: UI Elements
     @IBOutlet weak var currentLocationButton: UIBarButtonItem!
@@ -75,6 +75,7 @@ class WeatherViewController: UIViewController {
         setAllAPIKeys()
         configureLocationManager()
         weatherAPIService.setWeatherClient()
+        
         initializeViewModels()
         createSettingsUpdatesObservers()
         createGestureRecognizers()
@@ -150,6 +151,7 @@ class WeatherViewController: UIViewController {
         locationView.viewModel = LocationViewModel(place: locationAPIService.currentPlace)
         locationImageView.viewModel = LocationImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
         photoDetailView.viewModel = PhotoDetailViewModel(place: locationAPIService.currentPlace, imageIndex: nil)
+        appLogoImageView.viewModel = AppLogoImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
     }
     
     
@@ -182,16 +184,19 @@ class WeatherViewController: UIViewController {
             currentSettings.useDefaultPhotos == .never) {
             photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: locationAPIService.generalLocalePlace)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: locationAPIService.generalLocalePlace)
+            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: locationAPIService.generalLocalePlace)
         }
         else if (generalLocalePlace.photoArray.isEmpty &&
             currentSettings.useDefaultPhotos == .always ||
             currentSettings.useDefaultPhotos == .whenNoPictures) {
             photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
+            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
         }
         else if (!generalLocalePlace.photoArray.isEmpty) {
             photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
+            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
         }
     }
     
@@ -287,6 +292,7 @@ class WeatherViewController: UIViewController {
             guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
             let currentPageNumber: Int = self.photoDetailView.advancePage(direction: UISwipeGestureRecognizerDirection.left, place: currentGeneralLocalePlace, looping: true)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
+            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         default:
             print("Error - Time interval user info tag was not recognized.")
             return
@@ -361,6 +367,7 @@ class WeatherViewController: UIViewController {
             currentSettings.useDefaultPhotos == .always) {
             let currentPageNumber: Int = photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace, looping: false)
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
+            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         }
     }
     
@@ -496,7 +503,7 @@ class WeatherViewController: UIViewController {
     private func resetValuesForNewPlace() {
         photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
         
-        locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: nil)
+        //locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: nil)
         
         locationAPIService.generalLocalePlace?.photoArray.removeAll(keepingCapacity: false)
         locationAPIService.generalLocalePlace?.photoMetaDataArray.removeAll(keepingCapacity: false)
@@ -517,11 +524,15 @@ class WeatherViewController: UIViewController {
                     self.currentSettings.useDefaultPhotos == .never) {
                     self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
                     self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
+                    //
+                    self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
                 }
                 //Else reset image page control to the beginning
                 else {
                     self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
                     self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
+                    //
+                    self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
                 }
                 
                 completion(true)

@@ -14,7 +14,7 @@ struct Settings {
     
     enum UseDefaultPhotosSetting: String {
         case always = "Always",
-        whenNoPictures = "When No  Photos Available",
+        whenNoPictures = "When No Photos Available",
         never = "Never"
     }
     
