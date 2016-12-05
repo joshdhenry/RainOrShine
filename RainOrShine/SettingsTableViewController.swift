@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import StoreKit
 
 class SettingsTableViewController: UITableViewController {
     
@@ -22,6 +21,9 @@ class SettingsTableViewController: UITableViewController {
     private lazy var selectedSettingsCategory: String = String()
     private var currentSettings = Settings()
     private var iapHelper: IAPHelper = IAPHelper()
+    
+    private let alertPurchasesRestoredNotification = Notification.Name(rawValue:"alertPurchasesRestored")
+    private let alertPurchasesRestoreFailureNotification = Notification.Name(rawValue:"alertPurchasesRestoreFailed")
     
     
     // MARK: View Model
@@ -51,6 +53,8 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        createPaymentUpdatesObservers()
     }
     
     
@@ -62,6 +66,30 @@ class SettingsTableViewController: UITableViewController {
                                       useDefaultPhotos: currentSettings.useDefaultPhotos,
                                       changePhotoInterval: currentSettings.changePhotoInterval,
                                       nightStandModeOn: currentSettings.nightStandModeOn)
+    }
+    
+    
+    //Create the observers to catch notifications sent from Settings Detail Table View Controller
+    private func createPaymentUpdatesObservers() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(forName: alertPurchasesRestoredNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoredNotification)
+        notificationCenter.addObserver(forName: alertPurchasesRestoreFailureNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoreFailureNotification)
+    }
+    
+    
+    //Catch notification center notifications
+    func catchAlertPurchasesRestoredNotification(notification:Notification) -> Void {
+        let purchasesRestoredAlert = UIAlertController(title: "Purchases Restored", message: "Any prior purchases you have made have now been restored.", preferredStyle: .alert)
+        purchasesRestoredAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(purchasesRestoredAlert, animated: true, completion: nil)
+    }
+    
+    
+    //Catch notification center notifications
+    func catchAlertPurchasesRestoreFailureNotification(notification:Notification) -> Void {
+        let purchasesRestoreFailureAlert = UIAlertController(title: "Purchase Restore Failed", message: "There was a problem restoring prior purchases.", preferredStyle: .alert)
+        purchasesRestoreFailureAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(purchasesRestoreFailureAlert, animated: true, completion: nil)
     }
     
     
@@ -81,10 +109,11 @@ class SettingsTableViewController: UITableViewController {
             selectedSettingsCategory = "Change Photo Every"
             performSegue(withIdentifier: "segueSettingsDetail", sender: self)
         case (2, 0):
-            tableView.deselectRow(at: indexPath, animated: true)
             presentNightStandInfoAlert()
         case (3, 0):
-            iapHelper.startProductRequest(productID: Products.removeAds)
+            iapHelper.removePaymentQueueObserver()
+            iapHelper.addPaymentQueueObserver()
+            presentRemoveAdsAlert()
         case (3, 1):
             composeMail()
         case (3, 2):
@@ -92,7 +121,9 @@ class SettingsTableViewController: UITableViewController {
         default:
             return
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
+    
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         if ((indexPath.section, indexPath.row) == (2,0)) {
@@ -105,6 +136,25 @@ class SettingsTableViewController: UITableViewController {
         let nightStandModeInfoAlert = UIAlertController(title: "Night Stand Mode", message: "Night Stand Mode prevents your device from locking and going to sleep as long as your device is on the charger.", preferredStyle: .alert)
         nightStandModeInfoAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(nightStandModeInfoAlert, animated: true, completion: nil)
+    }
+    
+    
+    func presentRemoveAdsAlert() {
+        let gpsAlert = UIAlertController(title: "Remove Ads", message: "This app has ads that can be removed by purchasing the 'Remove Ads' in-app purchase.", preferredStyle: .alert)
+        gpsAlert.addAction(UIAlertAction(title: "Purchase", style: UIAlertActionStyle.default, handler: purchaseRemoveAds))
+        gpsAlert.addAction(UIAlertAction(title: "Restore Purchase", style: UIAlertActionStyle.default, handler: restorePurchaseRemoveAds))
+        gpsAlert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+        self.present(gpsAlert, animated: true, completion: nil)
+    }
+    
+    
+    func purchaseRemoveAds(alertAction: UIAlertAction) {
+        iapHelper.startProductRequest(productID: Products.removeAds)
+    }
+    
+    
+    func restorePurchaseRemoveAds(alertAction: UIAlertAction) {
+        iapHelper.restorePurchases()
     }
     
     

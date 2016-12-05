@@ -10,8 +10,9 @@ import UIKit
 import CoreLocation
 import GooglePlaces
 import GoogleMobileAds
+import StoreKit
 
-class WeatherViewController: UIViewController {
+class WeatherViewController: UIViewController, SKPaymentTransactionObserver {
     // MARK: - Properties
 
     // MARK: Type Aliases
@@ -32,6 +33,8 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var currentLocationButton: UIBarButtonItem!
     
     // MARK: Constants
+    internal let defaults = UserDefaults.standard
+
     let locationManager = CLLocationManager()
     
     private let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
@@ -60,7 +63,23 @@ class WeatherViewController: UIViewController {
     
     private var updateWeatherTimer: Timer = Timer()
     private var changePhotoTimer: Timer = Timer()
-
+    
+    var wasPreviouslyShowingAds: Bool = true
+    
+    internal func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        //abc()
+    }
+    
+    /*func abc() {
+        print("IN ABC")
+        for transaction: AnyObject in SKPaymentQueue.default().transactions {
+            print("FINISHING TRANSACTION")
+            guard let currentTransaction: SKPaymentTransaction = transaction as? SKPaymentTransaction else {return}
+            print(currentTransaction.transactionState)
+            SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+        }
+    }*/
+    
     
     // MARK: - Methods
     //Initialize values for the first time
@@ -75,15 +94,12 @@ class WeatherViewController: UIViewController {
         createGestureRecognizers()
         createBatteryStateObserver()
         createLocationSearchElements()
-        createAdBannerView()
-        
         startFindingCurrentLocation(alertsEnabled: false)
     }
 
     
     // Hide the navigation bar on the this view controller
     override func viewWillAppear(_ animated: Bool) {
-        //print("In func viewWillAppear...")
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -93,6 +109,23 @@ class WeatherViewController: UIViewController {
         
         createTimeObservers()
         setNightStandMode()
+        
+        //If the "remove ads" IAP hasn't been purchased, show ads
+        if (!defaults.bool(forKey: "RemoveAdsPurchased")) {
+            createAdBannerView()
+            wasPreviouslyShowingAds = true
+        }
+        //else don't show ads
+        else {
+            if (wasPreviouslyShowingAds) {
+                //Move the photo detail view down to account for the ads being gone now
+                photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
+                
+                adBannerView.removeFromSuperview()
+                
+                wasPreviouslyShowingAds = false
+            }
+        }
     }
     
     
@@ -139,8 +172,8 @@ class WeatherViewController: UIViewController {
     //Create the observers to catch notifications sent from Settings Detail Table View Controller
     private func createSettingsUpdatesObservers() {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(forName:refreshWeatherForecastNotification, object:nil, queue:nil, using:catchRefreshWeatherForecastNotification)
-        notificationCenter.addObserver(forName:refreshImageWithNewDefaultPhotosSettingsNotification, object:nil, queue:nil, using:catchRefreshImageWithNewDefaultPhotosSettingsNotification)
+        notificationCenter.addObserver(forName: refreshWeatherForecastNotification, object: nil, queue: nil, using: catchRefreshWeatherForecastNotification)
+        notificationCenter.addObserver(forName: refreshImageWithNewDefaultPhotosSettingsNotification, object: nil, queue: nil, using: catchRefreshImageWithNewDefaultPhotosSettingsNotification)
     }
     
     
@@ -369,13 +402,7 @@ class WeatherViewController: UIViewController {
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
-        ////////////////////////////////
-        //REMOVE ADS EXPERIMENTAL CODE
-        //adBannerView.removeFromSuperview()
-
-        //Move the photo detail view down to account for the ads being gone now
-        //photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
-        ////////////////////////////////
+        //abc()
         
         startFindingCurrentLocation(alertsEnabled: true)
     }

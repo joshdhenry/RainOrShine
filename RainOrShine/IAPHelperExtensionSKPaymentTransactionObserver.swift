@@ -17,35 +17,53 @@ extension IAPHelper: SKPaymentTransactionObserver {
         print("Received Payment Transaction Response from Apple")
         
         for transaction: AnyObject in transactions {
-            guard let trans: SKPaymentTransaction = transaction as? SKPaymentTransaction else {return}
-            
-            print("Transaction state is \(trans.transactionState.rawValue)")
-            
-            switch trans.transactionState {
+            guard let currentTransaction: SKPaymentTransaction = transaction as? SKPaymentTransaction else {return}
+
+            switch currentTransaction.transactionState {
             case .purchasing:
                 print("Purchasing item...")
-            case .purchased:
-                print("Product Purchased")
+            case .purchased, .restored:
+                print("Product Purchased or Restored...")
+                guard let productIdentifier = currentTransaction.original?.payment.productIdentifier else { return }
+                
+                if (productIdentifier == "com.bigsmashsoftware.vistaweather.removeads") {
+                    defaults.set(true, forKey: "RemoveAdsPurchased")
+                }
+                
                 SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-                defaults.set(true, forKey: "RemoveAdsPurchased")
                 break
             case .failed:
-                print("Purchased Failed")
-                if let error = trans.error {
+                print("Purchase Failed...")
+                
+                if let error = currentTransaction.error {
                     print(error.localizedDescription)
                 }
-                SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-                break
-            case .restored:
-                print("Already Purchased")
-                SKPaymentQueue.default().restoreCompletedTransactions()
                 
-                //Not sure if this is needed?
-            //SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+                SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+
+                break
             default:
                 print("No conditions met...")
+                SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
+
                 break
             }
         }
+    }
+    
+    
+    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
+        print("Error restoring completed transactions - \(error.localizedDescription)")
+        
+        let alertPurchasesRestoreFailureNotification = Notification.Name(rawValue:"alertPurchasesRestoreFailed")
+        NotificationCenter.default.post(name: alertPurchasesRestoreFailureNotification, object: nil)
+    }
+    
+    
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        //print("You have finished restoring completed transactions.")
+        
+        let alertPurchasesRestoredNotification = Notification.Name(rawValue:"alertPurchasesRestored")
+        NotificationCenter.default.post(name: alertPurchasesRestoredNotification, object: nil)
     }
 }

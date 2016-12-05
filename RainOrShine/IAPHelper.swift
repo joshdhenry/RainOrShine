@@ -17,7 +17,16 @@ class IAPHelper: NSObject {
     // MARK: - Initializer
     override init() {
         super.init()
+    }
+    
+    
+    func addPaymentQueueObserver() {
         SKPaymentQueue.default().add(self)
+    }
+    
+    
+    func removePaymentQueueObserver() {
+        SKPaymentQueue.default().remove(self)
     }
     
     
@@ -27,14 +36,15 @@ class IAPHelper: NSObject {
         print("Sending the Payment Request to Apple")
         
         let payment = SKPayment(product: product)
+        print("Product we are paying for is \(product.localizedDescription)")
         SKPaymentQueue.default().add(payment)
     }
     
     
     //Handle errors when fetching products
-    /*internal func request(_ request: SKRequest, didFailWithError error: Error) {
+    internal func request(_ request: SKRequest, didFailWithError error: Error) {
         print("Error Fetching product information")
-    }*/
+    }
     
     
     //Initiate a product purchase
@@ -50,6 +60,13 @@ class IAPHelper: NSObject {
         }
         else{
             print("Error - This user can't make purchases.");
+        }
+    }
+    
+    
+    public func restorePurchases() {
+        if (SKPaymentQueue.canMakePayments()) {
+            SKPaymentQueue.default().restoreCompletedTransactions()
         }
     }
 }

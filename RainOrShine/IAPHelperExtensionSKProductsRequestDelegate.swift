@@ -17,7 +17,6 @@ extension IAPHelper: SKProductsRequestDelegate {
         if (!response.products.isEmpty) {
             for thisProduct in response.products {
                 print(thisProduct.localizedTitle)
-                print(thisProduct.localizedDescription)
                 print(thisProduct.price)
                 
                 buyProduct(product: thisProduct)
