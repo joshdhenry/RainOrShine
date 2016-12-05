@@ -12,7 +12,7 @@ import GooglePlaces
 import GoogleMobileAds
 import StoreKit
 
-class WeatherViewController: UIViewController, SKPaymentTransactionObserver {
+class WeatherViewController: UIViewController {
     // MARK: - Properties
 
     // MARK: Type Aliases
@@ -65,20 +65,6 @@ class WeatherViewController: UIViewController, SKPaymentTransactionObserver {
     private var changePhotoTimer: Timer = Timer()
     
     var wasPreviouslyShowingAds: Bool = true
-    
-    internal func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        //abc()
-    }
-    
-    /*func abc() {
-        print("IN ABC")
-        for transaction: AnyObject in SKPaymentQueue.default().transactions {
-            print("FINISHING TRANSACTION")
-            guard let currentTransaction: SKPaymentTransaction = transaction as? SKPaymentTransaction else {return}
-            print(currentTransaction.transactionState)
-            SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
-        }
-    }*/
     
     
     // MARK: - Methods

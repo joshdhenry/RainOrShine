@@ -143,7 +143,7 @@ class SettingsTableViewController: UITableViewController {
         let gpsAlert = UIAlertController(title: "Remove Ads", message: "This app has ads that can be removed by purchasing the 'Remove Ads' in-app purchase.", preferredStyle: .alert)
         gpsAlert.addAction(UIAlertAction(title: "Purchase", style: UIAlertActionStyle.default, handler: purchaseRemoveAds))
         gpsAlert.addAction(UIAlertAction(title: "Restore Purchase", style: UIAlertActionStyle.default, handler: restorePurchaseRemoveAds))
-        gpsAlert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+        gpsAlert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: nil))
         self.present(gpsAlert, animated: true, completion: nil)
     }
     
