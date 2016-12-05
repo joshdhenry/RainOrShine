@@ -29,8 +29,6 @@ class WeatherAPIService {
  
  
     public func setCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping Result) {
-        //print("In func setCurrentWeatherForecast...")
-        
         guard let thisWeatherClient = self.weatherClient else {
             print("Error setting the current weather forecast. Invalid weather client.")
             return
@@ -52,7 +50,6 @@ class WeatherAPIService {
             switch result {
             case .success(let currentForecast, _):
                 self.currentWeatherForecast = currentForecast
-                //print("TIME\(currentForecast.currently?.time)")
 
                 guard let dailyForecastDataBlock = currentForecast.daily else {
                     print("Error - No daily forecast received from the server.")
@@ -65,7 +62,6 @@ class WeatherAPIService {
                     if (dayForecastIndex < dailyForecastDataBlock.data.count) {
                         let dayForecast = dailyForecastDataBlock.data[dayForecastIndex]
                         self.forecastDayDataPointArray.append(dayForecast)
-                        //print("TIME OF FUTURE DAY FORECAST - \(dayForecast.time)")
                     }
                 }
             case .failure(let error):

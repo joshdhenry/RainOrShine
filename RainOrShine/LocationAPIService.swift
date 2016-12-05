@@ -27,7 +27,6 @@ class LocationAPIService {
     // MARK: - Public Methods
     //Load the Google Places API keys from APIKeys.plist
     public func setAPIKeys() {
-        //print("In func setAPIKeys...")
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {
             print("Error - Could not find APIKeys.plist.")
             return
@@ -38,8 +37,6 @@ class LocationAPIService {
     
     //This method gets the current location of the user and sets currentPlace
     public func setCurrentExactPlace(completion: @escaping PlaceResult) {
-        //print("In function setCurrentExactPlace...")
-
         var placeFindComplete: Bool = false
         placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
             guard error == nil else {
@@ -117,7 +114,6 @@ class LocationAPIService {
     
     //This method finds a photo of the general locale
     public func setPhotosOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping Result) {
-        //print("In function setPhotosOfGeneralLocale...")
         guard let _ = generalLocalePlace else {
             print("Not loading a photo since place of general area was nil...")
             completion(true)
@@ -144,8 +140,6 @@ class LocationAPIService {
     
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
     private func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) -> String? {
-        //print("In function getPlaceIDOfGeneralLocale...(#2)")
-
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
         
@@ -186,8 +180,6 @@ class LocationAPIService {
     
     //Retrieve photo metadata for general locale place
     private func setPhotoMetaData(placeIDOfGeneralLocale: String?, completion: @escaping Result) {
-        //print("In function setPhotoMetaDataForLocation...")
-        
         var photoMetaDataFindComplete: Bool = false
         
         //&Y#I&GYFG#$&RTYFGCEYKFG#&F$ BFV$  LOTS OF !!!
@@ -227,8 +219,6 @@ class LocationAPIService {
     
     //Retrieve image based on place metadata
     private func setImagesArrayForMetadata(size: CGSize, scale: CGFloat, completion: @escaping Result) {
-        //print("In function setImagesArrayForMetadata...")
-
         var imageArrayFindComplete: Bool = false
         
         guard let thisGeneralLocalePlace = generalLocalePlace else {
@@ -268,8 +258,6 @@ class LocationAPIService {
     
     //Cycle through photoMetaDataArray and perform a request for each image and populate photoArray with UIImages
     private func setImageForMetaData(index: Int, size: CGSize, scale: CGFloat, completion: @escaping Result) {
-        //print("In function setImageForMetadata...")
-
         var imageFindComplete: Bool = false
         
         if (generalLocalePlace?.photoMetaDataArray[index] != nil) {

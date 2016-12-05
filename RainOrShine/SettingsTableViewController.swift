@@ -71,15 +71,14 @@ class SettingsTableViewController: UITableViewController {
     
     //Create the observers to catch notifications sent from Settings Detail Table View Controller
     private func createPaymentUpdatesObservers() {
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(forName: alertPurchasesRestoredNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoredNotification)
-        notificationCenter.addObserver(forName: alertPurchasesRestoreFailureNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoreFailureNotification)
+        NotificationCenter.default.addObserver(forName: alertPurchasesRestoredNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoredNotification)
+        NotificationCenter.default.addObserver(forName: alertPurchasesRestoreFailureNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoreFailureNotification)
     }
     
     
     //Catch notification center notifications
     func catchAlertPurchasesRestoredNotification(notification:Notification) -> Void {
-        let purchasesRestoredAlert = UIAlertController(title: "Purchases Restored", message: "Any prior purchases you have made have now been restored.", preferredStyle: .alert)
+        let purchasesRestoredAlert = UIAlertController(title: "Purchases Restored", message: "Any prior purchases you have made have now been restored to this device.", preferredStyle: .alert)
         purchasesRestoredAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(purchasesRestoredAlert, animated: true, completion: nil)
     }

@@ -26,9 +26,7 @@ extension WeatherViewController: UISearchBarDelegate {
     
     
     //Resize the location search view with the current screen dimensions
-    internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {
-        //print("In resizeLocationSearchView...")
-        
+    internal func resizeLocationSearchView(orientationAfterRotation: UIDeviceOrientation) {        
         let locationSearchViewHeight: CGFloat = 45
         let statusBarHeight: CGFloat = 20
         

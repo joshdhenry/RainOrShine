@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  WeatherViewController.swift
 //  RainOrShine
 //
 //  Created by Josh Henry on 10/26/16.
@@ -40,7 +40,7 @@ class WeatherViewController: UIViewController {
     private let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
     private let refreshImageWithNewDefaultPhotosSettingsNotification = Notification.Name(rawValue: "RefreshImageWithNewDefaultPhotosSettings")
 
-    // MARK: Computed vars
+    // MARK: Variables
     internal var screenWidthAndHeight: ScreenSize {
         if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
             return ScreenSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -49,22 +49,17 @@ class WeatherViewController: UIViewController {
             return ScreenSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
         }
     }
-    
-    // MARK: Variables
-    private var isStatusBarVisible: Bool = true
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
+    private var isStatusBarVisible: Bool = true
     private var weatherAPIService: WeatherAPIService = WeatherAPIService()
     internal var locationAPIService: LocationAPIService = LocationAPIService()
-    
     private var currentSettings = Settings()
-    internal var validGPSConsecutiveSignalsReceived: Int = 0
-    
     private var updateWeatherTimer: Timer = Timer()
     private var changePhotoTimer: Timer = Timer()
-    
-    var wasPreviouslyShowingAds: Bool = true
+    internal var validGPSConsecutiveSignalsReceived: Int = 0
+    private var wasPreviouslyShowingAds: Bool = true
     
     
     // MARK: - Methods
@@ -75,7 +70,6 @@ class WeatherViewController: UIViewController {
         setAllAPIKeys()
         configureLocationManager()
         weatherAPIService.setWeatherClient()
-        
         initializeViewModels()
         createSettingsUpdatesObservers()
         createGestureRecognizers()
@@ -96,23 +90,7 @@ class WeatherViewController: UIViewController {
         
         createTimeObservers()
         setNightStandMode()
-        
-        //If the "remove ads" IAP hasn't been purchased, show ads
-        if (!defaults.bool(forKey: "RemoveAdsPurchased")) {
-            createAdBannerView()
-            wasPreviouslyShowingAds = true
-        }
-        //else don't show ads
-        else {
-            if (wasPreviouslyShowingAds) {
-                //Move the photo detail view down to account for the ads being gone now
-                photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
-                
-                adBannerView.removeFromSuperview()
-                
-                wasPreviouslyShowingAds = false
-            }
-        }
+        showAds()
     }
     
     
@@ -137,7 +115,7 @@ class WeatherViewController: UIViewController {
     }
     
     
-    //Set all API keys for all APIs being used
+    //Set all API keys for all APIs being used in this controller
     private func setAllAPIKeys() {
         locationAPIService.setAPIKeys()
         weatherAPIService.setAPIKeys()
@@ -159,9 +137,8 @@ class WeatherViewController: UIViewController {
     
     //Create the observers to catch notifications sent from Settings Detail Table View Controller
     private func createSettingsUpdatesObservers() {
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(forName: refreshWeatherForecastNotification, object: nil, queue: nil, using: catchRefreshWeatherForecastNotification)
-        notificationCenter.addObserver(forName: refreshImageWithNewDefaultPhotosSettingsNotification, object: nil, queue: nil, using: catchRefreshImageWithNewDefaultPhotosSettingsNotification)
+        NotificationCenter.default.addObserver(forName: refreshWeatherForecastNotification, object: nil, queue: nil, using: catchRefreshWeatherForecastNotification)
+        NotificationCenter.default.addObserver(forName: refreshImageWithNewDefaultPhotosSettingsNotification, object: nil, queue: nil, using: catchRefreshImageWithNewDefaultPhotosSettingsNotification)
     }
     
     
@@ -177,6 +154,7 @@ class WeatherViewController: UIViewController {
     }
     
     
+    //If the user has changed the setting that determines how default photos are used in the app, adjust the UI to represent these new settings
     func catchRefreshImageWithNewDefaultPhotosSettingsNotification(notification:Notification) -> Void {
         guard let generalLocalePlace = locationAPIService.generalLocalePlace else {return}
         
@@ -232,7 +210,6 @@ class WeatherViewController: UIViewController {
     
     //Create gesture recognizers for swiping left and right through location photos
     private func createGestureRecognizers() {
-        //print("In func createGestureRecognizers...")        
         self.view.addGestureRecognizer(setTapRecognizer())
         locationImageView.addGestureRecognizer(setTapRecognizer())
         currentWeatherView.addGestureRecognizer(setTapRecognizer())
@@ -241,13 +218,13 @@ class WeatherViewController: UIViewController {
         futureWeatherView.addGestureRecognizer(setTapRecognizer())
         photoDetailView.addGestureRecognizer(setTapRecognizer())
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
-        swipeRight.direction = UISwipeGestureRecognizerDirection.right
-        self.view.addGestureRecognizer(swipeRight)
+        let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
+        swipeRightGestureRecognizer.direction = UISwipeGestureRecognizerDirection.right
+        self.view.addGestureRecognizer(swipeRightGestureRecognizer)
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
-        self.view.addGestureRecognizer(swipeLeft)
+        let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture(_:)))
+        swipeLeftGestureRecognizer.direction = UISwipeGestureRecognizerDirection.left
+        self.view.addGestureRecognizer(swipeLeftGestureRecognizer)
     }
     
     
@@ -272,8 +249,6 @@ class WeatherViewController: UIViewController {
     
     //This is called when a time observer's time has been reached.
     dynamic func timeIntervalReached(timer: Timer) {
-        //print("In func timeIntervalReached...")
-        
         guard let userInfo = timer.userInfo as? String else {
             print("Error - Time interval user info tag was nil.")
             return
@@ -303,9 +278,29 @@ class WeatherViewController: UIViewController {
     }
     
     
+    //Display ads, or don't, depending on if the Remove Ads IAP has been purchased.
+    func showAds() {
+        //If the "remove ads" IAP hasn't been purchased, show ads
+        if (!defaults.bool(forKey: "RemoveAdsPurchased")) {
+            createAdBannerView()
+            wasPreviouslyShowingAds = true
+        }
+        //else don't show ads
+        else {
+            if (wasPreviouslyShowingAds) {
+                //Move the photo detail view down to account for the ads being gone now
+                photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
+                
+                adBannerView.removeFromSuperview()
+                
+                wasPreviouslyShowingAds = false
+            }
+        }
+    }
+    
+    
     //Load the banner ad
     private func createAdBannerView() {
-        print("Google Mobile Ads SDK version: \(GADRequest.sdkVersion())")
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         let keys = NSDictionary(contentsOfFile: path)!
         
@@ -319,8 +314,6 @@ class WeatherViewController: UIViewController {
     
     //Turn on or off the screen lock depending on the charging status and whether night stand mode is on/off in Settings
     private func setNightStandMode() {
-        //print("In setNightStand Mode...")
-
         if (currentSettings.nightStandModeOn == true &&
             UIDevice.current.batteryState == UIDeviceBatteryState.charging ||
             UIDevice.current.batteryState == UIDeviceBatteryState.full) {
@@ -334,14 +327,12 @@ class WeatherViewController: UIViewController {
     
     //If the user is searching, disable rotation until finished
     internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        //print("searchBarTextDidBeginEditing...")
         Rotation.allowed = false
     }
     
     
     //If the user is done searching, re-enable screen rotation
     internal func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        //print("searchBarTextDidEndEditing...")
         Rotation.allowed = true
     }
     
@@ -359,16 +350,15 @@ class WeatherViewController: UIViewController {
     
     //If the user swipes right or left, adjust viewmodel.updatePlaceImageIndex accordingly
     dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
-        //print("In func respondToSwipeGesture")
-        
         guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
         guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
         
-        //Else photos returned or default photos turned on, so allow swiping
+        //If photos were returned or default photos setting is turned on, allow swiping
          if (!currentGeneralLocalePlace.photoArray.isEmpty ||
             currentSettings.useDefaultPhotos == .whenNoPictures ||
             currentSettings.useDefaultPhotos == .always) {
             let currentPageNumber: Int = photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace, looping: false)
+            
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
             appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
         }
@@ -398,12 +388,11 @@ class WeatherViewController: UIViewController {
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
-        //abc()
-        
         startFindingCurrentLocation(alertsEnabled: true)
     }
     
     
+    //Kick off the process of finding current GPS location.  Once it begins updating, the location manager's didUpdateLocation method will take control from there
     func startFindingCurrentLocation(alertsEnabled: Bool) {
         if (!CLLocationManager.locationServicesEnabled()) {
             if (alertsEnabled) {
@@ -431,7 +420,6 @@ class WeatherViewController: UIViewController {
             //Reset the gps signals received counter
             validGPSConsecutiveSignalsReceived = 0
             
-            //Start updating the location and location manager's didUpdateLocation method will take over from there
             locationManager.startUpdatingLocation()
         }
     }
@@ -463,9 +451,7 @@ class WeatherViewController: UIViewController {
     
     
     //Change the place that will be displayed in this view controller (including new place photos and weather forecast)
-    internal func changePlaceShown() {
-        //print("In func changePlaceShown...")
-        
+    internal func changePlaceShown() {        
         print("Exact place address - \(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
         print("General location address - \(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
 
@@ -502,12 +488,9 @@ class WeatherViewController: UIViewController {
     
     
     //This function is called by changePlaceShown and is run right before acquiring new values for a new place.
-    //It resets some values to create a clean slate.
+    //It resets some values to create a clean slate for the next place to be shown.
     private func resetValuesForNewPlace() {
         photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
-        
-        //locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: nil)
-        
         locationAPIService.generalLocalePlace?.photoArray.removeAll(keepingCapacity: false)
         locationAPIService.generalLocalePlace?.photoMetaDataArray.removeAll(keepingCapacity: false)
     }
@@ -527,17 +510,14 @@ class WeatherViewController: UIViewController {
                     self.currentSettings.useDefaultPhotos == .never) {
                     self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
                     self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
-                    //
                     self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
                 }
                 //Else reset image page control to the beginning
                 else {
                     self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
                     self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
-                    //
                     self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
                 }
-                
                 completion(true)
             }
         }

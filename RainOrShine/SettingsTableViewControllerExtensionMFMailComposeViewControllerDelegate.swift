@@ -13,6 +13,7 @@ import MessageUI
 
 extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
     
+    // MARK: - Methods
     internal func composeMail() {
         if MFMailComposeViewController.canSendMail() {
             let mailController = MFMailComposeViewController()
@@ -28,6 +29,7 @@ extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
             present(alert, animated: true, completion: nil)
         }
     }
+    
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
