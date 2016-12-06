@@ -25,7 +25,7 @@ class AppLogoImageView: UIImageView {
                     return
                 }
                 
-                guard let imageIndex = $0 else {
+                guard $0 != nil else {
                     //Nil currentPlaceImageIndex. No images.
                     self.isHidden = false
                     return

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		030EC3CC1DF61EC700B76435 /* AppLogoImageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030EC3CB1DF61EC700B76435 /* AppLogoImageViewModelTests.swift */; };
 		0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5071DC1DBC200E453A0 /* AppDelegate.swift */; };
 		0313E50A1DC1DBC200E453A0 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5091DC1DBC200E453A0 /* WeatherViewController.swift */; };
 		0313E50D1DC1DBC200E453A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0313E50B1DC1DBC200E453A0 /* Main.storyboard */; };
@@ -105,6 +106,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		030EC3CB1DF61EC700B76435 /* AppLogoImageViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppLogoImageViewModelTests.swift; sourceTree = "<group>"; };
 		0313E5041DC1DBC200E453A0 /* RainOrShine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainOrShine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0313E5071DC1DBC200E453A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0313E5091DC1DBC200E453A0 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = WeatherViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -272,23 +274,24 @@
 			isa = PBXGroup;
 			children = (
 				0313E51E1DC1DBC200E453A0 /* Info.plist */,
+				030EC3CB1DF61EC700B76435 /* AppLogoImageViewModelTests.swift */,
 				03E614BC1DE17CC900F2C157 /* ColorSchemeTests.swift */,
 				0374C25C1DEA977000E86B21 /* CurrentWeatherViewModelTests.swift */,
 				0374C26A1DEAA05C00E86B21 /* DateExtensionTests.swift */,
 				0374C26C1DEAA09B00E86B21 /* FloatExtensionTests.swift */,
 				0374C25E1DEA9AD200E86B21 /* FutureWeatherViewModelTests.swift */,
-				0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */,
 				03D47E4A1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift */,
 				0374C2621DEA9BC500E86B21 /* LocationImageViewModelTests.swift */,
 				03E614BE1DE17E1900F2C157 /* LocationSearchViewTests.swift */,
 				0374C2601DEA9B6400E86B21 /* LocationViewModelTests.swift */,
-				03D47E461DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift */,
-				03E614C01DE17EB500F2C157 /* WeatherViewControllerTests.swift */,
+				0374C2641DEA9C7400E86B21 /* PhotoDetailViewModelTests.swift */,
+				0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */,
 				0374C2521DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift */,
 				0374C2541DE859E100E86B21 /* SettingsTableViewControllerTests.swift */,
-				0374C2641DEA9C7400E86B21 /* PhotoDetailViewModelTests.swift */,
 				0374C2681DEA9EEB00E86B21 /* SettingsTest.swift */,
 				0374C2701DEBCF7F00E86B21 /* StringExtensionTests.swift */,
+				03D47E461DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift */,
+				03E614C01DE17EB500F2C157 /* WeatherViewControllerTests.swift */,
 			);
 			path = RainOrShineTests;
 			sourceTree = "<group>";
@@ -865,6 +868,7 @@
 			files = (
 				0374C2531DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift in Sources */,
 				03E614BF1DE17E1900F2C157 /* LocationSearchViewTests.swift in Sources */,
+				030EC3CC1DF61EC700B76435 /* AppLogoImageViewModelTests.swift in Sources */,
 				0374C2611DEA9B6400E86B21 /* LocationViewModelTests.swift in Sources */,
 				03E614BD1DE17CC900F2C157 /* ColorSchemeTests.swift in Sources */,
 				03E614C11DE17EB500F2C157 /* WeatherViewControllerTests.swift in Sources */,

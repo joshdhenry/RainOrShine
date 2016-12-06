@@ -121,7 +121,7 @@ class WeatherViewController: UIViewController {
     //Create all the view models that will be needed for this controller and its subviews
     func initializeViewModels() {
         currentWeatherView.viewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
-        futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray)
+        futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray, timeZoneIdentifier: "GMT")
         locationView.viewModel = LocationViewModel(place: locationAPIService.currentPlace)
         locationImageView.viewModel = LocationImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
         photoDetailView.viewModel = PhotoDetailViewModel(place: locationAPIService.currentPlace, imageIndex: nil)
@@ -530,7 +530,7 @@ class WeatherViewController: UIViewController {
         weatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
             if (forecastRetrieved) {
                 self.currentWeatherView.viewModel?.updateForecast(newForecast: self.weatherAPIService.currentWeatherForecast)
-                self.futureWeatherView.viewModel?.updateForecastDayDataPointArray(newForecastDayDataPointArray: self.weatherAPIService.forecastDayDataPointArray)
+                self.futureWeatherView.viewModel?.updateForecastDayDataPointArray(newForecastDayDataPointArray: self.weatherAPIService.forecastDayDataPointArray, newTimeZoneIdentifier: self.weatherAPIService.currentWeatherForecast?.timezone)
                 
                 completion(true)
             }

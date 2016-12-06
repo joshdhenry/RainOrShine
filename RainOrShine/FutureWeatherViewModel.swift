@@ -12,16 +12,19 @@ import ForecastIO
 struct FutureWeatherViewModel {
     // MARK: - Properties
     let currentForecastDayDataPointArray: Observable<[DataPoint]?>
+    let currentTimeZoneIdentifier: Observable<String?>
     
     
     // MARK: - Initializer
-    init(forecastDataPointArray: [DataPoint]?) {
+    init(forecastDataPointArray: [DataPoint]?, timeZoneIdentifier: String?) {
         currentForecastDayDataPointArray = Observable(forecastDataPointArray)
+        currentTimeZoneIdentifier = Observable(timeZoneIdentifier)
     }
     
     
     // MARK: - Methods
-    func updateForecastDayDataPointArray(newForecastDayDataPointArray: [DataPoint]?) {
+    func updateForecastDayDataPointArray(newForecastDayDataPointArray: [DataPoint]?, newTimeZoneIdentifier: String?) {
         currentForecastDayDataPointArray.value = newForecastDayDataPointArray
+        currentTimeZoneIdentifier.value = newTimeZoneIdentifier
     }
 }

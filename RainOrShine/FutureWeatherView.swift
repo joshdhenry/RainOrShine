@@ -44,8 +44,12 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
                             futureDayView.weatherConditionView.setType = fiveDayForecastArray[futureDaySubViewIndex].icon?.getSkycon() ?? Skycons.partlyCloudyDay
                             futureDayView.weatherConditionView.play()
                             
-                            futureDayView.dayLabel.text = fiveDayForecastArray[futureDaySubViewIndex].time.abbreviatedDayString
-
+                            print("---")
+                            print("Forecast Time -\(fiveDayForecastArray[futureDaySubViewIndex].time)")
+                            print("Abbrev. day string - \(fiveDayForecastArray[futureDaySubViewIndex].time.getAbbreviatedDayString(timeZoneIdentifier: (self.viewModel?.currentTimeZoneIdentifier.value)!))")
+                            
+                            futureDayView.dayLabel.text = fiveDayForecastArray[futureDaySubViewIndex].time.getAbbreviatedDayString(timeZoneIdentifier: (self.viewModel?.currentTimeZoneIdentifier.value)!)
+                            
                             let minMaxTemperatureDictionary = (min: fiveDayForecastArray[futureDaySubViewIndex].temperatureMin?.formattedTemperatureString ?? "", max: fiveDayForecastArray[futureDaySubViewIndex].temperatureMax?.formattedTemperatureString ?? "")
 
                             futureDayView.temperatureLabel.text = minMaxTemperatureDictionary.min + "/" + minMaxTemperatureDictionary.max

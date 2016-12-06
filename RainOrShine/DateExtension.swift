@@ -12,11 +12,15 @@ extension Date {
 
     // MARK: - Methods
     //Return the abbreviated day (ex: Mon, Tue, Wed, etc)
-    var abbreviatedDayString: String {
-        get {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "E"
-            return dateFormatter.string(from: self)
-        }
+    func getAbbreviatedDayString(timeZoneIdentifier: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: timeZoneIdentifier)
+        
+        print("Time zone -\(dateFormatter.timeZone)")
+        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
+        print(dateFormatter.string(from: self))
+        
+        dateFormatter.dateFormat = "E"
+        return dateFormatter.string(from: self)
     }
 }

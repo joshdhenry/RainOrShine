@@ -50,7 +50,8 @@ class WeatherAPIService {
             switch result {
             case .success(let currentForecast, _):
                 self.currentWeatherForecast = currentForecast
-
+                print("Forecast time zone \(currentForecast.timezone)")
+                
                 guard let dailyForecastDataBlock = currentForecast.daily else {
                     print("Error - No daily forecast received from the server.")
                     completion(true)
