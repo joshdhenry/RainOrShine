@@ -53,6 +53,8 @@ class SettingsTableViewController: UITableViewController {
     
     
     // MARK: - Methods
+    
+    // MARK: UITableViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,38 +66,6 @@ class SettingsTableViewController: UITableViewController {
         super.viewWillAppear(true)
         
         initializeViewModel()
-    }
-    
-    
-    //Create the observers to catch notifications sent from Settings Detail Table View Controller
-    private func createPaymentUpdatesObservers() {
-        NotificationCenter.default.addObserver(forName: alertPurchasesRestoredNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoredNotification)
-        NotificationCenter.default.addObserver(forName: alertPurchasesRestoreFailureNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoreFailureNotification)
-    }
-    
-    
-    private func initializeViewModel() {
-        viewModel = SettingsViewModel(temperatureUnit: currentSettings.temperatureUnit,
-                                      updateWeatherInterval: currentSettings.updateWeatherInterval,
-                                      useDefaultPhotos: currentSettings.useDefaultPhotos,
-                                      changePhotoInterval: currentSettings.changePhotoInterval,
-                                      nightStandModeOn: currentSettings.nightStandModeOn)
-    }
-    
-    
-    //Catch notification center notifications
-    func catchAlertPurchasesRestoredNotification(notification:Notification) -> Void {
-        let purchasesRestoredAlert = UIAlertController(title: "Purchases Restored", message: "Any prior purchases you have made have now been restored to this device.", preferredStyle: .alert)
-        purchasesRestoredAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(purchasesRestoredAlert, animated: true, completion: nil)
-    }
-    
-    
-    //Catch notification center notifications
-    func catchAlertPurchasesRestoreFailureNotification(notification:Notification) -> Void {
-        let purchasesRestoreFailureAlert = UIAlertController(title: "Purchase Restore Failed", message: "There was a problem restoring prior purchases.", preferredStyle: .alert)
-        purchasesRestoreFailureAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(purchasesRestoreFailureAlert, animated: true, completion: nil)
     }
     
     
@@ -137,7 +107,42 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
+    // MARK: Observers
+    //Create the observers to catch notifications sent from Settings Detail Table View Controller
+    private func createPaymentUpdatesObservers() {
+        NotificationCenter.default.addObserver(forName: alertPurchasesRestoredNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoredNotification)
+        NotificationCenter.default.addObserver(forName: alertPurchasesRestoreFailureNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoreFailureNotification)
+    }
     
+    
+    // MARK: Initialize View Model
+    private func initializeViewModel() {
+        viewModel = SettingsViewModel(temperatureUnit: currentSettings.temperatureUnit,
+                                      updateWeatherInterval: currentSettings.updateWeatherInterval,
+                                      useDefaultPhotos: currentSettings.useDefaultPhotos,
+                                      changePhotoInterval: currentSettings.changePhotoInterval,
+                                      nightStandModeOn: currentSettings.nightStandModeOn)
+    }
+    
+    
+    // MARK: Methods to catch IAP notifications
+    //Catch purchases restored notification center notifications
+    func catchAlertPurchasesRestoredNotification(notification:Notification) -> Void {
+        let purchasesRestoredAlert = UIAlertController(title: "Purchases Restored", message: "Any prior purchases you have made have now been restored to this device.", preferredStyle: .alert)
+        purchasesRestoredAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(purchasesRestoredAlert, animated: true, completion: nil)
+    }
+    
+    
+    //Catch purchase failure notification center notifications
+    func catchAlertPurchasesRestoreFailureNotification(notification:Notification) -> Void {
+        let purchasesRestoreFailureAlert = UIAlertController(title: "Purchase Restore Failed", message: "There was a problem restoring prior purchases.", preferredStyle: .alert)
+        purchasesRestoreFailureAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(purchasesRestoreFailureAlert, animated: true, completion: nil)
+    }
+    
+    
+    // MARK: Night Stand Methods
     func presentNightStandInfoAlert() {
         let nightStandModeInfoAlert = UIAlertController(title: "Night Stand Mode", message: "Night Stand Mode prevents your device from locking and going to sleep as long as your device is on the charger.", preferredStyle: .alert)
         nightStandModeInfoAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -145,6 +150,13 @@ class SettingsTableViewController: UITableViewController {
     }
     
     
+    //If the night stand mode switch is changed, set the currentSettings for it
+    @IBAction func nightStandModeOnSwitchValueChanged(_ sender: Any) {
+        currentSettings.nightStandModeOn = nightStandModeSwitch.isOn
+    }
+    
+    
+    // MARK: Ad Methods
     func presentRemoveAdsAlert() {
         let gpsAlert = UIAlertController(title: "Remove Ads", message: "This app has ads that can be removed by purchasing the 'Remove Ads' in-app purchase.", preferredStyle: .alert)
         gpsAlert.addAction(UIAlertAction(title: "Purchase", style: UIAlertActionStyle.default, handler: purchaseRemoveAds))
@@ -161,12 +173,6 @@ class SettingsTableViewController: UITableViewController {
     
     func restorePurchaseRemoveAds(alertAction: UIAlertAction) {
         iapHelper.restorePurchases()
-    }
-    
-    
-    //If the night stand mode switch is changed, set the currentSettings for it
-    @IBAction func nightStandModeOnSwitchValueChanged(_ sender: Any) {
-        currentSettings.nightStandModeOn = nightStandModeSwitch.isOn
     }
     
     

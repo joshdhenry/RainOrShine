@@ -39,17 +39,19 @@ extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
     }
     
     
+    //If places autocomplete fails, print an error.
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didFailAutocompleteWithError error: Error) {
         print("Error: ", error.localizedDescription)
     }
     
     
-    // Turn the network activity indicator on and off again.
+    // Turn the network activity indicator on when pulling location predictions.
     func didRequestAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
     
     
+    // Turn the network activity indicator off when done pulling location predictions.
     func didUpdateAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }

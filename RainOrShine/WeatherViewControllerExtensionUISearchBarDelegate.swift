@@ -42,4 +42,16 @@ extension WeatherViewController: UISearchBarDelegate {
         }
         locationSearchView.searchController?.searchBar.sizeToFit()
     }
+    
+    
+    //If the user is searching, disable rotation until finished
+    internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        Rotation.allowed = false
+    }
+    
+    
+    //If the user is done searching, re-enable screen rotation
+    internal func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        Rotation.allowed = true
+    }
 }

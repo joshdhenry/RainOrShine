@@ -103,7 +103,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
     }
     
     
-    
+    // MARK: - Methods
     internal func setViewStyle() {
         self.setViewEdges()
         

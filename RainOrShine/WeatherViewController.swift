@@ -61,6 +61,8 @@ class WeatherViewController: UIViewController {
     
     
     // MARK: - Methods
+    
+    // MARK: UIViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -111,6 +113,8 @@ class WeatherViewController: UIViewController {
     }
     
     
+    // MARK: Various Methods
+    
     //Set all API keys for all APIs being used in this controller
     private func setAllAPIKeys() {
         locationAPIService.setAPIKeys()
@@ -128,6 +132,40 @@ class WeatherViewController: UIViewController {
         appLogoImageView.viewModel = AppLogoImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
     }
     
+    
+    //Turn on or off the screen lock depending on the charging status and whether night stand mode is on/off in Settings
+    private func setNightStandMode() {
+        if (currentSettings.nightStandModeOn == true &&
+            UIDevice.current.batteryState == UIDeviceBatteryState.charging ||
+            UIDevice.current.batteryState == UIDeviceBatteryState.full) {
+            UIApplication.shared.isIdleTimerDisabled = true
+        }
+        else {
+            UIApplication.shared.isIdleTimerDisabled = false
+        }
+    }
+    
+    
+    //Show or hide the status bar
+    internal func showStatusBar(enabled: Bool) {
+        isStatusBarVisible = enabled
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    
+    //Make all subviews' alpha 0
+    internal func makeSubViewsInvisible() {
+        currentWeatherView.alpha = 0
+        locationView.alpha = 0
+        photoDetailView.alpha = 0
+        futureWeatherView.alpha = 0
+    }
+    
+    
+    @IBAction func settingsButtonTapped(_ sender: Any) {
+        performSegue(withIdentifier: "SegueSettings", sender: self)
+    }
+
     
     // MARK: Observers and Recognizers
     
@@ -274,6 +312,36 @@ class WeatherViewController: UIViewController {
     }
     
     
+    //If the view was tapped, fade in or out the 5 day forecast
+    internal func viewTapped(_ sender:UITapGestureRecognizer) {
+        if (futureWeatherView.alpha == 0) {
+            futureWeatherView.fadeIn(withDuration: 0.75, finalAlpha: 0.8)
+        }
+        else {
+            futureWeatherView.fadeOut()
+        }
+    }
+    
+    
+    //If the user swipes right or left, adjust viewmodel.updatePlaceImageIndex accordingly
+    dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
+        guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
+        guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
+        
+        //If photos were returned or default photos setting is turned on, allow swiping
+        if (!currentGeneralLocalePlace.photoArray.isEmpty ||
+            currentSettings.useDefaultPhotos == .whenNoPictures ||
+            currentSettings.useDefaultPhotos == .always) {
+            let currentPageNumber: Int = photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace, looping: false)
+            
+            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
+            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
+        }
+    }
+    
+    
+    // MARK: Ad Methods
+
     //Display ads, or don't, depending on if the Remove Ads IAP has been purchased.
     func showAds() {
         //If the "remove ads" IAP hasn't been purchased, show ads
@@ -308,79 +376,11 @@ class WeatherViewController: UIViewController {
     }
     
     
-    //Turn on or off the screen lock depending on the charging status and whether night stand mode is on/off in Settings
-    private func setNightStandMode() {
-        if (currentSettings.nightStandModeOn == true &&
-            UIDevice.current.batteryState == UIDeviceBatteryState.charging ||
-            UIDevice.current.batteryState == UIDeviceBatteryState.full) {
-            UIApplication.shared.isIdleTimerDisabled = true
-        }
-        else {
-            UIApplication.shared.isIdleTimerDisabled = false
-        }
-    }
     
+    // MARK: Methods to load a new location
     
-    //If the user is searching, disable rotation until finished
-    internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        Rotation.allowed = false
-    }
-    
-    
-    //If the user is done searching, re-enable screen rotation
-    internal func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        Rotation.allowed = true
-    }
-    
-    
-    //If the view was tapped, fade in or out the 5 day forecast
-    internal func viewTapped(_ sender:UITapGestureRecognizer) {
-        if (futureWeatherView.alpha == 0) {
-            futureWeatherView.fadeIn(withDuration: 0.75, finalAlpha: 0.8)
-        }
-        else {
-            futureWeatherView.fadeOut()
-        }
-    }
-    
-    
-    //If the user swipes right or left, adjust viewmodel.updatePlaceImageIndex accordingly
-    dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
-        guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
-        guard let currentGeneralLocalePlace = locationAPIService.generalLocalePlace else {return}
-        
-        //If photos were returned or default photos setting is turned on, allow swiping
-         if (!currentGeneralLocalePlace.photoArray.isEmpty ||
-            currentSettings.useDefaultPhotos == .whenNoPictures ||
-            currentSettings.useDefaultPhotos == .always) {
-            let currentPageNumber: Int = photoDetailView.advancePage(direction: swipeGesture.direction, place: currentGeneralLocalePlace, looping: false)
-            
-            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
-            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
-        }
-    }
-    
-
-    //Show or hide the status bar
-    internal func showStatusBar(enabled: Bool) {
-        isStatusBarVisible = enabled
-        setNeedsStatusBarAppearanceUpdate()
-    }
-    
-    
-    //Make all subviews' alpha 0
-    internal func makeSubViewsInvisible() {
-        currentWeatherView.alpha = 0
-        locationView.alpha = 0
-        photoDetailView.alpha = 0
-        futureWeatherView.alpha = 0
-    }
-   
-    
-    @IBAction func settingsButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: "SegueSettings", sender: self)
-    }
-    
+    //The order of finding a new location based on current GPS goes like this
+    //currentLocationButtonTapped -> startFindingCurrentLocation -> location manager didUpdateLocation -> updateLocationAPIServiceLocations -> locationAPIService.setCurrentExactPlace -> locationAPIService.setGeneralLocalePlace -> changePlaceShown -> loadNewPlacePhotos & loadNewPlaceWeather -> finishChangingPlaceShown
     
     //If the GPS button is tapped, show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
@@ -399,8 +399,8 @@ class WeatherViewController: UIViewController {
             return
         }
         else if (CLLocationManager.authorizationStatus() == .denied ||
-            CLLocationManager.authorizationStatus() == .restricted ||
-            CLLocationManager.authorizationStatus() == .notDetermined) {
+                 CLLocationManager.authorizationStatus() == .restricted ||
+                 CLLocationManager.authorizationStatus() == .notDetermined) {
             if (alertsEnabled) {
                 let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "GPS is not enabled for this app.  Go to Settings -> Privacy -> Location Services and allow the app to utilize GPS.", preferredStyle: .alert)
                 gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -409,14 +409,8 @@ class WeatherViewController: UIViewController {
             return
         }
         else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() == .authorizedAlways) {
-            currentLocationButton.isEnabled = false
-            activityIndicator.startAnimating()
-            
-            //Reset the gps signals received counter
-            validGPSConsecutiveSignalsReceived = 0
-            
-            locationManager.startUpdatingLocation()
+                 CLLocationManager.authorizationStatus() == .authorizedAlways) {
+            startChangingGPSPlaceShown()
         }
     }
     
@@ -455,15 +449,13 @@ class WeatherViewController: UIViewController {
         
         resetValuesForNewPlace()
         
-        //Run both functions.  If both are complete, stop the activity indicator
+        //Run 2 methods - loadNewPlacePhotos & loadNewPlaceWeather. Once both are complete, run finishChangingPlaceShown to complete the process
         loadNewPlacePhotos() { (isComplete) -> () in
             if (isComplete) {
                 changePlaceCompletionFlags.photosComplete = true
                 if (changePlaceCompletionFlags.weatherComplete) {
                     DispatchQueue.main.async {
-                        self.locationManager.stopUpdatingLocation()
-                        self.currentLocationButton.isEnabled = true
-                        self.activityIndicator.stopAnimating()
+                        self.finishChangingPlaceShown()
                     }
                 }
             }
@@ -473,13 +465,31 @@ class WeatherViewController: UIViewController {
                 changePlaceCompletionFlags.weatherComplete = true
                 if (changePlaceCompletionFlags.photosComplete) {
                     DispatchQueue.main.async {
-                        self.locationManager.stopUpdatingLocation()
-                        self.currentLocationButton.isEnabled = true
-                        self.activityIndicator.stopAnimating()
+                        self.finishChangingPlaceShown()
                     }
                 }
             }
         }
+    }
+    
+    
+    //Start changing the place shown when the GPS button is tapped
+    func startChangingGPSPlaceShown() {
+        currentLocationButton.isEnabled = false
+        activityIndicator.startAnimating()
+        
+        //Reset the gps signals received counter
+        validGPSConsecutiveSignalsReceived = 0
+        
+        locationManager.startUpdatingLocation()
+    }
+    
+    
+    //Perform final actions to complete the transition to a new place. This applies to finishing GPS locations and Google Place Search locations.
+    private func finishChangingPlaceShown() {
+        self.locationManager.stopUpdatingLocation()
+        self.currentLocationButton.isEnabled = true
+        self.activityIndicator.stopAnimating()
     }
     
     
@@ -492,7 +502,7 @@ class WeatherViewController: UIViewController {
     }
     
     
-    //Display new place photos when a new place has been chosen
+    //Update the view model to display new place photos after a new place has been chosen
     private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
         locationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             if (isImageSet) {
@@ -520,7 +530,7 @@ class WeatherViewController: UIViewController {
     }
     
     
-    //Display weather info when a new place has been chosen. Get the weather forecast.
+    //Get the weather forecast. Update the view model to display weather info when a new place has been chosen.
     private func loadNewPlaceWeather(completion: @escaping (_ result: Bool) ->()) {
         guard let currentPlace = locationAPIService.currentPlace else {return}
         guard let currentGMSPlace = currentPlace.gmsPlace else {return}
