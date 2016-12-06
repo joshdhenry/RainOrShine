@@ -167,6 +167,14 @@ class WeatherViewController: UIViewController {
     }
 
     
+    //Reset view model image indices with a resetValue of nil or 0
+    private func resetViewModelImageIndices(resetValue: Int?) {
+        self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
+        self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
+        self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
+    }
+    
+    
     // MARK: Observers and Recognizers
     
     //Create the observers to catch notifications sent from Settings Detail Table View Controller
@@ -194,21 +202,15 @@ class WeatherViewController: UIViewController {
         
         if (generalLocalePlace.photoArray.isEmpty &&
             currentSettings.useDefaultPhotos == .never) {
-            photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: locationAPIService.generalLocalePlace)
-            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: locationAPIService.generalLocalePlace)
-            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: locationAPIService.generalLocalePlace)
+            resetViewModelImageIndices(resetValue: nil)
         }
         else if (generalLocalePlace.photoArray.isEmpty &&
             currentSettings.useDefaultPhotos == .always ||
             currentSettings.useDefaultPhotos == .whenNoPictures) {
-            photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
-            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
-            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
+            resetViewModelImageIndices(resetValue: 0)
         }
         else if (!generalLocalePlace.photoArray.isEmpty) {
-            photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
-            locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
-            appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: locationAPIService.generalLocalePlace)
+            resetViewModelImageIndices(resetValue: 0)
         }
     }
     
@@ -514,15 +516,11 @@ class WeatherViewController: UIViewController {
                 //If there are no photos and the user never wants to see default photos, hide location image and photo detail view
                 if (thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
                     self.currentSettings.useDefaultPhotos == .never) {
-                    self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
-                    self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
-                    self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: self.locationAPIService.generalLocalePlace)
+                    self.resetViewModelImageIndices(resetValue: nil)
                 }
                 //Else reset image page control to the beginning
                 else {
-                    self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
-                    self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
-                    self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: 0, place: self.locationAPIService.generalLocalePlace)
+                    self.resetViewModelImageIndices(resetValue: 0)
                 }
                 completion(true)
             }
