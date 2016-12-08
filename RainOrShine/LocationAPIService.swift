@@ -143,15 +143,16 @@ class LocationAPIService {
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
         
-        //I*YE(*YEIUFGHBIUFEY*&OY$IUGFJHBCDHBE&IFT$&ITY$&*BF  LOTS OF !!!
-        var placeTextSearchURL: String = baseURL + "textsearch/json?query=" + generalLocaleQueryString! + "&key=" + (keys["GooglePlacesAPIKeyWeb"] as! String)
+        let queryString = generalLocaleQueryString ?? ""
+        let GooglePlacesKeyString: String = keys["GooglePlacesAPIKeyWeb"] as? String ?? ""
+        var placeTextSearchURL: String = baseURL + "textsearch/json?query=" + queryString + "&key=" + GooglePlacesKeyString
 
         placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         let session = URLSession.shared
         let url = URL(string: placeTextSearchURL)!
         
-        // Make call. Handle it in a completion handler.
+        // Make call to URL. Handle it in a completion handler.
         session.dataTask(with: url as URL, completionHandler: { ( data: Data?, response: URLResponse?, error: Error?) -> Void in
             //Ensure the  response isn't an error
             guard (error == nil && data != nil) else {
@@ -181,9 +182,15 @@ class LocationAPIService {
     //Retrieve photo metadata for general locale place
     private func setPhotoMetaData(placeIDOfGeneralLocale: String?, completion: @escaping Result) {
         var photoMetaDataFindComplete: Bool = false
+                
+        guard let currentPlaceID: String = placeIDOfGeneralLocale else {
+            print("Error - Place ID of general locale is nil.")
+            photoMetaDataFindComplete = true
+            completion(true)
+            return
+        }
         
-        //&Y#I&GYFG#$&RTYFGCEYKFG#&F$ BFV$  LOTS OF !!!
-        placesClient?.lookUpPhotos(forPlaceID: placeIDOfGeneralLocale!) { (photos, error) -> Void in
+        placesClient?.lookUpPhotos(forPlaceID: currentPlaceID) { (photos, error) -> Void in
             guard (error == nil) else {
                 print("Error loading photo from Google API: \(error?.localizedDescription)")
                 photoMetaDataFindComplete = true

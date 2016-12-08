@@ -381,7 +381,7 @@ class WeatherViewController: UIViewController {
     
     // MARK: Methods to load a new location
     
-    //The order of finding a new location based on current GPS goes like this
+    //The order of changing to a new location based on current GPS and displaying it goes like this
     //currentLocationButtonTapped -> startFindingCurrentLocation -> location manager didUpdateLocation -> updateLocationAPIServiceLocations -> locationAPIService.setCurrentExactPlace -> locationAPIService.setGeneralLocalePlace -> changePlaceShown -> loadNewPlacePhotos & loadNewPlaceWeather -> finishChangingPlaceShown
     
     //If the GPS button is tapped, show weather for user's current location

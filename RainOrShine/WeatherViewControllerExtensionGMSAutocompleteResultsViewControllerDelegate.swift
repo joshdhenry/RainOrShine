@@ -12,6 +12,10 @@ import GooglePlaces
 extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     // MARK: - Methods
+    
+    //The order of changing to a new location based on a Google Place search result and displaying it goes like this
+    //resultsController didAutocompleteWith -> locationAPIService.setGeneralLocalePlace -> changePlaceShown -> loadNewPlacePhotos & loadNewPlaceWeather -> finishChangingPlaceShown
+    
     //If the user selects a new city from the place search, display it's info and picture
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didAutocompleteWith place: GMSPlace) {
         self.locationSearchView.searchController?.isActive = false
