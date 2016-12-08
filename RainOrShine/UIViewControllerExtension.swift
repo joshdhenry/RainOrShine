@@ -1,5 +1,5 @@
 //
-//  NSObjectExtensionNetworkConnectionTester.swift
+//  UIViewControllerExtensionNetworkConnectionTester.swift
 //  RainOrShine
 //
 //  Created by Josh Henry on 12/7/16.
@@ -7,16 +7,16 @@
 //
 
 import SystemConfiguration
+import UIKit
 
-extension NSObject: NetworkConnectionTester {
-    
-    
-    enum NetworkConnectionStatus {
-        case notReachable
-        case reachableViaWWAN
-        case reachableViaWiFi
-    }
-    
+enum NetworkConnectionStatus {
+    case notReachable
+    case reachableViaWWAN
+    case reachableViaWiFi
+}
+
+extension UIViewController: NetworkConnectionTester {
+
     var currentNetworkConnectionStatus: NetworkConnectionStatus {
         
         var zeroAddress = sockaddr_in()
@@ -56,5 +56,12 @@ extension NSObject: NetworkConnectionTester {
         else {
             return .notReachable
         }
+    }
+    
+    
+    internal func alertNoNetworkConnection() {
+        let networkConnectionAlert = UIAlertController(title: "No Network Connection", message: "No network connection available. Please connect to the Internet and try again.", preferredStyle: .alert)
+        networkConnectionAlert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+        self.present(networkConnectionAlert, animated: true, completion: nil)
     }
 }

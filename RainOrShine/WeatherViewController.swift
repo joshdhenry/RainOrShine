@@ -388,22 +388,20 @@ class WeatherViewController: UIViewController {
     
     //If the GPS button is tapped, check if the user has a net connection, then show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
-
-        guard (currentNetworkConnectionStatus != .notReachable) else {
-            let networkConnectionAlert = UIAlertController(title: "No Network Connection", message: "No network connection available. Please connect to the Internet and try again.", preferredStyle: .alert)
-            networkConnectionAlert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
-            self.present(networkConnectionAlert, animated: true, completion: nil)
-            
-            return
-        }
-        
         startFindingCurrentLocation(alertsEnabled: true)
     }
     
     
     //Kick off the process of finding current GPS location.  Once it begins updating, the location manager's didUpdateLocation method will take control from there
     func startFindingCurrentLocation(alertsEnabled: Bool) {
-        if (!CLLocationManager.locationServicesEnabled()) {
+        guard (currentNetworkConnectionStatus != .notReachable) else {
+            if (alertsEnabled) {
+                alertNoNetworkConnection()
+            }
+            return
+        }
+        
+        guard (CLLocationManager.locationServicesEnabled()) else {
             if (alertsEnabled) {
                 let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "Location services are not enabled on this device.  Go to Settings -> Privacy -> Location Services and enable location services.", preferredStyle: .alert)
                 gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -411,9 +409,10 @@ class WeatherViewController: UIViewController {
             }
             return
         }
-        else if (CLLocationManager.authorizationStatus() == .denied ||
-                 CLLocationManager.authorizationStatus() == .restricted ||
-                 CLLocationManager.authorizationStatus() == .notDetermined) {
+        
+        guard (CLLocationManager.authorizationStatus() != .denied ||
+               CLLocationManager.authorizationStatus() != .restricted ||
+               CLLocationManager.authorizationStatus() != .notDetermined) else {
             if (alertsEnabled) {
                 let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "GPS is not enabled for this app.  Go to Settings -> Privacy -> Location Services and allow the app to utilize GPS.", preferredStyle: .alert)
                 gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -421,10 +420,13 @@ class WeatherViewController: UIViewController {
             }
             return
         }
-        else if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse ||
-                 CLLocationManager.authorizationStatus() == .authorizedAlways) {
-            startChangingGPSPlaceShown()
+        
+        guard (CLLocationManager.authorizationStatus() != .authorizedWhenInUse ||
+            CLLocationManager.authorizationStatus() != .authorizedAlways) else {
+                return
         }
+        
+        startChangingGPSPlaceShown()
     }
     
     

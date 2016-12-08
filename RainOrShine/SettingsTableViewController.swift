@@ -87,6 +87,10 @@ class SettingsTableViewController: UITableViewController {
         case (2, 0):
             presentNightStandInfoAlert()
         case (3, 0):
+            guard (currentNetworkConnectionStatus != .notReachable) else {
+                alertNoNetworkConnection()
+                break
+            }
             iapHelper.removePaymentQueueObserver()
             iapHelper.addPaymentQueueObserver()
             presentRemoveAdsAlert()

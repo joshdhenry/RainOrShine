@@ -9,5 +9,7 @@
 import Foundation
 
 protocol NetworkConnectionTester {
+    var currentNetworkConnectionStatus: NetworkConnectionStatus { get }
     
+    func alertNoNetworkConnection()
 }
