@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		030EC3CC1DF61EC700B76435 /* AppLogoImageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030EC3CB1DF61EC700B76435 /* AppLogoImageViewModelTests.swift */; };
+		030EC3CE1DF9418B00B76435 /* NetworkConnectionTesterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030EC3CD1DF9418B00B76435 /* NetworkConnectionTesterProtocol.swift */; };
+		030EC3D21DF9425C00B76435 /* NSObjectExtensionNetworkConnectionTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030EC3D11DF9425C00B76435 /* NSObjectExtensionNetworkConnectionTester.swift */; };
 		0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5071DC1DBC200E453A0 /* AppDelegate.swift */; };
 		0313E50A1DC1DBC200E453A0 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0313E5091DC1DBC200E453A0 /* WeatherViewController.swift */; };
 		0313E50D1DC1DBC200E453A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0313E50B1DC1DBC200E453A0 /* Main.storyboard */; };
@@ -107,6 +109,8 @@
 
 /* Begin PBXFileReference section */
 		030EC3CB1DF61EC700B76435 /* AppLogoImageViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppLogoImageViewModelTests.swift; sourceTree = "<group>"; };
+		030EC3CD1DF9418B00B76435 /* NetworkConnectionTesterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConnectionTesterProtocol.swift; sourceTree = "<group>"; };
+		030EC3D11DF9425C00B76435 /* NSObjectExtensionNetworkConnectionTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObjectExtensionNetworkConnectionTester.swift; sourceTree = "<group>"; };
 		0313E5041DC1DBC200E453A0 /* RainOrShine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RainOrShine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0313E5071DC1DBC200E453A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0313E5091DC1DBC200E453A0 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = WeatherViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -428,6 +432,7 @@
 		0391F84F1DC55689005B5BBF /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				030EC3CD1DF9418B00B76435 /* NetworkConnectionTesterProtocol.swift */,
 				038354D51DD94904005C1F76 /* WeatherViewControllerSubViewProtocol.swift */,
 			);
 			name = Protocols;
@@ -442,6 +447,7 @@
 				03FD6DE01DD1A1E2004F7FA6 /* StringExtension.swift */,
 				033DE0641DCD0E140082F7A0 /* UIColorExtension.swift */,
 				0337AA7B1DCEB2DC00E6478B /* UIViewExtension.swift */,
+				030EC3D11DF9425C00B76435 /* NSObjectExtensionNetworkConnectionTester.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -835,8 +841,10 @@
 				03FD6DDB1DD154C4004F7FA6 /* PhotoDetailView.swift in Sources */,
 				0313E5381DC2A21A00E453A0 /* WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift in Sources */,
 				038354C91DD85807005C1F76 /* PhotoDetailViewModel.swift in Sources */,
+				030EC3CE1DF9418B00B76435 /* NetworkConnectionTesterProtocol.swift in Sources */,
 				0332B1D31DE6E65200659E41 /* Products.swift in Sources */,
 				038354C71DD81F69005C1F76 /* LocationViewModel.swift in Sources */,
+				030EC3D21DF9425C00B76435 /* NSObjectExtensionNetworkConnectionTester.swift in Sources */,
 				03B2DE781DC73F9700CFFA83 /* CurrentWeatherView.swift in Sources */,
 				03650ABA1DF53304004546C8 /* AppLogoImageViewModel.swift in Sources */,
 				035401771DE2999D00E79A07 /* Settings.swift in Sources */,

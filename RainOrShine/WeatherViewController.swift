@@ -292,6 +292,8 @@ class WeatherViewController: UIViewController {
         
         switch (userInfo) {
         case "UpdateWeather":
+            guard (currentNetworkConnectionStatus != .notReachable) else {return}
+            
             loadNewPlaceWeather() { (isComplete) -> () in
                 if (isComplete) {
                     DispatchQueue.main.async {
@@ -384,8 +386,17 @@ class WeatherViewController: UIViewController {
     //The order of changing to a new location based on current GPS and displaying it goes like this
     //currentLocationButtonTapped -> startFindingCurrentLocation -> location manager didUpdateLocation -> updateLocationAPIServiceLocations -> locationAPIService.setCurrentExactPlace -> locationAPIService.setGeneralLocalePlace -> changePlaceShown -> loadNewPlacePhotos & loadNewPlaceWeather -> finishChangingPlaceShown
     
-    //If the GPS button is tapped, show weather for user's current location
+    //If the GPS button is tapped, check if the user has a net connection, then show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
+
+        guard (currentNetworkConnectionStatus != .notReachable) else {
+            let networkConnectionAlert = UIAlertController(title: "No Network Connection", message: "No network connection available. Please connect to the Internet and try again.", preferredStyle: .alert)
+            networkConnectionAlert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+            self.present(networkConnectionAlert, animated: true, completion: nil)
+            
+            return
+        }
+        
         startFindingCurrentLocation(alertsEnabled: true)
     }
     
@@ -480,6 +491,8 @@ class WeatherViewController: UIViewController {
         currentLocationButton.isEnabled = false
         activityIndicator.startAnimating()
         
+        locationSearchView.isUserInteractionEnabled = false
+        
         //Reset the gps signals received counter
         validGPSConsecutiveSignalsReceived = 0
         
@@ -491,7 +504,10 @@ class WeatherViewController: UIViewController {
     private func finishChangingPlaceShown() {
         self.locationManager.stopUpdatingLocation()
         self.currentLocationButton.isEnabled = true
+        
         self.activityIndicator.stopAnimating()
+        
+        locationSearchView.isUserInteractionEnabled = true
     }
     
     
