@@ -12,6 +12,7 @@ import UIKit
 //AppLogoImageView is the Vista Weather logo that is displayed when the default image is displayed.
 class AppLogoImageView: UIImageView {
     
+    // MARK: - Properties
     let currentSettings = Settings()
     
     // MARK: View Model

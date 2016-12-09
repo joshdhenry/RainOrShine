@@ -11,7 +11,6 @@ import Foundation
 protocol PurchaseUpdatesObserver {
     
     // MARK: - Required Methods
-
     func createPurchaseUpdatesObservers()
     func catchPurchasesRestoredNotification(notification:Notification) -> Void
     func catchPurchasesRestoreFailureNotification(notification:Notification) -> Void

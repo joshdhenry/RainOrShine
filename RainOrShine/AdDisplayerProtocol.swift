@@ -12,5 +12,5 @@ import Foundation
 protocol AdDisplayer {
     
     // MARK: - Required methods
-    func showAds()
+    func displayAds()
 }

@@ -9,6 +9,7 @@
 import Foundation
 
 struct SettingsViewModel {
+    
     // MARK: - Properties
     let currentTemperatureUnit: Observable<Settings.TemperatureUnitSetting?>
     let currentUpdateWeatherInterval: Observable<Settings.UpdateWeatherIntervalSetting?>

@@ -11,6 +11,7 @@ import GooglePlaces
 
 //PhotoDetailView is the view that shows photo attributions and a page control.
 class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
+    
     // MARK: - Properties
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var photoAttributionLabel: UILabel!

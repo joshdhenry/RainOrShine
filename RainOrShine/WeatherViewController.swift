@@ -9,11 +9,12 @@
 import UIKit
 import GooglePlaces
 import GoogleMobileAds
+import CoreLocation
 
 //WeatherViewController is the main screen for the entire app.
 class WeatherViewController: UIViewController {
+    
     // MARK: - Properties
-
     // MARK: Type Aliases
     typealias ScreenSize = CGSize
     
@@ -26,7 +27,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var futureWeatherView: FutureWeatherView!
     @IBOutlet weak var adBannerView: GADBannerView!
     @IBOutlet weak var photoDetailViewBottomConstraint: NSLayoutConstraint!
-    public var locationSearchView: LocationSearchView!
+    internal var locationSearchView: LocationSearchView!
     @IBOutlet weak var appLogoImageView: AppLogoImageView!
     @IBOutlet weak var currentLocationButton: UIBarButtonItem!
     
@@ -37,14 +38,6 @@ class WeatherViewController: UIViewController {
     internal let refreshImageWithNewDefaultPhotosSettingsNotification = Notification.Name(rawValue: "RefreshImageWithNewDefaultPhotosSettings")
 
     // MARK: Variables
-    internal var screenWidthAndHeight: ScreenSize {
-        if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
-            return ScreenSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        }
-        else {
-            return ScreenSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
-        }
-    }
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
@@ -59,7 +52,6 @@ class WeatherViewController: UIViewController {
     
     
     // MARK: - Methods
-    
     // MARK: UIViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,7 +78,7 @@ class WeatherViewController: UIViewController {
         
         createTimeObservers()
         setNightStandMode()
-        showAds()
+        displayAds()
     }
     
     

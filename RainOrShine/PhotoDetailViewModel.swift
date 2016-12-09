@@ -9,6 +9,7 @@
 import Foundation
 
 struct PhotoDetailViewModel {
+    
     // MARK: - Properties
     let currentGeneralLocalePlace: Observable<Place?>
     let currentPlaceImageIndex: Observable<Int?>

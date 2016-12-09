@@ -12,6 +12,15 @@ import UIKit
 //Handle all functions related to the Google Place search bar
 extension WeatherViewController: UISearchBarDelegate {
     
+    internal var screenWidthAndHeight: ScreenSize {
+        if (UIScreen.main.bounds.width < UIScreen.main.bounds.height) {
+            return ScreenSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        }
+        else {
+            return ScreenSize(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+        }
+    }
+    
     // MARK: - Methods
     
     //Initialize and configure the Google Places search controllers

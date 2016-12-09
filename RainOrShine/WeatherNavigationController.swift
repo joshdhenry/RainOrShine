@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+//The main navigation controller used by the app.
 class WeatherNavigationController: UINavigationController {
     
     // MARK: - Properties
