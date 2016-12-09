@@ -58,7 +58,7 @@ class SettingsTableViewController: UITableViewController {
     // MARK: UITableViewController Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         createPaymentUpdatesObservers()
     }
     
@@ -134,26 +134,19 @@ class SettingsTableViewController: UITableViewController {
     // MARK: Methods to catch IAP notifications
     //Catch purchases restored notification center notifications
     func catchAlertPurchasesRestoredNotification(notification:Notification) -> Void {
-        let purchasesRestoredAlert = UIAlertController(title: "Purchases Restored", message: "Any prior purchases you have made have now been restored to this device.", preferredStyle: .alert)
-        purchasesRestoredAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(purchasesRestoredAlert, animated: true, completion: nil)
+        displaySimpleAlert(title: "Purchases Restored", message: "Any prior purchases you have made have now been restored to this device.", buttonText: "OK")
     }
-    
     
     //Catch purchase failure notification center notifications
     func catchAlertPurchasesRestoreFailureNotification(notification:Notification) -> Void {
-        let purchasesRestoreFailureAlert = UIAlertController(title: "Purchase Restore Failed", message: "There was a problem restoring prior purchases.", preferredStyle: .alert)
-        purchasesRestoreFailureAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(purchasesRestoreFailureAlert, animated: true, completion: nil)
+        displaySimpleAlert(title: "Purchase Restore Failed", message: "There was a problem restoring prior purchases.", buttonText: "OK")
     }
     
     
     // MARK: Night Stand Methods
     //Present an alert that tells the user what night stand mode is and how it works
     func presentNightStandInfoAlert() {
-        let nightStandModeInfoAlert = UIAlertController(title: "Night Stand Mode", message: "Night Stand Mode prevents your device from locking and going to sleep as long as your device is on the charger.", preferredStyle: .alert)
-        nightStandModeInfoAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(nightStandModeInfoAlert, animated: true, completion: nil)
+        displaySimpleAlert(title: "Night Stand Mode", message: "Night Stand Mode prevents your device from locking and going to sleep as long as your device is on the charger.", buttonText: "OK")
     }
     
     

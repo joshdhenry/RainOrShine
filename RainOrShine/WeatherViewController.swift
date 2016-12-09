@@ -403,9 +403,7 @@ class WeatherViewController: UIViewController {
         
         guard (CLLocationManager.locationServicesEnabled()) else {
             if (alertsEnabled) {
-                let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "Location services are not enabled on this device.  Go to Settings -> Privacy -> Location Services and enable location services.", preferredStyle: .alert)
-                gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(gpsAlert, animated: true, completion: nil)
+                displaySimpleAlert(title: "GPS Not Enabled", message: "Location services are not enabled on this device.  Go to Settings -> Privacy -> Location Services and enable location services.", buttonText: "OK")
             }
             return
         }
@@ -414,16 +412,14 @@ class WeatherViewController: UIViewController {
                CLLocationManager.authorizationStatus() != .restricted ||
                CLLocationManager.authorizationStatus() != .notDetermined) else {
             if (alertsEnabled) {
-                let gpsAlert = UIAlertController(title: "GPS Not Enabled", message: "GPS is not enabled for this app.  Go to Settings -> Privacy -> Location Services and allow the app to utilize GPS.", preferredStyle: .alert)
-                gpsAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(gpsAlert, animated: true, completion: nil)
+                displaySimpleAlert(title: "GPS Not Enabled", message: "GPS is not enabled for this app.  Go to Settings -> Privacy -> Location Services and allow the app to utilize GPS.", buttonText: "OK")
             }
             return
         }
         
         guard (CLLocationManager.authorizationStatus() != .authorizedWhenInUse ||
-            CLLocationManager.authorizationStatus() != .authorizedAlways) else {
-                return
+               CLLocationManager.authorizationStatus() != .authorizedAlways) else {
+            return
         }
         
         startChangingGPSPlaceShown()

@@ -27,9 +27,7 @@ extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
             present(mailController, animated: true, completion: nil)
         }
         else {
-            let alert = UIAlertController(title: "Email Error", message: "Sorry, this device is not configured to send messages.", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
+            displaySimpleAlert(title: "Email Error", message: "Sorry, this device is not configured to send messages.", buttonText: "OK")
         }
     }
     
