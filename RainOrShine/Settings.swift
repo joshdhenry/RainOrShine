@@ -8,6 +8,7 @@
 
 import Foundation
 
+//The Settings struct is used to store and retrieve variables in UserDefaults.
 struct Settings {
     // MARK: - Properties
     let savedAppSettings = UserDefaults.standard
@@ -40,6 +41,10 @@ struct Settings {
     
     
     // MARK: Computed Properties
+    
+    //If getting any variable, pull the setting from UserDefaults (unless there is no setting in UserDefaults, then just use a default value)
+    //If setting any variable, also be sure to set the UserDefaults
+    
     var useDefaultPhotos: UseDefaultPhotosSetting {
         get {
             let appSettingRawValue: String = savedAppSettings.object(forKey: "useDefaultPhotos") as? String ?? UseDefaultPhotosSetting.whenNoPictures.rawValue
@@ -50,8 +55,6 @@ struct Settings {
             savedAppSettings.set(newValue.rawValue, forKey: "useDefaultPhotos")
         }
     }
-    
-    
     
     var temperatureUnit: TemperatureUnitSetting {
         get {
@@ -64,7 +67,6 @@ struct Settings {
         }
     }
     
-    
     var updateWeatherInterval: UpdateWeatherIntervalSetting {
         get {
             let appSettingRawValue: String = savedAppSettings.object(forKey: "updateWeatherInterval") as? String ?? UpdateWeatherIntervalSetting.thirty.rawValue
@@ -75,7 +77,6 @@ struct Settings {
             savedAppSettings.set(newValue.rawValue, forKey: "updateWeatherInterval")
         }
     }
-    
     
     var changePhotoInterval: ChangePhotoIntervalSetting {
         get {
@@ -88,7 +89,6 @@ struct Settings {
         }
     }
     
-    
     var nightStandModeOn: Bool {
         get {
             let nightStandModeAppSetting: Bool = savedAppSettings.object(forKey: "nightStandModeOn") as? Bool ?? false
@@ -98,7 +98,6 @@ struct Settings {
             savedAppSettings.set(newValue, forKey: "nightStandModeOn")
         }
     }
-    
     
     var removeAdsPurchased: Bool {
         get {

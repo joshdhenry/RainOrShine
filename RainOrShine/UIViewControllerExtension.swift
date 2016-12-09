@@ -17,8 +17,8 @@ enum NetworkConnectionStatus {
 
 extension UIViewController: NetworkConnectionTester {
 
+    // MARK: - Properties
     var currentNetworkConnectionStatus: NetworkConnectionStatus {
-        
         var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
         zeroAddress.sin_family = sa_family_t(AF_INET)
@@ -59,6 +59,7 @@ extension UIViewController: NetworkConnectionTester {
     }
     
     
+    // MARK: - Method
     internal func alertNoNetworkConnection() {
         let networkConnectionAlert = UIAlertController(title: "No Network Connection", message: "No network connection available. Please connect to the Internet and try again.", preferredStyle: .alert)
         networkConnectionAlert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))

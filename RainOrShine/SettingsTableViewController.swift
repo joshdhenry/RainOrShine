@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+//SettingsTableViewController is the table view controller that is the main control center for changing any settings for the app.
 class SettingsTableViewController: UITableViewController {
     
     // MARK: - Properties
@@ -105,6 +106,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     
+    //If the night stand info button accessory is tapped, call the method to display an informational alert
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         if ((indexPath.section, indexPath.row) == (2,0)) {
             presentNightStandInfoAlert()
@@ -147,6 +149,7 @@ class SettingsTableViewController: UITableViewController {
     
     
     // MARK: Night Stand Methods
+    //Present an alert that tells the user what night stand mode is and how it works
     func presentNightStandInfoAlert() {
         let nightStandModeInfoAlert = UIAlertController(title: "Night Stand Mode", message: "Night Stand Mode prevents your device from locking and going to sleep as long as your device is on the charger.", preferredStyle: .alert)
         nightStandModeInfoAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
@@ -170,11 +173,13 @@ class SettingsTableViewController: UITableViewController {
     }
     
     
+    //Purchase the removal of ads
     func purchaseRemoveAds(alertAction: UIAlertAction) {
         iapHelper.startProductRequest(productID: Products.removeAds)
     }
     
     
+    //Restore any previous purchases made
     func restorePurchaseRemoveAds(alertAction: UIAlertAction) {
         iapHelper.restorePurchases()
     }

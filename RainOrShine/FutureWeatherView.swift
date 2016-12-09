@@ -9,6 +9,7 @@
 import UIKit
 import ForecastIO
 
+//FutureWeatherView is the view that holds 5 FutureWeatherDayViews for the 5 day forecast
 class FutureWeatherView: UIView, WeatherViewControllerSubView {
     // MARK: - Properties
     @IBOutlet var view: UIView!

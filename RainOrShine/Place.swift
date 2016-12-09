@@ -9,6 +9,7 @@
 import Foundation
 import GooglePlaces
 
+//The place class is used to store a Google Place along with place image information.
 class Place {
     // MARK: - Properties
     public var gmsPlace: GMSPlace?

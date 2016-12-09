@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 protocol WeatherViewControllerSubView {
+    
     // MARK: - Required methods
     func setViewStyle()
     func setViewEdges()

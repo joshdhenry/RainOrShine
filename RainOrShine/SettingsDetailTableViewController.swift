@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+//SettingsDetailTableViewController is the table view controller displayed when changing a specific setting.
 class SettingsDetailTableViewController: UITableViewController {
     // MARK: - Properties
     public var currentSettingsCategory: String!

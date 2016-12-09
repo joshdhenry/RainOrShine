@@ -9,6 +9,7 @@
 import UIKit
 import GooglePlaces
 
+//PhotoDetailView is the view that shows photo attributions and a page control.
 class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
     // MARK: - Properties
     @IBOutlet weak var view: UIView!
@@ -111,7 +112,7 @@ class PhotoDetailView: UIVisualEffectView, WeatherViewControllerSubView {
     }
     
 
-    //Advance forwards or backwards through page numbers, accounting for total number of pages
+    //Advance forwards or backwards through page numbers, accounting for total number of pages. If looping is enabled, it will wrap around once it has reached the last image.
     public func advancePage(direction: UISwipeGestureRecognizerDirection, place: Place, looping: Bool) -> Int{
         if (direction == UISwipeGestureRecognizerDirection.left) {
             if (self.photoPageControl.currentPage == (self.photoPageControl.numberOfPages - 1) &&

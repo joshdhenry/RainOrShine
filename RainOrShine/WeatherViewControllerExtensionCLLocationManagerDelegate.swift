@@ -9,8 +9,11 @@
 import Foundation
 import CoreLocation
 
+//Handle all functions related to finding the user's current GPS position
 extension WeatherViewController: CLLocationManagerDelegate {
+    
     // MARK: - Methods
+    
     //Set and configure the location manager
     internal func configureLocationManager() {
         locationManager.delegate = self

@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 extension UIView {
+    
     // MARK: - Properties
     var allSubViews : [UIView] {
         var array = [self.subviews].flatMap {$0}

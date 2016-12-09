@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import GooglePlaces
 
+//LocationSearchView is the toolbar that lets the user search for any location in the world.
 class LocationSearchView: UIView {
     
     // MARK: - Properties

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+//AppLogoImageView is the Vista Weather logo that is displayed when the default image is displayed.
 class AppLogoImageView: UIImageView {
     
     let currentSettings = Settings()
@@ -16,9 +17,7 @@ class AppLogoImageView: UIImageView {
     // MARK: View Model
     var viewModel: AppLogoImageViewModel? {
         didSet {
-            viewModel?.currentPlaceImageIndex.observe { [unowned self] in
-                let appLogoImage: UIImage = UIImage(named: "AppLogo")!
-                
+            viewModel?.currentPlaceImageIndex.observe { [unowned self] in                
                 guard let thisCurrentGeneralLocalePlace = self.viewModel?.currentGeneralLocalePlace.value else {
                     //Place is nil.  App must be just starting
                     self.isHidden = false

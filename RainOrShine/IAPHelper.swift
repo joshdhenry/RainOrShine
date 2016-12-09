@@ -64,6 +64,7 @@ class IAPHelper: NSObject {
     }
     
     
+    //Restore previously completed transactions
     public func restorePurchases() {
         if (SKPaymentQueue.canMakePayments()) {
             SKPaymentQueue.default().restoreCompletedTransactions()

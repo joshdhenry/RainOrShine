@@ -8,6 +8,7 @@
 
 import UIKit
 
+//FutureWeatherDayView shows high/low temperatures and weather conditions for one day of a 5 day forecast
 class FutureWeatherDayView: UIVisualEffectView, WeatherViewControllerSubView {
     // MARK: - Properties
     @IBOutlet weak var view: UIView!

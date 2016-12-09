@@ -11,6 +11,7 @@ import CoreLocation
 import GooglePlaces
 import GoogleMobileAds
 
+//WeatherViewController is the main screen for the entire app.
 class WeatherViewController: UIViewController {
     // MARK: - Properties
 
@@ -32,9 +33,7 @@ class WeatherViewController: UIViewController {
     
     // MARK: Constants
     internal let defaults = UserDefaults.standard
-
     let locationManager = CLLocationManager()
-    
     private let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
     private let refreshImageWithNewDefaultPhotosSettingsNotification = Notification.Name(rawValue: "RefreshImageWithNewDefaultPhotosSettings")
 
@@ -162,6 +161,7 @@ class WeatherViewController: UIViewController {
     }
     
     
+    //If the settings button was tapped, segue to SettingsTableViewController
     @IBAction func settingsButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "SegueSettings", sender: self)
     }
@@ -347,7 +347,7 @@ class WeatherViewController: UIViewController {
     // MARK: Ad Methods
 
     //Display ads, or don't, depending on if the Remove Ads IAP has been purchased.
-    func showAds() {
+    private func showAds() {
         //If the "remove ads" IAP hasn't been purchased, show ads
         if (!defaults.bool(forKey: "RemoveAdsPurchased")) {
             createAdBannerView()
@@ -392,8 +392,8 @@ class WeatherViewController: UIViewController {
     }
     
     
-    //Kick off the process of finding current GPS location.  Once it begins updating, the location manager's didUpdateLocation method will take control from there
-    func startFindingCurrentLocation(alertsEnabled: Bool) {
+    //Start the process of finding current GPS location.  Once it begins updating, the location manager's didUpdateLocation method will take control from there
+    private func startFindingCurrentLocation(alertsEnabled: Bool) {
         guard (currentNetworkConnectionStatus != .notReachable) else {
             if (alertsEnabled) {
                 alertNoNetworkConnection()
@@ -431,7 +431,7 @@ class WeatherViewController: UIViewController {
     
     
     //This method updates the location by running setCurrentExactPlace and setGeneralLocalePlace.  It is only called when the user taps the GPS current location button.
-    func updateLocationAPIServiceLocations() {
+    internal func updateLocationAPIServiceLocations() {
         makeSubViewsInvisible()
         
         locationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
@@ -489,15 +489,11 @@ class WeatherViewController: UIViewController {
     
     
     //Start changing the place shown when the GPS button is tapped
-    func startChangingGPSPlaceShown() {
+    private func startChangingGPSPlaceShown() {
         currentLocationButton.isEnabled = false
         activityIndicator.startAnimating()
-        
         locationSearchView.isUserInteractionEnabled = false
-        
-        //Reset the gps signals received counter
         validGPSConsecutiveSignalsReceived = 0
-        
         locationManager.startUpdatingLocation()
     }
     
@@ -506,9 +502,7 @@ class WeatherViewController: UIViewController {
     private func finishChangingPlaceShown() {
         self.locationManager.stopUpdatingLocation()
         self.currentLocationButton.isEnabled = true
-        
         self.activityIndicator.stopAnimating()
-        
         locationSearchView.isUserInteractionEnabled = true
     }
     

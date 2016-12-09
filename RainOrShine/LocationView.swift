@@ -8,6 +8,7 @@
 
 import UIKit
 
+//LocationView shows the general location address of the current location loaded into the app
 class LocationView: UIVisualEffectView, WeatherViewControllerSubView {
     // MARK: - Properties
     @IBOutlet weak var view: UIView!

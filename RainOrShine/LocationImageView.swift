@@ -8,8 +8,10 @@
 
 import UIKit
 
+//LocationImageView shows an image for the location
 class LocationImageView: UIImageView {
 
+    // MARK: Properties
     let currentSettings = Settings()
     
     // MARK: View Model

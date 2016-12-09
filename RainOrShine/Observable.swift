@@ -8,14 +8,12 @@
 
 import Foundation
 
+//The Observable class is a wrapper for variables that is useful changing a view model whenever the observed variable is set or modified.
 class Observable<T> {
+
+    // MARK: - Properties
     typealias Observer = (T) -> Void
     var observer: Observer?
-    
-    func observe(observer: Observer?) {
-        self.observer = observer
-        observer?(value)
-    }
     
     //If the value was set, run the observer function
     var value: T {
@@ -24,8 +22,18 @@ class Observable<T> {
         }
     }
     
+    
+    // MARK: - Initializer
     //Call didSet when value is initiated
     init(_ value: T) {
         self.value = value
+    }
+    
+    
+    // MARK: - Method
+    //This is run when the value is set. It wraps the value with an observer.
+    func observe(observer: Observer?) {
+        self.observer = observer
+        observer?(value)
     }
 }

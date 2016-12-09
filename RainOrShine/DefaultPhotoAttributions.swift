@@ -9,6 +9,7 @@
 import Foundation
 
 struct DefaultPhotoAttributions {
+    
     // MARK: - Properties
     static var defaultPhotoAttributionsArray: [String] = ["diego_torres (pixabay.com)",
                                                           "ateles76 (pixabay.com)",

@@ -9,7 +9,9 @@
 import Foundation
 
 protocol NetworkConnectionTester {
+    // MARK: - Required properties
     var currentNetworkConnectionStatus: NetworkConnectionStatus { get }
     
+    // MARK: - Required methods
     func alertNoNetworkConnection()
 }

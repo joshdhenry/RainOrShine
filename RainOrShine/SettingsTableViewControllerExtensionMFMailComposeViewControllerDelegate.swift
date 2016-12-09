@@ -11,9 +11,12 @@ import UIKit
 import MessageUI
 
 
+//Handle all methods relating to composing an email to support@vistaweather.com.
 extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
     
     // MARK: - Methods
+    
+    //Begin composing email to support
     internal func composeMail() {
         if MFMailComposeViewController.canSendMail() {
             let mailController = MFMailComposeViewController()
@@ -31,6 +34,7 @@ extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
     }
     
     
+    //If the mail compose controller is finished, dismiss it
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }

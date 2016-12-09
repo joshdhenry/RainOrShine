@@ -8,7 +8,8 @@
 
 import Foundation
 import GooglePlaces
-// Handle the user's selection..
+
+//Handle all functions related to the selection of a new place from the Google Place search.
 extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
     
     // MARK: - Methods
@@ -25,9 +26,7 @@ extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
         makeSubViewsInvisible()
         
         let searchedPlace = Place(place: place)
-        
         self.photoDetailView.viewModel?.updatePlace(newPlace: searchedPlace)
-
         locationAPIService.currentPlace = searchedPlace
 
         //Set the general locale of the place (better for pictures and displaying user's location)

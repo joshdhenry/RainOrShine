@@ -120,9 +120,6 @@ class SKYIconView: UIView {
     }
     
     func play() {
-        
-        
-        
         if _timer != nil {
             self.pause()
         }

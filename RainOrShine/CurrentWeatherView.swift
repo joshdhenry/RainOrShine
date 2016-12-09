@@ -9,6 +9,7 @@
 import UIKit
 import ForecastIO
 
+//CurrentWeatherView is the view that shows the current temperature and weather condition summary
 class CurrentWeatherView: UIVisualEffectView, WeatherViewControllerSubView {
     // MARK: - Properties
     @IBOutlet weak var view: UIView!

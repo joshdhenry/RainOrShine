@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+//Handle all functions related to the Google Place search bar
 extension WeatherViewController: UISearchBarDelegate {
     // MARK: - Methods
     //Initialize and configure the Google Places search controllers

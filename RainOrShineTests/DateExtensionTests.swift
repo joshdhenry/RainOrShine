@@ -31,6 +31,6 @@ class DateExtensionTests: XCTestCase {
         let aCalendar = Calendar.current
         
         let aDate = aCalendar.date(from: aDateComponents)!
-        XCTAssert(aDate.abbreviatedDayString == "Sat", "The abbreviated day name is not correct.")
+        XCTAssert(aDate.getAbbreviatedDayString(timeZoneIdentifier: "GMT") == "Sat", "The abbreviated day name is not correct.")
     }
 }
