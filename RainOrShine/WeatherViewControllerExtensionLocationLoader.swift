@@ -13,6 +13,8 @@ import CoreLocation
 //Handle all duties related to loading in a new location in WeatherViewController.
 extension WeatherViewController: LocationLoader {
     
+    // MARK: - Methods
+
     //Start the process of finding current GPS location.  Once it begins updating, the location manager's didUpdateLocation method will take control from there
     func startFindingCurrentLocation(alertsEnabled: Bool) {
         guard (currentNetworkConnectionStatus != .notReachable) else {

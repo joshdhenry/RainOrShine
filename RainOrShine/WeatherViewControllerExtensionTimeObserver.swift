@@ -12,6 +12,8 @@ import UIKit
 //Handle all timers for WeatherViewController
 extension WeatherViewController: TimeObserver {
     
+    // MARK: - Methods
+    
     //Create a time observer to run every 10 minutes to refresh the weather forecast
     internal func createTimeObservers() {
         //Create the update weather forecast timer

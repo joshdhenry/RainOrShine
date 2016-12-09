@@ -11,6 +11,9 @@ import UIKit
 
 //Handle notifcations from SettingsDetailTableViewController when settings change
 extension WeatherViewController: SettingsUpdatesObserver {
+    
+    // MARK: - Methods
+
     //Create the observers to catch notifications sent from Settings Detail Table View Controller
     func createSettingsUpdatesObservers() {
         NotificationCenter.default.addObserver(forName: refreshWeatherForecastNotification, object: nil, queue: nil, using: catchRefreshWeatherForecastNotification)

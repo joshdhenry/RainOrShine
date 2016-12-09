@@ -78,6 +78,8 @@
 		03B074F21DFA86810040E4E3 /* WeatherViewControllerExtensionAdDisplayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B074F11DFA86810040E4E3 /* WeatherViewControllerExtensionAdDisplayer.swift */; };
 		03B074F41DFA88170040E4E3 /* LocationLoaderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B074F31DFA88170040E4E3 /* LocationLoaderProtocol.swift */; };
 		03B074F61DFA88370040E4E3 /* WeatherViewControllerExtensionLocationLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B074F51DFA88370040E4E3 /* WeatherViewControllerExtensionLocationLoader.swift */; };
+		03B074F81DFA8F5A0040E4E3 /* PurchaseUpdatesObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B074F71DFA8F5A0040E4E3 /* PurchaseUpdatesObserver.swift */; };
+		03B074FA1DFA8F7D0040E4E3 /* SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B074F91DFA8F7D0040E4E3 /* SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift */; };
 		03B2DE701DC5D1EA00CFFA83 /* WeatherAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */; };
 		03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE711DC7073900CFFA83 /* Place.swift */; };
 		03B2DE761DC73ECD00CFFA83 /* CurrentWeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03B2DE751DC73ECD00CFFA83 /* CurrentWeatherView.xib */; };
@@ -197,6 +199,8 @@
 		03B074F11DFA86810040E4E3 /* WeatherViewControllerExtensionAdDisplayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerExtensionAdDisplayer.swift; sourceTree = "<group>"; };
 		03B074F31DFA88170040E4E3 /* LocationLoaderProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationLoaderProtocol.swift; sourceTree = "<group>"; };
 		03B074F51DFA88370040E4E3 /* WeatherViewControllerExtensionLocationLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerExtensionLocationLoader.swift; sourceTree = "<group>"; };
+		03B074F71DFA8F5A0040E4E3 /* PurchaseUpdatesObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseUpdatesObserver.swift; sourceTree = "<group>"; };
+		03B074F91DFA8F7D0040E4E3 /* SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift; sourceTree = "<group>"; };
 		03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAPIService.swift; sourceTree = "<group>"; };
 		03B2DE711DC7073900CFFA83 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Place.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		03B2DE751DC73ECD00CFFA83 /* CurrentWeatherView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentWeatherView.xib; sourceTree = "<group>"; };
@@ -419,8 +423,9 @@
 			isa = PBXGroup;
 			children = (
 				0337AA791DCEA7C600E6478B /* SettingsTableViewController.swift */,
-				0374C24B1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift */,
 				0374C26E1DEB815F00E86B21 /* SettingsViewModel.swift */,
+				0374C24B1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift */,
+				03B074F91DFA8F7D0040E4E3 /* SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift */,
 			);
 			name = SettingsTableViewController;
 			sourceTree = "<group>";
@@ -464,6 +469,7 @@
 				03B074EB1DFA83510040E4E3 /* SettingsUpdatesObserverProtocol.swift */,
 				03B074E71DFA7CFD0040E4E3 /* TimeObserverProtocol.swift */,
 				038354D51DD94904005C1F76 /* WeatherViewControllerSubViewProtocol.swift */,
+				03B074F71DFA8F5A0040E4E3 /* PurchaseUpdatesObserver.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -871,6 +877,7 @@
 				0313E50A1DC1DBC200E453A0 /* WeatherViewController.swift in Sources */,
 				0313E5081DC1DBC200E453A0 /* AppDelegate.swift in Sources */,
 				038354D21DD92145005C1F76 /* FutureWeatherViewModel.swift in Sources */,
+				03B074FA1DFA8F7D0040E4E3 /* SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift in Sources */,
 				0374C24F1DE8148E00E86B21 /* IAPHelperExtensionSKProductsRequestDelegate.swift in Sources */,
 				0337AA7C1DCEB2DC00E6478B /* UIViewExtension.swift in Sources */,
 				03B556A21DE142B400B1B55A /* WeatherViewControllerExtensionUISearchBarDelegate.swift in Sources */,
@@ -879,6 +886,7 @@
 				03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */,
 				03B074E01DFA64FF0040E4E3 /* AlertDisplayerProtocol.swift in Sources */,
 				038354B61DD2DAD4005C1F76 /* FutureWeatherView.swift in Sources */,
+				03B074F81DFA8F5A0040E4E3 /* PurchaseUpdatesObserver.swift in Sources */,
 				03FD6DDB1DD154C4004F7FA6 /* PhotoDetailView.swift in Sources */,
 				0313E5381DC2A21A00E453A0 /* WeatherViewControllerExtensionGMSAutocompleteResultsViewControllerDelegate.swift in Sources */,
 				03B074F21DFA86810040E4E3 /* WeatherViewControllerExtensionAdDisplayer.swift in Sources */,

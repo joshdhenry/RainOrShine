@@ -19,6 +19,7 @@ class WeatherNavigationController: UINavigationController {
         }
     }
     
+    // MARK: - Initializer
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         

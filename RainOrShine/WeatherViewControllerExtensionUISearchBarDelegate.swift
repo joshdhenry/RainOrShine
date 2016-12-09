@@ -11,7 +11,9 @@ import UIKit
 
 //Handle all functions related to the Google Place search bar
 extension WeatherViewController: UISearchBarDelegate {
+    
     // MARK: - Methods
+    
     //Initialize and configure the Google Places search controllers
     internal func createLocationSearchElements() {
         locationSearchView = LocationSearchView(withOrientation: UIDevice.current.orientation, screenWidthAndHeight: screenWidthAndHeight)
