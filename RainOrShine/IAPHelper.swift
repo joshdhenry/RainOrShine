@@ -43,7 +43,8 @@ class IAPHelper: NSObject {
     
     //Handle errors when fetching products
     internal func request(_ request: SKRequest, didFailWithError error: Error) {
-        print("Error Fetching product information")
+        let purchaseFailureNotification = Notification.Name(rawValue:"PurchaseFailed")
+        NotificationCenter.default.post(name: purchaseFailureNotification, object: nil)
     }
     
     
@@ -55,11 +56,10 @@ class IAPHelper: NSObject {
             let productsRequest: SKProductsRequest = SKProductsRequest(productIdentifiers: productIDSet)
             productsRequest.delegate = self
             productsRequest.start()
-            
-            print("Fetching Products")
         }
         else{
-            print("Error - This user can't make purchases.");
+            let purchaseFailureNotification = Notification.Name(rawValue:"PurchaseFailed")
+            NotificationCenter.default.post(name: purchaseFailureNotification, object: nil)
         }
     }
     

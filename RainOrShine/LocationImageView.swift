@@ -8,7 +8,7 @@
 
 import UIKit
 
-//LocationImageView shows an image for the location
+//LocationImageView is the large background image for the location
 class LocationImageView: UIImageView {
 
     // MARK: Properties

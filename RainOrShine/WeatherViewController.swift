@@ -52,7 +52,7 @@ class WeatherViewController: UIViewController {
     private var isStatusBarVisible: Bool = true
     private var weatherAPIService: WeatherAPIService = WeatherAPIService()
     internal var locationAPIService: LocationAPIService = LocationAPIService()
-    private var currentSettings = Settings()
+    internal var currentSettings = Settings()
     private var updateWeatherTimer: Timer = Timer()
     private var changePhotoTimer: Timer = Timer()
     internal var validGPSConsecutiveSignalsReceived: Int = 0
@@ -129,19 +129,6 @@ class WeatherViewController: UIViewController {
         locationImageView.viewModel = LocationImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
         photoDetailView.viewModel = PhotoDetailViewModel(place: locationAPIService.currentPlace, imageIndex: nil)
         appLogoImageView.viewModel = AppLogoImageViewModel(placeImageIndex: locationAPIService.currentPlaceImageIndex, place: locationAPIService.currentPlace)
-    }
-    
-    
-    //Turn on or off the screen lock depending on the charging status and whether night stand mode is on/off in Settings
-    private func setNightStandMode() {
-        if (currentSettings.nightStandModeOn == true &&
-            UIDevice.current.batteryState == UIDeviceBatteryState.charging ||
-            UIDevice.current.batteryState == UIDeviceBatteryState.full) {
-            UIApplication.shared.isIdleTimerDisabled = true
-        }
-        else {
-            UIApplication.shared.isIdleTimerDisabled = false
-        }
     }
     
     
@@ -270,19 +257,6 @@ class WeatherViewController: UIViewController {
     }
     
     
-    //Begin monitoring charging state.
-    private func createBatteryStateObserver() {
-        UIDevice.current.isBatteryMonitoringEnabled = true
-        NotificationCenter.default.addObserver(self, selector: #selector(self.batteryStateDidChange), name: Notification.Name.UIDeviceBatteryStateDidChange, object: nil)
-    }
-    
-    
-    //If the battery state changes, turn on or off the screen lock accordingly
-    dynamic func batteryStateDidChange(notification: NSNotification){
-        setNightStandMode()
-    }
-    
-    
     //This is called when a time observer's time has been reached.
     dynamic func timeIntervalReached(timer: Timer) {
         guard let userInfo = timer.userInfo as? String else {
@@ -372,7 +346,7 @@ class WeatherViewController: UIViewController {
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         let keys = NSDictionary(contentsOfFile: path)!
         
-        //CURRENTLY USING A TEST UNIT ID FOR DEVELOPMENT.
+        //CURRENTLY USING A TEST UNIT ID FOR DEVELOPMENT.!!!!!!!
         //SWITCH TO THE REAL UNIT ID BEFORE PUBLISHING
         adBannerView.adUnitID = keys["TestGoogleMobileAdsAdUnitID"] as? String
         adBannerView.rootViewController = self

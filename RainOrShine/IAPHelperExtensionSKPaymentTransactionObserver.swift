@@ -30,8 +30,9 @@ extension IAPHelper: SKPaymentTransactionObserver {
                 SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                 break
             case .failed:
-                if let error = currentTransaction.error {
-                    print("Error - Purchase Failed - \(error.localizedDescription)")
+                if (currentTransaction.error != nil) {
+                    let purchaseFailureNotification = Notification.Name(rawValue:"PurchaseFailed")
+                    NotificationCenter.default.post(name: purchaseFailureNotification, object: nil)
                 }
                 
                 SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
@@ -50,14 +51,14 @@ extension IAPHelper: SKPaymentTransactionObserver {
     internal func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
         print("Error restoring completed transactions - \(error.localizedDescription)")
         
-        let alertPurchasesRestoreFailureNotification = Notification.Name(rawValue:"alertPurchasesRestoreFailed")
-        NotificationCenter.default.post(name: alertPurchasesRestoreFailureNotification, object: nil)
+        let purchasesRestoreFailureNotification = Notification.Name(rawValue:"PurchasesRestoreFailed")
+        NotificationCenter.default.post(name: purchasesRestoreFailureNotification, object: nil)
     }
     
     
     //If a purchase restoration completed, send a notification to SettingsTableViewController to alert the user
     internal func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        let alertPurchasesRestoredNotification = Notification.Name(rawValue:"alertPurchasesRestored")
-        NotificationCenter.default.post(name: alertPurchasesRestoredNotification, object: nil)
+        let purchasesRestoredNotification = Notification.Name(rawValue:"purchasesRestored")
+        NotificationCenter.default.post(name: purchasesRestoredNotification, object: nil)
     }
 }

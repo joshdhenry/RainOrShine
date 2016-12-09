@@ -22,8 +22,11 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var nightStandModeSwitch: UISwitch!
     
     // MARK: Constants
-    private let alertPurchasesRestoredNotification = Notification.Name(rawValue:"alertPurchasesRestored")
-    private let alertPurchasesRestoreFailureNotification = Notification.Name(rawValue:"alertPurchasesRestoreFailed")
+    private let purchasesRestoredNotification = Notification.Name(rawValue:"purchasesRestored")
+    private let purchasesRestoreFailureNotification = Notification.Name(rawValue:"purchasesRestoreFailed")
+    private let purchaseFailureNotification = Notification.Name(rawValue:"purchaseFailed")
+
+    
     private let iapHelper: IAPHelper = IAPHelper()
     
     // MARK: Variables
@@ -116,8 +119,10 @@ class SettingsTableViewController: UITableViewController {
     // MARK: Observers
     //Create the observers to catch notifications sent from Settings Detail Table View Controller
     private func createPaymentUpdatesObservers() {
-        NotificationCenter.default.addObserver(forName: alertPurchasesRestoredNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoredNotification)
-        NotificationCenter.default.addObserver(forName: alertPurchasesRestoreFailureNotification, object: nil, queue: nil, using: catchAlertPurchasesRestoreFailureNotification)
+        NotificationCenter.default.addObserver(forName: purchasesRestoredNotification, object: nil, queue: nil, using: catchPurchasesRestoredNotification)
+        NotificationCenter.default.addObserver(forName: purchasesRestoreFailureNotification, object: nil, queue: nil, using: catchPurchasesRestoreFailureNotification)
+        NotificationCenter.default.addObserver(forName: purchaseFailureNotification, object: nil, queue: nil, using: catchPurchaseFailureNotification)
+
     }
     
     
@@ -133,13 +138,19 @@ class SettingsTableViewController: UITableViewController {
     
     // MARK: Methods to catch IAP notifications
     //Catch purchases restored notification center notifications
-    func catchAlertPurchasesRestoredNotification(notification:Notification) -> Void {
+    func catchPurchasesRestoredNotification(notification:Notification) -> Void {
         displaySimpleAlert(title: "Purchases Restored", message: "Any prior purchases you have made have now been restored to this device.", buttonText: "OK")
     }
     
-    //Catch purchase failure notification center notifications
-    func catchAlertPurchasesRestoreFailureNotification(notification:Notification) -> Void {
+    //Catch restore purchases failure notification center notifications
+    func catchPurchasesRestoreFailureNotification(notification:Notification) -> Void {
         displaySimpleAlert(title: "Purchase Restore Failed", message: "There was a problem restoring prior purchases.", buttonText: "OK")
+    }
+    
+    
+    //Catch purchase failure notification center notifications
+    func catchPurchaseFailureNotification(notification:Notification) -> Void {
+        displaySimpleAlert(title: "Purchase Failed", message: "There was a problem making the purchase. Please try again.", buttonText: "OK")
     }
     
     

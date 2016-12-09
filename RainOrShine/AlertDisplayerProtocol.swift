@@ -8,6 +8,7 @@
 
 import Foundation
 
+//This protocol is for any view controller that needs to display simple alerts/error messages
 protocol AlertDisplayer {
     func displaySimpleAlert(title: String, message: String, buttonText: String)
 }

@@ -23,7 +23,9 @@ extension IAPHelper: SKProductsRequestDelegate {
             }
         }
         else {
-            print("Error - Product request returned no products.")
+            //Product request returned no products.
+            let purchaseFailureNotification = Notification.Name(rawValue:"purchaseFailed")
+            NotificationCenter.default.post(name: purchaseFailureNotification, object: nil)
         }
     }
 }

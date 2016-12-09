@@ -8,7 +8,9 @@
 
 import Foundation
 
+//Used for any object that needs to know whether the device is online or not
 protocol NetworkConnectionTester {
+    
     // MARK: - Required properties
     var currentNetworkConnectionStatus: NetworkConnectionStatus { get }
     

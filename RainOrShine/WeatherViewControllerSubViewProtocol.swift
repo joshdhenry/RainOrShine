@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+//This protocol is used for subviews in WeatherViewController
 protocol WeatherViewControllerSubView {
     
     // MARK: - Required methods
