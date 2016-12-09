@@ -78,6 +78,7 @@
 		03B074F81DFA8F5A0040E4E3 /* PurchaseUpdatesObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B074F71DFA8F5A0040E4E3 /* PurchaseUpdatesObserver.swift */; };
 		03B074FA1DFA8F7D0040E4E3 /* SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B074F91DFA8F7D0040E4E3 /* SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift */; };
 		03B074FC1DFAA31F0040E4E3 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B074FB1DFAA31F0040E4E3 /* SettingsViewModelTests.swift */; };
+		03B074FE1DFB46210040E4E3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 03B074FD1DFB46210040E4E3 /* README.md */; };
 		03B2DE701DC5D1EA00CFFA83 /* WeatherAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */; };
 		03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE711DC7073900CFFA83 /* Place.swift */; };
 		03B2DE761DC73ECD00CFFA83 /* CurrentWeatherView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03B2DE751DC73ECD00CFFA83 /* CurrentWeatherView.xib */; };
@@ -197,6 +198,7 @@
 		03B074F71DFA8F5A0040E4E3 /* PurchaseUpdatesObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseUpdatesObserver.swift; sourceTree = "<group>"; };
 		03B074F91DFA8F7D0040E4E3 /* SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewControllerExtensionPurchaseUpdatesObserver.swift; sourceTree = "<group>"; };
 		03B074FB1DFAA31F0040E4E3 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
+		03B074FD1DFB46210040E4E3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		03B2DE6F1DC5D1EA00CFFA83 /* WeatherAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAPIService.swift; sourceTree = "<group>"; };
 		03B2DE711DC7073900CFFA83 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Place.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		03B2DE751DC73ECD00CFFA83 /* CurrentWeatherView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentWeatherView.xib; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 		0313E4FB1DC1DBC200E453A0 = {
 			isa = PBXGroup;
 			children = (
+				03B074FD1DFB46210040E4E3 /* README.md */,
 				0313E5061DC1DBC200E453A0 /* RainOrShine */,
 				0313E51B1DC1DBC200E453A0 /* RainOrShineTests */,
 				0313E5261DC1DBC200E453A0 /* RainOrShineUITests */,
@@ -281,7 +284,6 @@
 		0313E5061DC1DBC200E453A0 /* RainOrShine */ = {
 			isa = PBXGroup;
 			children = (
-				035DED631DE6533700F7BFFF /* GoogleService-Info.plist */,
 				0337AA781DCEA78D00E6478B /* View Controllers */,
 				03E614C31DE1876F00F2C157 /* Navigation Controllers */,
 				03391ABE1DC8A35D00EBF622 /* Custom Views */,
@@ -294,6 +296,7 @@
 				0313E5101DC1DBC200E453A0 /* LaunchScreen.storyboard */,
 				0313E5131DC1DBC200E453A0 /* Info.plist */,
 				0313E5391DC3C94600E453A0 /* APIKeys.plist */,
+				035DED631DE6533700F7BFFF /* GoogleService-Info.plist */,
 			);
 			path = RainOrShine;
 			sourceTree = "<group>";
@@ -879,6 +882,7 @@
 				03FD6DD61DD13E61004F7FA6 /* WeatherNavigationController.swift in Sources */,
 				03B2DE721DC7073A00CFFA83 /* Place.swift in Sources */,
 				03B074E01DFA64FF0040E4E3 /* AlertDisplayerProtocol.swift in Sources */,
+				03B074FE1DFB46210040E4E3 /* README.md in Sources */,
 				038354B61DD2DAD4005C1F76 /* FutureWeatherView.swift in Sources */,
 				03B074F81DFA8F5A0040E4E3 /* PurchaseUpdatesObserver.swift in Sources */,
 				03FD6DDB1DD154C4004F7FA6 /* PhotoDetailView.swift in Sources */,

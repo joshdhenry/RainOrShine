@@ -24,7 +24,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
                 let productIdentifier = currentTransaction.payment.productIdentifier
 
                 if (productIdentifier == Products.removeAds) {
-                    defaults.set(true, forKey: "RemoveAdsPurchased")
+                    currentSettings.removeAdsPurchased = true
                 }
                 
                 SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)

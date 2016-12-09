@@ -12,25 +12,25 @@ import StoreKit
 class IAPHelper: NSObject {
     
     // MARK: - Properties
-    internal let defaults = UserDefaults.standard
+    internal var currentSettings = Settings()
 
     // MARK: - Initializer
     override init() {
         super.init()
     }
     
-    
+    // MARK: - Methods
+    //Add a payment to the SKPaymentQueue
     func addPaymentQueueObserver() {
         SKPaymentQueue.default().add(self)
     }
     
-    
+    //Remove a payment from the SKPaymentQueue
     func removePaymentQueueObserver() {
         SKPaymentQueue.default().remove(self)
     }
     
     
-    // MARK: - Methods
     //Buy a product by adding a payment to the SKPaymentQueue
     internal func buyProduct(product: SKProduct){
         print("Sending the Payment Request to Apple")

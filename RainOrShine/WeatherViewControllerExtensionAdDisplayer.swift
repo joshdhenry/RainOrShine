@@ -17,7 +17,7 @@ extension WeatherViewController: AdDisplayer {
     //Display ads, or don't, depending on if the Remove Ads IAP has been purchased.
     internal func displayAds() {
         //If the "remove ads" IAP hasn't been purchased, show ads
-        if (!defaults.bool(forKey: "RemoveAdsPurchased")) {
+        if (!currentSettings.removeAdsPurchased) {
             createAdBannerView()
             wasPreviouslyShowingAds = true
         }
