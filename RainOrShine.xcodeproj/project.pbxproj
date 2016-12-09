@@ -36,12 +36,9 @@
 		0374C24C1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C24B1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift */; };
 		0374C24F1DE8148E00E86B21 /* IAPHelperExtensionSKProductsRequestDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C24E1DE8148E00E86B21 /* IAPHelperExtensionSKProductsRequestDelegate.swift */; };
 		0374C2511DE8153700E86B21 /* IAPHelperExtensionSKPaymentTransactionObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2501DE8153700E86B21 /* IAPHelperExtensionSKPaymentTransactionObserver.swift */; };
-		0374C2531DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2521DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift */; };
-		0374C2551DE859E100E86B21 /* SettingsTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2541DE859E100E86B21 /* SettingsTableViewControllerTests.swift */; };
 		0374C2571DE8D01C00E86B21 /* SettingsDetailViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2561DE8D01C00E86B21 /* SettingsDetailViewControllerUITests.swift */; };
 		0374C25B1DEA554B00E86B21 /* SettingsTableViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C25A1DEA554B00E86B21 /* SettingsTableViewControllerUITests.swift */; };
 		0374C25D1DEA977000E86B21 /* CurrentWeatherViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C25C1DEA977000E86B21 /* CurrentWeatherViewModelTests.swift */; };
-		0374C25F1DEA9AD200E86B21 /* FutureWeatherViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C25E1DEA9AD200E86B21 /* FutureWeatherViewModelTests.swift */; };
 		0374C2611DEA9B6400E86B21 /* LocationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2601DEA9B6400E86B21 /* LocationViewModelTests.swift */; };
 		0374C2631DEA9BC500E86B21 /* LocationImageViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2621DEA9BC500E86B21 /* LocationImageViewModelTests.swift */; };
 		0374C2651DEA9C7400E86B21 /* PhotoDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0374C2641DEA9C7400E86B21 /* PhotoDetailViewModelTests.swift */; };
@@ -158,12 +155,9 @@
 		0374C24B1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift; sourceTree = "<group>"; };
 		0374C24E1DE8148E00E86B21 /* IAPHelperExtensionSKProductsRequestDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelperExtensionSKProductsRequestDelegate.swift; sourceTree = "<group>"; };
 		0374C2501DE8153700E86B21 /* IAPHelperExtensionSKPaymentTransactionObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPHelperExtensionSKPaymentTransactionObserver.swift; sourceTree = "<group>"; };
-		0374C2521DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDetailTableViewControllerTests.swift; sourceTree = "<group>"; };
-		0374C2541DE859E100E86B21 /* SettingsTableViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewControllerTests.swift; sourceTree = "<group>"; };
 		0374C2561DE8D01C00E86B21 /* SettingsDetailViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDetailViewControllerUITests.swift; sourceTree = "<group>"; };
 		0374C25A1DEA554B00E86B21 /* SettingsTableViewControllerUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewControllerUITests.swift; sourceTree = "<group>"; };
 		0374C25C1DEA977000E86B21 /* CurrentWeatherViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentWeatherViewModelTests.swift; sourceTree = "<group>"; };
-		0374C25E1DEA9AD200E86B21 /* FutureWeatherViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FutureWeatherViewModelTests.swift; sourceTree = "<group>"; };
 		0374C2601DEA9B6400E86B21 /* LocationViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewModelTests.swift; sourceTree = "<group>"; };
 		0374C2621DEA9BC500E86B21 /* LocationImageViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationImageViewModelTests.swift; sourceTree = "<group>"; };
 		0374C2641DEA9C7400E86B21 /* PhotoDetailViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewModelTests.swift; sourceTree = "<group>"; };
@@ -313,15 +307,12 @@
 				0374C25C1DEA977000E86B21 /* CurrentWeatherViewModelTests.swift */,
 				0374C26A1DEAA05C00E86B21 /* DateExtensionTests.swift */,
 				0374C26C1DEAA09B00E86B21 /* FloatExtensionTests.swift */,
-				0374C25E1DEA9AD200E86B21 /* FutureWeatherViewModelTests.swift */,
 				03D47E4A1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift */,
 				0374C2621DEA9BC500E86B21 /* LocationImageViewModelTests.swift */,
 				03E614BE1DE17E1900F2C157 /* LocationSearchViewTests.swift */,
 				0374C2601DEA9B6400E86B21 /* LocationViewModelTests.swift */,
 				0374C2641DEA9C7400E86B21 /* PhotoDetailViewModelTests.swift */,
 				0363E8251DDECAC8009EA3E0 /* PlaceTests.swift */,
-				0374C2521DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift */,
-				0374C2541DE859E100E86B21 /* SettingsTableViewControllerTests.swift */,
 				0374C2681DEA9EEB00E86B21 /* SettingsTest.swift */,
 				03B074FB1DFAA31F0040E4E3 /* SettingsViewModelTests.swift */,
 				0374C2701DEBCF7F00E86B21 /* StringExtensionTests.swift */,
@@ -933,7 +924,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0374C2531DE858D700E86B21 /* SettingsDetailTableViewControllerTests.swift in Sources */,
 				03E614BF1DE17E1900F2C157 /* LocationSearchViewTests.swift in Sources */,
 				030EC3CC1DF61EC700B76435 /* AppLogoImageViewModelTests.swift in Sources */,
 				0374C2611DEA9B6400E86B21 /* LocationViewModelTests.swift in Sources */,
@@ -948,10 +938,8 @@
 				0374C25D1DEA977000E86B21 /* CurrentWeatherViewModelTests.swift in Sources */,
 				0374C26D1DEAA09B00E86B21 /* FloatExtensionTests.swift in Sources */,
 				03D47E4B1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift in Sources */,
-				0374C25F1DEA9AD200E86B21 /* FutureWeatherViewModelTests.swift in Sources */,
 				0374C2651DEA9C7400E86B21 /* PhotoDetailViewModelTests.swift in Sources */,
 				0374C26B1DEAA05C00E86B21 /* DateExtensionTests.swift in Sources */,
-				0374C2551DE859E100E86B21 /* SettingsTableViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
