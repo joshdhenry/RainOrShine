@@ -45,6 +45,13 @@ extension WeatherViewController: UISearchBarDelegate {
     }
     
     
+    //Show or hide the status bar
+    internal func showStatusBar(enabled: Bool) {
+        isStatusBarVisible = enabled
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    
     //If the user is searching, disable rotation until finished
     internal func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         Rotation.allowed = false

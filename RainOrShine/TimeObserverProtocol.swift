@@ -10,6 +10,8 @@ import Foundation
 
 //This protocol can be used by anything that uses timers
 protocol TimeObserver {
+    
+    // MARK: - Required methods
     func createTimeObservers()
     func destroyTimeObservers()
     func timeIntervalReached(timer: Timer)

@@ -10,6 +10,8 @@ import Foundation
 
 //This protocol is used by WeatherViewController to handle all functions related to Night Stand Mode
 protocol NightStand {
+    
+    // MARK: - Required methods
     func setNightStandMode()
     func createBatteryStateObserver()
     func batteryStateDidChange(notification: NSNotification)

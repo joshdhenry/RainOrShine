@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreLocation
 import GooglePlaces
 import GoogleMobileAds
 
@@ -33,9 +32,9 @@ class WeatherViewController: UIViewController {
     
     // MARK: Constants
     internal let defaults = UserDefaults.standard
-    let locationManager = CLLocationManager()
-    private let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
-    private let refreshImageWithNewDefaultPhotosSettingsNotification = Notification.Name(rawValue: "RefreshImageWithNewDefaultPhotosSettings")
+    internal let locationManager = CLLocationManager()
+    internal let refreshWeatherForecastNotification = Notification.Name(rawValue:"RefreshWeatherForecast")
+    internal let refreshImageWithNewDefaultPhotosSettingsNotification = Notification.Name(rawValue: "RefreshImageWithNewDefaultPhotosSettings")
 
     // MARK: Variables
     internal var screenWidthAndHeight: ScreenSize {
@@ -49,14 +48,14 @@ class WeatherViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return !isStatusBarVisible
     }
-    private var isStatusBarVisible: Bool = true
-    private var weatherAPIService: WeatherAPIService = WeatherAPIService()
+    internal var isStatusBarVisible: Bool = true
+    internal var weatherAPIService: WeatherAPIService = WeatherAPIService()
     internal var locationAPIService: LocationAPIService = LocationAPIService()
     internal var currentSettings = Settings()
     internal var updateWeatherTimer: Timer = Timer()
     internal var changePhotoTimer: Timer = Timer()
     internal var validGPSConsecutiveSignalsReceived: Int = 0
-    private var wasPreviouslyShowingAds: Bool = true
+    internal var wasPreviouslyShowingAds: Bool = true
     
     
     // MARK: - Methods
@@ -112,7 +111,7 @@ class WeatherViewController: UIViewController {
     }
     
     
-    // MARK: Various Methods
+    // MARK: Other Various Methods
     
     //Set all API keys for all APIs being used in this controller
     private func setAllAPIKeys() {
@@ -122,7 +121,7 @@ class WeatherViewController: UIViewController {
     
     
     //Create all the view models that will be needed for this controller and its subviews
-    func initializeViewModels() {
+    private func initializeViewModels() {
         currentWeatherView.viewModel = CurrentWeatherViewModel(forecast: weatherAPIService.currentWeatherForecast)
         futureWeatherView.viewModel = FutureWeatherViewModel(forecastDataPointArray: weatherAPIService.forecastDayDataPointArray, timeZoneIdentifier: "GMT")
         locationView.viewModel = LocationViewModel(place: locationAPIService.currentPlace)
@@ -132,10 +131,11 @@ class WeatherViewController: UIViewController {
     }
     
     
-    //Show or hide the status bar
-    internal func showStatusBar(enabled: Bool) {
-        isStatusBarVisible = enabled
-        setNeedsStatusBarAppearanceUpdate()
+    //Reset view model image indices with a resetValue of nil or 0
+    internal func resetViewModelImageIndices(resetValue: Int?) {
+        self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
+        self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
+        self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
     }
     
     
@@ -148,56 +148,34 @@ class WeatherViewController: UIViewController {
     }
     
     
+    //The order of changing to a new location based on current GPS and displaying it goes like this
+    //currentLocationButtonTapped -> startFindingCurrentLocation -> location manager didUpdateLocation -> updateLocationAPIServiceLocations -> locationAPIService.setCurrentExactPlace -> locationAPIService.setGeneralLocalePlace -> changePlaceShown -> loadNewPlacePhotos & loadNewPlaceWeather -> finishChangingPlaceShown
+    
+    //If the GPS button is tapped, check if the user has a net connection, then show weather for user's current location
+    @IBAction func currentLocationButtonTapped(_ sender: Any) {
+        startFindingCurrentLocation(alertsEnabled: true)
+    }
+    
+    
     //If the settings button was tapped, segue to SettingsTableViewController
     @IBAction func settingsButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "SegueSettings", sender: self)
     }
 
     
-    //Reset view model image indices with a resetValue of nil or 0
-    private func resetViewModelImageIndices(resetValue: Int?) {
-        self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
-        self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
-        self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
+    //Create the tap recognizer to detect if the screen was tapped once, which will show/hide futureWeatherView
+    private func setTapRecognizer() -> UITapGestureRecognizer {
+        return UITapGestureRecognizer(target: self, action: #selector (self.viewTapped (_:)))
     }
     
     
-    // MARK: Observers and Recognizers
-    
-    //Create the observers to catch notifications sent from Settings Detail Table View Controller
-    private func createSettingsUpdatesObservers() {
-        NotificationCenter.default.addObserver(forName: refreshWeatherForecastNotification, object: nil, queue: nil, using: catchRefreshWeatherForecastNotification)
-        NotificationCenter.default.addObserver(forName: refreshImageWithNewDefaultPhotosSettingsNotification, object: nil, queue: nil, using: catchRefreshImageWithNewDefaultPhotosSettingsNotification)
-    }
-    
-    
-    //Catch notification center notifications
-    func catchRefreshWeatherForecastNotification(notification:Notification) -> Void {
-        loadNewPlaceWeather() { (isComplete) -> () in
-            if (isComplete) {
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                }
-            }
+    //If the view was tapped, fade in or out the 5 day forecast
+    internal func viewTapped(_ sender:UITapGestureRecognizer) {
+        if (futureWeatherView.alpha == 0) {
+            futureWeatherView.fadeIn(withDuration: 0.75, finalAlpha: 0.8)
         }
-    }
-    
-    
-    //If the user has changed the setting that determines how default photos are used in the app, adjust the UI to represent these new settings
-    func catchRefreshImageWithNewDefaultPhotosSettingsNotification(notification:Notification) -> Void {
-        guard let generalLocalePlace = locationAPIService.generalLocalePlace else {return}
-        
-        if (generalLocalePlace.photoArray.isEmpty &&
-            currentSettings.useDefaultPhotos == .never) {
-            resetViewModelImageIndices(resetValue: nil)
-        }
-        else if (generalLocalePlace.photoArray.isEmpty &&
-            currentSettings.useDefaultPhotos == .always ||
-            currentSettings.useDefaultPhotos == .whenNoPictures) {
-            resetViewModelImageIndices(resetValue: 0)
-        }
-        else if (!generalLocalePlace.photoArray.isEmpty) {
-            resetViewModelImageIndices(resetValue: 0)
+        else {
+            futureWeatherView.fadeOut()
         }
     }
     
@@ -222,26 +200,6 @@ class WeatherViewController: UIViewController {
     }
     
     
-    //Create the tap recognizer to detect if the screen was tapped once, which will show/hide futureWeatherView
-    private func setTapRecognizer() -> UITapGestureRecognizer {
-        return UITapGestureRecognizer(target: self, action: #selector (self.viewTapped (_:)))
-    }
-    
-    
-
-    
-    
-    //If the view was tapped, fade in or out the 5 day forecast
-    internal func viewTapped(_ sender:UITapGestureRecognizer) {
-        if (futureWeatherView.alpha == 0) {
-            futureWeatherView.fadeIn(withDuration: 0.75, finalAlpha: 0.8)
-        }
-        else {
-            futureWeatherView.fadeOut()
-        }
-    }
-    
-    
     //If the user swipes right or left, adjust viewmodel.updatePlaceImageIndex accordingly
     dynamic func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
         guard let swipeGesture = gesture as? UISwipeGestureRecognizer else {return}
@@ -255,216 +213,6 @@ class WeatherViewController: UIViewController {
             
             locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
             appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
-        }
-    }
-    
-    
-    // MARK: Ad Methods
-
-    //Display ads, or don't, depending on if the Remove Ads IAP has been purchased.
-    private func showAds() {
-        //If the "remove ads" IAP hasn't been purchased, show ads
-        if (!defaults.bool(forKey: "RemoveAdsPurchased")) {
-            createAdBannerView()
-            wasPreviouslyShowingAds = true
-        }
-        //else don't show ads
-        else {
-            if (wasPreviouslyShowingAds) {
-                //Move the photo detail view down to account for the ads being gone now
-                photoDetailViewBottomConstraint.constant -= adBannerView.adSize.size.height
-                
-                adBannerView.removeFromSuperview()
-                
-                wasPreviouslyShowingAds = false
-            }
-        }
-    }
-    
-    
-    //Load the banner ad
-    private func createAdBannerView() {
-        guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
-        let keys = NSDictionary(contentsOfFile: path)!
-        
-        //CURRENTLY USING A TEST UNIT ID FOR DEVELOPMENT.!!!!!!!
-        //SWITCH TO THE REAL UNIT ID BEFORE PUBLISHING
-        adBannerView.adUnitID = keys["TestGoogleMobileAdsAdUnitID"] as? String
-        adBannerView.rootViewController = self
-        adBannerView.load(GADRequest())
-    }
-    
-    
-    
-    // MARK: Methods to load a new location
-    
-    //The order of changing to a new location based on current GPS and displaying it goes like this
-    //currentLocationButtonTapped -> startFindingCurrentLocation -> location manager didUpdateLocation -> updateLocationAPIServiceLocations -> locationAPIService.setCurrentExactPlace -> locationAPIService.setGeneralLocalePlace -> changePlaceShown -> loadNewPlacePhotos & loadNewPlaceWeather -> finishChangingPlaceShown
-    
-    //If the GPS button is tapped, check if the user has a net connection, then show weather for user's current location
-    @IBAction func currentLocationButtonTapped(_ sender: Any) {
-        startFindingCurrentLocation(alertsEnabled: true)
-    }
-    
-    
-    //Start the process of finding current GPS location.  Once it begins updating, the location manager's didUpdateLocation method will take control from there
-    private func startFindingCurrentLocation(alertsEnabled: Bool) {
-        guard (currentNetworkConnectionStatus != .notReachable) else {
-            if (alertsEnabled) {
-                alertNoNetworkConnection()
-            }
-            return
-        }
-        
-        guard (CLLocationManager.locationServicesEnabled()) else {
-            if (alertsEnabled) {
-                displaySimpleAlert(title: "GPS Not Enabled", message: "Location services are not enabled on this device.  Go to Settings -> Privacy -> Location Services and enable location services.", buttonText: "OK")
-            }
-            return
-        }
-        
-        guard (CLLocationManager.authorizationStatus() != .denied ||
-               CLLocationManager.authorizationStatus() != .restricted ||
-               CLLocationManager.authorizationStatus() != .notDetermined) else {
-            if (alertsEnabled) {
-                displaySimpleAlert(title: "GPS Not Enabled", message: "GPS is not enabled for this app.  Go to Settings -> Privacy -> Location Services and allow the app to utilize GPS.", buttonText: "OK")
-            }
-            return
-        }
-        
-        guard (CLLocationManager.authorizationStatus() != .authorizedWhenInUse ||
-               CLLocationManager.authorizationStatus() != .authorizedAlways) else {
-            return
-        }
-        
-        startChangingGPSPlaceShown()
-    }
-    
-    
-    //This method updates the location by running setCurrentExactPlace and setGeneralLocalePlace.  It is only called when the user taps the GPS current location button.
-    internal func updateLocationAPIServiceLocations() {
-        makeSubViewsInvisible()
-        
-        locationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
-            if (isLocationFound) {
-                self.photoDetailView.viewModel?.updatePlace(newPlace: locationPlace)
-                
-                self.locationAPIService.currentPlace = locationPlace
-                
-                //Set the general locale of the place (better for pictures and displaying user's location than exact addresses)
-                self.locationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
-                    if (isGeneralLocaleFound) {
-                        self.locationView.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
-                        
-                        self.locationAPIService.generalLocalePlace = generalLocalePlace
-                        
-                        self.changePlaceShown()
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    //Change the place that will be displayed in this view controller (including new place photos and weather forecast)
-    internal func changePlaceShown() {        
-        print("Exact place address - \(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
-        print("General location address - \(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
-
-        var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
-        
-        resetValuesForNewPlace()
-        
-        //Run 2 methods - loadNewPlacePhotos & loadNewPlaceWeather. Once both are complete, run finishChangingPlaceShown to complete the process
-        loadNewPlacePhotos() { (isComplete) -> () in
-            if (isComplete) {
-                changePlaceCompletionFlags.photosComplete = true
-                if (changePlaceCompletionFlags.weatherComplete) {
-                    DispatchQueue.main.async {
-                        self.finishChangingPlaceShown()
-                    }
-                }
-            }
-        }
-        loadNewPlaceWeather() { (isComplete) -> () in
-            if (isComplete) {
-                changePlaceCompletionFlags.weatherComplete = true
-                if (changePlaceCompletionFlags.photosComplete) {
-                    DispatchQueue.main.async {
-                        self.finishChangingPlaceShown()
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    //Start changing the place shown when the GPS button is tapped
-    private func startChangingGPSPlaceShown() {
-        currentLocationButton.isEnabled = false
-        activityIndicator.startAnimating()
-        locationSearchView.isUserInteractionEnabled = false
-        validGPSConsecutiveSignalsReceived = 0
-        locationManager.startUpdatingLocation()
-    }
-    
-    
-    //Perform final actions to complete the transition to a new place. This applies to finishing GPS locations and Google Place Search locations.
-    private func finishChangingPlaceShown() {
-        self.locationManager.stopUpdatingLocation()
-        self.currentLocationButton.isEnabled = true
-        self.activityIndicator.stopAnimating()
-        locationSearchView.isUserInteractionEnabled = true
-    }
-    
-    
-    //This function is called by changePlaceShown and is run right before acquiring new values for a new place.
-    //It resets some values to create a clean slate for the next place to be shown.
-    private func resetValuesForNewPlace() {
-        photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: nil, place: nil)
-        locationAPIService.generalLocalePlace?.photoArray.removeAll(keepingCapacity: false)
-        locationAPIService.generalLocalePlace?.photoMetaDataArray.removeAll(keepingCapacity: false)
-    }
-    
-    
-    //Update the view model to display new place photos after a new place has been chosen
-    private func loadNewPlacePhotos(completion: @escaping (_ result: Bool) ->()) {
-        locationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
-            if (isImageSet) {
-                guard let thisCurrentGeneralLocalePlace = self.locationAPIService.generalLocalePlace else {
-                    print("Error - Current place is nil. Cannot set photos of the general locale.")
-                    return
-                }
-                
-                //If there are no photos and the user never wants to see default photos, hide location image and photo detail view
-                if (thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
-                    self.currentSettings.useDefaultPhotos == .never) {
-                    self.resetViewModelImageIndices(resetValue: nil)
-                }
-                //Else reset image page control to the beginning
-                else {
-                    self.resetViewModelImageIndices(resetValue: 0)
-                }
-                completion(true)
-            }
-        }
-    }
-    
-    
-    //Get the weather forecast. Update the view model to display weather info when a new place has been chosen.
-    internal func loadNewPlaceWeather(completion: @escaping (_ result: Bool) ->()) {
-        guard let currentPlace = locationAPIService.currentPlace else {return}
-        guard let currentGMSPlace = currentPlace.gmsPlace else {return}
-        
-        weatherAPIService.forecastDayDataPointArray.removeAll(keepingCapacity: false)
-        
-        weatherAPIService.setCurrentWeatherForecast(latitude: currentGMSPlace.coordinate.latitude, longitude: currentGMSPlace.coordinate.longitude) { (forecastRetrieved) -> () in
-            if (forecastRetrieved) {
-                self.currentWeatherView.viewModel?.updateForecast(newForecast: self.weatherAPIService.currentWeatherForecast)
-                self.futureWeatherView.viewModel?.updateForecastDayDataPointArray(newForecastDayDataPointArray: self.weatherAPIService.forecastDayDataPointArray, newTimeZoneIdentifier: self.weatherAPIService.currentWeatherForecast?.timezone)
-                
-                completion(true)
-            }
         }
     }
 }
