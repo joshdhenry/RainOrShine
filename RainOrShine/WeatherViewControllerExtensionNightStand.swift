@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+//Handle all functions related to Night Stand Mode
 extension WeatherViewController: NightStand {
     //Turn on or off the screen lock depending on the charging status and whether night stand mode is on/off in Settings
     internal func setNightStandMode() {
