@@ -40,9 +40,10 @@ extension WeatherViewController: AdDisplayer {
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {return}
         let keys = NSDictionary(contentsOfFile: path)!
         
-        //CURRENTLY USING A TEST UNIT ID FOR DEVELOPMENT.!!!!!!!
-        //SWITCH TO THE REAL UNIT ID BEFORE PUBLISHING
-        adBannerView.adUnitID = keys["TestGoogleMobileAdsAdUnitID"] as? String
+        //If you need to test the app and turn on test ads, use the following line instead of the one below it.
+        //adBannerView.adUnitID = keys["TestGoogleMobileAdsAdUnitID"] as? String
+        
+        adBannerView.adUnitID = keys["GoogleMobileAdsAdUnitID"] as? String
         adBannerView.rootViewController = self
         adBannerView.load(GADRequest())
     }
