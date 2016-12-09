@@ -26,7 +26,7 @@ class PhotoDetailViewModelTests: XCTestCase {
     func testUpdatePlace() {
         photoDetailViewModel.updatePlace(newPlace: Place())
         
-        XCTAssert(photoDetailViewModel.currentGeneralLocalePlace.value != nil, "photoDetailViewModel.updatePlace did not correctly update photoDetailViewModel.currentGeneralLocalePlace...")
+        XCTAssert(photoDetailViewModel.currentGeneralLocalePlace.value != nil, "photoDetailViewModel.updatePlace did not correctly update photoDetailViewModel.currentGeneralLocalePlace.")
     }
     
     
@@ -43,7 +43,7 @@ class PhotoDetailViewModelTests: XCTestCase {
         
         XCTAssert(photoDetailViewModel.currentPlaceImageIndex.value == 123 &&
                   photoDetailViewModel.currentGeneralLocalePlace.value != nil,
-                  "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex...")
+                  "photoDetailViewModel.updatePlaceImageIndex did not correctly update photoDetailViewModel.currentPlaceImageIndex.")
     }
     
     
