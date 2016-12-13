@@ -154,13 +154,13 @@ class LocationAPIService {
         var completionHandlerCodeComplete: Bool = false
         
         let queryString = generalLocaleQueryString ?? ""
-        let googlePlacesKeyString: String = keys["GooglePlacesAPIKeyWeb"] as? String ?? ""
-        var placeTextSearchURL: String = baseURL + "textsearch/json?query=" + queryString + "&key=" + googlePlacesKeyString
+        let googlePlacesAPIKeyWebString: String = keys["GooglePlacesAPIKeyWeb"] as? String ?? ""
+        var placeTextSearchURL: String = baseURL + "textsearch/json?query=" + queryString + "&key=" + googlePlacesAPIKeyWebString
 
         placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
-        if (googlePlacesKeyString == "") {
-            NSLog("ERROR - GOOGLEPLACESKEYSTRING IS EMPTY...")
+        if (googlePlacesAPIKeyWebString == "") {
+            NSLog("ERROR - GOOGLEPLACESAPIKEYWEBSTRING IS EMPTY...")
         }
         
         NSLog("PLACETEXTSEARCHURL IS /(placeTextSearchURL)")
@@ -184,7 +184,6 @@ class LocationAPIService {
                 return
             }
             guard thisURLResponse.statusCode == 200 else {
-                NSLog("Error - Not a 200 (successful) response")
                 NSLog("ERROR - NOT A SUCCESSFUL RESPONSE - ", thisURLResponse.statusCode)
 
                 completionHandlerCodeComplete = true
