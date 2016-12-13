@@ -16,8 +16,8 @@ extension IAPHelper: SKProductsRequestDelegate {
     internal func productsRequest (_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
         if (!response.products.isEmpty) {
             for thisProduct in response.products {
-                print(thisProduct.localizedTitle)
-                print(thisProduct.price)
+                NSLog(thisProduct.localizedTitle)
+                NSLog(String(describing: thisProduct.price))
                 
                 buyProduct(product: thisProduct)
             }

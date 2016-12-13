@@ -42,9 +42,9 @@ extension WeatherViewController: GMSAutocompleteResultsViewControllerDelegate {
     }
     
     
-    //If places autocomplete fails, print an error.
+    //If places autocomplete fails, NSLog an error.
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController, didFailAutocompleteWithError error: Error) {
-        print("Error: ", error.localizedDescription)
+        NSLog("Error: ", error.localizedDescription)
     }
     
     

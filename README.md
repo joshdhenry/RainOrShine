@@ -3,7 +3,7 @@
 
 ## Synopsis
 
-Vista Weather is a Swift iPhone app, written in XCode entirely by myself.
+Vista Weather is a Swift iPhone/iPad app, written in XCode entirely by myself.
 
 Vista Weather is a beautiful and super-accurate weather app for iPhone and iPad. Check the local weather forecast or select any city in the world using the Forecast.io API. Get the five-day forecast to plan your week.
 

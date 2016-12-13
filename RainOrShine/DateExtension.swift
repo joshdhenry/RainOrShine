@@ -16,9 +16,9 @@ extension Date {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(identifier: timeZoneIdentifier)
         
-        print("Time zone -\(dateFormatter.timeZone)")
+        NSLog("Time zone -\(dateFormatter.timeZone)")
         dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
-        print(dateFormatter.string(from: self))
+        NSLog(dateFormatter.string(from: self))
         
         dateFormatter.dateFormat = "E"
         return dateFormatter.string(from: self)

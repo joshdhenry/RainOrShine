@@ -14,7 +14,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
     // MARK: - Methods
     //Handle transactions and the response from Apple's servers
     internal func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        print("Received Payment Transaction Response from Apple")
+        NSLog("Received Payment Transaction Response from Apple")
         
         for transaction: AnyObject in transactions {
             guard let currentTransaction: SKPaymentTransaction = transaction as? SKPaymentTransaction else {return}
@@ -49,7 +49,7 @@ extension IAPHelper: SKPaymentTransactionObserver {
     
     //If a purchase restoration completed with error, send a notification to SettingsTableViewController to alert the user
     internal func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        print("Error restoring completed transactions - \(error.localizedDescription)")
+        NSLog("Error restoring completed transactions - \(error.localizedDescription)")
         
         let purchasesRestoreFailureNotification = Notification.Name(rawValue:"PurchasesRestoreFailed")
         NotificationCenter.default.post(name: purchasesRestoreFailureNotification, object: nil)

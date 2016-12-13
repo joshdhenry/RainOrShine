@@ -28,7 +28,7 @@ class LocationAPIService {
     //Load the Google Places API keys from APIKeys.plist
     public func setAPIKeys() {
         guard let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") else {
-            print("Error - Could not find APIKeys.plist.")
+            NSLog("Error - Could not find APIKeys.plist.")
             return
         }
         keys = NSDictionary(contentsOfFile: path)!
@@ -40,7 +40,7 @@ class LocationAPIService {
         var placeFindComplete: Bool = false
         placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
             guard error == nil else {
-                print("Current Place error: \(error!.localizedDescription)")
+                NSLog("Current Place error: \(error!.localizedDescription)")
                 
                 placeFindComplete = true
                 completion(true, nil)
@@ -70,30 +70,38 @@ class LocationAPIService {
     
     //Set the general area of the location (better chances of finding pictures)
     public func setGeneralLocalePlace(completion: @escaping PlaceResult) {
+        NSLog("IN FUNC SETGENERALLOCALEPLACE...")
+
         var placeFindComplete: Bool = false
         
         let generalLocaleString: String = currentPlace?.getGeneralLocaleString() ?? ""
+        NSLog("GENERALLOCALESTRING IS ...", generalLocaleString)
+
         //Get the place ID of the general area so that we can grab an image of the city
         let placeIDOfGeneralLocale: String? = getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString)
         
         //Some places, like Lake Superior (47, -90) do not return a general locale string because it only has a formatted string of type natural_feature
         //In that case, set the general locale to the exact location
         guard let thisPlaceIDOfGeneralLocale: String = placeIDOfGeneralLocale else {
+            NSLog("PLACEIDOFGENERALLOCALE WAS NIL. RETURNING THE CURRENTPLACE INSTEAD OF THE GENERAL LOCALE.")
+
             let placeToReturn: Place? = currentPlace
             completion(true, placeToReturn)
             return
         }
 
+        NSLog("JUST GOT PLACEIDOFGENERALLOCALE.  IT IS \(placeIDOfGeneralLocale)")
+
         placesClient?.lookUpPlaceID(thisPlaceIDOfGeneralLocale, callback: { (place, error) -> Void in
             guard error == nil else {
-                print("Error - General Locale Place lookup error: \(error!.localizedDescription)")
+                NSLog("Error - General Locale Place lookup error: \(error!.localizedDescription)")
                 
                 placeFindComplete = true
                 completion(true, nil)
                 return
             }
             guard let thisPlace = place else {
-                print("Error - the data received does not conform to Place class.")
+                NSLog("Error - the data received does not conform to Place class.")
                 
                 placeFindComplete = true
                 completion(true, nil)
@@ -115,12 +123,12 @@ class LocationAPIService {
     //This method finds a photo of the general locale
     public func setPhotosOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping Result) {
         guard let _ = generalLocalePlace else {
-            print("Not loading a photo since place of general area was nil...")
+            NSLog("Not loading a photo since place of general area was nil...")
             completion(true)
             return
         }
         guard let thisGMSPlace = generalLocalePlace?.gmsPlace else {
-            print("Not loading a photo since GMS place of general area was nil...")
+            NSLog("Not loading a photo since GMS place of general area was nil...")
             completion(true)
             return
         }
@@ -140,14 +148,22 @@ class LocationAPIService {
     
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
     private func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String?) -> String? {
+        NSLog("IN FUNC GETPLACEIDOFGENERALLOCALE...")
+
         var placeID: String?
         var completionHandlerCodeComplete: Bool = false
         
         let queryString = generalLocaleQueryString ?? ""
-        let GooglePlacesKeyString: String = keys["GooglePlacesAPIKeyWeb"] as? String ?? ""
-        var placeTextSearchURL: String = baseURL + "textsearch/json?query=" + queryString + "&key=" + GooglePlacesKeyString
+        let googlePlacesKeyString: String = keys["GooglePlacesAPIKeyWeb"] as? String ?? ""
+        var placeTextSearchURL: String = baseURL + "textsearch/json?query=" + queryString + "&key=" + googlePlacesKeyString
 
         placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        
+        if (googlePlacesKeyString == "") {
+            NSLog("ERROR - GOOGLEPLACESKEYSTRING IS EMPTY...")
+        }
+        
+        NSLog("PLACETEXTSEARCHURL IS /(placeTextSearchURL)")
         
         let session = URLSession.shared
         let url = URL(string: placeTextSearchURL)!
@@ -156,25 +172,39 @@ class LocationAPIService {
         session.dataTask(with: url as URL, completionHandler: { ( data: Data?, response: URLResponse?, error: Error?) -> Void in
             //Ensure the  response isn't an error
             guard (error == nil && data != nil) else {
-                print("Error - failed to download place data...")
+                NSLog("ERROR - FAILED TO DOWNLOAD PLACE DATA - ", error?.localizedDescription ?? "no error available")
+
+                completionHandlerCodeComplete = true
                 return
             }
-            guard let thisURLResponse = response as? HTTPURLResponse,
-                thisURLResponse.statusCode == 200 else {
-                    print("Error - Not a 200 (successful) response")
-                    completionHandlerCodeComplete = true
-                    return
+            guard let thisURLResponse = response as? HTTPURLResponse else {
+                NSLog("ERROR - NO RESPONSE RECEIVED FROM GOOGLE PLACES API...")
+                
+                completionHandlerCodeComplete = true
+                return
+            }
+            guard thisURLResponse.statusCode == 200 else {
+                NSLog("Error - Not a 200 (successful) response")
+                NSLog("ERROR - NOT A SUCCESSFUL RESPONSE - ", thisURLResponse.statusCode)
+
+                completionHandlerCodeComplete = true
+                return
             }
             let json = JSON(data: data!)
             
+            let error: String = json["error_message"].string ?? ""
+            NSLog("JSON ERROR (IF ANY) IS - \(error)")
+            
             placeID = json["results"][0]["place_id"].string
+            NSLog("PLACE ID (IF ANY) IS - \(placeID)")
             
             completionHandlerCodeComplete = true
         }).resume()
-                
+        
         while (!completionHandlerCodeComplete) {
-            //print("Waiting on the photo reference to retrieve...")
+            //NSLog("Waiting on the photo reference to retrieve...")
         }
+        NSLog("RETURNING PLACE ID...")
         return placeID
     }
     
@@ -184,7 +214,7 @@ class LocationAPIService {
         var photoMetaDataFindComplete: Bool = false
                 
         guard let currentPlaceID: String = placeIDOfGeneralLocale else {
-            print("Error - Place ID of general locale is nil.")
+            NSLog("Error - Place ID of general locale is nil.")
             photoMetaDataFindComplete = true
             completion(true)
             return
@@ -192,21 +222,21 @@ class LocationAPIService {
         
         placesClient?.lookUpPhotos(forPlaceID: currentPlaceID) { (photos, error) -> Void in
             guard (error == nil) else {
-                print("Error loading photo from Google API: \(error?.localizedDescription)")
+                NSLog("Error loading photo from Google API: \(error?.localizedDescription)")
                 photoMetaDataFindComplete = true
                 completion(true)
                 return
             }
             
             guard let photosList = photos else {
-                print("Error - Photos returned from lookup are nil.")
+                NSLog("Error - Photos returned from lookup are nil.")
                 photoMetaDataFindComplete = true
                 completion(true)
                 return
             }
             
             guard let _ = self.generalLocalePlace else {
-                print("Error - the current general locale place was nil.")
+                NSLog("Error - the current general locale place was nil.")
                 photoMetaDataFindComplete = true
                 completion(true)
                 return
@@ -229,7 +259,7 @@ class LocationAPIService {
         var imageArrayFindComplete: Bool = false
         
         guard let thisGeneralLocalePlace = generalLocalePlace else {
-            print("Error setting images array for metadata. Place was nil.")
+            NSLog("Error setting images array for metadata. Place was nil.")
             
             imageArrayFindComplete = true
             completion(true)
@@ -270,7 +300,7 @@ class LocationAPIService {
         if (generalLocalePlace?.photoMetaDataArray[index] != nil) {
             placesClient?.loadPlacePhoto((generalLocalePlace?.photoMetaDataArray[index])!, constrainedTo: size, scale: scale) { (photo, error) -> Void in
                 if let error = error {
-                    print("Error loading image for metadata: \(error.localizedDescription)")
+                    NSLog("Error loading image for metadata: \(error.localizedDescription)")
                     
                     imageFindComplete = true
                     completion(true)

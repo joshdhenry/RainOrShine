@@ -46,7 +46,7 @@ extension WeatherViewController: TimeObserver {
     //This is called when a time observer's time has been reached.
     dynamic func timeIntervalReached(timer: Timer) {
         guard let userInfo = timer.userInfo as? String else {
-            print("Error - Time interval user info tag was nil.")
+            NSLog("Error - Time interval user info tag was nil.")
             return
         }
         
@@ -70,7 +70,7 @@ extension WeatherViewController: TimeObserver {
                 appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: currentPageNumber, place: currentGeneralLocalePlace)
             }
         default:
-            print("Error - Time interval user info tag was not recognized.")
+            NSLog("Error - Time interval user info tag was not recognized.")
             return
         }
     }

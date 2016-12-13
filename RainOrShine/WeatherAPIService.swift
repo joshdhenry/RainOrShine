@@ -30,12 +30,12 @@ class WeatherAPIService {
  
     public func setCurrentWeatherForecast(latitude: Double, longitude: Double, completion: @escaping Result) {
         guard let thisWeatherClient = self.weatherClient else {
-            print("Error setting the current weather forecast. Invalid weather client.")
+            NSLog("Error setting the current weather forecast. Invalid weather client.")
             return
         }
         
         guard (-90...90 ~= latitude && -180...180 ~= longitude) else {
-            print("Error - latitude and longitude values used to retrieve weather forecast is out of range.")
+            NSLog("Error - latitude and longitude values used to retrieve weather forecast is out of range.")
             return
         }
        
@@ -50,10 +50,10 @@ class WeatherAPIService {
             switch result {
             case .success(let currentForecast, _):
                 self.currentWeatherForecast = currentForecast
-                print("Forecast time zone \(currentForecast.timezone)")
+                NSLog("Forecast time zone \(currentForecast.timezone)")
                 
                 guard let dailyForecastDataBlock = currentForecast.daily else {
-                    print("Error - No daily forecast received from the server.")
+                    NSLog("Error - No daily forecast received from the server.")
                     completion(true)
                     return
                 }
@@ -67,7 +67,7 @@ class WeatherAPIService {
                 }
             case .failure(let error):
                 self.currentWeatherForecast = nil
-                print("Error retrieving current weather forecast - \(error)")
+                NSLog("Error retrieving current weather forecast - \(error)")
             }
             completion(true)
         }

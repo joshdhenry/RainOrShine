@@ -76,8 +76,8 @@ extension WeatherViewController: LocationLoader {
     
     //Change the place that will be displayed in this view controller (including new place photos and weather forecast)
     func changePlaceShown() {
-        print("Exact place address - \(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
-        print("General location address - \(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
+        NSLog("Exact place address - \(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
+        NSLog("General location address - \(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
         
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         
@@ -140,7 +140,7 @@ extension WeatherViewController: LocationLoader {
         locationAPIService.setPhotosOfGeneralLocale(size: self.locationImageView.bounds.size, scale: self.locationImageView.window!.screen.scale) { (isImageSet) -> () in
             if (isImageSet) {
                 guard let thisCurrentGeneralLocalePlace = self.locationAPIService.generalLocalePlace else {
-                    print("Error - Current place is nil. Cannot set photos of the general locale.")
+                    NSLog("Error - Current place is nil. Cannot set photos of the general locale.")
                     return
                 }
                 

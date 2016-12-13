@@ -33,10 +33,10 @@ class IAPHelper: NSObject {
     
     //Buy a product by adding a payment to the SKPaymentQueue
     internal func buyProduct(product: SKProduct){
-        print("Sending the Payment Request to Apple")
+        NSLog("Sending the Payment Request to Apple")
         
         let payment = SKPayment(product: product)
-        print("Product we are paying for is \(product.localizedDescription)")
+        NSLog("Product we are paying for is \(product.localizedDescription)")
         SKPaymentQueue.default().add(payment)
     }
     
