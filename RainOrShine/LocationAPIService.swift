@@ -163,7 +163,7 @@ class LocationAPIService {
             NSLog("ERROR - GOOGLEPLACESAPIKEYWEBSTRING IS EMPTY...")
         }
         
-        NSLog("PLACETEXTSEARCHURL IS /(placeTextSearchURL)")
+        NSLog("PLACETEXTSEARCHURL IS \(placeTextSearchURL)")
         
         let session = URLSession.shared
         let url = URL(string: placeTextSearchURL)!
@@ -184,7 +184,7 @@ class LocationAPIService {
                 return
             }
             guard thisURLResponse.statusCode == 200 else {
-                NSLog("ERROR - NOT A SUCCESSFUL RESPONSE - ", thisURLResponse.statusCode)
+                NSLog("ERROR - NOT A SUCCESSFUL RESPONSE - \(thisURLResponse.statusCode)")
 
                 completionHandlerCodeComplete = true
                 return
