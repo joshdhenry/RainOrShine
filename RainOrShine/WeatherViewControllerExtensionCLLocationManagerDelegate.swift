@@ -28,7 +28,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
         NSLog("--------------")
         NSLog("Location found - \(location.coordinate.latitude) \(location.coordinate.longitude)")
         NSLog("Accuracy - \(manager.location?.horizontalAccuracy)")
-        NSLog("Desired Accuracy - \(manager.desiredAccuracy)")
+        //NSLog("Desired Accuracy - \(manager.desiredAccuracy)")
         NSLog("Age -\(manager.location?.timestamp.timeIntervalSinceNow)")
         
         //Sometimes the first coordinates received from the GPS might be inaccurate or cached locations from previous location locks. Filter those out.
@@ -56,6 +56,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
 
         //One valid GPS reading in a row seems to be accurate enough for this app's purposes, but can be stepped up here to more.
         if (validGPSConsecutiveSignalsReceived == 1) {
+            NSLog("FOUND AN ACCURATE GPS READING.  CALLING UPDATELOCATIONAPISERVICELOCATIONS()...")
             self.updateLocationAPIServiceLocations()
         }
     }

@@ -13,13 +13,13 @@ class WeatherAPIService {
     // MARK: - Properties
     typealias Result = (_ result: Bool) ->()
     
+    private let currentSettings = Settings()
+
     public var keys: NSDictionary = NSDictionary()
     public var weatherClient: DarkSkyClient?
     
     public var forecastDayDataPointArray: [DataPoint] = [DataPoint]()
     public var currentWeatherForecast: Forecast?
-    
-    private let currentSettings = Settings()
  
  
     // MARK: - Methods
@@ -50,7 +50,7 @@ class WeatherAPIService {
             switch result {
             case .success(let currentForecast, _):
                 self.currentWeatherForecast = currentForecast
-                NSLog("Forecast time zone \(currentForecast.timezone)")
+                //NSLog("Forecast time zone \(currentForecast.timezone)")
                 
                 guard let dailyForecastDataBlock = currentForecast.daily else {
                     NSLog("Error - No daily forecast received from the server.")

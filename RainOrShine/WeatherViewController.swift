@@ -125,6 +125,7 @@ class WeatherViewController: UIViewController {
     
     //Reset view model image indices with a resetValue of nil or 0
     internal func resetViewModelImageIndices(resetValue: Int?) {
+        NSLog("IN FUNC RESETVIEWMODELIMAGEINDICES...")
         self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
         self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
         self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
@@ -141,10 +142,12 @@ class WeatherViewController: UIViewController {
     
     
     //The order of changing to a new location based on current GPS and displaying it goes like this
-    //currentLocationButtonTapped -> startFindingCurrentLocation -> location manager didUpdateLocation -> updateLocationAPIServiceLocations -> locationAPIService.setCurrentExactPlace -> locationAPIService.setGeneralLocalePlace -> changePlaceShown -> loadNewPlacePhotos & loadNewPlaceWeather -> finishChangingPlaceShown
+    //currentLocationButtonTapped -> startFindingCurrentLocation -> location manager didUpdateLocation -> updateLocationAPIServiceLocations -> locationAPIService.getCurrentExactPlace -> locationAPIService.setGeneralLocalePlace -> changePlaceShown -> loadNewPlacePhotos & loadNewPlaceWeather -> finishChangingPlaceShown
     
     //If the GPS button is tapped, check if the user has a net connection, then show weather for user's current location
     @IBAction func currentLocationButtonTapped(_ sender: Any) {
+        NSLog("---------------------------------------------------------")
+        NSLog("FINDING A NEW LOCATION...")
         startFindingCurrentLocation(alertsEnabled: true)
     }
     

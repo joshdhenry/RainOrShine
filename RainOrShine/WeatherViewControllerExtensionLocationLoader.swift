@@ -49,19 +49,22 @@ extension WeatherViewController: LocationLoader {
     }
     
     
-    //This method updates the location by running setCurrentExactPlace and setGeneralLocalePlace.  It is only called when the user taps the GPS current location button.
+    //This method updates the location by running getCurrentExactPlace and setGeneralLocalePlace.  It is only called when the user taps the GPS current location button.
     func updateLocationAPIServiceLocations() {
         makeSubViewsInvisible()
         
-        locationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
+        locationAPIService.getCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
                 self.photoDetailView.viewModel?.updatePlace(newPlace: locationPlace)
                 
                 self.locationAPIService.currentPlace = locationPlace
                 
+                NSLog("FOUND THE EXACT PLACE.  NOW TO FIND THE GENERAL LOCALE...")
                 //Set the general locale of the place (better for pictures and displaying user's location than exact addresses)
                 self.locationAPIService.setGeneralLocalePlace() { (isGeneralLocaleFound, generalLocalePlace) -> () in
                     if (isGeneralLocaleFound) {
+                        NSLog("FOUND THE GENERAL LOCALE. CHANGING PLACE SHOWN...")
+
                         self.locationView.viewModel?.updateGeneralLocalePlace(newPlace: generalLocalePlace)
                         
                         self.locationAPIService.generalLocalePlace = generalLocalePlace

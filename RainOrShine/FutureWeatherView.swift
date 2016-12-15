@@ -46,9 +46,9 @@ class FutureWeatherView: UIView, WeatherViewControllerSubView {
                             futureDayView.weatherConditionView.setType = fiveDayForecastArray[futureDaySubViewIndex].icon?.getSkycon() ?? Skycons.partlyCloudyDay
                             futureDayView.weatherConditionView.play()
                             
-                            NSLog("---")
-                            NSLog("Forecast Time -\(fiveDayForecastArray[futureDaySubViewIndex].time)")
-                            NSLog("Abbrev. day string - \(fiveDayForecastArray[futureDaySubViewIndex].time.getAbbreviatedDayString(timeZoneIdentifier: (self.viewModel?.currentTimeZoneIdentifier.value)!))")
+                            //NSLog("---")
+                            //NSLog("Forecast Time -\(fiveDayForecastArray[futureDaySubViewIndex].time)")
+                            //NSLog("Abbrev. day string - \(fiveDayForecastArray[futureDaySubViewIndex].time.getAbbreviatedDayString(timeZoneIdentifier: (self.viewModel?.currentTimeZoneIdentifier.value)!))")
                             
                             futureDayView.dayLabel.text = fiveDayForecastArray[futureDaySubViewIndex].time.getAbbreviatedDayString(timeZoneIdentifier: (self.viewModel?.currentTimeZoneIdentifier.value)!)
                             
