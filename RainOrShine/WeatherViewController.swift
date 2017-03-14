@@ -125,7 +125,6 @@ class WeatherViewController: UIViewController {
     
     //Reset view model image indices with a resetValue of nil or 0
     internal func resetViewModelImageIndices(resetValue: Int?) {
-        NSLog("IN FUNC RESETVIEWMODELIMAGEINDICES...")
         self.photoDetailView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
         self.locationImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)
         self.appLogoImageView.viewModel?.updatePlaceImageIndex(newPlaceImageIndex: resetValue, place: self.locationAPIService.generalLocalePlace)

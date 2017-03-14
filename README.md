@@ -1,4 +1,4 @@
-# Vista Weather v1.01
+# Vista Weather v1.02
 ## aka Project RainOrShine
 
 ## Synopsis
@@ -40,6 +40,8 @@ These are the names of the UserDefaults used in the app and what they are used f
   removeAdsPurchased - Whether the user has purchased the removal of ads.  
 
 API Keys
+
+These API keys are listed under my name and can cost me money if the usage is high. Please do not take these API keys and please use them responsibly. Thank you!
 
 All APIKeys
   TestGoogleMobileAdsAdUnitID - used for testing Ads.  Not for use in the live app.  

@@ -35,7 +35,7 @@ class LocationAPIServiceTests: XCTestCase {
     func testSetCurrentExactPlace() {
         let setLocationExpectation = expectation(description: "setCurrentExactPlace finds the gmsPlace and runs the callback closure")
         
-        locationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
+        locationAPIService.getCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
                 print("Found the exact place...")
 
@@ -59,10 +59,10 @@ class LocationAPIServiceTests: XCTestCase {
     
     
     //Set the general locale place based on GPS signal and make sure that the returned address is correct
-    func testSetGeneralLocalePlace() {
+    func testGetGeneralLocalePlace() {
         let setGeneralLocalePlaceExpectation = expectation(description: "setGeneralLocalePlace finds the gmsPlace and runs the callback closure")
         
-        locationAPIService.setCurrentExactPlace() { (isExactLocationFound, exactLocationPlace) -> () in
+        locationAPIService.getCurrentExactPlace() { (isExactLocationFound, exactLocationPlace) -> () in
             if (isExactLocationFound) {
                 self.locationAPIService.currentPlace = exactLocationPlace
             
@@ -95,7 +95,7 @@ class LocationAPIServiceTests: XCTestCase {
         
         let setGeneralLocalePhotosExpectation = expectation(description: "setGeneralLocalePhotos finds photos and populates the photoArray.")
         
-        locationAPIService.setCurrentExactPlace() { (isExactLocationFound, exactLocationPlace) -> () in
+        locationAPIService.getCurrentExactPlace() { (isExactLocationFound, exactLocationPlace) -> () in
             if (isExactLocationFound) {
                 self.locationAPIService.currentPlace = exactLocationPlace
                 

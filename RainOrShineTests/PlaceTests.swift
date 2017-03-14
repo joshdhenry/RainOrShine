@@ -31,7 +31,7 @@ class PlaceTests: XCTestCase {
         
         locationAPIService.setAPIKeys()
         
-        locationAPIService.setCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
+        locationAPIService.getCurrentExactPlace() { (isLocationFound, locationPlace) -> () in
             if (isLocationFound) {
                 locationAPIService.currentPlace = locationPlace
                 

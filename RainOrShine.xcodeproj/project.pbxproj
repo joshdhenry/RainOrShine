@@ -634,7 +634,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Big Smash Software";
 				TargetAttributes = {
 					0313E5031DC1DBC200E453A0 = {

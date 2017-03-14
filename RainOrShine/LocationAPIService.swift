@@ -38,14 +38,9 @@ class LocationAPIService {
     
     //This method gets the current location of the user
     public func getCurrentExactPlace(completion: @escaping PlaceResult) {
-        NSLog("IN FUNC GETCURRENTEXACTPLACE...")
-        //var placeFindComplete: Bool = false
-        
         placesClient?.currentPlace(callback: { (placeLikelihoods, error) -> Void in
             guard error == nil else {
                 NSLog("Current Place error: \(error!.localizedDescription)")
-                
-                //placeFindComplete = true
                 completion(true, nil)
                 return
             }
@@ -63,41 +58,28 @@ class LocationAPIService {
             }
 
             let placeToReturn: Place = Place(place: firstPlaceLikelihoodFound.place)
-            NSLog("FOUND EXACTPLACE. RETURNING...")
             NSLog("Place to return is \(placeToReturn.gmsPlace?.formattedAddress)")
-            //placeFindComplete = true
             completion(true, placeToReturn)
         })
-        NSLog("OUTSIDE OF PLACESCLIENT.CURRENTPLACE COMPLETION HANDLER...")
-        /*if (!placeFindComplete) {
-            completion(false, nil)
-        }*/
     }
     
     
     //Set the general area of the location (better chances of finding pictures)
     public func setGeneralLocalePlace(completion: @escaping PlaceResult) {
-        NSLog("IN FUNC SETGENERALLOCALEPLACE...")
 
         var placeFindComplete: Bool = false
         
         let generalLocaleString: String = currentPlace?.getGeneralLocaleString() ?? ""
-        NSLog("GENERALLOCALESTRING IS ...", generalLocaleString)
         
         //Get the place ID of the general area so that we can grab an image of the city
         getPlaceIDOfGeneralLocale(generalLocaleQueryString: generalLocaleString) { (isPlaceIDOfGeneralLocaleFound, placeIDOfGeneralLocale) -> () in
-            NSLog("JUST COMPLETED GETTING THE PLACE ID OF GENERAL LOCALE...")
             //Some places, like Lake Superior (47, -90) do not return a general locale string because it only has a formatted string of type natural_feature
             //In that case, set the general locale to the exact location
             guard let thisPlaceIDOfGeneralLocale: String = placeIDOfGeneralLocale else {
-                NSLog("PLACEIDOFGENERALLOCALE WAS NIL. RETURNING THE CURRENTPLACE INSTEAD OF THE GENERAL LOCALE.")
-
                 let placeToReturn: Place? = self.currentPlace
                 completion(true, placeToReturn)
                 return
             }
-
-            NSLog("JUST GOT PLACEIDOFGENERALLOCALE.  IT IS \(placeIDOfGeneralLocale)")
 
             self.placesClient?.lookUpPlaceID(thisPlaceIDOfGeneralLocale, callback: { (place, error) -> Void in
                 guard error == nil else {
@@ -108,7 +90,7 @@ class LocationAPIService {
                     return
                 }
                 guard let thisPlace = place else {
-                    NSLog("Error - the data received does not conform to Place class.")
+                    NSLog("Error - the data received does not conform to the Place class.")
                     
                     placeFindComplete = true
                     completion(true, nil)
@@ -119,7 +101,6 @@ class LocationAPIService {
                 
                 let placeToReturn: Place = Place(place: thisPlace)
                 
-                NSLog("GENERAL LOCALE PLACE ID LOOKUP COMPLETE...")
                 completion(true, placeToReturn)
             })
             if (!placeFindComplete) {
@@ -131,7 +112,6 @@ class LocationAPIService {
     
     //This method finds a photo of the general locale
     public func setPhotosOfGeneralLocale(size: CGSize, scale: CGFloat, completion: @escaping BooleanResult) {
-        NSLog("IN FUNC SETPHOTOSOFGENERALLOCALE...")
         guard let _ = generalLocalePlace else {
             NSLog("Not loading a photo since place of general area was nil...")
             completion(true)
@@ -158,8 +138,6 @@ class LocationAPIService {
     
     //This method takes a general area string (such as "Atlanta, Georgia, United States") and gets a place ID for that area
     private func getPlaceIDOfGeneralLocale(generalLocaleQueryString: String?, completion: @escaping PlaceIDResult) {
-        NSLog("IN FUNC GETPLACEIDOFGENERALLOCALE...")
-
         var placeID: String?
         let queryString = generalLocaleQueryString ?? ""
         let googlePlacesAPIKeyWebString: String = keys["GooglePlacesAPIKeyWeb"] as? String ?? ""
@@ -168,10 +146,12 @@ class LocationAPIService {
         placeTextSearchURL = placeTextSearchURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         if (googlePlacesAPIKeyWebString == "") {
-            NSLog("ERROR - GOOGLEPLACESAPIKEYWEBSTRING IS EMPTY...")
+            NSLog("Error - GooglePlacesAPIKeyWebString is empty...")
         }
         
-        NSLog("PLACETEXTSEARCHURL IS \(placeTextSearchURL)")
+        //Redact the API key and print for logging purposes
+        let tempPlaceTextSearchURL = placeTextSearchURL.replacingOccurrences(of: googlePlacesAPIKeyWebString, with: "REDACTED")
+        NSLog("placetextsearchurl is \(tempPlaceTextSearchURL)")
         
         let session = URLSession.shared
         let url = URL(string: placeTextSearchURL)!
@@ -181,40 +161,35 @@ class LocationAPIService {
             
             //Ensure the  response isn't an error
             guard (error == nil && data != nil) else {
-                NSLog("ERROR - FAILED TO DOWNLOAD PLACE DATA - ", error?.localizedDescription ?? "no error available")
+                NSLog("Error - Failed to download place data - ", error?.localizedDescription ?? "no error available")
                 completion(true, nil)
                 return
             }
             guard let thisURLResponse = response as? HTTPURLResponse else {
-                NSLog("ERROR - NO RESPONSE RECEIVED FROM GOOGLE PLACES API...")
+                NSLog("Error - No response received from Google Places API...")
                 completion(true, nil)
                 return
             }
             guard thisURLResponse.statusCode == 200 else {
-                NSLog("ERROR - NOT A SUCCESSFUL RESPONSE - \(thisURLResponse.statusCode)")
+                NSLog("Error - Not a successful HTTP response code - \(thisURLResponse.statusCode)")
                 completion(true, nil)
                 return
             }
             let json = JSON(data: data!)
             
             let error: String = json["error_message"].string ?? ""
-            NSLog("JSON ERROR (IF ANY) IS - \(error)")
+            NSLog("JSON error (if any) is - \(error)")
             
             placeID = json["results"][0]["place_id"].string
-            NSLog("PLACE ID (IF ANY) IS - \(placeID)")
+            NSLog("Place ID (if any) is - \(placeID)")
             
-            //sleep(10)
-            //NSLog("Done sleeping...")
             completion(true, placeID)
         }).resume()
-        
-        NSLog("RESUMING...")
     }
     
     
     //Retrieve photo metadata for general locale place
     private func setPhotoMetaData(placeIDOfGeneralLocale: String?, completion: @escaping BooleanResult) {
-        NSLog("IN FUNC SETPHOTOMETADATA...")
         guard let currentPlaceID: String = placeIDOfGeneralLocale else {
             NSLog("Error - Place ID of general locale is nil.")
             completion(true)
@@ -250,8 +225,6 @@ class LocationAPIService {
     
     //Retrieve image based on place metadata
     private func setImagesArrayForMetadata(size: CGSize, scale: CGFloat, completion: @escaping BooleanResult) {
-        NSLog("IN FUNC SETIMAGESARRAY FOR METADATA...")
-
         var imageArrayFindComplete: Bool = false
         
         guard let thisGeneralLocalePlace = generalLocalePlace else {
@@ -263,13 +236,11 @@ class LocationAPIService {
         let photoArrayCount: Int = generalLocalePlace?.photoMetaDataArray.count ?? 0
         
         if (!thisGeneralLocalePlace.photoMetaDataArray.isEmpty) {
-            NSLog("PHOTOARRAYCOUNT IS \(photoArrayCount)")
             for photoMetaDataIndex in 0..<photoArrayCount {
                 setImageForMetaData(index: photoMetaDataIndex, size: size, scale: scale) { imageSet -> () in
                     if (imageSet) {
                         //If on the last element, mark completion as true
                         if (photoMetaDataIndex == photoArrayCount - 1) {
-                            NSLog("LAST PHOTO SET.  COMPLETION IS TRUE...")
                             imageArrayFindComplete = true
                         }
                         completion(imageArrayFindComplete)
@@ -305,7 +276,7 @@ class LocationAPIService {
             }
         }
         else {
-            //GeneralLocalePhotoMetaData for this index was nil.  Mark complete and exit out of this function.
+            //GeneralLocalePhotoMetaData for this index was nil.  Mark complete and exit out of this method.
             imageFindComplete = true
         }
         if (!imageFindComplete) {
