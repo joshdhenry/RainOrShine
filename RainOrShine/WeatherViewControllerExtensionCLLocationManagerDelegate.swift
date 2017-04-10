@@ -27,9 +27,9 @@ extension WeatherViewController: CLLocationManagerDelegate {
         guard let location = manager.location else {return}
         NSLog("--------------")
         NSLog("Location found - \(location.coordinate.latitude) \(location.coordinate.longitude)")
-        NSLog("Accuracy - \(manager.location?.horizontalAccuracy)")
+        NSLog("Accuracy - \(String(describing: manager.location?.horizontalAccuracy))")
         //NSLog("Desired Accuracy - \(manager.desiredAccuracy)")
-        NSLog("Age -\(manager.location?.timestamp.timeIntervalSinceNow)")
+        NSLog("Age -\(String(describing: manager.location?.timestamp.timeIntervalSinceNow))")
         
         //Sometimes the first coordinates received from the GPS might be inaccurate or cached locations from previous location locks. Filter those out.
         let locationAge: TimeInterval = -(location.timestamp.timeIntervalSinceNow)

@@ -39,12 +39,7 @@ class WeatherAPIService {
             return
         }
        
-        if currentSettings.temperatureUnit == Settings.TemperatureUnitSetting.celcius {
-            thisWeatherClient.units = .si
-        }
-        else {
-            thisWeatherClient.units = .us
-        }
+        thisWeatherClient.units = (currentSettings.temperatureUnit == Settings.TemperatureUnitSetting.celcius) ? .si : .us
         
         thisWeatherClient.getForecast(latitude: latitude, longitude: longitude) { (result) in
             switch result {

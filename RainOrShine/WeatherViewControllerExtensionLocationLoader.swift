@@ -79,8 +79,8 @@ extension WeatherViewController: LocationLoader {
     
     //Change the place that will be displayed in this view controller (including new place photos and weather forecast)
     func changePlaceShown() {
-        NSLog("Exact place address - \(locationAPIService.currentPlace?.gmsPlace?.formattedAddress)")
-        NSLog("General location address - \(locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress)")
+        NSLog("Exact place address - \(String(describing: locationAPIService.currentPlace?.gmsPlace?.formattedAddress))")
+        NSLog("General location address - \(String(describing: locationAPIService.generalLocalePlace?.gmsPlace?.formattedAddress))")
         
         var changePlaceCompletionFlags = (photosComplete: false, weatherComplete: false)
         

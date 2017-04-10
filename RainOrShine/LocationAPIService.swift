@@ -58,7 +58,7 @@ class LocationAPIService {
             }
 
             let placeToReturn: Place = Place(place: firstPlaceLikelihoodFound.place)
-            NSLog("Place to return is \(placeToReturn.gmsPlace?.formattedAddress)")
+            NSLog("Place to return is \(String(describing: placeToReturn.gmsPlace?.formattedAddress))")
             completion(true, placeToReturn)
         })
     }
@@ -186,7 +186,7 @@ class LocationAPIService {
             NSLog("JSON error (if any) is - \(error)")
             
             placeID = json["results"][0]["place_id"].string
-            NSLog("Place ID (if any) is - \(placeID)")
+            NSLog("Place ID (if any) is - \(String(describing: placeID))")
             
             completion(true, placeID)
         }).resume()
@@ -203,7 +203,7 @@ class LocationAPIService {
         
         placesClient?.lookUpPhotos(forPlaceID: currentPlaceID) { (photos, error) -> Void in
             guard (error == nil) else {
-                NSLog("Error loading photo from Google API: \(error?.localizedDescription)")
+                NSLog("Error loading photo from Google API: \(String(describing: error?.localizedDescription))")
                 completion(true)
                 return
             }

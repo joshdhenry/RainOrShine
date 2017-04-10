@@ -31,7 +31,6 @@ class AppLogoImageView: UIImageView {
                     return
                 }
                 
-                //TODO : Can this be optimized?
                 if (!thisCurrentGeneralLocalePlace.photoArray.isEmpty &&
                     self.currentSettings.useDefaultPhotos != .always) {
                     //Place is not nil and has images
