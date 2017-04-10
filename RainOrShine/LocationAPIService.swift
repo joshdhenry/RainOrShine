@@ -160,8 +160,13 @@ class LocationAPIService {
         session.dataTask(with: url as URL, completionHandler: { ( data: Data?, response: URLResponse?, error: Error?) -> Void in
             
             //Ensure the  response isn't an error
-            guard (error == nil && data != nil) else {
+            guard (error == nil) else {
                 NSLog("Error - Failed to download place data - ", error?.localizedDescription ?? "no error available")
+                completion(true, nil)
+                return
+            }
+            guard (data != nil) else {
+                NSLog("No place data was returned from API call.")
                 completion(true, nil)
                 return
             }

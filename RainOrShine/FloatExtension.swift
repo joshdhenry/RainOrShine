@@ -12,14 +12,8 @@ extension Float {
     
     // MARK: - Computed variable
     var formattedTemperatureString: String {
-        //If the number is between -0.5 and 0, we don't want it to appear as "-0°", so adjust it
-        if (self >= -0.5 &&
-            self < 0) {
-            return "0°"
-        }
+        //If the number is between -0.5 and 0, we don't want it to appear as "-0°", so adjust it 
         //else remove any decimal places and append a degrees symbol
-        else {
-            return String(format: "%.0f", self) + "°"
-        }
+        return (self >= -0.5 && self < 0) ? "0°" : String(format: "%.0f", self) + "°"
     }
 }
