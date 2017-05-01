@@ -86,6 +86,7 @@
 		03B2DE7C1DC8428D00CFFA83 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B2DE7B1DC8428D00CFFA83 /* Observable.swift */; };
 		03B5569F1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B5569E1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift */; };
 		03B556A21DE142B400B1B55A /* WeatherViewControllerExtensionUISearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B556A11DE142B400B1B55A /* WeatherViewControllerExtensionUISearchBarDelegate.swift */; };
+		03C1675D1EB6F018009B5C5B /* LICENSE.md in Sources */ = {isa = PBXBuildFile; fileRef = 03C1675C1EB6F018009B5C5B /* LICENSE.md */; };
 		03D47E471DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D47E461DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift */; };
 		03D47E4B1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D47E4A1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift */; };
 		03DD0BA0E3C15857E52DC4D7 /* Pods_RainOrShineTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FF9466CBF953509F9B3E83C /* Pods_RainOrShineTests.framework */; };
@@ -206,6 +207,7 @@
 		03B2DE7B1DC8428D00CFFA83 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		03B5569E1DE13B3000B1B55A /* WeatherViewControllerExtensionCLLocationManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerExtensionCLLocationManagerDelegate.swift; sourceTree = "<group>"; };
 		03B556A11DE142B400B1B55A /* WeatherViewControllerExtensionUISearchBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewControllerExtensionUISearchBarDelegate.swift; sourceTree = "<group>"; };
+		03C1675C1EB6F018009B5C5B /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		03D47E461DDFAE1B00CE89B6 /* WeatherAPIServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAPIServiceTests.swift; sourceTree = "<group>"; };
 		03D47E4A1DDFF5DB00CE89B6 /* LocationAPIServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAPIServiceTests.swift; sourceTree = "<group>"; };
 		03E614BC1DE17CC900F2C157 /* ColorSchemeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSchemeTests.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				03B074FD1DFB46210040E4E3 /* README.md */,
+				03C1675C1EB6F018009B5C5B /* LICENSE.md */,
 				0313E5061DC1DBC200E453A0 /* RainOrShine */,
 				0313E51B1DC1DBC200E453A0 /* RainOrShineTests */,
 				0313E5261DC1DBC200E453A0 /* RainOrShineUITests */,
@@ -864,6 +867,7 @@
 				03650ABC1DF53369004546C8 /* AppLogoImageView.swift in Sources */,
 				03B074EA1DFA7D2D0040E4E3 /* WeatherViewControllerExtensionTimeObserver.swift in Sources */,
 				0332B1D51DE6EC9D00659E41 /* IAPHelper.swift in Sources */,
+				03C1675D1EB6F018009B5C5B /* LICENSE.md in Sources */,
 				03B074E81DFA7CFD0040E4E3 /* TimeObserverProtocol.swift in Sources */,
 				038354CE1DD85F5B005C1F76 /* LocationImageViewModel.swift in Sources */,
 				0374C24C1DE80C3F00E86B21 /* SettingsTableViewControllerExtensionMFMailComposeViewControllerDelegate.swift in Sources */,
