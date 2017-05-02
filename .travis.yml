@@ -1,0 +1,5 @@
+language: objective-c
+osx_image: xcode8.3
+xcode_project: RainOrShine.xcworkspace
+xcode_scheme: RainOrShine
+xcode_sdk: iphonesimulator8.4
