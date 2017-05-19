@@ -1,6 +1,8 @@
 # Vista Weather v1.02
 ## aka Project RainOrShine
 
+<img src="vista-weather-logo.jpg?raw=true">
+
 ## Synopsis
 
 Vista Weather is a Swift iPhone/iPad app, written in XCode entirely by myself.
@@ -15,11 +17,12 @@ Main languages and technologies used: Swift, Core Location, RESTful web services
 ## Installation 
 
 This project uses the following Cocoapods:
-GooglePlaces - Used to load place names and place photos.  
-SwiftyJSON - Used to parse JSONs returned from web API's.  
-ForecastIO - Used to retrieve weather data.  
-Firebase/Core - For analytics.  Integrated with Google AdMob.  
-Firebase/AdMob - For analytics.  Integrated with Google AdMob.  
+
+* GooglePlaces - Used to load place names and place photos.  
+* SwiftyJSON - Used to parse JSONs returned from web API's.  
+* ForecastIO - Used to retrieve weather data.  
+* Firebase/Core - For analytics.  Integrated with Google AdMob.  
+* Firebase/AdMob - For analytics.  Integrated with Google AdMob.  
 
 To run this on your own machine, download the project, then install the Cocoapods from the command line using pod install.  The files GoogleService-Info.plist (used for Ads) and APIKeys (keys for all APIs) are not included in this Git.  You will need to generate your own.  See below for more information about the API keys used by Vista Weather.
 
@@ -29,24 +32,41 @@ To run this on your own machine, download the project, then install the Cocoapod
 When running tests in the simulator, it is crucial that you set the simulator location to Apple by going to Debug -> Location -> Apple.  Doing this will ensure some of the location-specific tests will pass.
 
 
-UserDefaults
+### UserDefaults
 
 These are the names of the UserDefaults used in the app and what they are used for.
-  useDefaultPhotos - Whether to use default photos when no location photos are available.  
-  temperatureUnit - Whether to use celcius or fahrenheit.  
-  updateWeatherInterval - How often to reload the weather.  
-  changePhotoInterval - How often to change display to the next photo in the set.  
-  nightStandModeOn - Whether Night Stand Mode is on or off.  
-  removeAdsPurchased - Whether the user has purchased the removal of ads.  
 
-API Keys
+  * useDefaultPhotos - Whether to use default photos when no location photos are available.  
+  * temperatureUnit - Whether to use celcius or fahrenheit.  
+  * updateWeatherInterval - How often to reload the weather.  
+  * changePhotoInterval - How often to change display to the next photo in the set.  
+  * nightStandModeOn - Whether Night Stand Mode is on or off.  
+  * removeAdsPurchased - Whether the user has purchased the removal of ads.  
 
-These API keys are listed under my name and can cost me money if the usage is high. Please do not take these API keys and please use them responsibly. Thank you!
+### API Keys
+
+The real API keys are not included in this Git since high usage can cost me money. You will need to generate your own API keys and plug them in.
 
 All APIKeys
-  TestGoogleMobileAdsAdUnitID - used for testing Ads.  Not for use in the live app.  
-  GoogleMobileAdsApplicationID - the application ID used by Google AdMob.  
-  GoogleMobileAdsAdUnitID - the ad unit ID used by the banner in WeatherViewController.  
-  DarkSkyAPIKey - used to retrieve forecasts from Dark Sky/Forecast.io.  
-  GooglePlacesAPIKeyiOS - used for loading exact addresses and location images and attributions.  
-  GooglePlacesAPIKeyWeb - used for extracting the general locale from an exact location.  
+
+  * TestGoogleMobileAdsAdUnitID - used for testing Ads.  Not for use in the live app.  
+  * GoogleMobileAdsApplicationID - the application ID used by Google AdMob.  
+  * GoogleMobileAdsAdUnitID - the ad unit ID used by the banner in WeatherViewController.  
+  * DarkSkyAPIKey - used to retrieve forecasts from Dark Sky/Forecast.io.  
+  * GooglePlacesAPIKeyiOS - used for loading exact addresses and location images and attributions.  
+  * GooglePlacesAPIKeyWeb - used for extracting the general locale from an exact location.  
+
+
+## Author
+
+Josh Henry - [Big Smash Software](http://www.bigsmashsoftware.com)
+
+* [Portfolio](http://www.joshhenry.info)
+
+* [LinkedIn](https://www.linkedin.com/in/joshdhenry)
+
+Based loosely on the Objective-C "SMWheelControl" CocoaPod written by Cesare Rocchi and Simone Civetta found [here](https://cocoapods.org/pods/SMWheelControl).
+
+
+## License
+[GNU General Public License v3.0](https://opensource.org/licenses/GPL-3.0)
