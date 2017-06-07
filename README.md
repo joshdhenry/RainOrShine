@@ -3,6 +3,10 @@
 
 <img src="vista-weather-logo.jpg?raw=true">
 
+[Vista Weather on the App Store](https://itunes.apple.com/us/app/vista-weather/id1179121975?ls=1&mt=8)
+
+[VistaWeatherApp.com](http://www.vistaweatherapp.com)
+
 ## Synopsis
 
 Vista Weather is a Swift iPhone/iPad app, written in XCode entirely by myself.
